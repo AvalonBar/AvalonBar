@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="LongBar Slate">
+</Property><Property Name="Solution File" Value="D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar Slate.sln">
+</Property><Property Name="User Options File" Value="D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar Slate.suo">
+</Property><Property Name="Date" Value="14 февраля 2010 г.">
+</Property><Property Name="Time" Value="21:51">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="LongBar Slate.sln" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar Slate.sln">
+</Event><Event ErrorLevel="0" Project="" Source="LongBar Slate.suo" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar Slate.suo">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.csproj" Description="Project file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LongBar.csproj">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.csproj.user" Description="Project user file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LongBar.csproj.user">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\App.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\App.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Flyout.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Flyout.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Library.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Library.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LibraryItem.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LibraryItem.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LongBar.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Notify.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Notify.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Options.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Options.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Properties\Resources.Designer.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Properties\Settings.Designer.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Shadow.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Shadow.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\SnowFall\SnowFlake.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\SnowFall\SnowFlake.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TaskDialogs\ErrorDialog.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TaskDialogs\ErrorDialog.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TaskDialogs\TileInstallDialog.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TaskDialogs\TileInstallDialog.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TaskDialogs\UpdateDialog.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TaskDialogs\UpdateDialog.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Tile.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Tile.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileDragSplitter.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileDragSplitter.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileDragWindow.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileDragWindow.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileOptions.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileOptions.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\ToolButton.xaml.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\ToolButton.xaml.cs">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Localization\English.locale.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Localization\English.locale.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Localization\Russian.locale.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Localization\Russian.locale.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Aero.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Aero.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Plex.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Plex.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Slate.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Slate.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Superbar.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Superbar.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Vista.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Vista.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Clear.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Clear.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\LightPlex.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\LightPlex.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Themes\Classic.theme.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Themes\Classic.theme.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\app.config" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\app.config">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\app.manifest" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\app.manifest">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Properties\Settings.settings" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Properties\Resources.resx" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\App.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\App.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Flyout.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Flyout.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Library.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Library.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LibraryItem.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LibraryItem.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\LongBar.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Notify.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Notify.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Options.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Options.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Shadow.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Shadow.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\SnowFall\SnowFlake.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\SnowFall\SnowFlake.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\Tile.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\Tile.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileDragSplitter.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileDragSplitter.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileDragWindow.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileDragWindow.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\TileOptions.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\TileOptions.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\ToolButton.xaml" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\LongBar\ToolButton.xaml">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="LongBar" Source="LongBar\LongBar.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Core.csproj" Description="Project file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Core.csproj">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Core.csproj.user" Description="Project user file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Core.csproj.user">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Dwm\DwmManager.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Dwm\DwmManager.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\General\Sidebar.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\General\Sidebar.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\General\SystemTray.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\General\SystemTray.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Localization\LocaleManager.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Localization\LocaleManager.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Packaging\PackageManager.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Packaging\PackageManager.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Themes\ThemesManager.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Themes\ThemesManager.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Updates\UpdatesManager.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Updates\UpdatesManager.cs">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Utilities\Utils.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\Core\Utilities\Utils.cs">
+</Event><Event ErrorLevel="1" Project="Core" Source="Core\Core.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Core.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Core" Source="Core\Core.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\TileLib.csproj" Description="Project file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\TileLib\TileLib.csproj">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\Tile.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\TileLib\Tile.cs">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\TileLib\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\app.config" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\TileLib\app.config">
+</Event><Event ErrorLevel="1" Project="TileLib" Source="TileLib\TileLib.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\TileLib.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="TileLib" Source="TileLib\TileLib.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\TileSDK.csproj" Description="Project file successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\TileSDK.csproj">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\BaseTile.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\BaseTile.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\ConfigWindowEventArgs.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\ConfigWindowEventArgs.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\FlyoutEventArgs.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\FlyoutEventArgs.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\PreferredDeveloperContact.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\PreferredDeveloperContact.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\Settings.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\Settings.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\SidebarDeveloperContactInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\SidebarDeveloperContactInfo.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\SidebarTileInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\SidebarTileInfo.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\Tile.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\Tile.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\UsefulMethods.cs" Description="File successfully backed up as D:\Projects\C#\LongBar Slate\LongBar 2.1\Backup\KSideBarTileLib\UsefulMethods.cs">
+</Event><Event ErrorLevel="1" Project="TileSDK" Source="KSideBarTileLib\TileSDK.csproj" Description="Your project is targeting .NET Framework 2.0 or 3.0. If your project uses assemblies requiring a newer .NET Framework, your project will fail to build. You can change the .NET Framework version by clicking Properties on the project menu and then selecting a new version in the '.NET Framework' dropdown box. (In Visual Basic, this is located on the Compile tab by clicking the 'Advanced Compiler Options...' button.)">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\TileSDK.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="TileSDK" Source="KSideBarTileLib\TileSDK.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="LongBar Slate.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="LongBar Slate.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="LongBar" Source="LongBar\LongBar.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Core" Source="Core\Core.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="TileLib" Source="TileLib\TileLib.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="TileSDK" Source="KSideBarTileLib\TileSDK.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

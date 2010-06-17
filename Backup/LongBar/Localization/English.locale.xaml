@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <!-- LongBar menu strings -->
+    <s:String x:Key="Options">Options</s:String>
+    <s:String x:Key="Lock">Lock bar</s:String>
+    <s:String x:Key="Unlock">Unlock bar</s:String>
+    <s:String x:Key="Minimize">Minimize</s:String>
+    <s:String x:Key="Settings">Settings</s:String>
+    <s:String x:Key="SetSide">Set LongBar Side</s:String>
+    <s:String x:Key="Left">Left</s:String>
+    <s:String x:Key="Right">Right</s:String>
+    <s:String x:Key="AddTile">Add a tile</s:String>
+    <s:String x:Key="RemoveTiles">Remove all tiles</s:String>
+    <s:String x:Key="GetTiles">Get more tiles</s:String>
+    <s:String x:Key="Close">Close</s:String>
+    <s:String x:Key="ShowHide">Show/Hide LongBar</s:String>
+    <!-- Error dialog strings -->
+    <s:String x:Key="LongBarError">LongBar error</s:String>
+    <s:String x:Key="HideDetails">Hide details</s:String>
+    <s:String x:Key="ShowDetails">Show details</s:String>
+    <s:String x:Key="SendFeedback1">Send Feedback</s:String>
+    <s:String x:Key="SendFeedback2">It could help us to fix error</s:String>
+    <s:String x:Key="DontSendFeedback1">No Thanks</s:String>
+    <s:String x:Key="DontSendFeedback2">Continue work</s:String>
+    <s:String x:Key="ErrorOccured1">An unexpected error occured. Please, send feedback.</s:String>
+    <s:String x:Key="ErrorOccured2">An unexpected error occured.</s:String>
+    <s:String x:Key="SendFeedbackDialog">Send feedback dialog</s:String>
+    <s:String x:Key="SendingFeedback">Sending your feedback, please wait...</s:String>
+    <s:String x:Key="ThanksForFeedback">Thanks for the feedback!</s:String>
+    <s:String x:Key="Idontthinkso">Our developers will get right on that...</s:String>
+    <s:String x:Key="SendingFailed">Sending failed</s:String>
+    <s:String x:Key="SendingError">Error: </s:String>
+    <s:String x:Key="AlreadyRunning">LongBar already is running!.</s:String>
+    <!-- Tile install dialog strings -->
+    <s:String x:Key="InstallingTile">Installing tile</s:String>
+    <s:String x:Key="Dontdoit">Do you want to install {0}?</s:String>
+    <s:String x:Key="InstallThisIncredibleTileForMePlease1">Install</s:String>
+    <s:String x:Key="InstallThisIncredibleTileForMePlease2">Install tile to LongBar Library directory</s:String>
+    <s:String x:Key="SuccesfullyInstalled">was succesfully installed. You can add it to panel from LongBar context menu.</s:String>
+    <s:String x:Key="InstallingFailed">An error occured while installing tile. Please contact the tile's developers.</s:String>
+    <s:String x:Key="ErrorText">Error text: </s:String>
+    <s:String x:Key="TileInstalled">Tile installed!</s:String>
+    <s:String x:Key="CantInstallTile">Can't install tile</s:String>
+    <!-- Tiles strings -->
+    <s:String x:Key="Pin">Pin</s:String>
+    <s:String x:Key="Minimized">Minimize</s:String>
+    <s:String x:Key="MoveUp">Move Up</s:String>
+    <s:String x:Key="MoveDown">Move Down</s:String>
+    <s:String x:Key="Remove">Remove {0}</s:String>
+    <s:String x:Key="Properties">{0} Properties</s:String>
+    <!-- Options strings -->
+    <s:String x:Key="LongBarSettings">LongBar Settings</s:String>
+    <s:String x:Key="General">General</s:String>
+    <s:String x:Key="Autostart">Autostart the LongBar with Windows</s:String>
+    <s:String x:Key="Location">Location on screen:</s:String>
+    <s:String x:Key="TopMost">Keep LongBar on top of all other windows</s:String>
+    <s:String x:Key="Locked">LongBar is locked</s:String>
+    <s:String x:Key="Overlap">Overlap the taskbar</s:String>
+    <s:String x:Key="LocationOnScreen">LongBar location on the screen:</s:String>
+    <s:String x:Key="AtLeft">Left</s:String>
+    <s:String x:Key="AtRight">Right</s:String>
+    <s:String x:Key="Appearance">Appearance</s:String>
+    <s:String x:Key="EnableGlass">Enable Aero Glass</s:String>
+    <s:String x:Key="Theme">LongBar theme:</s:String>
+    <s:String x:Key="FindThemes">Find more themes</s:String>
+    <s:String x:Key="Language">Language:</s:String>
+    <s:String x:Key="FindLangs">Find more languages</s:String>
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
+    <s:String x:Key="Apply">Apply</s:String>
+    <s:String x:Key="PrimaryScreen">Primary Screen</s:String>
+    <s:String x:Key="Screen">Screen where LongBar should display:</s:String>
+    <!-- About tab strings -->
+    <s:String x:Key="AboutLongBar">About &quot;LongBar&quot;</s:String>
+    <s:String x:Key="Version">Version</s:String>
+    <s:String x:Key="Build">Build</s:String>
+    <s:String x:Key="AllRightsReserved">All rights reserved.</s:String>
+    <s:String x:Key="CopyrightLaw">This program is protected by copyright law and may only be published on the internet, or any other location, with the permission of the developers.</s:String>
+    <s:String x:Key="Contact">http://longbar.codeplex.com</s:String>
+    <!-- Flyouts strings -->
+    <s:String x:Key="FlyoutOptions">Options</s:String>
+    <s:String x:Key="AlwaysShow">Always show</s:String>
+    <s:String x:Key="FlyoutClose">Close</s:String>
+</ResourceDictionary>

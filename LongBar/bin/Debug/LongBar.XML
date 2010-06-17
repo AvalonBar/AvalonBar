@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LongBar</name>
+    </assembly>
+    <members>
+        <member name="T:LongBar.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:LongBar.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:LongBar.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:LongBar.LongBarMain">
+            <summary>
+            Interaction logic for LongBar.xaml
+            </summary>
+            <summary>
+            LongBarMain
+            </summary>
+        </member>
+        <member name="M:LongBar.LongBarMain.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.Flyout">
+            <summary>
+            Interaction logic for Flyout.xaml
+            </summary>
+            <summary>
+            Flyout
+            </summary>
+        </member>
+        <member name="M:LongBar.Flyout.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.AboutWindow">
+            <summary>
+            Interaction logic for AboutWindow.xaml
+            </summary>
+            <summary>
+            AboutWindow
+            </summary>
+        </member>
+        <member name="M:LongBar.AboutWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.TileOptions">
+            <summary>
+            Interaction logic for TileOptions.xaml
+            </summary>
+            <summary>
+            TileOptions
+            </summary>
+        </member>
+        <member name="M:LongBar.TileOptions.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.Tile">
+            <summary>
+            Interaction logic for Tile.xaml
+            </summary>
+            <summary>
+            Tile
+            </summary>
+        </member>
+        <member name="M:LongBar.Tile.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.Options">
+            <summary>
+            Interaction logic for Options.xaml
+            </summary>
+            <summary>
+            Options
+            </summary>
+        </member>
+        <member name="M:LongBar.Options.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LongBar.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:LongBar.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:LongBar.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,10 @@
+D:\Projects\C#\LongBar Slate\Новая папка\KSideBarTileLib\bin\Debug\TileSDK.dll
+D:\Projects\C#\LongBar Slate\Новая папка\KSideBarTileLib\bin\Debug\TileSDK.pdb
+D:\Projects\C#\LongBar Slate\Новая папка\KSideBarTileLib\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\C#\LongBar Slate\Новая папка\KSideBarTileLib\obj\Debug\TileSDK.dll
+D:\Projects\C#\LongBar Slate\Новая папка\KSideBarTileLib\obj\Debug\TileSDK.pdb
+D:\Projects\C#\LongBar Slate\LongBar 2.1\KSideBarTileLib\bin\Debug\TileSDK.dll
+D:\Projects\C#\LongBar Slate\LongBar 2.1\KSideBarTileLib\bin\Debug\TileSDK.pdb
+D:\Projects\C#\LongBar Slate\LongBar 2.1\KSideBarTileLib\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\C#\LongBar Slate\LongBar 2.1\KSideBarTileLib\obj\Debug\TileSDK.dll
+D:\Projects\C#\LongBar Slate\LongBar 2.1\KSideBarTileLib\obj\Debug\TileSDK.pdb
