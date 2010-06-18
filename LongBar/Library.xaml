@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="LongBar Library" Height="500" Width="750" WindowStartupLocation="CenterScreen"
     Background="White" ShowActivated="True"
-    Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" ContentRendered="Window_ContentRendered">
+    SizeChanged="Window_SizeChanged" ContentRendered="Window_ContentRendered">
     <Grid>
     <DockPanel Name="MainPanel" >
         <DockPanel DockPanel.Dock="Top">
@@ -87,7 +87,7 @@
             <DockPanel>
                 <Image Name="CurrentItemIcon" DockPanel.Dock="Left" Margin="10" Source="/LongBar;component/Resources/Library_icon.png" />
                 <TextBlock Name="ItemsCount" Text="Elements: 0" FontSize="13" Margin="0,10,0,0"/>
-                <DockPanel Name="WrapPanel1" Margin="0,10,0,0" Visibility="Collapsed" Width="200">
+                <DockPanel Name="WrapPanel1" Margin="0,10,0,0" Visibility="Collapsed" Width="260">
                     <TextBlock DockPanel.Dock="Top"  Name="CurrentItemTitle" Text="Tile Title" FontSize="16"/>
                     <TextBlock Name="CurrentItemDescription" Text="Tile Description" FontSize="12" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
                 </DockPanel>
@@ -104,20 +104,13 @@
             </DockPanel>
         </Grid>                
         <StackPanel Name="Panel" Background="White">
-            <!--<DockPanel Name="LongBarTiles" Margin="10,0,10,0">
-                <DockPanel DockPanel.Dock="Top" Visibility="Collapsed">
-                    <TextBlock Name="LongBarTilesCaption" DockPanel.Dock="Left" Text="LongBar Tiles (0)" Foreground="Gray"/>
-                    <Line Margin="5,0,0,0" X1="0" X2="200" Stroke="Gray"  StrokeThickness="1" Stretch="UniformToFill" Opacity="0.7"/>
-                </DockPanel>
-                <WrapPanel Name="LongBarTilesPanel" Orientation="Horizontal"/>
-            </DockPanel>-->
                     <DockPanel Name="DownTiles" Margin="10,0,0,0" Visibility="Visible">
                         <DockPanel DockPanel.Dock="Top">
                             <TextBlock Name="DownTilesCaption" DockPanel.Dock="Left" Text="Downloadable Tiles (0)" Foreground="Gray"/>
                             <Line Margin="5,0,10,0" X1="0" X2="200" Stroke="Gray"  StrokeThickness="1" Stretch="UniformToFill" Opacity="0.7"/>
                         </DockPanel>
                     <Grid Background="White">
-                        <Image Source="/LongBar;component/Resources/LongBar 2.0 Logo.png" Height="150" Margin="0,0,15,0" Opacity="0.2" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                        <Image Source="/LongBar;component/Resources/LongBar%202.0%20Logo.png" Height="150" Margin="0,0,15,0" Opacity="0.2" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                         <ScrollViewer Name="DownTilesPanelScrollViewer" VerticalScrollBarVisibility="Auto" PreviewMouseLeftButtonDown="DownTilesPanel_PreviewMouseLeftButtonDown">
                                 <WrapPanel Name="DownTilesPanel" Orientation="Horizontal"/>
                         </ScrollViewer>

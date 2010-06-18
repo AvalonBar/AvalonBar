@@ -44,12 +44,7 @@ namespace LongBar.TaskDialogs
             }
             else
             {
-                System.Windows.MessageBox.Show(string.Format("There is build {0} available. Go to the http://longbar.codeplex.com to get the lates version.", build));
-                /*if (System.Windows.MessageBox.Show("There is newest version available. Do you want to update?", "LongBar 2.1 update", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Information) == System.Windows.MessageBoxResult.Yes)
-                {
-
-                }*/
-
+                System.Windows.MessageBox.Show(string.Format("There is build {0} available. Go to the https://sourceforge.net/projects/longbar to get the lates version.", build));
             }
         }
 
@@ -82,7 +77,7 @@ namespace LongBar.TaskDialogs
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
-            client.DownloadFileAsync(new Uri(GetDirectLink()), LongBarMain.sett.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.data/download"), LongBarMain.sett.path + "\\Updates\\Update");
 
             tdDownload.Show();
         }
@@ -110,46 +105,6 @@ namespace LongBar.TaskDialogs
         static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ((TaskDialogProgressBar)tdDownload.Controls["progressBar"]).Value = e.ProgressPercentage;
-        }
-
-        private static string GetDirectLink()
-        {
-            WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Updates%202.0/Update.data");
-            WebResponse response = request.GetResponse();
-
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            string line = "";
-            string result = "";
-
-            while (!reader.EndOfStream)
-            {
-                line = reader.ReadLine();
-
-                if (line.Contains(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:"))
-                {
-                    reader.Close();
-                    response.Close();
-
-                    line = line.Substring(line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-                    while (line.Contains(@"\x3a"))
-                        line = line.Replace(@"\x3a", ":");
-                    while (line.Contains(@"\x2f"))
-                        line = line.Replace(@"\x2f", "/");
-                    while (line.Contains(@"\x3f"))
-                        line = line.Replace(@"\x3f", "?");
-                    while (line.Contains(@"\x26"))
-                        line = line.Replace(@"\x26", "&");
-                    while (line.Contains(@"\x3d"))
-                        line = line.Replace(@"\x3d", "=");
-                    line = line.Substring(0, line.Length - 16);
-                    result = line;
-                    break;
-                }
-            }
-            reader.Close();
-            response.Close();
-
-            return result;
         }
     }
 }

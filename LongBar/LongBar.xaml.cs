@@ -48,7 +48,6 @@ namespace LongBar
     static internal Settings sett;
     private Options options;
     private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    //public static string userPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
     public static List<Tile> Tiles = new List<Tile>();
 
     public Shadow shadow = new Shadow();
@@ -301,56 +300,6 @@ namespace LongBar
                 TilesGrid.Children.Add(Tiles[0]);
             }
         }
-       /* if (sett.tiles != null && sett.heights != null && sett.tiles.Length > 0)
-        {
-            foreach (Tile tile in Tiles)
-            {
-                for (int i = 0; i < sett.tiles.Length; i++)
-                {
-                    string tileName = sett.tiles[i];
-                    if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == tileName)
-                    {
-                        double tileHeight = double.NaN;
-                        if (sett.heights != null)
-                        {
-                            if (sett.heights[i].EndsWith("M"))
-                            {
-                                tileHeight = double.Parse(sett.heights[i].Replace("M", string.Empty));
-                                tile.minimized = true;
-                            }
-                            else
-                                tileHeight = double.Parse(sett.heights[i]);
-                        }
-                        if (!double.IsNaN(tileHeight))
-                            tile.Load(sett.side, tileHeight);
-                        else
-                            tile.Load(sett.side, double.NaN);
-                        if (!tile.hasErrors)
-                            TilesGrid.Children.Add(tile);
-                    }
-                }
-                if (sett.pinnedTiles != null && sett.pinnedTiles.Length > 0)
-                {
-                    for (int n = 0; n < sett.pinnedTiles.Length; n++)
-                    {
-                        if (tile.File.EndsWith(sett.pinnedTiles[n]))
-                        {
-                            tile.pinned = true;
-                            tile.Load(sett.side, double.NaN);
-
-                            tile.Header.Visibility = System.Windows.Visibility.Collapsed;
-                            DockPanel.SetDock(tile.Splitter, Dock.Top);
-                            ((MenuItem)tile.ContextMenu.Items[0]).IsChecked = true;
-
-                            if (!tile.hasErrors)
-                            {
-                                PinGrid.Children.Add(tile);
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     private void GetTiles()
@@ -541,61 +490,6 @@ namespace LongBar
               }
           }
       }
-
-      /*sett.startup = Properties.Settings.Default.Startup;
-      sett.side = (Slate.General.Sidebar.Side)Properties.Settings.Default.Side;
-      sett.theme = Properties.Settings.Default.Theme;
-      sett.locale = Properties.Settings.Default.Language;
-      sett.width = Properties.Settings.Default.Width;
-      sett.topMost = Properties.Settings.Default.TopMost;
-      sett.enableGlass = Properties.Settings.Default.EnableGlass;
-      sett.locked = Properties.Settings.Default.Locked;
-      sett.overlapTaskbar = Properties.Settings.Default.OverlapTaskbar;
-      sett.showErrors = Properties.Settings.Default.ShowErrors;
-      sett.screen = Properties.Settings.Default.Screen;
-
-      if (Properties.Settings.Default.Tiles != null)
-      {
-          sett.tiles = new string[Properties.Settings.Default.Tiles.Count];
-          sett.heights = new string[Properties.Settings.Default.Heights.Count];
-
-          for (int i = 0; i < Properties.Settings.Default.Tiles.Count; i++)
-              sett.tiles[i] = Properties.Settings.Default.Tiles[i];
-
-          for (int n = 0; n < Properties.Settings.Default.Heights.Count; n++)
-              sett.heights[n] = Properties.Settings.Default.Heights[n];
-      }
-
-      if (Properties.Settings.Default.PinnedTiles != null)
-      {
-          sett.pinnedTiles = new string[Properties.Settings.Default.PinnedTiles.Count];
-          for (int i = 0; i < Properties.Settings.Default.PinnedTiles.Count; i++)
-              sett.pinnedTiles[i] = Properties.Settings.Default.PinnedTiles[i];
-      }
-      /*try
-      {
-          RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("LongBar", false);
-          sett.startup = (((int)key.GetValue("Startup", 0))==1);
-          sett.side = (Slate.General.Sidebar.Side)key.GetValue("Side", 0);
-          sett.theme = (string)key.GetValue("Theme", "Slate");
-          sett.locale = (string)key.GetValue("Locale", "English");
-          sett.width = (int)key.GetValue("Width", 150);
-          sett.topMost = (((int)key.GetValue("TopMost", 0)) == 1);
-          sett.enableGlass = (((int)key.GetValue("EnableGlass", 0)) == 1);
-          sett.locked = (((int)key.GetValue("Locked", 0)) == 1);
-          sett.overlapTaskbar = (((int)key.GetValue("OverlapTaskbar", 0)) == 1);
-          if (key.GetValueKind("Tiles") == RegistryValueKind.MultiString)
-              sett.tiles = key.GetValue("Tiles") as string[];
-          else
-              sett.tiles[0] = key.GetValue("Tiles") as string;
-          sett.heights = (string[])key.GetValue("Heights");
-          sett.pinnedTile = (string)key.GetValue("PinnedTile");
-
-          sett.showErrors = (((int)key.GetValue("ShowErrors", 0)) == 1);
-          sett.screen = (string)key.GetValue("Screen", "Primary");
-          key.Close();
-      }
-      catch {}*/
     }
 
     private void WriteSettings()
@@ -694,72 +588,6 @@ namespace LongBar
 
       writer.Flush();
       writer.Close();
-
-      /*if (PinGrid.Children.Count > 0)
-      {
-          Properties.Settings.Default.PinnedTiles = new System.Collections.Specialized.StringCollection();
-
-          for (int i = 0; i < PinGrid.Children.Count; i++)
-          {
-              Properties.Settings.Default.Tiles.Add(System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File));
-              if (Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].minimized)
-                  Properties.Settings.Default.Heights.Add(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M");
-              else
-                  Properties.Settings.Default.Heights.Add(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString());
-              Properties.Settings.Default.PinnedTiles.Add(System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File));
-
-          }
-      }*/
-
-      /*Properties.Settings.Default.Startup = sett.startup;
-      Properties.Settings.Default.Side = (int)sett.side;
-      Properties.Settings.Default.Theme = sett.theme;
-      Properties.Settings.Default.Language = sett.locale;
-      Properties.Settings.Default.Width = sett.width;
-      Properties.Settings.Default.TopMost = sett.topMost;
-      Properties.Settings.Default.EnableGlass = sett.enableGlass;
-      Properties.Settings.Default.Locked = sett.locked;
-      Properties.Settings.Default.OverlapTaskbar = sett.overlapTaskbar;
-      Properties.Settings.Default.ShowErrors = sett.showErrors;
-      Properties.Settings.Default.Screen = sett.screen;
-      Properties.Settings.Default.Save();
-      /*try
-      {
-        RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree);
-        key.CreateSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-        key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("LongBar", true);
-        key.SetValue("Startup", sett.startup ? 1 : 0, RegistryValueKind.DWord);
-        key.SetValue("Side", ((int)sett.side), RegistryValueKind.DWord);
-        key.SetValue("Theme", sett.theme, RegistryValueKind.String);
-        key.SetValue("Locale", sett.locale, RegistryValueKind.String);
-        key.SetValue("Width", sett.width, RegistryValueKind.DWord);
-        key.SetValue("TopMost", sett.topMost ? 1 : 0, RegistryValueKind.DWord);
-        key.SetValue("EnableGlass", sett.enableGlass ? 1 : 0, RegistryValueKind.DWord);
-        key.SetValue("Locked", sett.locked ? 1: 0, RegistryValueKind.DWord);
-        key.SetValue("OverlapTaskbar", sett.overlapTaskbar ? 1 : 0, RegistryValueKind.DWord);
-        key.SetValue("Tiles", sett.tiles, RegistryValueKind.MultiString);
-        key.SetValue("Version", "2.0", RegistryValueKind.String);
-        key.SetValue("Heights", sett.heights, RegistryValueKind.MultiString);
-        if (PinGrid.Children.Count > 0)
-            sett.pinnedTile = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[0]))].File);
-        else
-            sett.pinnedTile = "None";
-        key.SetValue("PinnedTile", sett.pinnedTile, RegistryValueKind.String);
-        key.SetValue("ShowErrors", sett.showErrors, RegistryValueKind.DWord);
-        key.SetValue("Screen", sett.screen, RegistryValueKind.String);
-        //Writing tiles params //LongBar 2.1
-        //foreach (Tile tile in TilesGrid.Children)
-        //{
-        //    key = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("LongBar").OpenSubKey(tile.Info.Name, true);
-        //    if (key == null)
-        //        key = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree).CreateSubKey(tile.Info.Name);
-        //    key.SetValue("Height", tile.Height);
-        //    key.SetValue("IsMinimized", tile.minimized);
-        //    key.SetValue("IsPinned", tile.pinned);
-        //}
-        key.Close();
-      }
-      catch { }*/
     }
 
     private void LongBar_MouseMove(object sender, MouseEventArgs e)
@@ -1169,11 +997,6 @@ namespace LongBar
       private void LongBar_Activated(object sender, EventArgs e)
       {
           //shadow.Activate();
-      }
-
-      private void Window_Deactivated(object sender, EventArgs e)
-      {
-          
       }
 
       public static void ShowNotification()

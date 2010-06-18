@@ -46,6 +46,7 @@ namespace LongBar
 
                     CurrentItemTitle.Text = ((LibraryItem)DownTilesPanel.Children[value]).Header;
                     CurrentItemDescription.Text = ((LibraryItem)DownTilesPanel.Children[value]).Description;
+                    CurrentItemDescription.ToolTip = CurrentItemDescription.Text;
                     CurrentItemAuthor.Text = ((LibraryItem)DownTilesPanel.Children[value]).Developer;
                     CurrentItemVersion.Text = ((LibraryItem)DownTilesPanel.Children[value]).Version;
                     CurrentItemIcon.Source = ((LibraryItem)DownTilesPanel.Children[value]).ItemIconImage.Source;
@@ -79,18 +80,6 @@ namespace LongBar
             this.longbar = longbar;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            /*DownloadButton = new ToolButton();
-            DownloadButton.Visibility = Visibility.Collapsed;
-            DownloadButton.Text = "Download tile";
-            DownloadButton.MouseLeftButtonUp += new MouseButtonEventHandler(DownloadButton_MouseLeftButtonUp);
-            ToolBar.Children.Add(DownloadButton);
-
-            DownTilesPanelScrollViewer.Height = BottomBorderRect.TransformToAncestor(MainPanel).Transform(new Point(0, 0)).Y - 64;
-            GetTiles();*/
-        }
-
         void DownloadButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (SelectedIndex > -1)
@@ -105,7 +94,7 @@ namespace LongBar
             if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
             DownloadingStatusTextBlock.Text = "Connecting...";
-            string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).GeTileLink(); ;
+            string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Link; ;
 
             if (String.IsNullOrEmpty(url))
             {
@@ -121,35 +110,7 @@ namespace LongBar
 
             DownloadingStatusTextBlock.Text = "Downloading...";
 
-            dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
-
-
-            /*if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile"))
-            {
-                string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).GeTileLink();
-
-                dowloader = new WebClient();
-                dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
-                dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
-
-                dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
-            }
-            else
-            {
-                FileInfo f = new FileInfo(LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-                if (Math.Abs(DateTime.Now.Day - f.CreationTime.Day) > 3)
-                {
-                    f.Delete();
-                    DoubleAnimation_Completed(sender, e);
-                }
-                else
-                {
-                    TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-                    LoadingGrid.Visibility = Visibility.Collapsed;
-                    LoadingGrid.Opacity = 0;
-                }
-
-            }*/
+            dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
         }
 
         void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -163,7 +124,9 @@ namespace LongBar
         {
             if (e.Error == null && !e.Cancelled)
                 TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-
+            else if (!e.Cancelled)
+                MessageBox.Show("Downloading tile failed. \nError: \n" + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            
             LoadingGrid.Visibility = Visibility.Collapsed;
             LoadingGrid.Opacity = 0;
         }
@@ -247,41 +210,8 @@ namespace LongBar
             {
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
-                WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Tiles.list");
-                WebResponse response = request.GetResponse();
-
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                string line = "";
-
-                while (!reader.EndOfStream)
-                {
-                    line = reader.ReadLine();
-
-                    if (line.Contains(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:"))
-                    {
-                        reader.Close();
-                        response.Close();
-
-                        line = line.Substring(line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-                        while (line.Contains(@"\x3a"))
-                            line = line.Replace(@"\x3a", ":");
-                        while (line.Contains(@"\x2f"))
-                            line = line.Replace(@"\x2f", "/");
-                        while (line.Contains(@"\x3f"))
-                            line = line.Replace(@"\x3f", "?");
-                        while (line.Contains(@"\x26"))
-                            line = line.Replace(@"\x26", "&");
-                        while (line.Contains(@"\x3d"))
-                            line = line.Replace(@"\x3d", "=");
-                        line = line.Substring(0, line.Length - 9);
-                        WebClient client = new WebClient();
-                        client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\Tiles.list");
-                        break;
-                    }
-                }
-                reader.Close();
-                response.Close();
-
+                WebClient client = new WebClient();
+                client.DownloadFile("https://sourceforge.net/projects/longbar/files/Library/Data/Tiles.list/download", LongBarMain.sett.path + @"\Cache\Tiles.list");
                 GetTiles();
             }
         }
@@ -291,92 +221,9 @@ namespace LongBar
             DownloadButton_MouseLeftButtonUp(sender, e);
         }
 
-        //DownloadTileWindow window;
-
-        /*void item_GetTileLinkFinished(string link)
-        {
-            window = new DownloadTileWindow(longbar, link);
-            window.Show();
-        }*/
-
         void item_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.SelectedIndex = DownTilesPanel.Children.IndexOf((LibraryItem)sender);
-        }
-
-        private static string StripTags(string line)
-        {
-            string result = Regex.Replace(line, @"<[^>]*>", "");
-            return System.Web.HttpUtility.HtmlDecode(result);
-        }
-
-        private static string GetLink(string line)
-        {
-            Match m = Regex.Match(line, "href=\".*\"><");
-            if (m != null)
-            {
-                string result = m.Value;
-                return result.Substring(6, result.LastIndexOf('"') - 6);
-            }
-            return "";
-        }
-
-        private static BitmapImage GetIcon(string tileName)
-        {
-            if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"))
-            {
-                Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
-
-                try
-                {
-                    WebRequest request = WebRequest.Create(String.Format("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Icons/{0}.png", tileName));
-                    WebResponse response = request.GetResponse();
-
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    string line = "";
-                    while (!reader.EndOfStream)
-                    {
-                        line = reader.ReadLine();
-
-                        if (line.Contains(tileName + ".png\x3fpsid\x3d1', downloadUrl:"))
-                        {
-                            reader.Close();
-                            response.Close();
-
-                            line = line.Substring(line.IndexOf(tileName + ".png\x3fpsid\x3d1', downloadUrl:") + (tileName + ".png\x3fpsid\x3d1', downloadUrl:").Length + 2, line.IndexOf(tileName + @".png\x3fdownload\x3fpsid\x3d1'") - line.IndexOf(tileName + ".png\x3fpsid\x3d1', downloadUrl:") - 5); 
-                            while (line.Contains(@"\x3a"))
-                                line = line.Replace(@"\x3a", ":");
-                            while (line.Contains(@"\x2f"))
-                                line = line.Replace(@"\x2f", "/");
-                            while (line.Contains(@"\x3f"))
-                                line = line.Replace(@"\x3f", "?");
-                            while (line.Contains(@"\x26"))
-                                line = line.Replace(@"\x26", "&");
-                            while (line.Contains(@"\x3d"))
-                                line = line.Replace(@"\x3d", "=");
-                            System.Net.WebClient client = new WebClient();
-                            client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\" + tileName + ".png");
-                            return new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"));
-                        }
-                    }
-                    reader.Close();
-                    response.Close();
-                    return new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
-                }
-                catch
-                {
-                    return new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
-                }
-            }
-            else
-            {
-                DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.path + @"\Cache");
-                if (Math.Abs(DateTime.Now.Day - d.CreationTime.Day) > 7)
-                    d.Delete(true);
-
-                BitmapImage image = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"));
-                return image;
-            }
         }
 
         private void BottomBorderRect_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -450,11 +297,6 @@ namespace LongBar
         {
             if (SearchField.Text != "Search tile..." && !String.IsNullOrEmpty(SearchField.Text))
             {
-                //foreach (LibraryItem item in SearchTilesPanel.Children)
-                //{
-                //    if (!item.Header.Contains(SearchField.Text))
-                //        SearchTilesPanel.Children.Remove(item);
-                //}
                 SearchTilesPanel.Children.Clear();
                 SearchTiles.Visibility = Visibility.Visible;
                 DownTiles.Visibility = Visibility.Collapsed;

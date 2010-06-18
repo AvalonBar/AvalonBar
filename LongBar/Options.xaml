@@ -87,13 +87,13 @@
                                 </LinearGradientBrush>
                             </Line.Stroke>
                         </Line>
-                        <TextBlock Name="ContactString" Margin="0,0,30,0"  HorizontalAlignment="Right" FontSize="11" Foreground="CornflowerBlue" Cursor="Hand" Text="{DynamicResource Contact}" MouseLeftButtonDown="ContactString_MouseLeftButtonDown"/>
+                        <TextBlock Name="ContactString" Margin="0,0,30,0"  HorizontalAlignment="Right" FontSize="11" Foreground="CornflowerBlue" Cursor="Hand" Text="https://sourceforge.net/projects/longbar" MouseLeftButtonDown="ContactString_MouseLeftButtonDown"/>
                     </Grid>
                     <Grid>
                         <Image Source="/LongBar;component/Resources/ga.png" />
                         <StackPanel Margin="30,15,30,15">
                             <TextBlock Text="LongBar Slate" FontSize="11" TextWrapping="Wrap"/>
-                            <TextBlock Name="VersionString" FontSize="11" TextWrapping="Wrap" Text="Version 2.0 Release Candidate 1. Build 200 (L2.0.200.0rc1)"/>
+                            <TextBlock Name="VersionString" FontSize="11" TextWrapping="Wrap" Text="Version 2.1 Build 300 Beta 1 (L2.1.300.0b1)"/>
                             <TextBlock Name="CopyrightString1" Text="© LongBar Project Group 2010. All rights reserved." FontSize="11" TextWrapping="Wrap"/>
                             <TextBlock Name="CopyrightString2" FontSize="11" TextWrapping="Wrap" Text="{DynamicResource CopyrightLaw}"/>
                         </StackPanel>

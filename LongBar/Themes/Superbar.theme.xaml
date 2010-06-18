@@ -77,11 +77,6 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Effect">
-            <Setter.Value>
-               <DropShadowEffect ShadowDepth="1" BlurRadius="0.5" />
-            </Setter.Value>
-        </Setter>
     </Style>
     <Style x:Key="MainPanel" TargetType="DockPanel">
         <Setter Property="Margin" Value="0,25,0,0"/>

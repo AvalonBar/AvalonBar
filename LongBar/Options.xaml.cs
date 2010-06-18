@@ -237,9 +237,6 @@ namespace LongBar
         else
             LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
 
-        //Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, LongBarMain.sett.locale);
-        //Slate.ThemesManager.ThemeManager.LoadTheme(LongBar.LongBarMain.sett.path, LongBarMain.sett.theme);
-
         if (Environment.OSVersion.Version.Major >= 6)
         {
             if (Slate.DWM.DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
@@ -253,7 +250,6 @@ namespace LongBar
         else
             longBar.shadow.Hide();
 
-        //if (!LongBarMain.sett.topMost) Slate.General.Sidebar.AppbarRemove();
         Slate.General.Sidebar.AppbarRemove();
         longBar.SetSide(LongBarMain.sett.side);
 
@@ -270,59 +266,18 @@ namespace LongBar
 
     private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0", "", "", 1);
+        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Localization/2.0", "", "", 1);
     }
 
     private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0", "", "", 1);
+        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Themes/2.0", "", "", 1);
     }
 
     private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "http://longbar.codeplex.com", "", "", 1);
+        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/", "", "", 1);
     }
-
-      // LongBar 2.1
-
-    //private void AppList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    //{
-    //    if (AppList.SelectedIndex > -1)
-    //    {
-    //        TilesList.IsEnabled = true;
-    //        foreach (CheckBox item in TilesList.Items)
-    //            item.IsChecked = false;
-    //        if (LongBarMain.smartTileList.ContainsKey(AppList.SelectedItem.ToString()))
-    //        {
-    //            foreach (string tileName in LongBarMain.smartTileList[AppList.SelectedItem.ToString()])
-    //                foreach (CheckBox item in TilesList.Items)
-    //                {
-    //                    if (item.Content.ToString() == tileName)
-    //                        item.IsChecked = true;
-    //                }
-    //        }
-    //    }
-    //}
-
-      // LongBar 2.1
-
-    //void item_Click(object sender, RoutedEventArgs e)
-    //{
-    //    if (LongBarMain.smartTileList.ContainsKey(AppList.SelectedItem.ToString()))
-    //    {
-    //        if (!(bool)((CheckBox)sender).IsChecked)
-    //        {
-    //            if (LongBarMain.smartTileList[AppList.SelectedItem.ToString()].Contains(((CheckBox)sender).Content.ToString()))
-    //            {
-    //                LongBarMain.smartTileList[AppList.SelectedItem.ToString()].Remove(((CheckBox)sender).Content.ToString());
-    //            }
-    //        }
-    //        else
-    //        {
-    //           LongBarMain.smartTileList[AppList.SelectedItem.ToString()].Add(((CheckBox)sender).Content.ToString());
-    //        }
-    //    }
-    //}
 
     private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)
     {

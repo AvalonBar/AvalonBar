@@ -84,54 +84,22 @@ namespace LongBar
 
         private void DownloadIcon()
         {
-            string file = _icon.Substring(_icon.LastIndexOf("/") + 1);
+            string file = "";
+            if (_icon.IndexOf("/download") > -1)
+                file = _icon.Replace("/download", "");
+            file = file.Substring(file.LastIndexOf("/") + 1);
             if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + file))
             {
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
                try
                 {
-                    WebRequest request = WebRequest.Create(_icon);
-                    WebResponse response = request.GetResponse();
+                    WebClient client = new WebClient();
+                    client.DownloadFile(_icon, LongBarMain.sett.path + @"\Cache\" + file);
 
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-                    string line = "";
-                    while (!reader.EndOfStream)
+                    ItemIconImage.Dispatcher.BeginInvoke((Action)delegate
                     {
-                        line = reader.ReadLine();
-
-                        if (line.Contains(@"\x2f" + Header + @".png\x3fpsid\x3d1', downloadUrl:"))
-                        {
-                            reader.Close();
-                            response.Close();
-
-                            line = line.Substring(line.IndexOf(@"\x2f" + Header + @".png\x3fpsid\x3d1', downloadUrl:") + (@"\x2f" + Header + @".png\x3fpsid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"\x2f" + Header + @".png\x3fdownload\x26psid\x3d1'") - line.IndexOf(@"\x2f" + Header + @".png\x3fpsid\x3d1', downloadUrl:") - 5);
-                            while (line.Contains(@"\x3a"))
-                                line = line.Replace(@"\x3a", ":");
-                            while (line.Contains(@"\x2f"))
-                                line = line.Replace(@"\x2f", "/");
-                            while (line.Contains(@"\x3f"))
-                                line = line.Replace(@"\x3f", "?");
-                            while (line.Contains(@"\x26"))
-                                line = line.Replace(@"\x26", "&");
-                            while (line.Contains(@"\x3d"))
-                                line = line.Replace(@"\x3d", "=");
-                            System.Net.WebClient client = new WebClient();
-                            client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\" + file);
-                            ItemIconImage.Dispatcher.BeginInvoke((Action)delegate
-                            {
-                                ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
-                            }, null);
-                            reader.Close();
-                            response.Close();
-                            return;
-                        }
-                    }
-                    reader.Close();
-                    response.Close();
-                    ItemIconImage.Dispatcher.Invoke((Action)delegate
-                    {
-                        ItemIconImage.Source = new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
+                        ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
                     }, null);
                 }
                 catch
@@ -160,58 +128,6 @@ namespace LongBar
                     }
                     catch { }
             }
-        }
-
-        public string GeTileLink()
-        {
-            string header = Header;
-            string line = "";
-            //ThreadStart threadStarter = delegate
-            //{
-
-                string file = Link.Substring(Link.LastIndexOf("/") + 1);
-
-                if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
-                    Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
-
-                    WebRequest request = WebRequest.Create(Link);
-                    WebResponse response = request.GetResponse();
-
-                    StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                    while (!reader.EndOfStream)
-                    {
-                        line = reader.ReadLine();
-
-                        if (line.Contains(@"\x2f" + header + @".tile\x3fdownload\x26psid\x3d1', downloadUrl:"))
-                        {
-                            reader.Close();
-                            response.Close();
-
-                            line = line.Substring(line.IndexOf(@"\x2f" + header + @".tile\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"\x2f" + header + @".tile\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"\x2f" + header + @".tile\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"\x2f" + header + @".tile\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-                            while (line.Contains(@"\x3a"))
-                                line = line.Replace(@"\x3a", ":");
-                            while (line.Contains(@"\x2f"))
-                                line = line.Replace(@"\x2f", "/");
-                            while (line.Contains(@"\x3f"))
-                                line = line.Replace(@"\x3f", "?");
-                            while (line.Contains(@"\x26"))
-                                line = line.Replace(@"\x26", "&");
-                            while (line.Contains(@"\x3d"))
-                                line = line.Replace(@"\x3d", "=");
-                            line = line.Substring(0, line.Length - 16);
-                            reader.Close();
-                            response.Close();
-                            return line;
-                        }
-                    }
-                    reader.Close();
-                    response.Close();
-                    return "";
-            //};
-            //Thread thread = new Thread(threadStarter);
-            //thread.SetApartmentState(ApartmentState.STA);
-            //thread.Start();
         }
     }
 }
