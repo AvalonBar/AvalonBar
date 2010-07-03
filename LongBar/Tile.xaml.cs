@@ -13,6 +13,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
 using Applications.Sidebar;
+using System.Threading;
 
 namespace LongBar
 {
@@ -35,8 +36,6 @@ namespace LongBar
     public bool hasErrors;
     internal bool minimized;
     internal double normalHeight; //Unminimized height
-    //private static string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    //private static string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
     public bool pinned;
     public bool isLoaded = false;
 
@@ -124,11 +123,11 @@ namespace LongBar
       }
       return ModelType.LongBar;
     }
-
+    FrameworkElement control = null;
     public void Load(Slate.General.Sidebar.Side side, double height)
     {
       this.side = side;
-      FrameworkElement control = null;
+
       try
       {
         switch (tileModelType)
@@ -141,7 +140,9 @@ namespace LongBar
             tileObject.ShowFlyoutEvent += new TileLib.BaseTile.ShowFlyoutEventHandler(TileObject_ShowFlyoutEvent);
             tileObject.HeightChangedEvent += new TileLib.BaseTile.HeightChangedEventHandler(tileObject_HeightChangedEvent);
             tileObject._path = LongBarMain.sett.path;
+
             control = tileObject.Load();
+
             control.MouseLeftButtonDown += new MouseButtonEventHandler(TileContentGrid_MouseLeftButtonDown);
             break;
 
@@ -276,7 +277,7 @@ namespace LongBar
 
     private void TileObject_CaptionChanged(string value)
     {
-      this.TitleTextBlock.Text = value;
+            this.TitleTextBlock.Text = value;
     }
 
     public void ChangeSide(Slate.General.Sidebar.Side side)
@@ -340,7 +341,7 @@ namespace LongBar
 
     private void TileContentGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      buttonDownPos = e.GetPosition(this);
+      buttonDownPos = e.GetPosition(TileContentGrid);
       if(!Header.IsVisible && e.ClickCount > 1)
         switch (tileModelType)
         {
@@ -455,8 +456,7 @@ namespace LongBar
           configWindow.Activate();
           return;
         }
-        //AddHandler((RoutedEvent)(configWindow.Closing), new CancelEventHandler(KTile_ConfigClosing));
-        //AddHandler(configWindow.Loaded, new RoutedEventHandler(KTile_ConfigLoaded));
+
         configWindow.Closing += new CancelEventHandler(KTile_ConfigClosing);
         configWindow.Loaded += new RoutedEventHandler(KTile_ConfigLoaded);
         configWindow.ShowDialog();
@@ -477,17 +477,12 @@ namespace LongBar
     {
       this.BeginAnimation(UserControl.HeightProperty, null);
 
-      //if (minimized)
-      //{
-      //    MinimizedItem.IsChecked = true;
-      //}
-
       if (this.ActualHeight > 0 && !minimized)
       {
           this.Height = this.ActualHeight;
       }
       else
-          this.Height = ((DoubleAnimation)FindResource("LoadHeightAnim")).To.GetValueOrDefault(); //LoadHeightAnim.To.GetValueOrDefault();
+          this.Height = ((DoubleAnimation)FindResource("LoadHeightAnim")).To.GetValueOrDefault(); 
     }
 
     private void LoadOpacityAnim_Completed(object sender, EventArgs e)
@@ -531,7 +526,7 @@ namespace LongBar
         this.Height = normalHeight;
       minimizeAnim.From = this.Height;
       minimizeAnim.To = Header.Height + 2;
-      //Header.Visibility = Visibility.Visible;
+
       this.BeginAnimation(HeightProperty, minimizeAnim);
     }
 
@@ -574,8 +569,6 @@ namespace LongBar
 
     private void TileMenu_Opened(object sender, RoutedEventArgs e)
     {
-        //if (!pinned)
-        //{
             StackPanel p = ((StackPanel)this.Parent);
             if (p.Children.IndexOf(this) > 0)
                 MoveUpItem.IsEnabled = true;
@@ -589,12 +582,6 @@ namespace LongBar
                 CustomizeItem.IsEnabled = true;
             else
                 CustomizeItem.IsEnabled = false;
-        //}
-        /*else
-        {
-            MoveUpItem.IsEnabled = false;
-            MoveDownItem.IsEnabled = false;
-        }*/
     }
 
     private void MoveUpItem_Click(object sender, RoutedEventArgs e)
@@ -641,16 +628,9 @@ namespace LongBar
         StackPanel p = ((StackPanel)tile.Parent);
         p.Children.Remove(tile);
 
-        //headerState = tile.Header.Visibility;
         tile.Header.Visibility = System.Windows.Visibility.Collapsed;
         DockPanel.SetDock(tile.Splitter, Dock.Top);
-        //if (pinGrid.Children.Count > 0)
-        //{
-        //    Tile t = (Tile)pinGrid.Children[0];
-        //    UnpinTile(ref t,true);
-        //    ((MenuItem)t.ContextMenu.Items[0]).IsChecked = false;
-        //}
-        //pinGrid.Children.Clear();
+
         pinGrid.Children.Add(tile);
     }
 
@@ -663,12 +643,7 @@ namespace LongBar
         StackPanel pinGrid = ((StackPanel)tile.Parent);
           
         pinGrid.Children.Remove(tile);
-        //tile.Header.Visibility = headerState;
-        //if (tile.Header.Visibility == Visibility.Visible && !double.IsNaN(tile.Header.Height) && (DockPanel.GetDock(tile.Header) == Dock.Top || DockPanel.GetDock(tile.Header) == Dock.Bottom))
-        //    tile.Height = tile.TileContentGrid.ActualHeight + tile.Header.Height + 5;
-        //else
-        //    tile.Height = tile.TileContentGrid.ActualHeight + 4;
-        //DockPanel.SetDock(tile.Splitter, Dock.Bottom);
+
         Style style = (Style)tile.TryFindResource("TileHeader");
         foreach (Setter setter in style.Setters)
         {
@@ -682,25 +657,38 @@ namespace LongBar
             if (setter.Property == DockPanel.DockProperty)
                 tile.Splitter.SetValue(DockPanel.DockProperty, setter.Value);
         }
-        //tile.Header.Style = (Style)tile.TryFindResource("TileHeader");
-        //tile.Splitter.Style = (Style)tile.TryFindResource("TileSplitterPanel");
+
         if (MoveToMain) {
             p.Children.Insert(0,tile);
         }
     }
 
     private Point buttonDownPos;
+    private bool mousePressed = false;
 
     private TileDragWindow dragWindow;
 
     private void UserControl_MouseMove(object sender, MouseEventArgs e)
     {
-        if (e.LeftButton == MouseButtonState.Pressed && (dragWindow == null || !dragWindow.IsLoaded) &&
-            buttonDownPos.X > 0 && buttonDownPos.Y > 0)
+        //This is stupid but I don't see any other way to resolve issue with TextBox and tile dragging
+        if (e.LeftButton == MouseButtonState.Pressed && !mousePressed)
         {
-            //MessageBox.Show(e.GetPosition(this).X.ToString() + "|" + leftButtonDownPos.X.ToString());
-            if ((e.GetPosition(this).X > buttonDownPos.X + 20 || e.GetPosition(this).X < buttonDownPos.X - 20) ||
-            (e.GetPosition(this).Y > buttonDownPos.Y + 20 || e.GetPosition(this).Y < buttonDownPos.Y - 20))
+            buttonDownPos = e.GetPosition(TileContentGrid);
+            mousePressed = true;
+        }
+
+        if (e.LeftButton == MouseButtonState.Released && mousePressed)
+        {
+            mousePressed = false;
+        }
+
+        if (e.LeftButton == MouseButtonState.Pressed && (dragWindow == null || !dragWindow.IsLoaded)
+            && buttonDownPos.X > 0 && buttonDownPos.Y > 0)
+        {
+            double a = e.GetPosition(TileContentGrid).X;
+            double b = e.GetPosition(TileContentGrid).Y;
+            if ((e.GetPosition(TileContentGrid).X > buttonDownPos.X + 20 || e.GetPosition(TileContentGrid).X < buttonDownPos.X - 20) ||
+            (e.GetPosition(TileContentGrid).Y > buttonDownPos.Y + 20 || e.GetPosition(TileContentGrid).Y < buttonDownPos.Y - 20))
             {
                 dragWindow = new TileDragWindow((StackPanel)this.Parent, this);
                 dragWindow.Left = this.PointToScreen(new Point(0, 0)).X;
@@ -708,19 +696,9 @@ namespace LongBar
                 dragWindow.Width = this.ActualWidth + 20;
                 dragWindow.Height = this.ActualHeight + 25;
                 ((StackPanel)this.Parent).Children.Remove(this);
-                //dragWindow.SourceGrid.Children.Add(this);
                 dragWindow.Show();
             }
         }
     }
-
-    //private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    //{
-    //    if (this.Parent.GetType() != typeof(Window))
-    //    {
-    //        this.BeginAnimation(HeightProperty, (DoubleAnimation)FindResource("LoadHeightAnim"));
-    //        this.BeginAnimation(OpacityProperty, (DoubleAnimation)FindResource("LoadOpacityAnim"));
-    //    }
-    //}
   }
 }

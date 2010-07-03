@@ -1,7 +1,7 @@
 ﻿<Window x:Class="LongBar.Library"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="LongBar Library" Height="500" Width="750" WindowStartupLocation="CenterScreen"
+    Title="{DynamicResource LibraryTitle}" Height="500" Width="750" WindowStartupLocation="CenterScreen"
     Background="White" ShowActivated="True"
     SizeChanged="Window_SizeChanged" ContentRendered="Window_ContentRendered">
     <Grid>
@@ -58,7 +58,7 @@
                             </Rectangle.Stroke>
                         </Rectangle>
                         <Rectangle Margin="2" Stroke="#FFFFFFFF"/>
-                        <TextBox Margin="3" Name="SearchField" Text="Search tile..."  Opacity="0.7" FontStyle="Italic" Foreground="#FF696969" BorderThickness="0" VerticalContentAlignment="Center" IsKeyboardFocusedChanged="SearchField_IsKeyboardFocusedChanged" TextChanged="SearchField_TextChanged"/>
+                        <TextBox Margin="3" Name="SearchField" Text="{DynamicResource SearchTile}"  Opacity="0.7" FontStyle="Italic" Foreground="#FF696969" BorderThickness="0" VerticalContentAlignment="Center" IsKeyboardFocusedChanged="SearchField_IsKeyboardFocusedChanged" TextChanged="SearchField_TextChanged"/>
                         <Image Name="SearchIcon" Source="/LongBar;component/Resources/SearchIcon.png" Margin="0,0,5,0" HorizontalAlignment="Right" Width="15" Height="16"/>
                     </Grid>
                     <StackPanel Name="ToolBar" Orientation="Horizontal" VerticalAlignment="Top" Margin="5,5,0,0">
@@ -93,12 +93,12 @@
                 </DockPanel>
                 <WrapPanel Name="WrapPanel2" Orientation="Vertical" Margin="10" Visibility="Collapsed" >
                     <DockPanel Margin="0,0,10,0">
-                        <TextBlock Text="Developer: " Foreground="Gray" FontSize="12"/>
-                        <TextBlock Name="CurrentItemAuthor" Text="Stealth" FontSize="12"/>
+                            <TextBlock Text="{DynamicResource TileDeveloper}" Foreground="Gray" FontSize="12"/>
+                            <TextBlock Name="CurrentItemAuthor" Text="Stealth" FontSize="12" Margin="3,0,0,0"/>
                     </DockPanel >
                     <DockPanel Margin="0,0,10,0">
-                        <TextBlock Text="Version: " Foreground="Gray" FontSize="12"/>
-                        <TextBlock Name="CurrentItemVersion" Text="2.0.0.0" FontSize="12"/>
+                        <TextBlock Text="{DynamicResource TileVersion}" Foreground="Gray" FontSize="12"/>
+                            <TextBlock Name="CurrentItemVersion" Text="2.0.0.0" FontSize="12" Margin="3,0,0,0"/>
                     </DockPanel>
                 </WrapPanel>
             </DockPanel>

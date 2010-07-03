@@ -15,6 +15,21 @@
     <s:String x:Key="GetTiles">Загрузить тайлы</s:String>
     <s:String x:Key="Close">Закрыть</s:String>
     <s:String x:Key="ShowHide">Скрыть/Показать LongBar</s:String>
+    <!-- Library strings -->
+    <s:String x:Key="LibraryTitle">Библиотека тайлов LongBar</s:String>
+    <s:String x:Key="SearchTile">Найти тайл...</s:String>
+    <s:String x:Key="TilesFound">Найдено:</s:String>
+    <s:String x:Key="DownloadTileButton">Загрузить тайл</s:String>
+    <s:String x:Key="GettingTilesList">Получение списка тайлов...</s:String>
+    <s:String x:Key="DownloadableTiles">Загружаемые тайлы: {0}</s:String>
+    <s:String x:Key="ElementsCount">Элементов: {0}</s:String>
+    <s:String x:Key="DownloadingTile">Загрузка...</s:String>
+    <s:String x:Key="DownloadProgress">{0} Кб из {1} Кб</s:String>
+    <s:String x:Key="DownloadingFailed">Загрузка прервана. \nОшибка: \n</s:String>
+    <s:String x:Key="Connecting">Подключение...</s:String>
+    <s:String x:Key="ConnectionFailed">Загрузка прервана. Невозможно подключиться к серверу.</s:String>
+    <s:String x:Key="TileDeveloper">Разработчик:</s:String>
+    <s:String x:Key="TileVersion">Версия:</s:String>
     <!-- Error dialog strings -->
     <s:String x:Key="LongBarError">Ошибка</s:String>
     <s:String x:Key="HideDetails">Скрыть детали</s:String>
@@ -71,6 +86,8 @@
     <s:String x:Key="Apply">Применить</s:String>
     <s:String x:Key="PrimaryScreen">Основной монитор</s:String>
     <s:String x:Key="Screen">Отображать LongBar на:</s:String>
+    <s:String x:Key="EnableAutoUpdate">Автоматически проверять наличие обновлений</s:String>
+    <s:String x:Key="EnableShadow">Отображать тень</s:String>
     <!-- About tab strings -->
     <s:String x:Key="AboutLongBar">О программе &quot;LongBar&quot;</s:String>
     <s:String x:Key="Version">Версия</s:String>

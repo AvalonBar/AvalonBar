@@ -72,6 +72,7 @@ namespace LongBar
       public string screen;
       public string path;
       public bool enableSnowFall;
+      public bool enableRain;
       public bool enableUpdates;
       public bool debug;
       public string tileToDebug;
@@ -190,6 +191,11 @@ namespace LongBar
           EnableSnowFall();
       }
 
+      if (sett.enableRain)
+      {
+          EnableRain();
+      }
+
       if (sett.enableUpdates)
       {
 
@@ -230,7 +236,7 @@ namespace LongBar
           break;
       }
 
-      LoadTilesAtStartup();
+          LoadTilesAtStartup();
     }
  
     private void LoadTilesAtStartup()
@@ -262,7 +268,9 @@ namespace LongBar
                             else
                                 tile.Load(sett.side, double.NaN);
                             if (!tile.hasErrors)
+                            {
                                 TilesGrid.Children.Add(tile);
+                            }
                         }
                     }
                 }
@@ -357,7 +365,9 @@ namespace LongBar
       int index = AddTileItem.Items.IndexOf(sender);
       if (!((MenuItem)AddTileItem.Items[index]).IsChecked)
       {
+
         Tiles[index].Load(sett.side, double.NaN);
+
         if (!Tiles[index].hasErrors)
         {
             TilesGrid.Children.Insert(0, Tiles[index]);
@@ -386,6 +396,7 @@ namespace LongBar
       sett.screen = "Primary";
       sett.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
       sett.enableSnowFall = false;
+      sett.enableRain = false;
       sett.enableUpdates = true;
 
       if (System.IO.File.Exists("Settings.ini"))
@@ -464,6 +475,11 @@ namespace LongBar
               if (line.StartsWith("EnableSnowFall"))
               {
                   sett.enableSnowFall = Convert.ToBoolean(line.Split('=')[1]);
+              }
+
+              if (line.StartsWith("EnableRain"))
+              {
+                  sett.enableRain = Convert.ToBoolean(line.Split('=')[1]);
               }
 
               if (line.StartsWith("EnableUpdates"))
@@ -978,11 +994,27 @@ namespace LongBar
                   snowFlake.Enabled = true;
               }
           }
-          /*foreach (LongBar.SnowFall.SnowFlake snowFlake in SnowFallCanvas.Children)
-          {
-              snowFlake.Enabled = true;
-          }*/
       }
+
+      public void EnableRain()
+      {
+          if (SnowFallCanvas.Visibility == Visibility.Collapsed)
+          {
+              SnowFallCanvas.Visibility = Visibility.Visible;
+              SnowFallCanvas.Width = this.Width;
+              Random r = new Random(Environment.TickCount);
+              for (int i = 0; i < 50; i++)
+              {
+                  RainFall.RainDrop rainDrop = new RainFall.RainDrop();
+                  rainDrop.SetValue(Canvas.LeftProperty, (double)r.Next((int)this.Width));
+                  rainDrop.SetValue(Canvas.TopProperty, (double)r.Next((int)this.Height));
+                  rainDrop.Visibility = Visibility.Visible;
+                  SnowFallCanvas.Children.Add(rainDrop);
+                  rainDrop.Enabled = true;
+              }
+          }
+      }
+
 
       public void DisableSnowFall()
       {
@@ -994,23 +1026,13 @@ namespace LongBar
           SnowFallCanvas.Children.Clear();
       }
 
-      private void LongBar_Activated(object sender, EventArgs e)
-      {
-          //shadow.Activate();
-      }
 
       public static void ShowNotification()
       {
           Notify notify = new Notify();
           notify.Left = System.Windows.Forms.SystemInformation.WorkingArea.Right - notify.Width;
           notify.Top = System.Windows.Forms.SystemInformation.WorkingArea.Bottom - notify.Height;
-          notify.MouseLeftButtonDown += new MouseButtonEventHandler(notify_MouseLeftButtonDown);
-          notify.Show();
-      }
-
-      static void notify_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-      {
-          ((Window)sender).Close();
+          notify.ShowNotification("LongBar 2.1 Release Candidate", "<Hyperlink NavigateUri=\"http://longbar.sourceforge.net\">Click</Hyperlink>");
       }
   }
 }

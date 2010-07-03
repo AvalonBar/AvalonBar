@@ -60,6 +60,20 @@ namespace LongBar.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Close_button {
+            get {
+                object obj = ResourceManager.GetObject("Close_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Close_button_g {
+            get {
+                object obj = ResourceManager.GetObject("Close_button_g", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DownloadIcon {
             get {
                 object obj = ResourceManager.GetObject("DownloadIcon", resourceCulture);
@@ -95,9 +109,65 @@ namespace LongBar.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap rain1 {
+            get {
+                object obj = ResourceManager.GetObject("rain1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rain2 {
+            get {
+                object obj = ResourceManager.GetObject("rain2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rain3 {
+            get {
+                object obj = ResourceManager.GetObject("rain3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SearchIcon {
             get {
                 object obj = ResourceManager.GetObject("SearchIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap snow1 {
+            get {
+                object obj = ResourceManager.GetObject("snow1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap snow2 {
+            get {
+                object obj = ResourceManager.GetObject("snow2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap snow3 {
+            get {
+                object obj = ResourceManager.GetObject("snow3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap snow4 {
+            get {
+                object obj = ResourceManager.GetObject("snow4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap snow5 {
+            get {
+                object obj = ResourceManager.GetObject("snow5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

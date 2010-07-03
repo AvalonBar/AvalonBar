@@ -55,7 +55,7 @@ namespace LongBar
         string _Build = _CurrAsmName.Version.Build.ToString();//.Substring(0, 1);
         string _Revision = _CurrAsmName.Version.Revision.ToString();//.Substring(0, 1);
 
-        VersionString.Text = string.Format("{0} {2}.{3} Beta. {1} {4} (L{2}.{3}.{4}.{5}b)",
+        VersionString.Text = string.Format("{0} {2}.{3} Release Candidate. {1} {4} (L{2}.{3}.{4}.{5}rc1)",
         TryFindResource("Version"), TryFindResource("Build"), _Major, _Minor, _Build, _Revision);
         CopyrightString1.Text = String.Format("© LongBar Project Group 2010. {0}", TryFindResource("AllRightsReserved"));
         CopyrightString2.Text = String.Format("{0}", Application.Current.TryFindResource("CopyrightLaw"));

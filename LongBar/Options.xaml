@@ -17,7 +17,7 @@
                             <CheckBox Name="LockedCheckBox" Click="CheckBox_Click" Content="{DynamicResource Locked}"/>
                             <CheckBox Name="TopMostCheckBox" Click="CheckBox_Click" Checked="TopMostCheckBox_Checked" Unchecked="TopMostCheckBox_Unchecked" Content="{DynamicResource TopMost}"/>
                             <CheckBox Name="OverlapCheckBox" Click="CheckBox_Click" Content="{DynamicResource Overlap}"/>
-                            <CheckBox Name="UpdatesCheckBox" Click="CheckBox_Click" Content="Automatically check for updates"/>
+                            <CheckBox Name="UpdatesCheckBox" Click="CheckBox_Click" Content="{DynamicResource EnableAutoUpdate}"/>
                             <TextBlock Margin="0,3,0,3" Text="{DynamicResource Location}"/>
                             <ComboBox Name="LocationComboBox" SelectedIndex="1" SelectionChanged="ComboBox_SelectionChanged_1">
                                 <ComboBoxItem Content="{DynamicResource AtLeft}"/>
@@ -35,7 +35,7 @@
                     <GroupBox Header="{DynamicResource Appearance}">
                         <StackPanel Margin="0,4,0,0">
                             <CheckBox Name="AeroGlassCheckBox" Click="CheckBox_Click" Content="{DynamicResource EnableGlass}"/>
-                            <CheckBox Name="ShadowCheckBox" Click="CheckBox_Click" Content="Enable shadow"/>
+                            <CheckBox Name="ShadowCheckBox" Click="CheckBox_Click" Content="{DynamicResource EnableShadow}"/>
                             <TextBlock Margin="0,3,0,3" Text="{DynamicResource Theme}"/>
                             <ComboBox Name="ThemesComboBox" SelectionChanged="ComboBox_SelectionChanged"/>
                             <TextBlock Name="FindThemesTextBlock"  HorizontalAlignment="Right" Text="{DynamicResource FindThemes}" Foreground="Blue" TextDecorations="Underline" TextAlignment="Right" Margin="5" Cursor="Hand" MouseLeftButtonDown="FindThemesTextBlock_MouseLeftButtonDown"/>
@@ -87,13 +87,13 @@
                                 </LinearGradientBrush>
                             </Line.Stroke>
                         </Line>
-                        <TextBlock Name="ContactString" Margin="0,0,30,0"  HorizontalAlignment="Right" FontSize="11" Foreground="CornflowerBlue" Cursor="Hand" Text="https://sourceforge.net/projects/longbar" MouseLeftButtonDown="ContactString_MouseLeftButtonDown"/>
+                        <TextBlock Name="ContactString" Margin="0,0,30,0"  HorizontalAlignment="Right" FontSize="11" Foreground="CornflowerBlue" Cursor="Hand" Text="http://longbar.sourceforge.net" MouseLeftButtonDown="ContactString_MouseLeftButtonDown"/>
                     </Grid>
                     <Grid>
                         <Image Source="/LongBar;component/Resources/ga.png" />
                         <StackPanel Margin="30,15,30,15">
                             <TextBlock Text="LongBar Slate" FontSize="11" TextWrapping="Wrap"/>
-                            <TextBlock Name="VersionString" FontSize="11" TextWrapping="Wrap" Text="Version 2.1 Build 300 Beta 1 (L2.1.300.0b1)"/>
+                            <TextBlock Name="VersionString" FontSize="11" TextWrapping="Wrap" Text="Version 2.1 Build 350 Release Candidate (L2.1.350.0rc1)"/>
                             <TextBlock Name="CopyrightString1" Text="© LongBar Project Group 2010. All rights reserved." FontSize="11" TextWrapping="Wrap"/>
                             <TextBlock Name="CopyrightString2" FontSize="11" TextWrapping="Wrap" Text="{DynamicResource CopyrightLaw}"/>
                         </StackPanel>

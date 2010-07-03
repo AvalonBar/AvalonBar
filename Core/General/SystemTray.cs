@@ -54,7 +54,7 @@ namespace Slate.General
 
             trayIcon = new NotifyIcon();
             trayIcon.Icon = Icon.FromHandle(ExtractIcon(IntPtr.Zero, path + @"\LongBar.exe", 0));
-            trayIcon.Text = "LongBar 2.1 Beta";
+            trayIcon.Text = "LongBar 2.1 RC";
             trayIcon.MouseClick += new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.MouseDoubleClick += new MouseEventHandler(trayIcon_MouseDoubleClick);
             trayIcon.Visible = true;

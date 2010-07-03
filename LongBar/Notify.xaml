@@ -3,9 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Notify" Height="150" Width="350" ShowInTaskbar="False" AllowsTransparency="True"
     WindowStyle="None" Background="Transparent" Topmost="True"
-    SourceInitialized="Window_SourceInitialized">
+    SourceInitialized="Window_SourceInitialized" MouseMove="Window_MouseMove">
     <Window.Resources>
-          <DoubleAnimation x:Key="LoadAnim" Storyboard.TargetProperty="Top" Duration="0:0:0.2" AccelerationRatio="0.3"/>
+          <DoubleAnimation x:Key="LoadAnim" Storyboard.TargetProperty="Top" Duration="0:0:0.15" AccelerationRatio="0.3"/>
+        <DoubleAnimation x:Key="UnloadAnim" Storyboard.TargetProperty="Top" Duration="0:0:0.15" AccelerationRatio="0.3" Completed="DoubleAnimation_Completed"/>
     </Window.Resources>
     <Grid>
             <Rectangle Name="Rectangle1" Stroke="Black" Opacity="1" RadiusX="5" RadiusY="5" />
@@ -16,11 +17,19 @@
                     <Image DockPanel.Dock="Left" Width="40" VerticalAlignment="Center" Source="/LongBar;component/Resources/LongBar 2.0 Logo.png" />
                 </Grid>
                 <DockPanel>
-                    <TextBlock Margin="0,3,5,0" Height="20" DockPanel.Dock="Top" TextAlignment="Right" Text="Notify Header" Foreground="White" />
+                    <DockPanel DockPanel.Dock="Top">
+                    <Image Name="CloseButton" Source="/LongBar;component/Resources/Close_button.png" DockPanel.Dock="Right" Height="14" Margin="0,0,5,0" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" MouseDown="Image_MouseDown"/>
+                    <TextBlock Name="Header" Margin="0,3,5,0" Height="20" TextAlignment="Right" Text="Notify Header" Foreground="White" />
+                    </DockPanel>
                     <Grid>
                         <Rectangle Name="BgRect" Fill="White" Stroke="Black" RadiusX="5" RadiusY="5" Margin="0,0,3,3"  />
-                        <TextBlock Margin="7" Text="(X(X_(O_O)_X)X)"/>
-                    </Grid>
+                        <!--<TextBlock Name="Body" Margin="7" Text="(X(X_(O_O)_X)X)"/>-->
+                    <FlowDocumentScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
+                        <FlowDocument Name="Body" FontSize="12" FontFamily="Segoe UI">
+
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                </Grid>
                 </DockPanel>
             </DockPanel>
         </Grid>

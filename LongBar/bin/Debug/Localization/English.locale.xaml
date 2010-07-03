@@ -15,6 +15,21 @@
     <s:String x:Key="GetTiles">Get more tiles</s:String>
     <s:String x:Key="Close">Close</s:String>
     <s:String x:Key="ShowHide">Show/Hide LongBar</s:String>
+    <!-- Library strings -->
+    <s:String x:Key="LibraryTitle">LongBar Library</s:String>
+    <s:String x:Key="SearchTile">Search tile...</s:String>
+    <s:String x:Key="TilesFound">Found:</s:String>
+    <s:String x:Key="DownloadTileButton">Download tile</s:String>
+    <s:String x:Key="GettingTilesList">Getting list of available tiles...</s:String>   
+    <s:String x:Key="DownloadableTiles">Downloadable Tiles: {0}</s:String> 
+    <s:String x:Key="ElementsCount">Elements: {0}</s:String>
+    <s:String x:Key="DownloadingTile">Downloading...</s:String> 
+    <s:String x:Key="DownloadProgress">{0} Kb from {1} Kb</s:String>
+    <s:String x:Key="DownloadingFailed">Downloading tile failed. \nError: \n</s:String> 
+    <s:String x:Key="Connecting">Connecting...</s:String>
+    <s:String x:Key="ConnectionFailed">Downloading tile failed. Can't connect to the server.</s:String>
+    <s:String x:Key="TileDeveloper">Developer:</s:String>
+    <s:String x:Key="TileVersion">Version:</s:String>
     <!-- Error dialog strings -->
     <s:String x:Key="LongBarError">LongBar error</s:String>
     <s:String x:Key="HideDetails">Hide details</s:String>
@@ -71,6 +86,8 @@
     <s:String x:Key="Apply">Apply</s:String>
     <s:String x:Key="PrimaryScreen">Primary Screen</s:String>
     <s:String x:Key="Screen">Screen where LongBar should display:</s:String>
+    <s:String x:Key="EnableAutoUpdate">Automatically check for updates</s:String>
+    <s:String x:Key="EnableShadow">Enable shadow</s:String>
     <!-- About tab strings -->
     <s:String x:Key="AboutLongBar">About &quot;LongBar&quot;</s:String>
     <s:String x:Key="Version">Version</s:String>

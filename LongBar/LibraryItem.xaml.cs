@@ -114,10 +114,19 @@ namespace LongBar
             {
                 if (File.Exists(LongBarMain.sett.path + @"\Cache\" + file))
                 {
-                    ItemIconImage.Dispatcher.Invoke((Action)delegate
+                    FileInfo info = new FileInfo(LongBarMain.sett.path + @"\Cache\" + file);
+                    if (info.Length > 0)
                     {
-                        ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
-                    }, null);
+                        ItemIconImage.Dispatcher.Invoke((Action)delegate
+                        {
+                            ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
+                        }, null);
+                    }
+                    else
+                    {
+                        info.Delete();
+                        DownloadIcon();
+                    }
                 }
 
                 DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.path + @"\Cache");

@@ -36,7 +36,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Grid Name="SourceGrid" Margin="10,10,15,10"/>
+        <Grid Name="SourceGrid" Margin="10,10,15,10" VerticalAlignment="Top"/>
         <TextBlock Name="Txt" Foreground="White"/>
     </Grid>
 </Window>

@@ -31,12 +31,14 @@ namespace TileLib
     public delegate void ShowFlyoutEventHandler();
     public delegate void ShowOptionsEventHandler();
     public delegate void HeightChangedEventHandler(double height);
+    public delegate void ShowNotificationEventHandler(string header, string message);
 
     public event CaptionChangedEventHandler CaptionChanged;
     public event IconChangedEventHandler IconChanged;
     public event ShowFlyoutEventHandler ShowFlyoutEvent;
     public event ShowOptionsEventHandler ShowOptionsEvent;
     public event HeightChangedEventHandler HeightChangedEvent;
+    public event ShowNotificationEventHandler ShowNotificationEvent;
     #endregion
 
     private string _caption;
@@ -120,6 +122,11 @@ namespace TileLib
     public virtual void ShowOptions()
     {
       ShowOptionsEvent();
+    }
+
+    public virtual void ShowNotification(string header, string message)
+    {
+        ShowNotificationEvent(header, message);
     }
 
     public void WriteSetting(string tileName, string setting, string value)

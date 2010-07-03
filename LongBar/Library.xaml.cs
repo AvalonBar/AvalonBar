@@ -78,6 +78,8 @@ namespace LongBar
             InitializeComponent();
 
             this.longbar = longbar;
+
+            ItemsCount.Text = string.Format((string)Application.Current.TryFindResource("ElementsCount"), "0");
         }
 
         void DownloadButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -93,12 +95,12 @@ namespace LongBar
         {
             if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
-            DownloadingStatusTextBlock.Text = "Connecting...";
+            DownloadingStatusTextBlock.Text = (string)Application.Current.TryFindResource("Connecting");
             string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Link; ;
 
             if (String.IsNullOrEmpty(url))
             {
-                MessageBox.Show("Downloading tile failed. Can't connect to the server.");
+                MessageBox.Show((string)Application.Current.TryFindResource("ConnectionFailed"));
                 LoadingGrid.Visibility = Visibility.Collapsed;
                 LoadingGrid.Opacity = 0;
                 return;
@@ -108,7 +110,7 @@ namespace LongBar
             dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
             dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
 
-            DownloadingStatusTextBlock.Text = "Downloading...";
+            DownloadingStatusTextBlock.Text = (string)Application.Current.TryFindResource("DownloadingTile");
 
             dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
         }
@@ -116,7 +118,7 @@ namespace LongBar
         void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
-            DownloadingProgressTextBlock.Text = string.Format("{0} Kb from {1} Kb", Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
+            DownloadingProgressTextBlock.Text = string.Format((string)Application.Current.TryFindResource("DownloadProgress"), Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
 
         }
 
@@ -125,7 +127,7 @@ namespace LongBar
             if (e.Error == null && !e.Cancelled)
                 TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
             else if (!e.Cancelled)
-                MessageBox.Show("Downloading tile failed. \nError: \n" + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show((string)Application.Current.TryFindResource("DownloadingFailed") + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             
             LoadingGrid.Visibility = Visibility.Collapsed;
             LoadingGrid.Opacity = 0;
@@ -164,8 +166,8 @@ namespace LongBar
                     {
                         item.MouseDoubleClick += new MouseButtonEventHandler(item_MouseDoubleClick);
                         DownTilesPanel.Children.Add(item);
-                        DownTilesCaption.Text = String.Format("Downloadable Tiles ({0})", DownTilesPanel.Children.Count);
-                        ItemsCount.Text = String.Format("Elements: {0}", DownTilesPanel.Children.Count);
+                        DownTilesCaption.Text = String.Format((string)Application.Current.TryFindResource("DownloadableTiles"), DownTilesPanel.Children.Count);
+                        ItemsCount.Text = String.Format((string)Application.Current.TryFindResource("ElementsCount"), DownTilesPanel.Children.Count);
                     }
 
                     if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("name"))
@@ -211,7 +213,7 @@ namespace LongBar
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
                 WebClient client = new WebClient();
-                client.DownloadFile("https://sourceforge.net/projects/longbar/files/Library/Data/Tiles.list/download", LongBarMain.sett.path + @"\Cache\Tiles.list");
+                client.DownloadFile("http://space.dl.sourceforge.net/project/longbar/Library/Data/Tiles.list", LongBarMain.sett.path + @"\Cache\Tiles.list");
                 GetTiles();
             }
         }
@@ -275,14 +277,14 @@ namespace LongBar
                 SearchField.Opacity = 0.7;
                 if (String.IsNullOrEmpty(SearchField.Text))
                 {
-                    SearchField.Text = "Search tile...";
+                    SearchField.Text = (string)Application.Current.TryFindResource("SearchTile");
                     SearchField.FontStyle = FontStyles.Italic;
                     SearchField.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF696969"));
                 }
             }
             else
             {
-                if (SearchField.Text == "Search tile...")
+                if (SearchField.Text == (string)Application.Current.TryFindResource("SearchTile"))
                 {
                     SearchField.Text = "";
                     SearchField.FontStyle = FontStyles.Normal;
@@ -295,7 +297,7 @@ namespace LongBar
 
         private void SearchField_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (SearchField.Text != "Search tile..." && !String.IsNullOrEmpty(SearchField.Text))
+            if (SearchField.Text != (string)Application.Current.TryFindResource("SearchTile") && !String.IsNullOrEmpty(SearchField.Text))
             {
                 SearchTilesPanel.Children.Clear();
                 SearchTiles.Visibility = Visibility.Visible;
@@ -314,7 +316,7 @@ namespace LongBar
                         SearchTilesPanel.Children.Add(newItem);
                     }
                 }
-                SearchTilesCaption.Text = "Found: " + SearchTilesPanel.Children.Count.ToString();
+                SearchTilesCaption.Text = (string)Application.Current.TryFindResource("TilesFound") + " " + SearchTilesPanel.Children.Count.ToString();
             }
             else if (DownTiles != null && DownTiles.Visibility == Visibility.Collapsed)
             {
@@ -347,12 +349,12 @@ namespace LongBar
         {
             DownloadButton = new ToolButton();
             DownloadButton.Visibility = Visibility.Collapsed;
-            DownloadButton.Text = "Download tile";
+            DownloadButton.Text = (string)Application.Current.TryFindResource("DownloadTileButton");
             DownloadButton.MouseLeftButtonUp += new MouseButtonEventHandler(DownloadButton_MouseLeftButtonUp);
             ToolBar.Children.Add(DownloadButton);
 
             DownTilesPanelScrollViewer.Height = BottomBorderRect.TransformToAncestor(MainPanel).Transform(new Point(0, 0)).Y - 64;
-            DownTilesCaption.Text = "Getting list of available tiles...";
+            DownTilesCaption.Text = (string)Application.Current.TryFindResource("GettingTilesList");
         }
 
         private void DoubleAnimation_Completed_1(object sender, EventArgs e)

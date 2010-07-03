@@ -111,3 +111,5 @@ D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\LongBar.g.resources
 D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\LongBar.Properties.Resources.resources
 D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\GenerateResource-ResGen.read.1.tlog
 D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\GenerateResource-ResGen.write.1.tlog
+D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\RainFall\RainDrop.baml
+D:\Projects\C#\LongBar Slate\LongBar 2.1\LongBar\obj\Debug\RainFall\RainDrop.g.cs

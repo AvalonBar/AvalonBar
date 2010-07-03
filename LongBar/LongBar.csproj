@@ -207,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
+    <Page Include="RainFall\RainDrop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shadow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -285,6 +289,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RainFall\RainDrop.xaml.cs">
+      <DependentUpon>RainDrop.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shadow.xaml.cs">
       <DependentUpon>Shadow.xaml</DependentUpon>
@@ -375,6 +382,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\DownloadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snow1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snow2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snow3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snow4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\snow5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rain1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rain2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rain3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Close_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Close_button_g.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
