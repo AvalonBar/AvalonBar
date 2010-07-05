@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace LongBar
 {
@@ -146,7 +147,7 @@ namespace LongBar
             if (Directory.Exists(LongBarMain.sett.path + @"\Cache") && File.Exists(file))
             {
                 FileInfo f = new FileInfo(LongBarMain.sett.path + @"\Cache\Tiles.list");
-                if (Math.Abs(DateTime.Now.Day - f.CreationTime.Day) > 3)
+                if (Math.Abs(DateTime.Now.Day - f.LastAccessTime.Day) > 3)
                 {
                     f.Delete();
                     GetTiles();

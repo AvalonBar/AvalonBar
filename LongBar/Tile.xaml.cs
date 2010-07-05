@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using Applications.Sidebar;
 using System.Threading;
+using System.IO;
 
 namespace LongBar
 {
@@ -49,42 +50,13 @@ namespace LongBar
     {
       InitializeComponent();
       if (System.IO.File.Exists(file))
-        this.File = file;
-
-      tileAssembly = Assembly.LoadFrom(this.File);
-      tileModelType = GetTileModelType(tileAssembly);
-      switch ((ModelType)tileModelType)
       {
-        case ModelType.LongBar:
-          foreach (Type type in tileAssembly.GetTypes())
-            if (type.BaseType == typeof(TileLib.BaseTile))
-              TileType = type;
-          foreach (Attribute attr in tileAssembly.GetCustomAttributes(false))
-            if (attr.GetType() == typeof(TileLib.TileInfo))
-            {
-              Info = (TileLib.TileInfo)attr;
-              this.TitleTextBlock.Text = Info.Name;
-            }
-          break;
-          
-        case ModelType.KarlsSidebar:
-          foreach (Type type in tileAssembly.GetTypes())
-            if (type.BaseType != null && type.BaseType.ToString() == "Applications.Sidebar.BaseTile")
-              TileType = type;
-          foreach(Attribute attr in tileAssembly.GetCustomAttributes(false))
-            if (attr.GetType().ToString() == "Applications.Sidebar.SidebarTileInfo")
-            {
-              Info = new TileLib.TileInfo(((SidebarTileInfo)attr).Title, false,false);
-              this.TitleTextBlock.Text = Info.Name;
-              if (System.IO.File.Exists(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"))
-                this.TitleIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"));
-            }
-          break;          
+          this.File = file;
+          this.Info = new TileLib.TileInfo("", false, false);
+          this.Info.Name = file.Substring(file.LastIndexOf(@"\") + 1, file.Length - file.LastIndexOf(@"\") - 5);
       }
-      this.Unloaded += new RoutedEventHandler(Tile_Unloaded);
-      this.SizeChanged += new SizeChangedEventHandler(Tile_SizeChanged);
-      if (Info == null)
-          hasErrors = true;
+
+      
     }
 
     private ModelType GetTileModelType(Assembly assembly)
@@ -123,10 +95,50 @@ namespace LongBar
       }
       return ModelType.LongBar;
     }
+
     FrameworkElement control = null;
     public void Load(Slate.General.Sidebar.Side side, double height)
     {
       this.side = side;
+
+        ////////////////////////////////////
+        if (!System.IO.File.Exists(this.File))
+            return;
+      tileAssembly = Assembly.LoadFrom(this.File);
+      tileModelType = GetTileModelType(tileAssembly);
+      switch ((ModelType)tileModelType)
+      {
+          case ModelType.LongBar:
+              foreach (Type type in tileAssembly.GetTypes())
+                  if (type.BaseType == typeof(TileLib.BaseTile))
+                      TileType = type;
+              foreach (Attribute attr in tileAssembly.GetCustomAttributes(false))
+                  if (attr.GetType() == typeof(TileLib.TileInfo))
+                  {
+                      Info = (TileLib.TileInfo)attr;
+                      this.TitleTextBlock.Text = Info.Name;
+                  }
+              break;
+
+          case ModelType.KarlsSidebar:
+              foreach (Type type in tileAssembly.GetTypes())
+                  if (type.BaseType != null && type.BaseType.ToString() == "Applications.Sidebar.BaseTile")
+                      TileType = type;
+              foreach (Attribute attr in tileAssembly.GetCustomAttributes(false))
+                  if (attr.GetType().ToString() == "Applications.Sidebar.SidebarTileInfo")
+                  {
+                      Info = new TileLib.TileInfo(((SidebarTileInfo)attr).Title, false, false);
+                      this.TitleTextBlock.Text = Info.Name;
+                      if (System.IO.File.Exists(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"))
+                          this.TitleIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"));
+                  }
+              break;
+      }
+      this.Unloaded += new RoutedEventHandler(Tile_Unloaded);
+      this.SizeChanged += new SizeChangedEventHandler(Tile_SizeChanged);
+      if (Info == null)
+          hasErrors = true;
+        ////////////////////////////
 
       try
       {

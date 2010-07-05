@@ -11,7 +11,7 @@ namespace TileLib
 {
   public class TileInfo : Attribute
   {
-    public readonly string Name;
+    public string Name;
     public readonly bool hasflyout;
     public readonly bool hasOptions;
 
