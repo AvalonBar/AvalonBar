@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+	<ReportingService>
+		<!-- Github Repo Issue Link -->
+		<GitIssueLink>https://github.com/FranklinDM/HornSide/issues</GitIssueLink>
+	</ReportingService>
+	<ProjectMisc>
+		<!-- Contains miscellaneous stuff related to the project -->
+		<ProjectLink>https://franklindm.github.io/HornSide</ProjectLink>
+	</ProjectMisc>
+	<Program>
+		<AllowAutomaticRestart>true</AllowAutomaticRestart>
+	</Program>
+</Settings>

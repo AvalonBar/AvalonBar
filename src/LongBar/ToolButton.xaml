@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="LongBar.ToolButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="28" MouseLeftButtonDown="UserControl_MouseLeftButtonDown" MouseLeftButtonUp="UserControl_MouseLeftButtonUp">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="Pressed" StartPoint="1,0" EndPoint="1,1">
+            <GradientStop Color="#FFC9D4E4" Offset="0.0" />
+            <GradientStop Color="#FFD8E4F1" Offset="0.5" />
+            <GradientStop Color="#FFCFDCED" Offset="1" />
+            <GradientStop Color="#FFCFDBEC" Offset="0.5"/>
+            <GradientStop Color="#FFD0DBFF" Offset="0.05"/>
+            <GradientStop Color="#FFE1EBF5" Offset="0.11"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Over" StartPoint="1,0" EndPoint="1,1">
+            <GradientStop Color="#FFFDFEFF" Offset="0.0" />
+            <GradientStop Color="#FFEDF2FA" Offset="0.5" />
+            <GradientStop Color="#FFC1D2E8" Offset="1" />
+            <GradientStop Color="#FFD7E4F4" Offset="0.5"/>
+        </LinearGradientBrush>
+        <DoubleAnimation x:Key="ShowAnim1" Storyboard.TargetName="Transform" Storyboard.TargetProperty="Y" From="-28" To="0" DecelerationRatio="0.3" Duration="0:0:0.2"/>
+    </UserControl.Resources>
+    <UserControl.RenderTransform>
+        <TranslateTransform x:Name="Transfrom"/>
+    </UserControl.RenderTransform>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.MouseEnter">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BgGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UserControl.MouseLeave">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="BgGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <Grid>
+        <Grid Name="BgGrid" Opacity="0">
+            <Rectangle Name="Rect1" RadiusX="3" RadiusY="3" Stroke="#FFBBCADB"/>
+            <Rectangle Name="Rect2" RadiusX="3" RadiusY="3" Stroke="#FFFFFFFF" Margin="1" Fill="{StaticResource Over}"/>
+        </Grid>
+        <TextBlock Name="Caption" Margin="10,4,10,4" Text="ToolButton1" TextAlignment="Center" Foreground="Black" VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,19 @@
+﻿<Window x:Class="LongBar.Shadow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Shadow" Width="10" ResizeMode="NoResize" WindowStyle="None" 
+        Background="Transparent" ShowInTaskbar="False" AllowsTransparency="True"
+		AllowDrop="True" Focusable="False">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="ShadowRect" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Rectangle Name="ShadowRect" Opacity="0" Style="{DynamicResource Shadow}"/>
+    </Grid>
+</Window>
