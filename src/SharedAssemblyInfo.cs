@@ -6,10 +6,9 @@ using System.Runtime.InteropServices;
 // and branch information easily without going into every AssemblyInfo
 // file with every version/milestone change.
 
-[assembly: AssemblyCompany("The HornSide Project")]
+[assembly: AssemblyCompany("The AvalonBar Project")]
 [assembly: AssemblyProduct(GitInfo.BranchProdName)]
-[assembly: AssemblyCopyright("Portions © The HornSide Project 2016. Portions © LongBar Project Group 2010.")]
-[assembly: AssemblyTrademark("No trademarks are registered.")]
+[assembly: AssemblyCopyright("Portions © The AvalonBar Project 2016. Portions © LongBar Project Group 2010.")]
 [assembly: AssemblyVersion(AssemblyInfo.SharedVersion)]
 
 #region Assembly-level protected information classes
@@ -24,23 +23,10 @@ internal static class AssemblyInfo
 
 internal static class GitInfo
 {
-	public const string Repository = "HornSide";
-	public const string Milestone = "Athens";
-	public const string Branch = "unstable";
+	public const string Repository = "AvalonBar";
+	public const string Milestone = "M1";
+	public const string Branch = "devmilestone";
 	public const string BranchProdName = Repository + " " + Milestone;
 	public const string BranchProdStatus = "Alpha";
-	public static bool UsingMailFeedback = false;
-}
-#endregion
-
-#region Publicly accessible information about the assembly
-public static class LBAssemblyInfo
-{
-	public static string Version = AssemblyInfo.SharedVersion;
-	public static string MajorMinorVersion = AssemblyInfo.SharedIV;
-	public static string GitBranch = GitInfo.Repository;
-	public static string GitBranchProdName = GitInfo.BranchProdName;
-	public static string Milestone = GitInfo.Milestone;
-	public static string GitBranchProdStatus = GitInfo.BranchProdStatus;
 }
 #endregion

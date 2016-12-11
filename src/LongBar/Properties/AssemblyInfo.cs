@@ -7,8 +7,8 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HornSide")]
-[assembly: AssemblyDescription("The main HornSide frontend, shows the sidebar and options to configure it.")]
+[assembly: AssemblyTitle("AvalonBar")]
+[assembly: AssemblyDescription("The AvalonBar executable, shows the sidebar and options to configure it.")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

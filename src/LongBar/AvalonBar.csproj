@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LongBar</RootNamespace>
-    <AssemblyName>HornSide</AssemblyName>
+    <AssemblyName>AvalonBar</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -123,7 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <None Include="HornSideLogo.ico" />
+    <None Include="ABLogo.ico" />
     <None Include="Localization\English.locale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
