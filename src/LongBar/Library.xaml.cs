@@ -103,11 +103,6 @@ namespace LongBar
             this.longbar = longbar;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         void DownloadButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (SelectedIndex > -1)
@@ -119,6 +114,7 @@ namespace LongBar
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
+        	// TODO: Localize stuff below [4]
             if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
             DownloadingStatusTextBlock.Text = "Connecting...";
@@ -135,52 +131,30 @@ namespace LongBar
             dowloader = new WebClient();
             dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
             dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
-
+			// TODO: Localize stuff below [3]
             DownloadingStatusTextBlock.Text = "Downloading...";
 
             dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
-
-
-            /*if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile"))
-            {
-                string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).GeTileLink();
-
-                dowloader = new WebClient();
-                dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
-                dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
-
-                dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
-            }
-            else
-            {
-                FileInfo f = new FileInfo(LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-                if (Math.Abs(DateTime.Now.Day - f.CreationTime.Day) > 3)
-                {
-                    f.Delete();
-                    DoubleAnimation_Completed(sender, e);
-                }
-                else
-                {
-                    TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-                    LoadingGrid.Visibility = Visibility.Collapsed;
-                    LoadingGrid.Opacity = 0;
-                }
-
-            }*/
         }
 
         void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ProgressBar.Value = e.ProgressPercentage;
             DownloadingProgressTextBlock.Text = string.Format("{0} Kb from {1} Kb", Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
-
         }
 
         void dowloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            if (e.Error == null && !e.Cancelled)
-                TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
-
+        	// TODO: Localize stuff below [2]
+        	if (e.Error == null && !e.Cancelled) {
+                TaskDialogs.TileInstallDialog.ShowDialog(longbar, 
+            	                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, 
+            	                                         LongBarMain.sett.path + @"\Cache\" + 
+            	                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + 
+            	                                         ".tile");
+        	} else if (!e.Cancelled) {
+                MessageBox.Show("Downloading tile failed. \nError: \n" + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        	}
             LoadingGrid.Visibility = Visibility.Collapsed;
             LoadingGrid.Opacity = 0;
         }

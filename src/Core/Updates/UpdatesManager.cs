@@ -11,11 +11,11 @@ namespace Slate.Updates
 {
     public class UpdatesManager
     {
+    	//TODO: Update the Update System
         public struct UpdateInfo
         {
             public string Build;
             public string Description;
-            //public string Link;
         }
 
         public static UpdateInfo CheckForUpdates(int build)
@@ -24,49 +24,16 @@ namespace Slate.Updates
 
             try
             {
-                WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Updates%202.0/Update.info");
-                WebResponse response = request.GetResponse();
-
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-                string line = "";
-
-                while (!reader.EndOfStream)
+                WebClient client = new WebClient();
+                string[] updateInfo = client.DownloadString("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download").Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                if (Convert.ToInt32(updateInfo[0]) > build)
                 {
-                    line = reader.ReadLine();
-
-                    if (line.Contains(@"Update.info\x3fdownload\x26psid\x3d1', downloadUrl:"))
+                    result.Build = updateInfo[0];
+                    for (int i = 1; i < updateInfo.Length; i++)
                     {
-                        reader.Close();
-                        response.Close();
-
-                        line = line.Substring(line.IndexOf(@"Update.info\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Update.info\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Update.info\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Update.info\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-                        while (line.Contains(@"\x3a"))
-                            line = line.Replace(@"\x3a", ":");
-                        while (line.Contains(@"\x2f"))
-                            line = line.Replace(@"\x2f", "/");
-                        while (line.Contains(@"\x3f"))
-                            line = line.Replace(@"\x3f", "?");
-                        while (line.Contains(@"\x26"))
-                            line = line.Replace(@"\x26", "&");
-                        while (line.Contains(@"\x3d"))
-                            line = line.Replace(@"\x3d", "=");
-                        line = line.Substring(0, line.Length - 16);
-                        WebClient client = new WebClient();
-                        string[] updateInfo = client.DownloadString(line).Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                        if (Convert.ToInt32(updateInfo[0]) > build)
-                        {
-                            result.Build = updateInfo[0];
-                            //result.Link = updateInfo[1];
-                            for (int i = 1; i < updateInfo.Length; i++)
-                            {
-                                result.Description += updateInfo[i] + "\n\r";
-                            }
-                        }
-                        break;
+                        result.Description += updateInfo[i] + "\n\r";
                     }
                 }
-                reader.Close();
-                response.Close();
             }
             catch { }
             return result;

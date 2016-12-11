@@ -7,7 +7,6 @@
 	WindowStartupLocation="CenterScreen"
 	Background="White"
 	ShowActivated="True"
-	Loaded="Window_Loaded"
 	SizeChanged="Window_SizeChanged"
 	ContentRendered="Window_ContentRendered">
 	<Grid>
@@ -90,7 +89,7 @@
 									TextChanged="SearchField_TextChanged" />
 								<Image
 									x:Name="SearchIcon"
-									Source="/HornSide;component/Resources/SearchIcon.png"
+									Source="/AvalonBar;component/Resources/SearchIcon.png"
 									Margin="0,0,5,0"
 									HorizontalAlignment="Right"
 									Width="15"
@@ -149,7 +148,7 @@
 											<GeometryModel3D.Material>
 												<DiffuseMaterial>
 													<DiffuseMaterial.Brush>
-														<ImageBrush ImageSource="/HornSide;component/Resources/HornSideLogo.png" Stretch="Uniform" x:Name="CurrentItemIconMS3"/>
+														<ImageBrush ImageSource="/AvalonBar;component/Resources/HornSideLogo.png" Stretch="Uniform" x:Name="CurrentItemIconMS3"/>
 													</DiffuseMaterial.Brush>
 												</DiffuseMaterial>
 											</GeometryModel3D.Material>
