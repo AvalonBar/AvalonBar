@@ -32,6 +32,7 @@ namespace Slate.Data
 				throw new Exception(string.Format("Requested block/key could not be found: {0}/{1}", block, key));
 			}
 			documentElement[block][key].InnerText = innertext;
+			xdoc.Save(SettingsLoc);
 		}
 		public static string ReadXML(string block, string key, XmlDocument xdoc)
 		{
@@ -63,8 +64,9 @@ namespace Slate.Data
 				throw new Exception(string.Format("Requested block/key could not be found: {0}/{1}", block, key));
 			}
 			documentElement[block][key].InnerText = innertext;
+			xdoc.Save(filename);
 		}
-		public static void WriteXML(string block, string key, XmlDocument xdoc, string innertext)
+		public static void WriteXML(string block, string key, XmlDocument xdoc, string innertext, string filelocname)
 		{
 			XmlNode documentElement = xdoc.DocumentElement;
 			if (documentElement[block] == null || documentElement[block][key] == null)
@@ -72,6 +74,7 @@ namespace Slate.Data
 				throw new Exception(string.Format("Requested block/key could not be found: {0}/{1}", block, key));
 			}
 			documentElement[block][key].InnerText = innertext;
+			xdoc.Save(filelocname);
 		}
 	}
 }

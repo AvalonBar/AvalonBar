@@ -289,7 +289,7 @@ namespace LongBar
 
     private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        Process.Start(Slate.Data.XMLReader.ReadSettings("ProjectMisc", "ProjectLink"));
+        Process.Start(Slate.Data.XMLReader.ReadSettings("Links", "ProjectURL"));
     }
 
     private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -306,6 +306,7 @@ namespace LongBar
 
     private void UnAllTilesButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
+    	//TODO: Localize stuff below [1]
     	switch (MessageBox.Show("Are you sure you want to uninstall all tiles?", "HornSide", MessageBoxButton.YesNo, MessageBoxImage.Question))
     	{
     		case MessageBoxResult.Yes:
@@ -320,7 +321,7 @@ namespace LongBar
 
     private void ReportString_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-		Process.Start(Slate.Data.XMLReader.ReadSettings("ReportingService", "GitIssueLink"));
+		Process.Start(Slate.Data.XMLReader.ReadSettings("Links", "BugTrackerURL"));
 	}
   }
 }

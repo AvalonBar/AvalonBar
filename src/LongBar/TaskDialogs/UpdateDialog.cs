@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Net;
-using System.Diagnostics;
-using System.Windows;
 using System.IO;
+using System.Windows;
+using System.Runtime.InteropServices;
 using System.Reflection;
 
 namespace LongBar.TaskDialogs
 {
     public class UpdateDialog
     {
+    	//TODO: Update the Update System
         private static TaskDialog td;
         private static TaskDialog tdDownload;
 
@@ -24,13 +26,14 @@ namespace LongBar.TaskDialogs
                 td.Cancelable = true;
                 td.Icon = TaskDialogStandardIcon.None;
 
-                td.Caption = string.Format("LongBar {0} update", AssemblyInfo.SharedIV);
-                td.Text = "To see what's new in this version, click Show more info";
+                td.Caption = string.Format((string)Application.Current.TryFindResource("UpdateDlgAlertCaption"), Application.Current.TryFindResource("ApplicationName"));
+                td.Text = (string)Application.Current.TryFindResource("UpdateDlgWhatsNew");
                 td.InstructionText = string.Format("There is build {0} available. Do you want to update?", build);
                 td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
                 td.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
-                td.DetailsExpandedLabel = "Show more info";
+                td.DetailsExpandedLabel = (string)Application.Current.TryFindResource("ShowDetails");
+                td.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("HideDetails");
                 td.DetailsExpandedText = description;
 
                 TaskDialogCommandLink updateButton = new TaskDialogCommandLink("updateButton", "Update", "After updating LongBar will be restarted.");
@@ -46,7 +49,7 @@ namespace LongBar.TaskDialogs
             }
             else
             {
-            	MessageBox.Show(string.Format((string)Application.Current.TryFindResource("LegacyUpdateCaption"), GitInfo.Repository, build, Slate.Data.XMLReader.ReadSettings("ProjectMisc", "ProjectLink")));
+            	MessageBox.Show(string.Format((string)Application.Current.TryFindResource("LegacyUpdateCaption"), GitInfo.Repository, build, Slate.Data.XMLReader.ReadSettings("Links", "ProjectURL")));
             }
         }
 
@@ -71,7 +74,7 @@ namespace LongBar.TaskDialogs
             progressBar.Maximum = 100;
 
             tdDownload.Controls.Add(progressBar);
-            tdDownload.Closing += (tdDownload_Closing);
+            tdDownload.Closing += new EventHandler<TaskDialogClosingEventArgs>(tdDownload_Closing);
 
             if (!Directory.Exists(LongBarMain.sett.path + "\\Updates"))
                 Directory.CreateDirectory(LongBarMain.sett.path + "\\Updates");
@@ -79,7 +82,7 @@ namespace LongBar.TaskDialogs
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
-            client.DownloadFileAsync(new Uri(GetDirectLink()), LongBarMain.sett.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.data/download"), LongBarMain.sett.path + "\\Updates\\Update");
 
             tdDownload.Show();
         }
@@ -99,8 +102,7 @@ namespace LongBar.TaskDialogs
                 {
                     App.Current.Shutdown();
                 }, null);
-                
-                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\HornSide.exe");
+                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\AvalonBar.exe");
                 tdDownload.Close();
             }
         }
@@ -108,46 +110,6 @@ namespace LongBar.TaskDialogs
         static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ((TaskDialogProgressBar)tdDownload.Controls["progressBar"]).Value = e.ProgressPercentage;
-        }
-
-        private static string GetDirectLink()
-        {
-            WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Updates%202.0/Update.data");
-            WebResponse response = request.GetResponse();
-
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            string line = "";
-            string result = "";
-
-            while (!reader.EndOfStream)
-            {
-                line = reader.ReadLine();
-
-                if (line.Contains(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:"))
-                {
-                    reader.Close();
-                    response.Close();
-
-                    line = line.Substring(line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Update.data\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-                    while (line.Contains(@"\x3a"))
-                        line = line.Replace(@"\x3a", ":");
-                    while (line.Contains(@"\x2f"))
-                        line = line.Replace(@"\x2f", "/");
-                    while (line.Contains(@"\x3f"))
-                        line = line.Replace(@"\x3f", "?");
-                    while (line.Contains(@"\x26"))
-                        line = line.Replace(@"\x26", "&");
-                    while (line.Contains(@"\x3d"))
-                        line = line.Replace(@"\x3d", "=");
-                    line = line.Substring(0, line.Length - 16);
-                    result = line;
-                    break;
-                }
-            }
-            reader.Close();
-            response.Close();
-
-            return result;
         }
     }
 }

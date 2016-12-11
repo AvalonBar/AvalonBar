@@ -1,14 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings>
-	<ReportingService>
-		<!-- Github Repo Issue Link -->
-		<GitIssueLink>https://github.com/FranklinDM/HornSide/issues</GitIssueLink>
-	</ReportingService>
-	<ProjectMisc>
-		<!-- Contains miscellaneous stuff related to the project -->
-		<ProjectLink>https://franklindm.github.io/HornSide</ProjectLink>
-	</ProjectMisc>
-	<Program>
+	<Links>
+		<ProjectURL>https://franklindm.github.io/AvalonBar</ProjectURL>
+		<ThemesURL>https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md</ThemesURL>
+		<LocalesURL>https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md</LocalesURL>
+		<BugTrackerURL>https://github.com/FranklinDM/AvalonBar/issues</BugTrackerURL>
+	</Links>
+	<Experimental>
 		<AllowAutomaticRestart>true</AllowAutomaticRestart>
+	</Experimental>
+	<Program>
+		<AutoStart>false</AutoStart>
+		<Side>2</Side>
+		<Theme>Slate</Theme>
+		<Language>English</Language>
+		<Width>150</Width>
+		<TopMost>true</TopMost>
+		<EnableGlass>true</EnableGlass>
+		<EnableShadow>true</EnableShadow>
+		<Locked>true</Locked>
+		<OverlapTaskbar>true</OverlapTaskbar>
+		<ShowErrors>true</ShowErrors>
+		<Screen>Primary</Screen>
+		<Path>\</Path>
+		<EnableUpdates>true</EnableUpdates>
+		<Tiles>User.dll;Volume.dll;</Tiles>
+		<Heights>157;42.3235058823529;</Heights>
+		<PinnedTiles>Clock.dll;DigitalClock.dll;Tray.dll;</PinnedTiles>
+		<EnableSnowFall>true</EnableSnowFall>
 	</Program>
 </Settings>

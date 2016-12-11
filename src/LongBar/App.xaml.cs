@@ -71,7 +71,7 @@ namespace LongBar
       		// system is Vista or higher. Code below isn't tested yet in Windows 8 or higher.
       		// If it is proven incompatible, please post this as an issue in the tracker
       		// in the Github repo.
-      		if (Slate.Data.XMLReader.ReadXML("Program", "AllowAutomaticRestart", Slate.Data.XMLReader.SettingsLoc) == "true" && Environment.OSVersion.Version.Major >= 6) {
+      		if (Slate.Data.XMLReader.ReadXML("Experimental", "AllowAutomaticRestart", Slate.Data.XMLReader.SettingsLoc) == "true" && Environment.OSVersion.Version.Major >= 6) {
       			// Code below is based on the sample found in the WinApiCodePack.
       		    // Register for automatic restart if the application was terminated for any reason
             	// other than a system reboot or a system update.

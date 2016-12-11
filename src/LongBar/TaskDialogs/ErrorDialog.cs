@@ -81,7 +81,7 @@ namespace LongBar.TaskDialogs
                 "\nException:\n" + ex;
             
             Clipboard.SetText(msg);
-            Process.Start(XMLReader.ReadSettings("ReportingService", "GitIssueLink"));
+            Process.Start(XMLReader.ReadSettings("Links", "BugTrackerURL"));
         }
     }
 }
