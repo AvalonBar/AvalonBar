@@ -27,6 +27,6 @@
 		<Tiles>User.dll;Volume.dll;</Tiles>
 		<Heights>157;42.3235058823529;</Heights>
 		<PinnedTiles>Clock.dll;DigitalClock.dll;Tray.dll;</PinnedTiles>
-		<EnableSnowFall>true</EnableSnowFall>
+		<EnableSnowFall>false</EnableSnowFall>
 	</Program>
 </Settings>

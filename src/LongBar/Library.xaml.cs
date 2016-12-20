@@ -81,7 +81,7 @@ namespace LongBar
                     WrapPanel1.Visibility = Visibility.Collapsed;
                     WrapPanel2.Visibility = Visibility.Collapsed;
 
-                    CurrentItemIconMS3.ImageSource = new BitmapImage(new Uri("/LongBar;component/Resources/Library_icon.png", UriKind.Relative));
+                    CurrentItemIconMS3.ImageSource = new BitmapImage(new Uri("/AvalonBar;component/Resources/Library_icon.png", UriKind.Relative));
                     DownloadButton.Visibility = Visibility.Collapsed;
                 }
 

@@ -21,124 +21,127 @@ using System.Threading;
 
 namespace LongBar
 {
-  /// <summary>
-  /// Interaction logic for LongBar.xaml
-  /// </summary>
-  public partial class LongBarMain : Window
-  {
-      [DllImport("user32.dll")]
-      public static extern IntPtr SendMessageW(IntPtr hWnd, UInt32 msg, UInt32 wParam, IntPtr lParam);
-      [DllImport("user32.dll")]
-      private static extern int FindWindowW(string className, string windowName);
+	/// <summary>
+	/// Interaction logic for LongBar.xaml
+	/// </summary>
+	public partial class LongBarMain : Window
+	{
+		[DllImport("user32.dll")]
+		public static extern IntPtr SendMessageW(IntPtr hWnd, UInt32 msg, UInt32 wParam, IntPtr lParam);
+		[DllImport("user32.dll")]
+		private static extern int FindWindowW(string className, string windowName);
+		[DllImport("gdi32.dll")]
+		static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+		
+		public IntPtr Handle;
+		static internal Settings sett;
+		private Options options;
+		private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		//public static string userPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
+		public static List<Tile> Tiles = new List<Tile>();
 
-    [DllImport("gdi32.dll")]
-    static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect,
-       int nBottomRect);
+		public Shadow shadow = new Shadow();
+		private Library library;
 
-    public IntPtr Handle;
-    static internal Settings sett;
-    private Options options;
-    private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    //public static string userPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
-    public static List<Tile> Tiles = new List<Tile>();
+		internal struct Settings
+		{
+			public bool startup;
+			public Slate.General.Sidebar.Side side;
+			public string theme;
+			public string locale;
+			public int width;
+			public bool topMost;
+			public bool enableGlass;
+			public bool enableShadow;
+			public bool locked;
+			public string[] tiles;
+			public string[] heights;
+			public string[] pinnedTiles;
+			public bool showErrors;
+			public bool overlapTaskbar;
+			public string screen;
+			public string path;
+			public bool enableSnowFall;
+			public bool enableUpdates;
+			public bool debug;
+			public string tileToDebug;
+		}
 
-    public Shadow shadow = new Shadow();
-    private Library library;
+		public LongBarMain()
+		{
+			InitializeComponent();
+			options = new Options(this);
+			this.Closed += new EventHandler(LongBar_Closed);
+			this.SourceInitialized += new EventHandler(LongBar_SourceInitialized);
+			this.ContentRendered += new EventHandler(LongBar_ContentRendered);
+			this.MouseMove += new MouseEventHandler(LongBar_MouseMove);
+			this.MouseDoubleClick += new MouseButtonEventHandler(LongBar_MouseDoubleClick);
+			this.DragEnter += new DragEventHandler(LongBar_DragEnter);
+			this.Drop += new DragEventHandler(LongBar_Drop);
+		}
 
-    internal struct Settings
-    {
-      public bool startup;
-      public Slate.General.Sidebar.Side side;
-      public string theme;
-      public string locale;
-      public int width;
-      public bool topMost;
-      public bool enableGlass;
-      public bool enableShadow;
-      public bool locked;
-      public string[] tiles;
-      public string[] heights;
-      public string[] pinnedTiles;
-      public bool showErrors;
-      public bool overlapTaskbar;
-      public string screen;
-      public string path;
-      public bool enableSnowFall;
-      public bool enableUpdates;
-      public bool debug;
-      public string tileToDebug;
-    }
+		private void LongBar_Closed(object sender, EventArgs e)
+		{
+			shadow.Close();
 
-    public LongBarMain()
-    {
-      InitializeComponent();
-      options = new Options(this);
-      this.Closed += new EventHandler(LongBar_Closed);
-      this.SourceInitialized += new EventHandler(LongBar_SourceInitialized);
-      this.ContentRendered += new EventHandler(LongBar_ContentRendered);
-      this.MouseMove += new MouseEventHandler(LongBar_MouseMove);
-      this.MouseDoubleClick += new MouseButtonEventHandler(LongBar_MouseDoubleClick);
-      this.DragEnter += new DragEventHandler(LongBar_DragEnter);
-      this.Drop += new DragEventHandler(LongBar_Drop);
-    }
+			if (Slate.General.Sidebar.Overlapped && sett.side == Slate.General.Sidebar.Side.Right)
+			{
+				Slate.General.Sidebar.UnOverlapTaskbar();
+			}
+			Slate.General.SystemTray.RemoveIcon();
+			Slate.General.Sidebar.AppbarRemove();
 
-    private void LongBar_Closed(object sender, EventArgs e)
-    {
-        shadow.Close();
+			WriteSettings();
 
-        if (Slate.General.Sidebar.Overlapped && sett.side == Slate.General.Sidebar.Side.Right)
-            Slate.General.Sidebar.UnOverlapTaskbar();
-      Slate.General.SystemTray.RemoveIcon();
-      Slate.General.Sidebar.AppbarRemove();
-      WriteSettings();
+			RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
+			foreach (Tile tile in TilesGrid.Children)
+			{
+			    tile.RaiseEvent(args);
+			}
+			TilesGrid.Children.Clear();
+		}
 
-      RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
-      foreach (Tile tile in TilesGrid.Children)
-          tile.RaiseEvent(args);
-      TilesGrid.Children.Clear();
-    }
+		private void LongBar_SourceInitialized(object sender, EventArgs e)
+		{
+			Handle = new WindowInteropHelper(this).Handle;
+			ReadSettings();
+			Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, sett.theme);
+			object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
+			if (enableGlass != null && !Convert.ToBoolean(enableGlass))
+			    sett.enableGlass = false;
+			object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
 
-    private void LongBar_SourceInitialized(object sender, EventArgs e)
-    {
-        Handle = new WindowInteropHelper(this).Handle;
-        ReadSettings();
-        Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, sett.theme);
-        object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
-        if (enableGlass != null && !Convert.ToBoolean(enableGlass))
-            sett.enableGlass = false;
-        object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+			if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
+			{
+			    int color;
+			    bool opaque;
+			    Slate.DWM.DwmManager.DwmGetColorizationColor(out color, out opaque);
+			    Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
+			    Slate.General.Sidebar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+			}
 
-        if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
-        {
-            int color;
-            bool opaque;
-            Slate.DWM.DwmManager.DwmGetColorizationColor(out color, out opaque);
-            Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            Slate.General.Sidebar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
-        }
+			Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, sett.locale);
 
-        Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, sett.locale);
+			this.Width = sett.width;
+			Slate.General.SystemTray.AddIcon(this);
+			this.WindowStyle = WindowStyle.ToolWindow;
+			Slate.General.Sidebar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
+			SetSide(sett.side);
+			this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
+			this.MinWidth = 31;
+			if (Environment.OSVersion.Version.Major == 6)
+			{
+			    Slate.DWM.DwmManager.RemoveFromFlip3D(Handle);
+			    if (Environment.OSVersion.Version.Minor == 1)
+			    {
+						Slate.DWM.DwmManager.RemoveFromAeroPeek(Handle);
+			    }
+			}
 
-        this.Width = sett.width;
-        Slate.General.SystemTray.AddIcon(this);
-        this.WindowStyle = WindowStyle.ToolWindow;
-        Slate.General.Sidebar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
-        SetSide(sett.side);
-        this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
-        this.MinWidth = 31;
-        if (Environment.OSVersion.Version.Major == 6)
-        {
-            Slate.DWM.DwmManager.RemoveFromFlip3D(Handle);
-            if (Environment.OSVersion.Version.Minor == 1)
-            {
-                Slate.DWM.DwmManager.RemoveFromAeroPeek(Handle);
-            }
-        }
+			Slate.General.SystemTray.SidebarvisibleChanged += new Slate.General.SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
 
-        Slate.General.SystemTray.SidebarvisibleChanged += new Slate.General.SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
-
-        GetTiles();
-    }
+			GetTiles();
+		}
 
     void SystemTray_SidebarvisibleChanged(bool value)
     {
