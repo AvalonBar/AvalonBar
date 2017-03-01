@@ -1,6 +1,12 @@
-# HornSide Changelog
+# AvalonBar Changelog
 
 ## Current Branch
+### Changes in v1.0
+* Major
+	* Application version has been reset to v1.0.0.0 (will now follow semantic versioning)
+	* Incorporate changes from old HS repository
+
+## Old Branch
 ### Changes in Milestone Athens RC2 (v2.2.****.*****)
 * Fixes
 	* Issue #9 has been solved.
@@ -16,7 +22,7 @@
 	* Removed the "Restart" button from the error dialog
 	* Removed some commented sections in the code
 	* Removed Send Feedback (the old one) since we already have the issue tracker
-	* Completed implementation of the XML system
+	* Completed implementation of the XML settings system
 	
 ### Changes in Milestone Athens RC1 (v2.2.2000.21174)
 * Options

@@ -11,4 +11,4 @@ AvalonBar is an open-source sidebar that is aimed to re-implement the features o
 - [ ] Revamp on the Settings UI and Tile Library
 
 ### Changes in this branch:
-[Click here to see the full changelog](https://github.com/FranklinDM/AvalonBar/blob/devmain/CHANGELOG.md)
+[Click here to see the full changelog](https://github.com/FranklinDM/AvalonBar/blob/dev/CHANGELOG.md)
