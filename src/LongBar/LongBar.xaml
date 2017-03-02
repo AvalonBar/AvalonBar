@@ -21,16 +21,16 @@
         <ContextMenu Name="Menu" HasDropShadow="True" Opened="Menu_Opened">
             <MenuItem Name="LockItem" Header="{DynamicResource Lock}" Click="LockItem_Click"/>
             <MenuItem Name="SettingsItem" Header="{DynamicResource Settings}" Click="SettingsItem_Click"/>
-            <!--MenuItem Name="SetSideItem" Header="{DynamicResource SetSide}">
+            <MenuItem Name="SetSideItem" Header="{DynamicResource SetSide}">
                 <MenuItem Name="LeftSideItem" Header="{DynamicResource Left}" Click="LeftSideItem_Click"/>
                 <MenuItem Name="RightSideItem" Header="{DynamicResource Right}" Click="RightSideItem_Click"/>
-            </MenuItem-->
+            </MenuItem>
             <MenuItem Name="AddTileItem" Header="{DynamicResource AddTile}"/>
             <MenuItem Name="RemoveTilesItem" Header="{DynamicResource RemoveTiles}" Click="RemoveTilesItem_Click"/>
             <MenuItem Name="TileLibraryItem" Header="{DynamicResource TileLibrary}" Click="TileLibrary_Click"/>
-        	<!--MenuItem Name="CloseItem" Header="{DynamicResource Close}" Click="CloseItem_Click"/-->
 	    	<MenuItem Name="MinimizeItem" Header="{DynamicResource Minimize}" Click="MinimizeItem_Click"/>
-        </ContextMenu>
+        	<MenuItem Name="CloseItem" Header="{DynamicResource Close}" Click="CloseItem_Click"/>
+    	</ContextMenu>
     </Window.ContextMenu>
     <Grid>
         <Rectangle Name="Bg" Style="{DynamicResource Background}"/>

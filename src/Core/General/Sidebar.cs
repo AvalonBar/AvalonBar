@@ -308,27 +308,28 @@ namespace Slate.General
 
         public static void OverlapTaskbar()
         {
-            //IntPtr taskbarHwnd = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
-            //IntPtr trayHwnd = FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
+        	/*
+            IntPtr taskbarHwnd = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
+            IntPtr trayHwnd = FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
 
-            //WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
-            //lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
-            //GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-            ////Check if taskbar at top or bottom and it isn't cropped
-            //if (lpwndpl.rcNormalPosition.Top != 0
-            //    && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
-            //{
-            //    //first, hide tray by setting it's width to 0
-            //    GetWindowPlacement(trayHwnd, ref lpwndpl);
-            //    trayWndWidth = lpwndpl.rcNormalPosition.Width; //save original width of tray
-            //    trayWndLeft = lpwndpl.rcNormalPosition.X; //save original left pos of tray
-            //    MoveWindow(trayHwnd, lpwndpl.rcNormalPosition.X + (int)window.Width, lpwndpl.rcNormalPosition.Y, 0, lpwndpl.rcNormalPosition.Height, true);
-            //    //second, cut taskbar window
-            //    GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-            //    IntPtr rgn = CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height);
-            //    SetWindowRgn(taskbarHwnd, rgn, true);
-            //    Overlapped = true;
-            //}
+            WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
+            lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+            GetWindowPlacement(taskbarHwnd, ref lpwndpl);
+            //Check if taskbar at top or bottom and it isn't cropped
+            if (lpwndpl.rcNormalPosition.Top != 0
+                && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
+            {
+                //first, hide tray by setting it's width to 0
+                GetWindowPlacement(trayHwnd, ref lpwndpl);
+                trayWndWidth = lpwndpl.rcNormalPosition.Width; //save original width of tray
+                trayWndLeft = lpwndpl.rcNormalPosition.X; //save original left pos of tray
+                MoveWindow(trayHwnd, lpwndpl.rcNormalPosition.X + (int)window.Width, lpwndpl.rcNormalPosition.Y, 0, lpwndpl.rcNormalPosition.Height, true);
+                //second, cut taskbar window
+                GetWindowPlacement(taskbarHwnd, ref lpwndpl);
+                IntPtr rgn = CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height);
+                SetWindowRgn(taskbarHwnd, rgn, true);
+                Overlapped = true;
+            }*/
             if (screen != Screen.PrimaryScreen)
                 return;
 

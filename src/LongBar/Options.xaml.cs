@@ -50,7 +50,7 @@ namespace LongBar
         ProjectName.Text = string.Format("{0} {1}", GitInfo.Repository, GitInfo.Milestone);
         VersionString.Text = string.Format("{0} {2}.{3} {6}. {1} {4} (L{2}.{3}.{4}.{5}b)",
         TryFindResource("Version"), TryFindResource("Build"), _Major, _Minor, _Build, _Revision, GitInfo.BranchProdStatus);
-        CurrentMaintainer.Text = "Portions © The HornSide Project 2016";
+        CurrentMaintainer.Text = "Portions © The AvalonBar Project " + DateTime.Today.Year;
         OldMaintainer.Text = "Portions © LongBar Project Group 2010.";
         CopyrightString2.Text = String.Format("{0}", Application.Current.TryFindResource("CopyrightLaw"));
         //-----------------

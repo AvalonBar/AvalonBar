@@ -5,6 +5,7 @@
 * Major
 	* Application version has been reset to v1.0.0.0 (will now follow semantic versioning)
 	* Incorporate changes from old HS repository
+	* Continue cleaning up on branding
 
 ## Old Branch
 ### Changes in Milestone Athens RC2 (v2.2.****.*****)
