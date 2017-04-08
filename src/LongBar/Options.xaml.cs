@@ -227,7 +227,7 @@ namespace LongBar
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run", true))
                 {
-                    key.SetValue("HornSide", "" + Assembly.GetExecutingAssembly().Location + "", RegistryValueKind.String);
+                    key.SetValue("AvalonBar", "" + Assembly.GetExecutingAssembly().Location + "", RegistryValueKind.String);
                     key.Close();
                 }
             }
@@ -239,7 +239,7 @@ namespace LongBar
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("Microsoft").OpenSubKey("Windows").OpenSubKey("CurrentVersion").OpenSubKey("Run", true))
                 {
-                    key.DeleteValue("HornSide",false);
+                    key.DeleteValue("AvalonBar",false);
                     key.Close();
                 }
             }

@@ -278,7 +278,7 @@ namespace Slate.General
             {
                 AlwaysTop = topMost;
                 AppbarNew();
-                if (!Overlapped && overlapTaskBar && side == Side.Right)
+                if (!Overlapped && overlapTaskBar) //&& side == Side.Right)
                 {
                     OverlapTaskbar();
                 }
@@ -349,9 +349,8 @@ namespace Slate.General
             WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
             lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
             GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-            //Check if taskbar at top or bottom and it isn't cropped
-            if (lpwndpl.rcNormalPosition.Top != 0
-                && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
+            // Check if taskbar at top or bottom and it isn't cropped
+            if (lpwndpl.rcNormalPosition.Top != 0 && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
             {
                 //first, hide tray by setting it's width to 0
                 GetWindowPlacement(trayHwnd, ref lpwndpl);
@@ -366,10 +365,19 @@ namespace Slate.General
                 MoveWindow(rebarHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width - lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Height, true);
 
                 //second, cut taskbar window
-                GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-                IntPtr rgn = CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height);
-                SetWindowRgn(taskbarHwnd, rgn, true);
-                Overlapped = true;
+                IntPtr rgn;
+				// TODO: Check if the sidebar position is left
+				if (LongBarSide == Side.Right) {
+	                GetWindowPlacement(taskbarHwnd, ref lpwndpl);
+	                rgn = CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height);
+	                SetWindowRgn(taskbarHwnd, rgn, true);
+	                Overlapped = true;
+				} else {
+	                GetWindowPlacement(taskbarHwnd, ref lpwndpl);
+	                rgn = CreateRectRgn(SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height, 0, 0);
+	                SetWindowRgn(taskbarHwnd, rgn, true);
+	                Overlapped = true;				
+				}
             }
         }
 

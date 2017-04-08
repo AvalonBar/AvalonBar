@@ -81,7 +81,7 @@ namespace LongBar
                     WrapPanel1.Visibility = Visibility.Collapsed;
                     WrapPanel2.Visibility = Visibility.Collapsed;
 
-                    CurrentItemIconMS3.ImageSource = new BitmapImage(new Uri("/AvalonBar;component/Resources/Library_icon.png", UriKind.Relative));
+                    //CurrentItemIconMS3.ImageSource = //new BitmapImage(new Uri("AvalonBar;component/Resources/Library_icon.png", UriKind.Absolute));
                     DownloadButton.Visibility = Visibility.Collapsed;
                 }
 
@@ -375,11 +375,11 @@ namespace LongBar
                     }
                     reader.Close();
                     response.Close();
-                    return new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
+                    return new BitmapImage(new Uri("/AvalonBar;component/Resources/Tile_Icon.png", UriKind.Relative));
                 }
                 catch
                 {
-                    return new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
+                    return new BitmapImage(new Uri("/AvalonBar;component/Resources/Tile_Icon.png", UriKind.Relative));
                 }
             }
             else

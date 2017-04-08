@@ -458,10 +458,10 @@
 								FontSize="11"
 								TextWrapping="Wrap">
 								<LineBreak />
-								<Run
+								<Run Name="CurrentMaintainer"
 									Text="Portions © The AvalonBar Project 2017." />
 								<LineBreak />
-								<Run
+								<Run Name="OldMaintainer"
 									Text="Portions © LongBar Project Group 2010." />
 								<LineBreak />
 							</TextBlock>

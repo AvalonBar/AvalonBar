@@ -82,7 +82,7 @@
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Build">Build</s:String>
     <s:String x:Key="AllRightsReserved">All rights reserved.</s:String>
-    <s:String x:Key="CopyrightLaw">This program is protected by copyright law and may only be published on the internet, or any other location, with the permission of the developers.</s:String>
+    <s:String x:Key="CopyrightLaw">This program is licensed under the MS-PL (Microsoft Public License).</s:String>
     <s:String x:Key="Contact">Visit project site</s:String>
 	<s:String x:Key="ReportIssue">Report Bug/Issue</s:String>
     <!-- Flyouts strings -->

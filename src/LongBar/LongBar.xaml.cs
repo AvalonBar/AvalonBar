@@ -84,7 +84,7 @@ namespace LongBar
 		{
 			shadow.Close();
 
-			if (Slate.General.Sidebar.Overlapped && sett.side == Slate.General.Sidebar.Side.Right)
+			if (Slate.General.Sidebar.Overlapped) //&& sett.side == Slate.General.Sidebar.Side.Right)
 			{
 				Slate.General.Sidebar.UnOverlapTaskbar();
 			}
@@ -432,6 +432,7 @@ namespace LongBar
           }
       }
 	 
+      //TODO: Write operation should not be individual
       Slate.Data.XMLReader.WriteSettings("Program", "AutoStart", sett.startup.ToString());
       Slate.Data.XMLReader.WriteSettings("Program", "Side", ((int)sett.side).ToString());
       Slate.Data.XMLReader.WriteSettings("Program", "Theme", sett.theme);
@@ -770,13 +771,13 @@ namespace LongBar
               {
                   if (Slate.Localization.LocaleManager.InstallLocale(LongBar.LongBarMain.sett.path, files[i]))
                   {
-                      MessageBox.Show("Localization was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
+                      MessageBox.Show("Locale was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
                       string name = System.IO.Path.GetFileName(files[i]);
                       sett.locale = name.Substring(0, name.IndexOf(@".locale.xaml"));
                       SetLocale(sett.locale);
                   }
                   else
-                      MessageBox.Show("Can't install localization.", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Error);
+                      MessageBox.Show("Can't install locale.", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Error);
               }
               if (files[i].EndsWith(".theme.xaml"))
               {
