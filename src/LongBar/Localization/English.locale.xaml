@@ -24,7 +24,6 @@
     <s:String x:Key="DontSendFeedback">Continue using AvalonBar</s:String>
 	<s:String x:Key="RestartApp1">Restart AvalonBar</s:String>
     <s:String x:Key="ErrorOccured1">AvalonBar has encountered an error</s:String>
-    <s:String x:Key="ErrorOccured2">An unexpected error occurred.</s:String>
     <s:String x:Key="AlreadyRunning">AvalonBar is already running!</s:String>
     <!-- Tile install dialog strings -->
     <s:String x:Key="InstallingTile">Installing tile</s:String>
@@ -95,9 +94,4 @@
 	<s:String x:Key="UpdateDlgText">AvalonBar will restart automatically.</s:String>
 	<s:String x:Key="UpdateDlgAlertCaption">{0} update</s:String>
 	<s:String x:Key="UpdateDlgWhatsNew">To see what's new in this version, click show details.</s:String>
-	<!-- In localizing the string below, don't change or remove the tags in brackets. 
-		 They signify internal values.
-		 Ex: AvalonBar build 1.0 is available. Visit http://www.example.com/ to download the latest version. 
-		 Anyway, the string only appears in Windows XP and lower as maintaining compatibility. -->
-	<s:String x:Key="LegacyUpdateCaption">{0} build {1} is available. Visit {2} to download the latest version.</s:String>
 </ResourceDictionary>

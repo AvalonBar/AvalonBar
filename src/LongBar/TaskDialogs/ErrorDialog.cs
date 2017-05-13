@@ -22,8 +22,6 @@ namespace LongBar.TaskDialogs
         {
             ex = exception;
             // Error dialog
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
                 TaskDialog tdError = new TaskDialog();
                 tdError.DetailsExpanded = false;
                 tdError.Cancelable = true;
@@ -49,11 +47,6 @@ namespace LongBar.TaskDialogs
                 tdError.Controls.Add(dontSendButton);
 
                 tdError.Show();
-            }
-            else
-            {
-                MessageBox.Show(errorText, (string)Application.Current.TryFindResource("ErrorOccured2"), MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 		
         static void dontSendButton_Click(object sender, EventArgs e)
@@ -81,7 +74,7 @@ namespace LongBar.TaskDialogs
                 "\nException:\n" + ex;
             
             Clipboard.SetText(msg);
-            Process.Start(XMLReader.ReadSettings("Links", "BugTrackerURL"));
+            Process.Start(XMLReader.ReadXML("Links", "BugTrackerURL", "Settings.xml"));
         }
     }
 }

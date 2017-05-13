@@ -60,10 +60,6 @@ namespace LongBar
       		if (Environment.OSVersion.Version.Build >= 5600 && Environment.OSVersion.Version.Major >= 6) {
       			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Aero,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aero.normalcolor.xaml");
       		}
-      		// If the user is using Windows XP or lower.
-      		if (Environment.OSVersion.Version.Major <= 5) {
-      			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Luna,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/luna.normalcolor.xaml");
-      		}
       		
       		Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
 
@@ -71,7 +67,7 @@ namespace LongBar
       		// system is Vista or higher. Code below isn't tested yet in Windows 8 or higher.
       		// If it is proven incompatible, please post this as an issue in the tracker
       		// in the Github repo.
-      		if (Slate.Data.XMLReader.ReadXML("Experimental", "AllowAutomaticRestart", Slate.Data.XMLReader.SettingsLoc) == "true" && Environment.OSVersion.Version.Major >= 6) {
+      		if (Slate.Data.XMLReader.ReadXML("Experimental", "AllowAutomaticRestart", "Settings.xml") == "true") {
       			// Code below is based on the sample found in the WinApiCodePack.
       		    // Register for automatic restart if the application was terminated for any reason
             	// other than a system reboot or a system update.
@@ -95,14 +91,14 @@ namespace LongBar
 							RegistryKey key;
 							key = Registry.ClassesRoot;
               				key = key.CreateSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, "HornSide.Tile", RegistryValueKind.String);
+              				key.SetValue(null, "AvalonBar.Tile", RegistryValueKind.String);
               				key = Registry.ClassesRoot;
-              				key = key.CreateSubKey("HornSide.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, "HornSide Tile", RegistryValueKind.String);
+              				key = key.CreateSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+              				key.SetValue(null, "AvalonBar Tile", RegistryValueKind.String);
               				key = key.CreateSubKey("DefaultIcon", RegistryKeyPermissionCheck.ReadWriteSubTree);
               				key.SetValue(null, path + @"\Core.dll,0", RegistryValueKind.ExpandString);
               				key = Registry.ClassesRoot;
-              				key = key.OpenSubKey("HornSide.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+              				key = key.OpenSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
               				key = key.CreateSubKey("shell", RegistryKeyPermissionCheck.ReadWriteSubTree);
               				key = key.CreateSubKey("Install", RegistryKeyPermissionCheck.ReadWriteSubTree);
               				key = key.CreateSubKey("command", RegistryKeyPermissionCheck.ReadWriteSubTree);
@@ -119,9 +115,9 @@ namespace LongBar
 	              			key = Registry.ClassesRoot.OpenSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
 	              			if (key != null)
 	                		Registry.ClassesRoot.DeleteSubKeyTree(".tile");
-	              			key = Registry.ClassesRoot.OpenSubKey("HornSide.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+	              			key = Registry.ClassesRoot.OpenSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
 	              			if (key != null)
-	                		Registry.ClassesRoot.DeleteSubKeyTree("HornSide.Tile");
+	                		Registry.ClassesRoot.DeleteSubKeyTree("AvalonBar.Tile");
 	              			key.Close();
 	            		}
 	            		catch (Exception ex) { HandleError(ex); }

@@ -47,7 +47,9 @@ namespace Slate.Options
         public string Tiles { get; set; }
         public string Heights { get; set; }
         public string PinnedTiles { get; set; }
-        public bool EnableSnowFall { get; set; }   
+        public bool EnableSnowFall { get; set; }
+        public bool Debug { get; set; }
+        public string tileToDebug { get; set; }
     }
     public class SettingsManager
     {
@@ -100,6 +102,7 @@ namespace Slate.Options
                p.Heights = "";
                p.PinnedTiles = "";
                p.EnableSnowFall = false;
+               p.Debug = false;
                // def. values for root settings
                s.Experimental = e;
                s.Links = l;

@@ -37,11 +37,11 @@ namespace LongBar
 		static internal Settings sett;
 		private Options options;
 		private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-		//public static string userPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
 		public static List<Tile> Tiles = new List<Tile>();
 
 		public Shadow shadow = new Shadow();
 		private Library library;
+        public static Slate.Options.Settings settOps;
 
 		internal struct Settings
 		{
@@ -359,44 +359,35 @@ namespace LongBar
         ((MenuItem)AddTileItem.Items[index]).IsChecked = false;
       }
     }
+    private static string settFile = "Settings.xml";
     public static void ReadSettings()
     {
-      sett.side = Slate.General.Sidebar.Side.Right;
-      sett.theme = "Slate";
-      sett.locale = "English";
-      sett.width = 150;
-      sett.topMost = false;
-      sett.enableGlass = true;
-      sett.enableShadow = true;
-      sett.locked = false;
-      sett.overlapTaskbar = false;
-      sett.showErrors = true;
-      sett.screen = "Primary";
-      sett.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-      sett.enableSnowFall = false;
-      sett.enableUpdates = true;
-      
-      if (File.Exists(Slate.Data.XMLReader.SettingsLoc))
+      // Load default settings before trying to check if sett. file exists
+      settOps = Slate.Options.SettingsManager.DefaultSettings;
+      if (File.Exists(settFile))
       {
-      	sett.startup = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "AutoStart"));
-      	sett.side = (Slate.General.Sidebar.Side)Convert.ToInt32(Slate.Data.XMLReader.ReadSettings("Program", "Side"));
-      	sett.theme = Slate.Data.XMLReader.ReadSettings("Program", "Theme");
-        sett.locale = Slate.Data.XMLReader.ReadSettings("Program", "Language");
-        sett.width = Convert.ToInt32(Slate.Data.XMLReader.ReadSettings("Program", "Width"));
-        sett.topMost = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "TopMost"));
-        sett.enableGlass = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "EnableGlass"));
-        sett.enableShadow = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "EnableShadow"));
-        sett.locked = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "Locked"));
-        sett.overlapTaskbar = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "OverlapTaskbar"));
-        sett.showErrors = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "ShowErrors"));
-        if (Slate.Data.XMLReader.ReadSettings("Program", "Path") != "\\") {
-        	sett.path = Slate.Data.XMLReader.ReadSettings("Program", "Path");
+        // Load user settings file
+        settOps = Slate.Options.SettingsManager.Load(settFile);
+        // Populate struct with values from settOps
+      	sett.startup = settOps.Program.AutoStart;
+      	sett.side = (Slate.General.Sidebar.Side)settOps.Program.Side;
+      	sett.theme = settOps.Program.Theme;
+        sett.locale = settOps.Program.Language;
+        sett.width = settOps.Program.Width;
+        sett.topMost = settOps.Program.TopMost;
+        sett.enableGlass = settOps.Program.EnableGlass;
+        sett.enableShadow = settOps.Program.EnableShadow;
+        sett.locked = settOps.Program.Locked;
+        sett.overlapTaskbar = settOps.Program.OverlapTaskbar;
+        sett.showErrors = settOps.Program.ShowErrors;
+        if (settOps.Program.Path != "\\") {
+        	sett.path = settOps.Program.Path;
         }
-        sett.enableSnowFall = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "EnableSnowFall"));
-        sett.enableUpdates = Convert.ToBoolean(Slate.Data.XMLReader.ReadSettings("Program", "EnableUpdates"));
- 	    sett.tiles = Slate.Data.XMLReader.ReadSettings("Program", "Tiles").Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
-        sett.heights = Slate.Data.XMLReader.ReadSettings("Program", "Heights").Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-        sett.pinnedTiles = Slate.Data.XMLReader.ReadSettings("Program", "PinnedTiles").Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        sett.enableSnowFall = settOps.Program.EnableSnowFall;
+        sett.enableUpdates = settOps.Program.EnableUpdates;
+ 	    sett.tiles = settOps.Program.Tiles.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
+        sett.heights = settOps.Program.Heights.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        sett.pinnedTiles = settOps.Program.PinnedTiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
       }
     }
 
@@ -404,14 +395,13 @@ namespace LongBar
     {
       sett.width = (int)this.Width;
 
-      if (File.Exists(Slate.Data.XMLReader.SettingsLoc))
+      if (File.Exists(settFile))
 
       Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
       Array.Resize(ref sett.heights, TilesGrid.Children.Count);
 
       if (TilesGrid.Children.Count > 0)
       {
-
           for (int i = 0; i < TilesGrid.Children.Count; i++)
           {
               sett.tiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File);
@@ -432,35 +422,34 @@ namespace LongBar
           }
       }
 	 
-      //TODO: Write operation should not be individual
-      Slate.Data.XMLReader.WriteSettings("Program", "AutoStart", sett.startup.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "Side", ((int)sett.side).ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "Theme", sett.theme);
-      Slate.Data.XMLReader.WriteSettings("Program", "Language", sett.locale.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "Width", sett.width.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "TopMost", sett.topMost.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "EnableGlass", sett.enableGlass.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "EnableShadow", sett.enableShadow.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "Locked", sett.locked.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "OverlapTaskbar", sett.overlapTaskbar.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "ShowErrors", sett.showErrors.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "Screen", sett.screen.ToString());
-      Slate.Data.XMLReader.WriteSettings("Program", "EnableSnowFall", sett.enableSnowFall.ToString());
+      settOps.Program.AutoStart = sett.startup;
+      settOps.Program.Side = (int)sett.side;
+      settOps.Program.Theme = sett.theme;
+      settOps.Program.Language = sett.locale;
+      settOps.Program.Width = sett.width;
+      settOps.Program.TopMost = sett.topMost;
+      settOps.Program.EnableGlass = sett.enableGlass;
+      settOps.Program.EnableShadow = sett.enableShadow;
+      settOps.Program.Locked = sett.locked;
+      settOps.Program.OverlapTaskbar = sett.overlapTaskbar;
+      settOps.Program.ShowErrors = sett.showErrors;
+      settOps.Program.Screen = sett.screen;
+      settOps.Program.EnableSnowFall = sett.enableSnowFall;
       if (sett.path == System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)) {
-          Slate.Data.XMLReader.WriteSettings("Program", "Path", "\\");
+          settOps.Program.Path = "\\";
       } else {
-          Slate.Data.XMLReader.WriteSettings("Program", "Path", sett.path);
+          settOps.Program.Path = sett.path;
       }
-      Slate.Data.XMLReader.WriteSettings("Program", "EnableUpdates", sett.enableUpdates.ToString());
+      settOps.Program.EnableUpdates = sett.enableUpdates;
 
       if (sett.tiles != null && sett.tiles.Length > 0)
       {
         string temp="";
       	for (int i = 0; i < sett.tiles.Length; i++)
-          {
-      		temp = temp + sett.tiles[i] + ";";
-          }
-      	Slate.Data.XMLReader.WriteSettings("Program", "Tiles", temp);
+        {
+      	    temp = temp + sett.tiles[i] + ";";
+        }
+      	settOps.Program.Tiles = temp;
       }
 
       if (sett.heights != null && sett.heights.Length > 0)
@@ -470,7 +459,7 @@ namespace LongBar
           {
               temp = temp + sett.heights[i] + ";";
           }
-          Slate.Data.XMLReader.WriteSettings("Program", "Heights", temp);
+          settOps.Program.Heights = temp;
       }
 
       if (sett.pinnedTiles != null && sett.pinnedTiles.Length > 0)
@@ -480,9 +469,10 @@ namespace LongBar
           {
               temp = temp + sett.pinnedTiles[i] + ";";
           }
-          Slate.Data.XMLReader.WriteSettings("Program", "PinnedTiles", temp);
+          settOps.Program.PinnedTiles = temp;
       }
-
+      // Finally, save the file
+      Slate.Options.SettingsManager.Save<Slate.Options.Settings>(settOps, settFile);
     }
 
     private void LongBar_MouseMove(object sender, MouseEventArgs e)

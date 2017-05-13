@@ -20,37 +20,30 @@ namespace LongBar.TaskDialogs
 
         public static void ShowDialog(string build, string description)
         {
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
-                td = new TaskDialog();
-                td.Cancelable = true;
-                td.Icon = TaskDialogStandardIcon.None;
+            td = new TaskDialog();
+            td.Cancelable = true;
+            td.Icon = TaskDialogStandardIcon.None;
 
-                td.Caption = string.Format((string)Application.Current.TryFindResource("UpdateDlgAlertCaption"), Application.Current.TryFindResource("ApplicationName"));
-                td.Text = (string)Application.Current.TryFindResource("UpdateDlgWhatsNew");
-                td.InstructionText = string.Format("There is build {0} available. Do you want to update?", build);
-                td.StandardButtons = TaskDialogStandardButtons.Cancel;
+            td.Caption = string.Format((string)Application.Current.TryFindResource("UpdateDlgAlertCaption"), Application.Current.TryFindResource("ApplicationName"));
+            td.Text = (string)Application.Current.TryFindResource("UpdateDlgWhatsNew");
+            td.InstructionText = string.Format("There is build {0} available. Do you want to update?", build);
+            td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
-                td.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
-                td.DetailsExpandedLabel = (string)Application.Current.TryFindResource("ShowDetails");
-                td.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("HideDetails");
-                td.DetailsExpandedText = description;
+            td.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
+            td.DetailsExpandedLabel = (string)Application.Current.TryFindResource("ShowDetails");
+            td.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("HideDetails");
+            td.DetailsExpandedText = description;
 
-                TaskDialogCommandLink updateButton = new TaskDialogCommandLink("updateButton", "Update", "After updating LongBar will be restarted.");
-                updateButton.Click += new EventHandler(updateButton_Click);
+            TaskDialogCommandLink updateButton = new TaskDialogCommandLink("updateButton", "Update", "After updating LongBar will be restarted.");
+            updateButton.Click += new EventHandler(updateButton_Click);
 
-                TaskDialogCommandLink cancelButton = new TaskDialogCommandLink("cancelButton", "No, thanks", "Continue work with current version.");
-                cancelButton.Click += new EventHandler(cancelButton_Click);
+            TaskDialogCommandLink cancelButton = new TaskDialogCommandLink("cancelButton", "No, thanks", "Continue work with current version.");
+            cancelButton.Click += new EventHandler(cancelButton_Click);
 
-                td.Controls.Add(updateButton);
-                td.Controls.Add(cancelButton);
+            td.Controls.Add(updateButton);
+            td.Controls.Add(cancelButton);
 
-                td.Show();
-            }
-            else
-            {
-            	MessageBox.Show(string.Format((string)Application.Current.TryFindResource("LegacyUpdateCaption"), GitInfo.Repository, build, Slate.Data.XMLReader.ReadSettings("Links", "ProjectURL")));
-            }
+            td.Show();
         }
 
         static void cancelButton_Click(object sender, EventArgs e)
