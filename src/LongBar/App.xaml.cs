@@ -46,28 +46,31 @@ namespace LongBar
 
 		private void App_Startup(object sender, StartupEventArgs e)
     	{
+            // Close when WinXP is detected
+            if (Environment.OSVersion.Version.Major <= 5) {
+                MessageBox.Show("Windows XP and lower are not supported by AvalonBar.\nPlease use Windows Vista or higher.", "Unsupported OS", MessageBoxButton.OK, MessageBoxImage.Stop);
+                Shutdown();
+            }
+
 			SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
 			Slate.General.SystemTray.isRunning = false;
 			if (Slate.Utilities.Utils.PriorProcess() != null)
         	Slate.General.SystemTray.isRunning = true;
       		LongBarMain.ReadSettings();
-      		
+       		
       		// If the user is using Windows 8 or above.
-      		if (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 2) {
+      		if (Environment.OSVersion.Version.Minor >= 2) {
       			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.AeroLite,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aerolite.normalcolor.xaml");
       		}
-      		// If the user is using Windows Vista or above.
-      		if (Environment.OSVersion.Version.Build >= 5600 && Environment.OSVersion.Version.Major >= 6) {
+      		// If the user is using Windows Vista or 7.
+      		if (Environment.OSVersion.Version.Minor <= 1) {
       			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Aero,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aero.normalcolor.xaml");
       		}
       		
       		Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
 
-      		// If automatic restart is set to true in settings and if the operating
-      		// system is Vista or higher. Code below isn't tested yet in Windows 8 or higher.
-      		// If it is proven incompatible, please post this as an issue in the tracker
-      		// in the Github repo.
-      		if (Slate.Data.XMLReader.ReadXML("Experimental", "AllowAutomaticRestart", "Settings.xml") == "true") {
+      		// If automatic restart is allowed in Settings
+      		if (LongBarMain.settOps.Experimental.AllowAutomaticRestart == true) {
       			// Code below is based on the sample found in the WinApiCodePack.
       		    // Register for automatic restart if the application was terminated for any reason
             	// other than a system reboot or a system update.
