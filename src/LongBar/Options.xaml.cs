@@ -21,7 +21,7 @@ namespace LongBar
   /// <summary>
   /// Interaction logic for Options.xaml
   /// </summary>
-  public partial class Options : GlassWindow
+  public partial class Options : Window
   {
     private LongBarMain longBar;
     
@@ -58,37 +58,14 @@ namespace LongBar
         AutostartCheckBox.IsChecked = LongBarMain.sett.startup;
         TopMostCheckBox.IsChecked = LongBarMain.sett.topMost;
         LockedCheckBox.IsChecked = LongBarMain.sett.locked;
-		// Glass region
-			// update background color on change of desktop composition mode
-            AeroGlassCompositionChanged += delegate(object wsender, AeroGlassCompositionChangedEventArgs we) {
-            	// When the desktop composition mode changes the background color
-	            // and window exclusion must be changed appropriately.
-	            if (Slate.DWM.DwmManager.IsGlassAvailable()) //we.GlassAvailable)
-	            {
-	                SetAeroGlassTransparency();
-	                InvalidateVisual();
-	            }
-	            else
-	            {
-	            	Background = Brushes.White;
-	            }            	
-            };
-
-            // Set the window background color
-            if (AeroGlassCompositionEnabled)
-            {
-            	if (Slate.DWM.DwmManager.IsGlassAvailable()) {
-            		SetAeroGlassTransparency();
-            	}
-            }
-            else
-            {
-                Background = Brushes.White;
-            }
         if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Left)
             LocationComboBox.SelectedIndex = 0;
-        else
+        if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Right)
             LocationComboBox.SelectedIndex = 1;
+        if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Top)
+            LocationComboBox.SelectedIndex = 2;
+        if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Bottom)
+            LocationComboBox.SelectedIndex = 3;
 
         string[] locales = Slate.Localization.LocaleManager.GetLocales(LongBar.LongBarMain.sett.path);
         for (int i = 0; i <= locales.Length - 1; i++)
@@ -248,7 +225,11 @@ namespace LongBar
 
         if (LocationComboBox.SelectedIndex == 0)
             LongBarMain.sett.side = Slate.General.Sidebar.Side.Left;
-        else
+        if (LocationComboBox.SelectedIndex == 1)
+            LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
+        if (LocationComboBox.SelectedIndex == 2)
+            LongBarMain.sett.side = Slate.General.Sidebar.Side.Top;
+        if (LocationComboBox.SelectedIndex == 3)
             LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
 
         if (Environment.OSVersion.Version.Major >= 6)
@@ -279,12 +260,12 @@ namespace LongBar
 
     private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        Process.Start("http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0");
+        Process.Start(LongBarMain.settOps.Links.LocalesURL);
     }
 
     private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        Process.Start("http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0");
+        Process.Start(LongBarMain.settOps.Links.ThemesURL);
     }
 
     private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -304,19 +285,10 @@ namespace LongBar
         OverlapCheckBox.IsChecked = false;
     }
 
-    private void UnAllTilesButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    private void ManTilesButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-    	//TODO: Localize stuff below [1]
-    	switch (MessageBox.Show("Are you sure you want to uninstall all tiles?", "AB", MessageBoxButton.YesNo, MessageBoxImage.Question))
-    	{
-    		case MessageBoxResult.Yes:
-    			MessageBox.Show("failed");
-    			break;
-    		case MessageBoxResult.No:
-    			break;
-    		case MessageBoxResult.None:
-    			break;
-    	}
+    	//TODO: Implement tile management for maintenance
+    	MessageBox.Show("This feature is still unimplemented.", "Tile Management");
     }
 
     private void ReportString_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

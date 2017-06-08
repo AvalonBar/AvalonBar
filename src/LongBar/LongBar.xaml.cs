@@ -368,27 +368,27 @@ namespace LongBar
       {
         // Load user settings file
         settOps = Slate.Options.SettingsManager.Load(settFile);
-        // Populate struct with values from settOps
-      	sett.startup = settOps.Program.AutoStart;
-      	sett.side = (Slate.General.Sidebar.Side)settOps.Program.Side;
-      	sett.theme = settOps.Program.Theme;
-        sett.locale = settOps.Program.Language;
-        sett.width = settOps.Program.Width;
-        sett.topMost = settOps.Program.TopMost;
-        sett.enableGlass = settOps.Program.EnableGlass;
-        sett.enableShadow = settOps.Program.EnableShadow;
-        sett.locked = settOps.Program.Locked;
-        sett.overlapTaskbar = settOps.Program.OverlapTaskbar;
-        sett.showErrors = settOps.Program.ShowErrors;
-        if (settOps.Program.Path != "\\") {
-        	sett.path = settOps.Program.Path;
-        }
-        sett.enableSnowFall = settOps.Program.EnableSnowFall;
-        sett.enableUpdates = settOps.Program.EnableUpdates;
- 	    sett.tiles = settOps.Program.Tiles.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
-        sett.heights = settOps.Program.Heights.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-        sett.pinnedTiles = settOps.Program.PinnedTiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
       }
+      // Populate struct with values from settOps
+      sett.startup = settOps.Program.AutoStart;
+      sett.side = (Slate.General.Sidebar.Side)settOps.Program.Side;
+      sett.theme = settOps.Program.Theme;
+      sett.locale = settOps.Program.Language;
+      sett.width = settOps.Program.Width;
+      sett.topMost = settOps.Program.TopMost;
+      sett.enableGlass = settOps.Program.EnableGlass;
+      sett.enableShadow = settOps.Program.EnableShadow;
+      sett.locked = settOps.Program.Locked;
+      sett.overlapTaskbar = settOps.Program.OverlapTaskbar;
+      sett.showErrors = settOps.Program.ShowErrors;
+//       if (settOps.Program.Path != "\\") {
+      sett.path = settOps.Program.Path;
+//       }
+      sett.enableSnowFall = settOps.Program.EnableSnowFall;
+      sett.enableUpdates = settOps.Program.EnableUpdates;
+      sett.tiles = settOps.Program.Tiles.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
+      sett.heights = settOps.Program.Heights.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+      sett.pinnedTiles = settOps.Program.PinnedTiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
     }
 
     private void WriteSettings()
@@ -435,11 +435,12 @@ namespace LongBar
       settOps.Program.ShowErrors = sett.showErrors;
       settOps.Program.Screen = sett.screen;
       settOps.Program.EnableSnowFall = sett.enableSnowFall;
-      if (sett.path == System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)) {
-          settOps.Program.Path = "\\";
-      } else {
+// FIXME: Causes a bug somewhere
+//      if (sett.path == System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)) {
+//          settOps.Program.Path = "\\";
+//      } else {
           settOps.Program.Path = sett.path;
-      }
+//      }
       settOps.Program.EnableUpdates = sett.enableUpdates;
 
       if (sett.tiles != null && sett.tiles.Length > 0)
@@ -603,6 +604,37 @@ namespace LongBar
           break;
         case Slate.General.Sidebar.Side.Right:
           Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
+          Bg.FlowDirection = FlowDirection.LeftToRight;
+          BgHighlight.FlowDirection = FlowDirection.LeftToRight;
+          BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
+          Highlight.FlowDirection = FlowDirection.LeftToRight;
+          Highlight.HorizontalAlignment = HorizontalAlignment.Left;
+
+          shadow.Left = this.Left - shadow.Width;
+          shadow.FlowDirection = FlowDirection.LeftToRight;
+          if (sett.topMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
+
+          foreach (Tile tile in TilesGrid.Children)
+              tile.ChangeSide(Slate.General.Sidebar.Side.Right);
+          break;
+        // FIXME: Under-implemented top/left sides
+        case Slate.General.Sidebar.Side.Top:
+          Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Top, sett.topMost, false, sett.screen);
+          Bg.FlowDirection = FlowDirection.LeftToRight;
+          BgHighlight.FlowDirection = FlowDirection.LeftToRight;
+          BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
+          Highlight.FlowDirection = FlowDirection.LeftToRight;
+          Highlight.HorizontalAlignment = HorizontalAlignment.Left;
+
+          shadow.Left = this.Left - shadow.Width;
+          shadow.FlowDirection = FlowDirection.LeftToRight;
+          if (sett.topMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
+
+          foreach (Tile tile in TilesGrid.Children)
+              tile.ChangeSide(Slate.General.Sidebar.Side.Right);
+          break;
+        case Slate.General.Sidebar.Side.Bottom:
+          Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Bottom, sett.topMost, false, sett.screen);
           Bg.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;

@@ -175,9 +175,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <Resource Include="Resources\HornSideLogo.png" />
-    <None Include="Settings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Themes\Aero.theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

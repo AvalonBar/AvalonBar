@@ -12,7 +12,7 @@ namespace Applications.Sidebar
         // Methods
         private static Dictionary<string, object> getDictionaryForTile(Guid key)
         {
-            RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("LongBar");
+            RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("AvalonBar");
             MemoryStream serializationStream = new MemoryStream();
             if (key2 != null)
             {
@@ -45,7 +45,7 @@ namespace Applications.Sidebar
 
         private static bool saveDictionaryForTile(Guid key, Dictionary<string, object> dictionary)
         {
-            RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("LongBar", true);
+            RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software").OpenSubKey("AvalonBar", true);
             MemoryStream serializationStream = new MemoryStream();
             if (key2 != null)
             {

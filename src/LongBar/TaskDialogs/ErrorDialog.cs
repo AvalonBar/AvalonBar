@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mail;
-using Slate.Data;
 using System.Reflection;
 using Microsoft.WindowsAPICodePack;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -63,18 +62,18 @@ namespace LongBar.TaskDialogs
 
             string msg =
                 "\n-------------------------------------------------------------------" + 
-                "\nHornSide version: " + string.Format("HornSide {0} {1}.{2}.{3}.{4}", GitInfo.Milestone, 
+                "\nVersion: " + string.Format("{0} {1}.{2}.{3}.{4}", GitInfo.Milestone, 
             	                                      version.Major, version.Minor, version.Build, 
             	                                      version.Revision) +
-            	"\nHornSide source info: " + string.Format("Repository - {0}, Branch - {1}, Milestone - {2}", 
+            	"\nBuilt from: " + string.Format("Repository - {0}, Branch - {1}, Milestone - {2}", 
             	                                          GitInfo.Repository, GitInfo.Branch, 
             	                                          GitInfo.Milestone) +
                 "\nOS Version: " + Environment.OSVersion +
                 "\nException source: " + ex.Source +
                 "\nException:\n" + ex;
-            
+          
             Clipboard.SetText(msg);
-            Process.Start(XMLReader.ReadXML("Links", "BugTrackerURL", "Settings.xml"));
+            Process.Start(LongBarMain.settOps.Links.BugTrackerURL);
         }
     }
 }

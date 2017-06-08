@@ -48,10 +48,9 @@
 	<s:String x:Key="TileLibraryTitle">AvalonBar Library</s:String>
     <!-- Options strings -->
 	<s:String x:Key="MaintenanceGroup">Maintenance</s:String>
-	<s:String x:Key="ViewTileList">View Tile List</s:String>
+	<s:String x:Key="ViewTileList">Manage Tiles</s:String>
 	<s:String x:Key="EnableShadow">Enable shadow</s:String>
-	<s:String x:Key="UninstallAllTiles">Uninstall all tiles</s:String>
-	<s:String x:Key="ArrangementGroup">Arrangement</s:String>
+	<s:String x:Key="ArrangementGroup">Layout</s:String>
 	<s:String x:Key="HSPnalization">Display</s:String>
 	<s:String x:Key="Localization">Localization</s:String>
 	<s:String x:Key="LongBarSettings">AvalonBar Properties</s:String>
@@ -64,10 +63,11 @@
     <s:String x:Key="LocationOnScreen">AvalonBar location on the screen:</s:String>
     <s:String x:Key="AtLeft">Left</s:String>
     <s:String x:Key="AtRight">Right</s:String>
+    <s:String x:Key="AtTop">Top [bugged]</s:String>
+    <s:String x:Key="AtBottom">Bottom [bugged]</s:String>
     <s:String x:Key="Appearance">Appearance</s:String>
     <s:String x:Key="EnableGlass">Enable Aero Glass</s:String>
     <s:String x:Key="Theme">Sidebar theme:</s:String>
-	<s:String x:Key="UITheme">UI theme:</s:String>
     <s:String x:Key="FindThemes">Find more themes</s:String>
     <s:String x:Key="Language">Language:</s:String>
     <s:String x:Key="FindLangs">Find more languages</s:String>
@@ -75,15 +75,16 @@
     <s:String x:Key="Cancel">Cancel</s:String>
     <s:String x:Key="Apply">Apply</s:String>
     <s:String x:Key="PrimaryScreen">Primary Screen</s:String>
-    <s:String x:Key="Screen">Screen where AvalonBar should display:</s:String>
+    <s:String x:Key="Screen">Screen display:</s:String>
+    <s:String x:Key="CheckForUpd">Automatically check for updates</s:String>
     <!-- About tab strings -->
     <s:String x:Key="AboutLongBar">About</s:String>
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Build">Build</s:String>
-    <s:String x:Key="AllRightsReserved">All rights reserved.</s:String>
-    <s:String x:Key="CopyrightLaw">This program is licensed under the MS-PL (Microsoft Public License).</s:String>
+    <s:String x:Key="CopyrightLaw">AvalonBar is a fork of LongBar, source code could be found at the GitHub repository which could be accessed via the link below. This program is licensed under the Microsoft Public License. </s:String>
     <s:String x:Key="Contact">Visit project site</s:String>
-	<s:String x:Key="ReportIssue">Report Bug/Issue</s:String>
+	<s:String x:Key="ReportIssue">Visit issue tracker</s:String>
+	<s:String x:Key="GitHubRepo">Visit GitHub repository</s:String>
     <!-- Flyouts strings -->
     <s:String x:Key="FlyoutOptions">Options</s:String>
     <s:String x:Key="AlwaysShow">Always show</s:String>

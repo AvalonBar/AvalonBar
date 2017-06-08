@@ -74,7 +74,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="Data\XMLReader.cs" />
     <Compile Include="Dwm\DwmManager.cs" />
     <Compile Include="General\Sidebar.cs" />
     <Compile Include="General\SystemTray.cs" />

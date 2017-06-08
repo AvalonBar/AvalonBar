@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.Reflection;
 
 namespace Slate.Options
 {
@@ -21,6 +22,7 @@ namespace Slate.Options
         public string ThemesURL { get; set; }
         public string LocalesURL { get; set; }
         public string BugTrackerURL { get; set; }
+        public string UpdatesURL { get; set; }
     }
     [XmlTypeAttribute(AnonymousType = true)]
     public class Experimental
@@ -78,16 +80,17 @@ namespace Slate.Options
                #region Default values for settings
                // def. values for links
                l.BugTrackerURL = "https://github.com/FranklinDM/AvalonBar/issues";
-               l.LocalesURL = "https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md";
+               l.LocalesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0";  //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md";
                l.ProjectURL = "https://franklindm.github.io/AvalonBar";
-               l.ThemesURL = "https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
+               l.ThemesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0"; //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
+               l.UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download";
                // def. values for experimental
                e.AllowAutomaticRestart = true;
                // def. values for program
                p.AutoStart = false;
                p.Side = 2;
                p.Theme = "Slate";
-               p.Language = "Language";
+               p.Language = "English";
                p.Width = 150;
                p.TopMost = true;
                p.EnableGlass = true;
@@ -96,8 +99,8 @@ namespace Slate.Options
                p.OverlapTaskbar = false;
                p.ShowErrors = true;
                p.Screen = "Primary";
-               p.Path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-               p.EnableUpdates = true;
+               p.Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+               p.EnableUpdates = false; //true
                p.Tiles = "";
                p.Heights = "";
                p.PinnedTiles = "";
