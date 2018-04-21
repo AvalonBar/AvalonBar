@@ -26,8 +26,8 @@ namespace LongBar
         private LongBarMain longbar;
         private WebClient dowloader;
         private ToolButton DownloadButton;
-		private ToolButton LocalTilesButton;
-		private ToolButton OnlineTilesButton;
+        private ToolButton LocalTilesButton;
+        private ToolButton OnlineTilesButton;
         
         private int _selectedIndex = -1;
 
@@ -41,39 +41,39 @@ namespace LongBar
 
                 if (value > -1)
                 {
-                	if (ViewMode == 0) {
-	                    ItemsCount.Visibility = Visibility.Collapsed;
-	
-	                    WrapPanel1.Visibility = Visibility.Visible;
-	                    WrapPanel2.Visibility = Visibility.Visible;
-	
-	                    CurrentItemTitle.Text = ((LibraryItem)DownTilesPanel.Children[value]).Header;
-	                    CurrentItemDescription.Text = ((LibraryItem)DownTilesPanel.Children[value]).Description;
-	                    CurrentItemAuthor.Text = ((LibraryItem)DownTilesPanel.Children[value]).Developer;
-	                    CurrentItemVersion.Text = ((LibraryItem)DownTilesPanel.Children[value]).Version;
-	                    CurrentItemAvailability.Text = ((LibraryItem)DownTilesPanel.Children[value]).TileAvailability;
-	                    CurrentItemIconMS3.ImageSource = ((LibraryItem)DownTilesPanel.Children[value]).ItemIconImage.Source;
-	                    ((LibraryItem)DownTilesPanel.Children[value]).Selected = true;
-	                    if (DownloadButton.Visibility != Visibility.Visible)
-	                    {
-	                        DownloadButton.Visibility = Visibility.Visible;
-	                        DownloadButton.Transfrom.BeginAnimation(TranslateTransform.YProperty, (DoubleAnimation)DownloadButton.Resources["ShowAnim1"]);
-	                    }
-	               	}
-                	if (ViewMode == 1) {
-	                    ItemsCount.Visibility = Visibility.Collapsed;
-	
-	                    WrapPanel1.Visibility = Visibility.Visible;
-	                    WrapPanel2.Visibility = Visibility.Visible;
-	
-	                    CurrentItemTitle.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Header;
-	                    CurrentItemDescription.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Description;
-	                    CurrentItemAuthor.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Developer;
-	                    CurrentItemVersion.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Version;
-	                    CurrentItemAvailability.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).TileAvailability;
-	                    CurrentItemIconMS3.ImageSource = ((LibraryItem)LongBarTilesPanel.Children[value]).ItemIconImage.Source;
-	                    ((LibraryItem)LongBarTilesPanel.Children[value]).Selected = true;
-	               	}
+                    if (ViewMode == 0) {
+                        ItemsCount.Visibility = Visibility.Collapsed;
+    
+                        WrapPanel1.Visibility = Visibility.Visible;
+                        WrapPanel2.Visibility = Visibility.Visible;
+    
+                        CurrentItemTitle.Text = ((LibraryItem)DownTilesPanel.Children[value]).Header;
+                        CurrentItemDescription.Text = ((LibraryItem)DownTilesPanel.Children[value]).Description;
+                        CurrentItemAuthor.Text = ((LibraryItem)DownTilesPanel.Children[value]).Developer;
+                        CurrentItemVersion.Text = ((LibraryItem)DownTilesPanel.Children[value]).Version;
+                        CurrentItemAvailability.Text = ((LibraryItem)DownTilesPanel.Children[value]).TileAvailability;
+                        CurrentItemIcon.Source = ((LibraryItem)DownTilesPanel.Children[value]).ItemIconImage.Source;
+                        ((LibraryItem)DownTilesPanel.Children[value]).Selected = true;
+                        if (DownloadButton.Visibility != Visibility.Visible)
+                        {
+                            DownloadButton.Visibility = Visibility.Visible;
+                            DownloadButton.Transfrom.BeginAnimation(TranslateTransform.YProperty, (DoubleAnimation)DownloadButton.Resources["ShowAnim1"]);
+                        }
+                    }
+                    if (ViewMode == 1) {
+                        ItemsCount.Visibility = Visibility.Collapsed;
+    
+                        WrapPanel1.Visibility = Visibility.Visible;
+                        WrapPanel2.Visibility = Visibility.Visible;
+    
+                        CurrentItemTitle.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Header;
+                        CurrentItemDescription.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Description;
+                        CurrentItemAuthor.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Developer;
+                        CurrentItemVersion.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).Version;
+                        CurrentItemAvailability.Text = ((LibraryItem)LongBarTilesPanel.Children[value]).TileAvailability;
+                        CurrentItemIcon.Source = ((LibraryItem)LongBarTilesPanel.Children[value]).ItemIconImage.Source;
+                        ((LibraryItem)LongBarTilesPanel.Children[value]).Selected = true;
+                    }
                 }
                 else
                 {
@@ -86,12 +86,12 @@ namespace LongBar
                 }
 
                 if (_selectedIndex > -1)
-                	if (ViewMode == 0) {
-                		((LibraryItem)DownTilesPanel.Children[_selectedIndex]).Selected = false;
-                	}
-                	if (ViewMode == 1) {
-                		((LibraryItem)LongBarTilesPanel.Children[_selectedIndex]).Selected = false;
-                	}
+                    if (ViewMode == 0) {
+                        ((LibraryItem)DownTilesPanel.Children[_selectedIndex]).Selected = false;
+                    }
+                    if (ViewMode == 1) {
+                        ((LibraryItem)LongBarTilesPanel.Children[_selectedIndex]).Selected = false;
+                    }
                 _selectedIndex = value;
             }
         }
@@ -114,7 +114,7 @@ namespace LongBar
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
-        	// TODO: Localize stuff below [4]
+            // TODO: Localize stuff below [4]
             if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
             DownloadingStatusTextBlock.Text = "Connecting...";
@@ -131,7 +131,7 @@ namespace LongBar
             dowloader = new WebClient();
             dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
             dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
-			// TODO: Localize stuff below [3]
+            // TODO: Localize stuff below [3]
             DownloadingStatusTextBlock.Text = "Downloading...";
 
             dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
@@ -145,20 +145,20 @@ namespace LongBar
 
         void dowloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-        	// TODO: Localize stuff below [2]
-        	if (e.Error == null && !e.Cancelled) {
+            // TODO: Localize stuff below [2]
+            if (e.Error == null && !e.Cancelled) {
                 TaskDialogs.TileInstallDialog.ShowDialog(longbar, 
-            	                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, 
-            	                                         LongBarMain.sett.path + @"\Cache\" + 
-            	                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + 
-            	                                         ".tile");
-        	} else if (!e.Cancelled) {
+                                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, 
+                                                         LongBarMain.sett.path + @"\Cache\" + 
+                                                         ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + 
+                                                         ".tile");
+            } else if (!e.Cancelled) {
                 MessageBox.Show("Downloading tile failed. \nError: \n" + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        	}
+            }
             LoadingGrid.Visibility = Visibility.Collapsed;
             LoadingGrid.Opacity = 0;
         }
-
+        
         private void CancelDownloadButton_Click(object sender, RoutedEventArgs e)
         {
             if (dowloader.IsBusy)
@@ -166,23 +166,23 @@ namespace LongBar
         }
         private void GetInstalledTiles()
         {
-       		foreach (Tile t in LongBarMain.Tiles)
-       		{
-       			LibraryItem item = new LibraryItem();
- 	   			if (t.Info != null)
- 	   			{
-      				item.Header = t.Info.Name;
-       				item.MouseLeftButtonDown += new MouseButtonEventHandler(item_MouseLeftButtonDown);
-       				item.MouseDoubleClick += new MouseButtonEventHandler(item_MouseDoubleClick);
-       				item.Developer = t.Info.Developer;
-          			item.Description = t.Info.Description;
-          			item.Version = t.Info.Version;
-          			item.TileAvailability = "Local Tile";
-          			item.Link = "http://www.example.com";
-          			//item.Icon = "";
-          			try { LongBarTilesPanel.Children.Add(item); } catch (Exception) {}
- 	   			}
-	       	}
+            foreach (Tile t in LongBarMain.Tiles)
+            {
+                LibraryItem item = new LibraryItem();
+                if (t.Info != null)
+                {
+                    item.Header = t.Info.Name;
+                    item.MouseLeftButtonDown += new MouseButtonEventHandler(item_MouseLeftButtonDown);
+                    item.MouseDoubleClick += new MouseButtonEventHandler(item_MouseDoubleClick);
+                    item.Developer = t.Info.Developer;
+                    item.Description = t.Info.Description;
+                    item.Version = t.Info.Version;
+                    item.TileAvailability = "Local Tile";
+                    item.Link = "http://www.example.com";
+                    //item.Icon = "";
+                    try { LongBarTilesPanel.Children.Add(item); } catch (Exception) {}
+                }
+            }
         }
         private void GetTiles()
         {
@@ -202,7 +202,7 @@ namespace LongBar
                 LibraryItem item = new LibraryItem();
                 while (reader.Read())
                 {
-                	item.TileAvailability = "Online Tile";
+                    item.TileAvailability = "Online Tile";
                     if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("tile"))
                     {
                         item = new LibraryItem();
@@ -261,45 +261,45 @@ namespace LongBar
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
                 try {
-                	WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Tiles.list");
-                	WebResponse response = request.GetResponse();
+                    WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Tiles.list");
+                    WebResponse response = request.GetResponse();
                 
-           	    	StreamReader reader = new StreamReader(response.GetResponseStream());
-                	string line = "";
+                    StreamReader reader = new StreamReader(response.GetResponseStream());
+                    string line = "";
 
-                	while (!reader.EndOfStream)
-                	{
-                 	   line = reader.ReadLine();
+                    while (!reader.EndOfStream)
+                    {
+                       line = reader.ReadLine();
 
-                    	if (line.Contains(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:"))
-                    	{
-                        	reader.Close();
-                        	response.Close();
+                        if (line.Contains(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:"))
+                        {
+                            reader.Close();
+                            response.Close();
 
-	                        line = line.Substring(line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-    	                    while (line.Contains(@"\x3a"))
-    	                        line = line.Replace(@"\x3a", ":");
-    	                    while (line.Contains(@"\x2f"))
-    	                        line = line.Replace(@"\x2f", "/");
-    	                    while (line.Contains(@"\x3f"))
-    	                        line = line.Replace(@"\x3f", "?");
-    	                    while (line.Contains(@"\x26"))
-    	                        line = line.Replace(@"\x26", "&");
-    	                    while (line.Contains(@"\x3d"))
-    	                        line = line.Replace(@"\x3d", "=");
-    	                    line = line.Substring(0, line.Length - 9);
-    	                    WebClient client = new WebClient();
-    	                    client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\Tiles.list");
-    	                    break;
-    	                }
-    	            }
-    	            reader.Close();
-    	            response.Close();
-    	            GetTiles();
+                            line = line.Substring(line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
+                            while (line.Contains(@"\x3a"))
+                                line = line.Replace(@"\x3a", ":");
+                            while (line.Contains(@"\x2f"))
+                                line = line.Replace(@"\x2f", "/");
+                            while (line.Contains(@"\x3f"))
+                                line = line.Replace(@"\x3f", "?");
+                            while (line.Contains(@"\x26"))
+                                line = line.Replace(@"\x26", "&");
+                            while (line.Contains(@"\x3d"))
+                                line = line.Replace(@"\x3d", "=");
+                            line = line.Substring(0, line.Length - 9);
+                            WebClient client = new WebClient();
+                            client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\Tiles.list");
+                            break;
+                        }
+                    }
+                    reader.Close();
+                    response.Close();
+                    GetTiles();
                 } catch (Exception ex) {
-                	if (ex.Message.Contains((string)Application.Current.TryFindResource("OfflineResolveFind"))) {
-                		DownTilesCaption.Text = (string)Application.Current.TryFindResource("TileListFail");
-                	} else { App.HandleError(ex); }
+                    if (ex.Message.Contains((string)Application.Current.TryFindResource("OfflineResolveFind"))) {
+                        DownTilesCaption.Text = (string)Application.Current.TryFindResource("TileListFail");
+                    } else { App.HandleError(ex); }
                 }
             }
         }
@@ -311,11 +311,11 @@ namespace LongBar
 
         void item_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-        	if (ViewMode == 0) {
-	            SelectedIndex = DownTilesPanel.Children.IndexOf((LibraryItem)sender);        		
-        	} else if (ViewMode == 1) {
-	            SelectedIndex = LongBarTilesPanel.Children.IndexOf((LibraryItem)sender);
-        	}
+            if (ViewMode == 0) {
+                SelectedIndex = DownTilesPanel.Children.IndexOf((LibraryItem)sender);        		
+            } else if (ViewMode == 1) {
+                SelectedIndex = LongBarTilesPanel.Children.IndexOf((LibraryItem)sender);
+            }
         }
 
         private static string StripTags(string line)
@@ -467,39 +467,39 @@ namespace LongBar
                 SearchTilesPanel.Children.Clear();
                 SearchTiles.Visibility = Visibility.Visible;
                 if (ViewMode == 0) {
-	                DownTiles.Visibility = Visibility.Collapsed;
-	                foreach (LibraryItem item in DownTilesPanel.Children)
-	                {
-	                    if (item.Header.ToLower().Contains(SearchField.Text.ToLower()))
-	                    {
-	                        LibraryItem newItem = new LibraryItem();
-	                        newItem.Header = item.Header;
-	                        newItem.ItemIconImage.Source = item.ItemIconImage.Source;
-	                        newItem.Developer = item.Developer;
-	                        newItem.Description = item.Description;
-	                        newItem.Link = item.Link;
-	                        newItem.MouseLeftButtonDown += new MouseButtonEventHandler(newItem_MouseLeftButtonDown);
-	                        SearchTilesPanel.Children.Add(newItem);
-	                    }
-	                }
-                	
+                    DownTiles.Visibility = Visibility.Collapsed;
+                    foreach (LibraryItem item in DownTilesPanel.Children)
+                    {
+                        if (item.Header.ToLower().Contains(SearchField.Text.ToLower()))
+                        {
+                            LibraryItem newItem = new LibraryItem();
+                            newItem.Header = item.Header;
+                            newItem.ItemIconImage.Source = item.ItemIconImage.Source;
+                            newItem.Developer = item.Developer;
+                            newItem.Description = item.Description;
+                            newItem.Link = item.Link;
+                            newItem.MouseLeftButtonDown += new MouseButtonEventHandler(newItem_MouseLeftButtonDown);
+                            SearchTilesPanel.Children.Add(newItem);
+                        }
+                    }
+                    
                 }
                 if (ViewMode == 1) {
-                	LongBarTiles.Visibility = Visibility.Collapsed;
-	                foreach (LibraryItem item in LongBarTilesPanel.Children)
-	                {
-	                    if (item.Header.ToLower().Contains(SearchField.Text.ToLower()))
-	                    {
-	                        LibraryItem newItem = new LibraryItem();
-	                        newItem.Header = item.Header;
-	                        newItem.ItemIconImage.Source = item.ItemIconImage.Source;
-	                        newItem.Developer = item.Developer;
-	                        newItem.Description = item.Description;
-	                        newItem.Link = item.Link;
-	                        newItem.MouseLeftButtonDown += new MouseButtonEventHandler(newItem_MouseLeftButtonDown);
-	                        SearchTilesPanel.Children.Add(newItem);
-	                    }
-	                }
+                    LongBarTiles.Visibility = Visibility.Collapsed;
+                    foreach (LibraryItem item in LongBarTilesPanel.Children)
+                    {
+                        if (item.Header.ToLower().Contains(SearchField.Text.ToLower()))
+                        {
+                            LibraryItem newItem = new LibraryItem();
+                            newItem.Header = item.Header;
+                            newItem.ItemIconImage.Source = item.ItemIconImage.Source;
+                            newItem.Developer = item.Developer;
+                            newItem.Description = item.Description;
+                            newItem.Link = item.Link;
+                            newItem.MouseLeftButtonDown += new MouseButtonEventHandler(newItem_MouseLeftButtonDown);
+                            SearchTilesPanel.Children.Add(newItem);
+                        }
+                    }
                 }
                 SearchTilesCaption.Text = "Found: " + SearchTilesPanel.Children.Count.ToString();
             }
@@ -535,14 +535,14 @@ namespace LongBar
                 }
             }
         }
-		
+        
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             DownloadButton = new ToolButton();
             DownloadButton.Visibility = Visibility.Collapsed;
             DownloadButton.Text = "Download tile";
             DownloadButton.MouseLeftButtonUp += new MouseButtonEventHandler(DownloadButton_MouseLeftButtonUp);
-			
+            
             LocalTilesButton = new ToolButton();
             LocalTilesButton.Visibility = Visibility.Visible;
             LocalTilesButton.Text = "Local Tiles";
@@ -564,37 +564,37 @@ namespace LongBar
         // Viewmode 1 - LocalTiles
         internal int ViewMode = 0;
         void LocalTilesButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (DownTiles.Visibility == Visibility.Visible) {
-        		DownTiles.Visibility = Visibility.Collapsed;
-        		LongBarTiles.Visibility = Visibility.Visible;
-        		LocalTilesButton.Visibility = Visibility.Collapsed;
-        		OnlineTilesButton.Visibility = Visibility.Visible;
-        		ViewMode = 1;
-        		RecalculateElementValues(1);
-			}
-		}
+        {
+            if (DownTiles.Visibility == Visibility.Visible) {
+                DownTiles.Visibility = Visibility.Collapsed;
+                LongBarTiles.Visibility = Visibility.Visible;
+                LocalTilesButton.Visibility = Visibility.Collapsed;
+                OnlineTilesButton.Visibility = Visibility.Visible;
+                ViewMode = 1;
+                RecalculateElementValues(1);
+            }
+        }
 
-		void OnlineTilesButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (LongBarTiles.Visibility == Visibility.Visible) {
-				LongBarTiles.Visibility = Visibility.Collapsed;
-				DownTiles.Visibility = Visibility.Visible;
-				OnlineTilesButton.Visibility = Visibility.Collapsed;
-				LocalTilesButton.Visibility = Visibility.Visible;
-				ViewMode = 0;
-				RecalculateElementValues(2);
-			}
-		}
+        void OnlineTilesButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (LongBarTiles.Visibility == Visibility.Visible) {
+                LongBarTiles.Visibility = Visibility.Collapsed;
+                DownTiles.Visibility = Visibility.Visible;
+                OnlineTilesButton.Visibility = Visibility.Collapsed;
+                LocalTilesButton.Visibility = Visibility.Visible;
+                ViewMode = 0;
+                RecalculateElementValues(2);
+            }
+        }
         private void DoubleAnimation_Completed_1(object sender, EventArgs e)
         {
-        	// Populates the Local Tiles panel
-        	GetInstalledTiles();
-        	// Connects to the internet and populates the Online Tiles panel
-        	GetTiles();
-        	// Recalculates the values
-        	// (since the first panel shown is online, calculate online tiles panel count)
-        	RecalculateElementValues(2);
+            // Populates the Local Tiles panel
+            GetInstalledTiles();
+            // Connects to the internet and populates the Online Tiles panel
+            GetTiles();
+            // Recalculates the values
+            // (since the first panel shown is online, calculate online tiles panel count)
+            RecalculateElementValues(2);
         }
         
         private void RecalculateElementValues(int type)
@@ -604,11 +604,11 @@ namespace LongBar
             DownTilesCaption.Text = String.Format("Online Tiles ({0})", DownTilesPanel.Children.Count);
             int TotalTiles = 0;
             if (type == 0) {
-   	            TotalTiles = DownTilesPanel.Children.Count + LongBarTilesPanel.Children.Count;
+                TotalTiles = DownTilesPanel.Children.Count + LongBarTilesPanel.Children.Count;
             } else if (type == 1) {
-   	            TotalTiles = LongBarTilesPanel.Children.Count;            	
+                TotalTiles = LongBarTilesPanel.Children.Count;            	
             } else if (type == 2) {
-   	            TotalTiles = DownTilesPanel.Children.Count;            	
+                TotalTiles = DownTilesPanel.Children.Count;            	
             } else { TotalTiles = 0; }
             ItemsCount.Text = String.Format("Elements: {0}", TotalTiles);
         }
