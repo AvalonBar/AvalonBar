@@ -15,6 +15,7 @@ namespace Slate.Options
 		public Experimental Experimental { get; set; }
 		public Program Program { get; set; }
 	}
+
 	[XmlTypeAttribute(AnonymousType = true)]
 	public class Links
 	{
@@ -24,11 +25,13 @@ namespace Slate.Options
 		public string BugTrackerURL { get; set; }
 		public string UpdatesURL { get; set; }
 	}
+
 	[XmlTypeAttribute(AnonymousType = true)]
 	public class Experimental
 	{
 		public bool AllowAutomaticRestart { get; set; }
 	}
+
 	[XmlTypeAttribute(AnonymousType = true)]
 	public class Program
 	{
@@ -53,6 +56,7 @@ namespace Slate.Options
 		public bool Debug { get; set; }
 		public string tileToDebug { get; set; }
 	}
+
 	public class SettingsManager
 	{
 		public static Settings Load(string settFile)
@@ -70,50 +74,55 @@ namespace Slate.Options
 				return DefaultSettings;
 			}
 		}
-		public static Settings DefaultSettings {
-		   get
+
+		public static Settings DefaultSettings
+		{
+			get
 			{
-			   var s = new Settings();
-			   var l = new Links();
-			   var e = new Experimental();
-			   var p = new Program();
-			   #region Default values for settings
-			   // def. values for links
-			   l.BugTrackerURL = "https://github.com/FranklinDM/AvalonBar/issues";
-			   l.LocalesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0";  //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md";
-			   l.ProjectURL = "https://franklindm.github.io/AvalonBar";
-			   l.ThemesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0"; //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
-			   l.UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download";
-			   // def. values for experimental
-			   e.AllowAutomaticRestart = true;
-			   // def. values for program
-			   p.AutoStart = false;
-			   p.Side = 2;
-			   p.Theme = "Slate";
-			   p.Language = "English";
-			   p.Width = 150;
-			   p.TopMost = true;
-			   p.EnableGlass = true;
-			   p.EnableShadow = true;
-			   p.Locked = true;
-			   p.OverlapTaskbar = false;
-			   p.ShowErrors = true;
-			   p.Screen = "Primary";
-			   p.Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			   p.EnableUpdates = false; //true
-			   p.Tiles = "";
-			   p.Heights = "";
-			   p.PinnedTiles = "";
-			   p.EnableSnowFall = false;
-			   p.Debug = false;
-			   // def. values for root settings
-			   s.Experimental = e;
-			   s.Links = l;
-			   s.Program = p;
-			   #endregion
-			   return s;
-		   }
+				Settings s = new Settings();
+				#region Default values for settings
+				// def. values for links
+				s.Links = new Links()
+				{
+					BugTrackerURL = "https://github.com/FranklinDM/AvalonBar/issues",
+					LocalesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0",  //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md";
+					ProjectURL = "https://franklindm.github.io/AvalonBar",
+					ThemesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0", //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
+					UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download"
+				};
+				// def. values for experimental
+				s.Experimental = new Experimental()
+				{
+					AllowAutomaticRestart = true
+				};
+				// def. values for program
+				s.Program = new Program()
+				{
+					AutoStart = false,
+					Side = 2,
+					Theme = "Slate",
+					Language = "English",
+					Width = 150,
+					TopMost = true,
+					EnableGlass = true,
+					EnableShadow = true,
+					Locked = true,
+					OverlapTaskbar = false,
+					ShowErrors = true,
+					Screen = "Primary",
+					Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+					EnableUpdates = false, //true
+					Tiles = "",
+					Heights = "",
+					PinnedTiles = "",
+					EnableSnowFall = false,
+					Debug = false
+				};
+				#endregion
+				return s;
+			}
 		}
+
 		public static void Save<T>(T toSerialize, string settFile)
 		{
 			XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
