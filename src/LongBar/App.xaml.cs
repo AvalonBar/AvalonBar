@@ -58,15 +58,6 @@ namespace LongBar
 			Slate.General.SystemTray.isRunning = true;
 			LongBarMain.ReadSettings();
 
-			// If the user is using Windows 8 or above.
-			if (Environment.OSVersion.Version.Minor >= 2) {
-				Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.AeroLite,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aerolite.normalcolor.xaml");
-			}
-			// If the user is using Windows Vista or 7.
-			if (Environment.OSVersion.Version.Minor <= 1) {
-				Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Aero,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aero.normalcolor.xaml");
-			}
-
 			Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
 
 			// If automatic restart is allowed in Settings

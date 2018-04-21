@@ -45,15 +45,6 @@ namespace Slate.Themes
 				System.Windows.Application.Current.Resources.MergedDictionaries.Add(theme);
 		}
 
-		// Should only be used at startup as it could crash the application
-		// when other resource dictionaries are already loaded.
-		public static void LoadUITheme(string ThemeURI)
-		{
-			Uri uriToTheme = new Uri(ThemeURI, UriKind.Relative);
-			object theme = Application.LoadComponent(uriToTheme);
-			Application.Current.Resources = (ResourceDictionary)theme;
-		}
-
 		public static object GetThemeParameter(string path, string themeName, string paramType, string paramName)
 		{
 			if (File.Exists(String.Format(path + @"\Themes\{0}.theme.xaml", themeName)))
