@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Applications.Sidebar</RootNamespace>
     <AssemblyName>TileSDK</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -27,7 +27,8 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <Utf8Output>true</Utf8Output>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +62,9 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -69,6 +73,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>

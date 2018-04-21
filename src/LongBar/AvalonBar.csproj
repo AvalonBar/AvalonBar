@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LongBar</RootNamespace>
     <AssemblyName>AvalonBar</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -32,7 +32,8 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
     <Utf8Output>true</Utf8Output>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <PublishUrl>publish\</PublishUrl>
@@ -49,6 +50,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\Asus\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +61,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>PdbOnly</DebugType>
@@ -68,17 +72,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\..\..\..\..\Downloads\longbar-69631\Assembly\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <HintPath>..\..\bin\Debug\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\..\..\..\..\Downloads\Microsoft\Windows API Code Pack 1.1\binaries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <HintPath>..\..\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework.AeroLite" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -87,6 +96,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -122,6 +134,7 @@
       <SubType>Designer</SubType>
     </Page>
     <None Include="ABLogo.ico" />
+    <None Include="app.config" />
     <None Include="Localization\English.locale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

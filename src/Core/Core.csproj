@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Slate</RootNamespace>
     <AssemblyName>Core</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>False</SignAssembly>
     <FileUpgradeFlags>
@@ -25,7 +25,8 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <Utf8Output>true</Utf8Output>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <DelaySign>False</DelaySign>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
@@ -50,6 +51,9 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\..\..\Downloads\longbar-69631\Assembly\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\Assembly\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -64,6 +68,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
