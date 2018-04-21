@@ -14,70 +14,70 @@ using System.ComponentModel;
 
 namespace LongBar.SnowFall
 {
-    /// <summary>
-    /// Interaction logic for SnowFlake.xaml
-    /// </summary>
-    public partial class SnowFlake : UserControl
-    {
-        private double cX = 0;
-        private double cY = 0;
+	/// <summary>
+	/// Interaction logic for SnowFlake.xaml
+	/// </summary>
+	public partial class SnowFlake : UserControl
+	{
+		private double cX = 0;
+		private double cY = 0;
 
-        private double radians = 0;
-        private double speed;
+		private double radians = 0;
+		private double speed;
 
-        private int stageHeight = (int)System.Windows.SystemParameters.WorkArea.Height;
+		private int stageHeight = (int)System.Windows.SystemParameters.WorkArea.Height;
 
-        private static Random ranNum = new Random();
+		private static Random ranNum = new Random();
 
-        private bool _enabled = false;
+		private bool _enabled = false;
 
-        public bool Enabled
-        {
-            get { return _enabled; }
-            set { _enabled = value; }
-        }
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set { _enabled = value; }
+		}
 
-        public SnowFlake()
-        {
-            this.InitializeComponent();
+		public SnowFlake()
+		{
+			this.InitializeComponent();
 
-            // Insert code required on object creation below this point.
+			// Insert code required on object creation below this point.
 
-            speed = (.1 + ranNum.Next(1000)) / 200;
+			speed = (.1 + ranNum.Next(1000)) / 200;
 
-            if (!IsInDesignMode())
-            {
-                CompositionTarget.Rendering += new EventHandler(MoveSnowflakes);
-            }
-        }
+			if (!IsInDesignMode())
+			{
+				CompositionTarget.Rendering += new EventHandler(MoveSnowflakes);
+			}
+		}
 
-        void MoveSnowflakes(object sender, EventArgs e)
-        {
-            if (Enabled)
-            {
-                radians += .5 * speed;
+		void MoveSnowflakes(object sender, EventArgs e)
+		{
+			if (Enabled)
+			{
+				radians += .5 * speed;
 
-                cX = Canvas.GetLeft(this) + Math.Cos(.1 * radians);
-                cY = Canvas.GetTop(this) + speed;
+				cX = Canvas.GetLeft(this) + Math.Cos(.1 * radians);
+				cY = Canvas.GetTop(this) + speed;
 
-                Canvas.SetLeft(this, cX);
-                Canvas.SetTop(this, cY);
+				Canvas.SetLeft(this, cX);
+				Canvas.SetTop(this, cY);
 
-                if (cY > stageHeight)
-                {
-                    cY = -50;
+				if (cY > stageHeight)
+				{
+					cY = -50;
 
-                    Canvas.SetTop(this, cY);
-                }
-            }
-        }
+					Canvas.SetTop(this, cY);
+				}
+			}
+		}
 
-        private bool IsInDesignMode()
-        {
-            return (bool)DependencyPropertyDescriptor.FromProperty(
-                DesignerProperties.IsInDesignModeProperty,
-                typeof(FrameworkElement)).Metadata.DefaultValue;
-        } 
-        
-    }
+		private bool IsInDesignMode()
+		{
+			return (bool)DependencyPropertyDescriptor.FromProperty(
+				DesignerProperties.IsInDesignModeProperty,
+				typeof(FrameworkElement)).Metadata.DefaultValue;
+		}
+
+	}
 }

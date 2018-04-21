@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Applications.Sidebar
 {
-    [Serializable]
-    public enum PreferredDeveloperContact
-    {
-        Email,
-        Website
-    }
+	[Serializable]
+	public enum PreferredDeveloperContact
+	{
+		Email,
+		Website
+	}
 }

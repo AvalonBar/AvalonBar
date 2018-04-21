@@ -11,103 +11,103 @@ namespace LongBar
 {
 	/// <summary>
 	/// Interaction logic for App.xaml
-  	/// </summary>
+	/// </summary>
 	public partial class App : Application
 	{
-    	private static string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    	private static string userPath = LongBarMain.sett.path;
-    	
-    	public static void HandleError(Exception ex)
-        {
-    		if (LongBarMain.sett.showErrors) {
-        	TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), 
-						String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", 
+		private static string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		private static string userPath = LongBarMain.sett.path;
+
+		public static void HandleError(Exception ex)
+		{
+			if (LongBarMain.sett.showErrors) {
+			TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"),
+						String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.",
 						ex.Message, ex.Source), ex);
-    		}
-    	}
-    	
-    	private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    	{
+			}
+		}
+
+		private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+		{
 	        if (!Directory.Exists(userPath + @"\Logs"))
-    	        Directory.CreateDirectory(userPath + @"\Logs");
+		        Directory.CreateDirectory(userPath + @"\Logs");
 				string logFile = String.Format(@"{0}\Logs\{1}.{2}.{3}.log", userPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
-    	    try
-        	{
-        	    File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
-        	        DateTime.UtcNow, e.Exception));
-        	}
-        	catch (Exception ex)
-        	{
-        	    MessageBox.Show("Can't write log. Reason: " + ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
-        	}
-        	HandleError(e.Exception);
-        	e.Handled = true;
-    	}
+		    try
+			{
+			    File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
+			        DateTime.UtcNow, e.Exception));
+			}
+			catch (Exception ex)
+			{
+			    MessageBox.Show("Can't write log. Reason: " + ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+			}
+			HandleError(e.Exception);
+			e.Handled = true;
+		}
 
 		private void App_Startup(object sender, StartupEventArgs e)
-    	{
-            // Close when WinXP is detected
-            if (Environment.OSVersion.Version.Major <= 5) {
-                MessageBox.Show("Windows XP and lower are not supported by AvalonBar.\nPlease use Windows Vista or higher.", "Unsupported OS", MessageBoxButton.OK, MessageBoxImage.Stop);
-                Shutdown();
-            }
+		{
+			// Close when WinXP is detected
+			if (Environment.OSVersion.Version.Major <= 5) {
+				MessageBox.Show("Windows XP and lower are not supported by AvalonBar.\nPlease use Windows Vista or higher.", "Unsupported OS", MessageBoxButton.OK, MessageBoxImage.Stop);
+				Shutdown();
+			}
 
 			SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
 			Slate.General.SystemTray.isRunning = false;
 			if (Slate.Utilities.Utils.PriorProcess() != null)
-        	Slate.General.SystemTray.isRunning = true;
-      		LongBarMain.ReadSettings();
-       		
-      		// If the user is using Windows 8 or above.
-      		if (Environment.OSVersion.Version.Minor >= 2) {
-      			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.AeroLite,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aerolite.normalcolor.xaml");
-      		}
-      		// If the user is using Windows Vista or 7.
-      		if (Environment.OSVersion.Version.Minor <= 1) {
-      			Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Aero,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aero.normalcolor.xaml");
-      		}
-      		
-      		Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
+			Slate.General.SystemTray.isRunning = true;
+			LongBarMain.ReadSettings();
 
-      		// If automatic restart is allowed in Settings
-      		if (LongBarMain.settOps.Experimental.AllowAutomaticRestart == true) {
-      			// Code below is based on the sample found in the WinApiCodePack.
-      		    // Register for automatic restart if the application was terminated for any reason
-            	// other than a system reboot or a system update.
-            	ApplicationRestartRecoveryManager.RegisterForApplicationRestart(
-                	new RestartSettings("/restart", RestartRestrictions.NotOnReboot | RestartRestrictions.NotOnPatch));
-      		}
-      		
+			// If the user is using Windows 8 or above.
+			if (Environment.OSVersion.Version.Minor >= 2) {
+				Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.AeroLite,Version=4.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aerolite.normalcolor.xaml");
+			}
+			// If the user is using Windows Vista or 7.
+			if (Environment.OSVersion.Version.Minor <= 1) {
+				Slate.Themes.ThemesManager.LoadUITheme("/PresentationFramework.Aero,Version=3.0.0.0,Culture=neutral,PublicKeyToken=31bf3856ad364e35;component/themes/aero.normalcolor.xaml");
+			}
+
+			Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
+
+			// If automatic restart is allowed in Settings
+			if (LongBarMain.settOps.Experimental.AllowAutomaticRestart == true) {
+				// Code below is based on the sample found in the WinApiCodePack.
+			    // Register for automatic restart if the application was terminated for any reason
+				// other than a system reboot or a system update.
+				ApplicationRestartRecoveryManager.RegisterForApplicationRestart(
+					new RestartSettings("/restart", RestartRestrictions.NotOnReboot | RestartRestrictions.NotOnPatch));
+			}
+
 		    if (Slate.General.SystemTray.isRunning && e.Args.Length == 0)
-      		{
-          		MessageBox.Show((string)Application.Current.TryFindResource("AlreadyRunning"), (string)Application.Current.TryFindResource("ApplicationName"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-  		        Shutdown();
-      		}
-		    
+			{
+				MessageBox.Show((string)Application.Current.TryFindResource("AlreadyRunning"), (string)Application.Current.TryFindResource("ApplicationName"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+		        Shutdown();
+			}
+
 		    if (e.Args.Length > 0)
 		    {
 				switch (e.Args[0])
 				{
 					case @"/regext":
-						try 
+						try
 						{
 							RegistryKey key;
 							key = Registry.ClassesRoot;
-              				key = key.CreateSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, "AvalonBar.Tile", RegistryValueKind.String);
-              				key = Registry.ClassesRoot;
-              				key = key.CreateSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, "AvalonBar Tile", RegistryValueKind.String);
-              				key = key.CreateSubKey("DefaultIcon", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, path + @"\Core.dll,0", RegistryValueKind.ExpandString);
-              				key = Registry.ClassesRoot;
-              				key = key.OpenSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key = key.CreateSubKey("shell", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key = key.CreateSubKey("Install", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key = key.CreateSubKey("command", RegistryKeyPermissionCheck.ReadWriteSubTree);
-              				key.SetValue(null, path + @"\" + Assembly.GetExecutingAssembly().GetName().Name + @".exe %1", RegistryValueKind.String);
-              				key.Close();
-            			}
+							key = key.CreateSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key.SetValue(null, "AvalonBar.Tile", RegistryValueKind.String);
+							key = Registry.ClassesRoot;
+							key = key.CreateSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key.SetValue(null, "AvalonBar Tile", RegistryValueKind.String);
+							key = key.CreateSubKey("DefaultIcon", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key.SetValue(null, path + @"\Core.dll,0", RegistryValueKind.ExpandString);
+							key = Registry.ClassesRoot;
+							key = key.OpenSubKey("AvalonBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key = key.CreateSubKey("shell", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key = key.CreateSubKey("Install", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key = key.CreateSubKey("command", RegistryKeyPermissionCheck.ReadWriteSubTree);
+							key.SetValue(null, path + @"\" + Assembly.GetExecutingAssembly().GetName().Name + @".exe %1", RegistryValueKind.String);
+							key.Close();
+						}
 						catch (Exception ex) { HandleError(ex); }
 					break;
 
@@ -124,17 +124,17 @@ namespace LongBar
 	              			key.Close();
 	            		}
 	            		catch (Exception ex) { HandleError(ex); }
-            		break;
+					break;
 
-            		case "/debug":
+					case "/debug":
 	            		if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
 	            		{
 	                		LongBarMain.sett.debug = true;
 	  		                LongBarMain.sett.tileToDebug = e.Args[1];
 	            		}
-            		break;
-                    
-          			default:
+					break;
+
+					default:
 	            		foreach (string file in e.Args)
 	            		{
 	               			try
@@ -150,10 +150,10 @@ namespace LongBar
 	            		}
 		            break;
 				}
-        		if (Slate.General.SystemTray.isRunning)
-            	Shutdown();
+				if (Slate.General.SystemTray.isRunning)
+				Shutdown();
 		    }
-    	}
+		}
 
 		private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
 		{

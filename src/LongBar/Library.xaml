@@ -169,18 +169,18 @@
 				<Grid Background="White">
 					<DockPanel x:Name="LongBarTiles" Margin="10,0,10,0" DockPanel.Dock="Top" Visibility="Collapsed">
 						<DockPanel DockPanel.Dock="Top">
-							<TextBlock 
+							<TextBlock
 								x:Name="LongBarTilesCaption"
-								DockPanel.Dock="Left" 
-								Text="Local Tiles (0)" 
+								DockPanel.Dock="Left"
+								Text="Local Tiles (0)"
 								Foreground="Gray"/>
 							<Line
-								Margin="5,0,0,0" 
-								X1="0" 
-								X2="200" 
-								Stroke="Gray"  
-								StrokeThickness="1" 
-								Stretch="UniformToFill" 
+								Margin="5,0,0,0"
+								X1="0"
+								X2="200"
+								Stroke="Gray"
+								StrokeThickness="1"
+								Stretch="UniformToFill"
 								Opacity="0.7"/>
 						</DockPanel>
 						<ScrollViewer

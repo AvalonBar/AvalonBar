@@ -14,33 +14,33 @@ using System.Windows.Shapes;
 
 namespace LongBar
 {
-    /// <summary>
-    /// Interaction logic for ToolButton.xaml
-    /// </summary>
-    public partial class ToolButton : UserControl
-    {
-        public string Text
-        {
-            get {return Caption.Text;}
-            set
-            {
-                Caption.Text = value;
-            }
-        }
+	/// <summary>
+	/// Interaction logic for ToolButton.xaml
+	/// </summary>
+	public partial class ToolButton : UserControl
+	{
+		public string Text
+		{
+			get {return Caption.Text;}
+			set
+			{
+				Caption.Text = value;
+			}
+		}
 
-        public ToolButton()
-        {
-            InitializeComponent();
-        }
+		public ToolButton()
+		{
+			InitializeComponent();
+		}
 
-        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Rect2.Fill = (LinearGradientBrush)this.Resources["Pressed"];
-        }
+		private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			Rect2.Fill = (LinearGradientBrush)this.Resources["Pressed"];
+		}
 
-        private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Rect2.Fill = (LinearGradientBrush)this.Resources["Over"];
-        }
-    }
+		private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			Rect2.Fill = (LinearGradientBrush)this.Resources["Over"];
+		}
+	}
 }

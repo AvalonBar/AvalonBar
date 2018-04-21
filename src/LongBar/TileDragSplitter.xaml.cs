@@ -13,21 +13,21 @@ using System.Windows.Shapes;
 
 namespace LongBar
 {
-    /// <summary>
-    /// Interaction logic for TileDragSplitter.xaml
-    /// </summary>
-    public partial class TileDragSplitter : UserControl
-    {
-        public TileDragSplitter(double height)
-        {
-            InitializeComponent();
+	/// <summary>
+	/// Interaction logic for TileDragSplitter.xaml
+	/// </summary>
+	public partial class TileDragSplitter : UserControl
+	{
+		public TileDragSplitter(double height)
+		{
+			InitializeComponent();
 
-            //HeightAnim.To = height;
-        }
+			//HeightAnim.To = height;
+		}
 
-        public void Reload()
-        {
-            //this.BeginAnimation(HeightProperty, HeightAnim);
-        }
-    }
+		public void Reload()
+		{
+			//this.BeginAnimation(HeightProperty, HeightAnim);
+		}
+	}
 }

@@ -12,14 +12,14 @@ using System.Windows.Shapes;
 
 namespace LongBar
 {
-    /// <summary>
-    /// Interaction logic for Shadow.xaml
-    /// </summary>
-    public partial class Shadow : Window
-    {
-    	public Shadow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for Shadow.xaml
+	/// </summary>
+	public partial class Shadow : Window
+	{
+		public Shadow()
+		{
+			InitializeComponent();
+		}
+	}
 }
