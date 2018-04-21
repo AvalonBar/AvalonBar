@@ -134,7 +134,6 @@
       <SubType>Designer</SubType>
     </Page>
     <None Include="ABLogo.ico" />
-    <None Include="app.config" />
     <None Include="Localization\English.locale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
