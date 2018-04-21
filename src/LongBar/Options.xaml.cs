@@ -285,12 +285,6 @@ namespace LongBar
         OverlapCheckBox.IsChecked = false;
     }
 
-    private void ManTilesButton_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-    	//TODO: Implement tile management for maintenance
-    	MessageBox.Show("This feature is still unimplemented.", "Tile Management");
-    }
-
     private void ReportString_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
 		Process.Start(LongBarMain.settOps.Links.BugTrackerURL);
