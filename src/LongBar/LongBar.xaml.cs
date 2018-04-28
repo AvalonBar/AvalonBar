@@ -42,6 +42,7 @@ namespace LongBar
 		public Shadow shadow = new Shadow();
 		private Library library;
 		public static Slate.Options.Settings settOps;
+		private Window dummyWin;
 
 		internal struct Settings
 		{
@@ -103,6 +104,13 @@ namespace LongBar
 
 		private void LongBar_SourceInitialized(object sender, EventArgs e)
 		{
+			// Create Dummy Window
+			dummyWin = new Window() { ShowInTaskbar = false, WindowStyle = System.Windows.WindowStyle.ToolWindow,
+										Width = 0, Height = 0, Top = -100, Left = -100, Visibility = Visibility.Hidden };
+			dummyWin.Show();
+			dummyWin.Hide();
+			Owner = shadow.Owner = dummyWin;
+
 			Handle = new WindowInteropHelper(this).Handle;
 			ReadSettings();
 			Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, sett.theme);
@@ -124,20 +132,14 @@ namespace LongBar
 
 			this.Width = sett.width;
 			Slate.General.SystemTray.AddIcon(this);
-			this.WindowStyle = WindowStyle.ToolWindow;
 			Slate.General.Sidebar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
 			SetSide(sett.side);
 			this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
 			this.MinWidth = 31;
-			if (Environment.OSVersion.Version.Major == 6)
-			{
-			    Slate.DWM.DwmManager.RemoveFromFlip3D(Handle);
-			    if (Environment.OSVersion.Version.Minor == 1)
-			    {
-						Slate.DWM.DwmManager.RemoveFromAeroPeek(Handle);
-			    }
-			}
 
+			Slate.DWM.DwmManager.RemoveFromFlip3D(Handle);
+			Slate.DWM.DwmManager.RemoveFromAeroPeek(Handle);
+			
 			Slate.General.SystemTray.SidebarvisibleChanged += new Slate.General.SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
 
 			GetTiles();
