@@ -16,7 +16,7 @@ namespace Slate.DWM
 		[DllImport("dwmapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		public static extern void DwmGetColorizationColor(out int color, out bool opaque);
 
-		[DllImport("dwmapi.dll", PreserveSig = false)]
+		[DllImport("dwmapi.dll", PreserveSig = true)]
 		public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 
 		private struct BB_Struct //Blur Behind Structure
@@ -89,20 +89,46 @@ namespace Slate.DWM
 
 		public static void RemoveFromAeroPeek(IntPtr hwnd)
 		{
-			if (IsGlassAvailable())
-			{
-				int attrValue = 1; // True
-				DwmSetWindowAttribute(hwnd, 12, ref attrValue, sizeof(int));
-			}
+			if (!IsFeatureSupported(DwmFeatures.AeroPeek))
+				return;
+			int attrValue = 1; // True
+			DwmSetWindowAttribute(hwnd, 12, ref attrValue, sizeof(int));
 		}
 
 		public static void RemoveFromFlip3D(IntPtr hwnd)
 		{
-			if (IsGlassAvailable())
+			if (!IsFeatureSupported(DwmFeatures.Flip3D))
+				return;
+
+			int attrValue = (int)Flip3DPolicy.ExcludeBelow; // True
+			DwmSetWindowAttribute(hwnd, Flip3D, ref attrValue, sizeof(int));
+		}
+
+		public enum DwmFeatures
+		{
+			Flip3D,
+			AeroPeek
+		}
+
+		public static bool IsFeatureSupported(DwmFeatures feature)
+		{
+			if (!(Environment.OSVersion.Version.Major >= 6))
+				return false;
+
+			switch (feature)
 			{
-				int attrValue = (int)Flip3DPolicy.ExcludeBelow; // True
-				DwmSetWindowAttribute(hwnd, Flip3D, ref attrValue, sizeof(int));
+				case DwmFeatures.Flip3D:
+					// Supported only when user is running Windows Vista/7
+					if (IsGlassAvailable() && Environment.Version.Major == 6 && Environment.Version.Minor <= 1)
+						return true;
+					break;
+				case DwmFeatures.AeroPeek:
+					// Aero Peek is supported up to the current latest version of Windows 10
+					return true;
+					break;
 			}
+
+			return false;
 		}
 	}
 }
