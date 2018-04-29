@@ -63,8 +63,8 @@
     <s:String x:Key="LocationOnScreen">AvalonBar location on the screen:</s:String>
     <s:String x:Key="AtLeft">Left</s:String>
     <s:String x:Key="AtRight">Right</s:String>
-    <s:String x:Key="AtTop">Top [bugged]</s:String>
-    <s:String x:Key="AtBottom">Bottom [bugged]</s:String>
+    <s:String x:Key="AtTop">Top</s:String>
+    <s:String x:Key="AtBottom">Bottom</s:String>
     <s:String x:Key="Appearance">Appearance</s:String>
     <s:String x:Key="EnableGlass">Enable Aero Glass</s:String>
     <s:String x:Key="Theme">Sidebar theme:</s:String>
