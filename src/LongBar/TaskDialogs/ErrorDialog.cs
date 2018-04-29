@@ -73,7 +73,7 @@ namespace LongBar.TaskDialogs
 				"\nException:\n" + ex;
 
 			Clipboard.SetText(msg);
-			Process.Start(LongBarMain.settOps.Links.BugTrackerURL);
+			Process.Start(LongBarMain.sett.Links.BugTrackerURL);
 		}
 	}
 }

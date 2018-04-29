@@ -125,7 +125,6 @@ namespace Slate.DWM
 				case DwmFeatures.AeroPeek:
 					// Aero Peek is supported up to the current latest version of Windows 10
 					return true;
-					break;
 			}
 
 			return false;

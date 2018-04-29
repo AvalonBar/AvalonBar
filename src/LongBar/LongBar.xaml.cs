@@ -34,39 +34,15 @@ namespace LongBar
 		static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
 		public IntPtr Handle;
-		static internal Settings sett;
 		private Options options;
 		private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public static List<Tile> Tiles = new List<Tile>();
 
 		public Shadow shadow = new Shadow();
 		private Library library;
-		public static Slate.Options.Settings settOps;
+		public static Slate.Options.Settings sett = Slate.Options.SettingsManager.DefaultSettings;
+		public static Slate.Options.StartupFlags flags = new Slate.Options.StartupFlags();
 		private Window dummyWin;
-
-		internal struct Settings
-		{
-			public bool startup;
-			public Slate.General.Sidebar.Side side;
-			public string theme;
-			public string locale;
-			public int width;
-			public bool topMost;
-			public bool enableGlass;
-			public bool enableShadow;
-			public bool locked;
-			public string[] tiles;
-			public string[] heights;
-			public string[] pinnedTiles;
-			public bool showErrors;
-			public bool overlapTaskbar;
-			public string screen;
-			public string path;
-			public bool enableSnowFall;
-			public bool enableUpdates;
-			public bool debug;
-			public string tileToDebug;
-		}
 
 		public LongBarMain()
 		{
@@ -113,11 +89,11 @@ namespace LongBar
 
 			Handle = new WindowInteropHelper(this).Handle;
 			ReadSettings();
-			Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, sett.theme);
-			object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
+			Slate.Themes.ThemesManager.LoadTheme(sett.Program.Path, sett.Program.Theme);
+			object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(sett.Program.Path, sett.Program.Theme, "boolean", "EnableGlass");
 			if (enableGlass != null && !Convert.ToBoolean(enableGlass))
-			    sett.enableGlass = false;
-			object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+			    sett.Program.EnableGlass = false;
+			object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(sett.Program.Path, sett.Program.Theme, "boolean", "UseSystemGlassColor");
 
 			if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
 			{
@@ -128,12 +104,12 @@ namespace LongBar
 			    Slate.General.Sidebar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
 			}
 
-			Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, sett.locale);
+			Slate.Localization.LocaleManager.LoadLocale(sett.Program.Path, sett.Program.Language);
 
-			this.Width = sett.width;
+			this.Width = sett.Program.Width;
 			Slate.General.SystemTray.AddIcon(this);
-			Slate.General.Sidebar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
-			SetSide(sett.side);
+			Slate.General.Sidebar.SetSidebar(this, sett.Program.Side, false, sett.Program.OverlapTaskbar, sett.Program.Screen);
+			SetSide(sett.Program.Side);
 			this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
 			this.MinWidth = 31;
 
@@ -171,23 +147,23 @@ namespace LongBar
 
 	private void LoadAnimation_Completed(object sender, EventArgs e)
 	{
-	  if (Slate.DWM.DwmManager.IsGlassAvailable() && sett.enableGlass)
+	  if (Slate.DWM.DwmManager.IsGlassAvailable() && sett.Program.EnableGlass)
 		Slate.DWM.DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
 
 	  shadow.Height = this.Height;
 	  shadow.Top = this.Top;
 
-	  if (sett.enableShadow)
+	  if (sett.Program.EnableShadow)
 	  {
 		  shadow.Show();
 	  }
 
-	  if (sett.enableSnowFall)
+	  if (sett.Program.EnableSnowFall)
 	  {
 		  EnableSnowFall();
 	  }
 
-	  if (sett.enableUpdates)
+	  if (sett.Program.EnableUpdates)
 	  {
 
 		  foreach (string file in Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old", SearchOption.TopDirectoryOnly))
@@ -195,14 +171,13 @@ namespace LongBar
 			  File.Delete(file);
 		  }
 
-		  foreach (string file in Directory.GetFiles(sett.path, "*.old", SearchOption.AllDirectories))
+		  foreach (string file in Directory.GetFiles(sett.Program.Path, "*.old", SearchOption.AllDirectories))
 		  {
 			  File.Delete(file);
 		  }
 
 		  ThreadStart threadStarter = delegate
 		  {
-
 			  Slate.Updates.UpdatesManager.UpdateInfo updateInfo = Slate.Updates.UpdatesManager.CheckForUpdates(Assembly.GetExecutingAssembly().GetName().Version.Build);
 			  if (updateInfo.Build != null && updateInfo.Description != null)
 			  {
@@ -223,32 +198,32 @@ namespace LongBar
 	private void LoadTilesAtStartup()
 	{
 		try {
-	        if (!sett.debug)
+			if (!flags.Debug)
 	        {
-	            if (sett.tiles != null && Tiles != null && sett.tiles.Length > 0 && Tiles.Count > 0)
+				if (sett.Program.Tiles != null && Tiles != null && sett.Program.Tiles.Length > 0 && Tiles.Count > 0)
 	            {
-	                for (int i = 0; i < sett.tiles.Length; i++)
+					for (int i = 0; i < sett.Program.Tiles.Length; i++)
 	                {
-	                    string tileName = sett.tiles[i];
+						string tileName = sett.Program.Tiles[i];
 	                    foreach (Tile tile in Tiles)
 	                    {
 	                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == tileName)
 	                        {
 	                            double tileHeight = double.NaN;
-	                            if (sett.heights != null && sett.heights.Length > i)
+								if (sett.Program.Heights != null && sett.Program.Heights.Length > i)
 	                            {
-	                                if (sett.heights[i].EndsWith("M"))
+									if (sett.Program.Heights[i].EndsWith("M"))
 	                                {
-	                                    tileHeight = double.Parse(sett.heights[i].Replace("M", string.Empty));
+										tileHeight = double.Parse(sett.Program.Heights[i].Replace("M", string.Empty));
 	                                    tile.minimized = true;
 	                                }
 	                                else
-	                                    tileHeight = double.Parse(sett.heights[i]);
+										tileHeight = double.Parse(sett.Program.Heights[i]);
 	                            }
 	                            if (!double.IsNaN(tileHeight))
-	                                tile.Load(sett.side, tileHeight);
+									tile.Load(sett.Program.Side, tileHeight);
 	                            else
-	                                tile.Load(sett.side, double.NaN);
+									tile.Load(sett.Program.Side, double.NaN);
 	                            if (!tile.hasErrors)
 	                                TilesGrid.Children.Add(tile);
 	                        }
@@ -256,16 +231,16 @@ namespace LongBar
 	                }
 	            }
 
-	            if (sett.pinnedTiles != null && Tiles != null && sett.pinnedTiles.Length > 0 && Tiles.Count > 0)
+				if (sett.Program.PinnedTiles != null && Tiles != null && sett.Program.PinnedTiles.Length > 0 && Tiles.Count > 0)
 	            {
-	                for (int i = 0; i < sett.pinnedTiles.Length; i++)
+					for (int i = 0; i < sett.Program.PinnedTiles.Length; i++)
 	                {
 	                    foreach (Tile tile in Tiles)
 	                    {
-	                        if (tile.File.EndsWith(sett.pinnedTiles[i]))
+							if (tile.File.EndsWith(sett.Program.PinnedTiles[i]))
 	                        {
 	                            tile.pinned = true;
-	                            tile.Load(sett.side, double.NaN);
+								tile.Load(sett.Program.Side, double.NaN);
 
 	                            tile.Header.Visibility = System.Windows.Visibility.Collapsed;
 	                            DockPanel.SetDock(tile.Splitter, Dock.Top);
@@ -284,7 +259,7 @@ namespace LongBar
 	        {
 	            if (Tiles.Count > 0)
 	            {
-	                Tiles[0].Load(sett.side, double.NaN);
+					Tiles[0].Load(sett.Program.Side, double.NaN);
 	                TilesGrid.Children.Add(Tiles[0]);
 	            }
 	        }
@@ -295,10 +270,10 @@ namespace LongBar
 
 	private void GetTiles()
 	{
-		if (!sett.debug)
+		if (!flags.Debug)
 		{
-			if (System.IO.Directory.Exists(sett.path + @"\Library"))
-				foreach (string dir in System.IO.Directory.GetDirectories(sett.path + @"\Library"))
+			if (System.IO.Directory.Exists(sett.Program.Path + @"\Library"))
+				foreach (string dir in System.IO.Directory.GetDirectories(sett.Program.Path + @"\Library"))
 				{
 					string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
 					if (System.IO.File.Exists(file))
@@ -324,7 +299,7 @@ namespace LongBar
 		}
 		else
 		{
-			Tiles.Add(new Tile(sett.tileToDebug));
+			Tiles.Add(new Tile(flags.TileToDebug));
 			if (Tiles[Tiles.Count - 1].hasErrors)
 				Tiles.RemoveAt(Tiles.Count - 1);
 			else
@@ -348,7 +323,7 @@ namespace LongBar
 	  int index = AddTileItem.Items.IndexOf(sender);
 	  if (!((MenuItem)AddTileItem.Items[index]).IsChecked)
 	  {
-		Tiles[index].Load(sett.side, double.NaN);
+		  Tiles[index].Load(sett.Program.Side, double.NaN);
 		if (!Tiles[index].hasErrors)
 		{
 			TilesGrid.Children.Insert(0, Tiles[index]);
@@ -361,136 +336,59 @@ namespace LongBar
 		((MenuItem)AddTileItem.Items[index]).IsChecked = false;
 	  }
 	}
-	private static string settFile = "Settings.xml";
+
 	public static void ReadSettings()
 	{
-	  // Load default settings before trying to check if sett. file exists
-	  settOps = Slate.Options.SettingsManager.DefaultSettings;
-	  if (File.Exists(settFile))
-	  {
-		// Load user settings file
-		settOps = Slate.Options.SettingsManager.Load(settFile);
-	  }
-	  // Populate struct with values from settOps
-	  sett.startup = settOps.Program.AutoStart;
-	  sett.side = (Slate.General.Sidebar.Side)settOps.Program.Side;
-	  sett.theme = settOps.Program.Theme;
-	  sett.locale = settOps.Program.Language;
-	  sett.width = settOps.Program.Width;
-	  sett.topMost = settOps.Program.TopMost;
-	  sett.enableGlass = settOps.Program.EnableGlass;
-	  sett.enableShadow = settOps.Program.EnableShadow;
-	  sett.locked = settOps.Program.Locked;
-	  sett.overlapTaskbar = settOps.Program.OverlapTaskbar;
-	  sett.showErrors = settOps.Program.ShowErrors;
-//       if (settOps.Program.Path != "\\") {
-	  sett.path = settOps.Program.Path;
-//       }
-	  sett.enableSnowFall = settOps.Program.EnableSnowFall;
-	  sett.enableUpdates = settOps.Program.EnableUpdates;
-	  sett.tiles = settOps.Program.Tiles.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
-	  sett.heights = settOps.Program.Heights.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-	  sett.pinnedTiles = settOps.Program.PinnedTiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+		sett = Slate.Options.SettingsManager.UserSettings;
 	}
 
 	private void WriteSettings()
 	{
-	  sett.width = (int)this.Width;
+	  sett.Program.Width = (int)this.Width;
 
-	  if (File.Exists(settFile))
-
-	  Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
-	  Array.Resize(ref sett.heights, TilesGrid.Children.Count);
+	  sett.Program.Tiles = new string[TilesGrid.Children.Count];
+	  sett.Program.Heights = new string[TilesGrid.Children.Count];
 
 	  if (TilesGrid.Children.Count > 0)
 	  {
 		  for (int i = 0; i < TilesGrid.Children.Count; i++)
 		  {
-			  sett.tiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File);
+			  sett.Program.Tiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File);
 			  if (Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].minimized)
-				  sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M";
+				  sett.Program.Heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M";
 			  else
-				  sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString();
+				  sett.Program.Heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString();
 		  }
 	  }
 
 	  if (PinGrid.Children.Count > 0)
 	  {
-		  sett.pinnedTiles = new string[PinGrid.Children.Count];
+		  sett.Program.PinnedTiles = new string[PinGrid.Children.Count];
 
 		  for (int i = 0; i < PinGrid.Children.Count; i++)
 		  {
-			  sett.pinnedTiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File);
+			  sett.Program.PinnedTiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File);
 		  }
 	  }
 
-	  settOps.Program.AutoStart = sett.startup;
-	  settOps.Program.Side = (int)sett.side;
-	  settOps.Program.Theme = sett.theme;
-	  settOps.Program.Language = sett.locale;
-	  settOps.Program.Width = sett.width;
-	  settOps.Program.TopMost = sett.topMost;
-	  settOps.Program.EnableGlass = sett.enableGlass;
-	  settOps.Program.EnableShadow = sett.enableShadow;
-	  settOps.Program.Locked = sett.locked;
-	  settOps.Program.OverlapTaskbar = sett.overlapTaskbar;
-	  settOps.Program.ShowErrors = sett.showErrors;
-	  settOps.Program.Screen = sett.screen;
-	  settOps.Program.EnableSnowFall = sett.enableSnowFall;
-// FIXME: Causes a bug somewhere
-//      if (sett.path == System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)) {
-//          settOps.Program.Path = "\\";
-//      } else {
-		  settOps.Program.Path = sett.path;
-//      }
-	  settOps.Program.EnableUpdates = sett.enableUpdates;
-
-	  if (sett.tiles != null && sett.tiles.Length > 0)
-	  {
-		string temp="";
-		for (int i = 0; i < sett.tiles.Length; i++)
-		{
-			temp = temp + sett.tiles[i] + ";";
-		}
-		settOps.Program.Tiles = temp;
-	  }
-
-	  if (sett.heights != null && sett.heights.Length > 0)
-	  {
-		string temp="";
-		  for (int i = 0; i < sett.heights.Length; i++)
-		  {
-			  temp = temp + sett.heights[i] + ";";
-		  }
-		  settOps.Program.Heights = temp;
-	  }
-
-	  if (sett.pinnedTiles != null && sett.pinnedTiles.Length > 0)
-	  {
-		string temp="";
-		  for (int i = 0; i < sett.pinnedTiles.Length; i++)
-		  {
-			  temp = temp + sett.pinnedTiles[i] + ";";
-		  }
-		  settOps.Program.PinnedTiles = temp;
-	  }
 	  // Finally, save the file
-	  Slate.Options.SettingsManager.Save<Slate.Options.Settings>(settOps, settFile);
+	  Slate.Options.SettingsManager.Save<Slate.Options.Settings>(sett, "Settings.xml");
 	}
 
 	private void LongBar_MouseMove(object sender, MouseEventArgs e)
 	{
-	  switch (sett.side)
+		switch (sett.Program.Side)
 	  {
 		case Slate.General.Sidebar.Side.Right:
-		  if (e.GetPosition(this).X <= 5 && !sett.locked)
+		  if (e.GetPosition(this).X <= 5 && !sett.Program.Locked)
 		  {
 			base.Cursor = Cursors.SizeWE;
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 			  SendMessageW(Handle, 274, 61441, IntPtr.Zero);
-			  sett.width = (int)this.Width;
-			  if (sett.topMost) {
+			  sett.Program.Width = (int)this.Width;
+			  if (sett.Program.TopMost)
+			  {
 				shadow.Topmost = true;
 				Slate.General.Sidebar.SizeAppbar();
 			  } else {
@@ -503,14 +401,15 @@ namespace LongBar
 			base.Cursor = Cursors.Arrow;
 		  break;
 		case Slate.General.Sidebar.Side.Left:
-		  if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
+		  if (e.GetPosition(this).X >= this.Width - 5 && !sett.Program.Locked)
 		  {
 			base.Cursor = Cursors.SizeWE;
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 			  SendMessageW(Handle, 274, 61442, IntPtr.Zero);
-			  sett.width = (int)this.Width;
-			  if (sett.topMost) {
+			  sett.Program.Width = (int)this.Width;
+			  if (sett.Program.TopMost)
+			  {
 				shadow.Topmost = true;
 				Slate.General.Sidebar.SizeAppbar();
 			  } else {
@@ -527,13 +426,13 @@ namespace LongBar
 
 	private void LongBar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-	  switch (sett.side)
+	  switch (sett.Program.Side)
 	  {
 		  case Slate.General.Sidebar.Side.Right:
-		  if (e.GetPosition(this).X <= 5 && !sett.locked)
+		  if (e.GetPosition(this).X <= 5 && !sett.Program.Locked)
 		  {
 			this.Width = 150;
-			  if (sett.topMost) {
+			  if (sett.Program.TopMost) {
 				shadow.Topmost = true;
 				Slate.General.Sidebar.SizeAppbar();
 			  } else {
@@ -544,10 +443,10 @@ namespace LongBar
 		  }
 		  break;
 		  case Slate.General.Sidebar.Side.Left:
-		  if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
+		  if (e.GetPosition(this).X >= this.Width - 5 && !sett.Program.Locked)
 		  {
 			this.Width = 150;
-			  if (sett.topMost) {
+			  if (sett.Program.TopMost) {
 				shadow.Topmost = true;
 				Slate.General.Sidebar.SizeAppbar();
 			  } else {
@@ -579,19 +478,19 @@ namespace LongBar
 
 	private void LockItem_Checked(object sender, RoutedEventArgs e)
 	{
-	  sett.locked = true;
+		sett.Program.Locked = true;
 	}
 
 	private void LockItem_Unchecked(object sender, RoutedEventArgs e)
 	{
-	  sett.locked = false;
+		sett.Program.Locked = false;
 	}
 	public void SetSide(Slate.General.Sidebar.Side side)
 	{
 	  switch (side)
 	  {
 		case Slate.General.Sidebar.Side.Left:
-		   Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
+			  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Left, sett.Program.TopMost, sett.Program.OverlapTaskbar, sett.Program.Screen);
 		   Bg.FlowDirection = FlowDirection.RightToLeft;
 		   BgHighlight.FlowDirection = FlowDirection.RightToLeft;
 		   BgHighlight.HorizontalAlignment = HorizontalAlignment.Right;
@@ -605,7 +504,7 @@ namespace LongBar
 			  tile.ChangeSide(Slate.General.Sidebar.Side.Left);
 		  break;
 		case Slate.General.Sidebar.Side.Right:
-		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
+		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Right, sett.Program.TopMost, sett.Program.OverlapTaskbar, sett.Program.Screen);
 		  Bg.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -614,14 +513,14 @@ namespace LongBar
 
 		  shadow.Left = this.Left - shadow.Width;
 		  shadow.FlowDirection = FlowDirection.LeftToRight;
-		  if (sett.topMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
+		  if (sett.Program.TopMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
 
 		  foreach (Tile tile in TilesGrid.Children)
 			  tile.ChangeSide(Slate.General.Sidebar.Side.Right);
 		  break;
 		// FIXME: Under-implemented top/left sides
 		case Slate.General.Sidebar.Side.Top:
-		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Top, sett.topMost, false, sett.screen);
+		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Top, sett.Program.TopMost, false, sett.Program.Screen);
 		  Bg.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -630,13 +529,13 @@ namespace LongBar
 
 		  shadow.Left = this.Left - shadow.Width;
 		  shadow.FlowDirection = FlowDirection.LeftToRight;
-		  if (sett.topMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
+		  if (sett.Program.TopMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
 
 		  foreach (Tile tile in TilesGrid.Children)
 			  tile.ChangeSide(Slate.General.Sidebar.Side.Right);
 		  break;
 		case Slate.General.Sidebar.Side.Bottom:
-		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Bottom, sett.topMost, false, sett.screen);
+		  Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Bottom, sett.Program.TopMost, false, sett.Program.Screen);
 		  Bg.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.FlowDirection = FlowDirection.LeftToRight;
 		  BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -645,7 +544,7 @@ namespace LongBar
 
 		  shadow.Left = this.Left - shadow.Width;
 		  shadow.FlowDirection = FlowDirection.LeftToRight;
-		  if (sett.topMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
+		  if (sett.Program.TopMost) { shadow.Topmost = true; } else { shadow.Topmost = false; }
 
 		  foreach (Tile tile in TilesGrid.Children)
 			  tile.ChangeSide(Slate.General.Sidebar.Side.Right);
@@ -655,7 +554,7 @@ namespace LongBar
 
 	public void SetLocale(string locale)
 	{
-		Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, locale);
+		Slate.Localization.LocaleManager.LoadLocale(sett.Program.Path, locale);
 		Slate.General.SystemTray.SetLocale();
 		foreach (Tile tile in TilesGrid.Children)
 		  tile.ChangeLocale(locale);
@@ -663,9 +562,9 @@ namespace LongBar
 
 	public void SetTheme(string theme)
 	{
-		Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, theme);
+		Slate.Themes.ThemesManager.LoadTheme(sett.Program.Path, theme);
 
-		object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+		object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(sett.Program.Path, sett.Program.Theme, "boolean", "UseSystemGlassColor");
 		if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
 		{
 			int color;
@@ -681,7 +580,7 @@ namespace LongBar
 			Slate.General.Sidebar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
 		}
 
-		string file = string.Format(@"{0}\{1}.theme.xaml", sett.path, theme);
+		string file = string.Format(@"{0}\{1}.theme.xaml", sett.Program.Path, theme);
 
 		foreach (Tile tile in TilesGrid.Children)
 			tile.ChangeTheme(file);
@@ -689,17 +588,17 @@ namespace LongBar
 
 	private void LockItem_Click(object sender, RoutedEventArgs e)
 	{
-	  if (sett.locked)
+	  if (sett.Program.Locked)
 	  {
 		LockItem.IsChecked = false;
 		LockItem.Header = TryFindResource("Lock");
-		sett.locked = false;
+		sett.Program.Locked = false;
 	  }
 	  else
 	  {
 		LockItem.IsChecked = true;
 		LockItem.Header = TryFindResource("Lock");
-		sett.locked = true;
+		sett.Program.Locked = true;
 	  }
 	}
 
@@ -716,7 +615,8 @@ namespace LongBar
 
 	private void Menu_Opened(object sender, RoutedEventArgs e)
 	{
-		if (sett.locked) {
+		if (sett.Program.Locked)
+		{
 		LockItem.IsChecked = true;
 		LockItem.Header = TryFindResource("Lock");
 		} else {
@@ -728,8 +628,8 @@ namespace LongBar
 	  else
 		  RemoveTilesItem.IsEnabled = true;
 
-	  if (System.IO.Directory.Exists(sett.path + @"\Library") && Tiles.Count != System.IO.Directory.GetDirectories(sett.path + @"\Library").Length)
-		foreach (string d in System.IO.Directory.GetDirectories(sett.path + @"\Library"))
+	  if (System.IO.Directory.Exists(sett.Program.Path + @"\Library") && Tiles.Count != System.IO.Directory.GetDirectories(sett.Program.Path + @"\Library").Length)
+		foreach (string d in System.IO.Directory.GetDirectories(sett.Program.Path + @"\Library"))
 		{
 		  string file = string.Format(@"{0}\{1}.dll", d, System.IO.Path.GetFileName(d));
 		  if(!CheckTileAdded(file))
@@ -793,24 +693,24 @@ namespace LongBar
 			  }
 			  if (files[i].EndsWith(".locale.xaml"))
 			  {
-				  if (Slate.Localization.LocaleManager.InstallLocale(LongBar.LongBarMain.sett.path, files[i]))
+				  if (Slate.Localization.LocaleManager.InstallLocale(sett.Program.Path, files[i]))
 				  {
 					  MessageBox.Show("Locale was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
 					  string name = System.IO.Path.GetFileName(files[i]);
-					  sett.locale = name.Substring(0, name.IndexOf(@".locale.xaml"));
-					  SetLocale(sett.locale);
+					  sett.Program.Language = name.Substring(0, name.IndexOf(@".locale.xaml"));
+					  SetLocale(sett.Program.Language);
 				  }
 				  else
 					  MessageBox.Show("Can't install locale.", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Error);
 			  }
 			  if (files[i].EndsWith(".theme.xaml"))
 			  {
-				  if (Slate.Themes.ThemesManager.InstallTheme(LongBar.LongBarMain.sett.path, files[i]))
+				  if (Slate.Themes.ThemesManager.InstallTheme(sett.Program.Path, files[i]))
 				  {
 					  MessageBox.Show("Theme was succesfully installed!", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Information);
 					  string name = System.IO.Path.GetFileName(files[i]);
-					  sett.theme = name.Substring(0, name.IndexOf(@".theme.xaml"));
-					  SetTheme(sett.theme);
+					  sett.Program.Theme = name.Substring(0, name.IndexOf(@".theme.xaml"));
+					  SetTheme(sett.Program.Theme);
 				  }
 				  else
 					  MessageBox.Show("Can't install theme.", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -858,7 +758,7 @@ namespace LongBar
 	  {
 		  shadow.Height = this.Height;
 		  shadow.Top = this.Top;
-		  switch (sett.side)
+		  switch (sett.Program.Side)
 		  {
 			  case Slate.General.Sidebar.Side.Right:
 				  shadow.Left = this.Left - shadow.Width;

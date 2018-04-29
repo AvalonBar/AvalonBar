@@ -69,13 +69,13 @@ namespace LongBar.TaskDialogs
 			tdDownload.Controls.Add(progressBar);
 			tdDownload.Closing += new EventHandler<TaskDialogClosingEventArgs>(tdDownload_Closing);
 
-			if (!Directory.Exists(LongBarMain.sett.path + "\\Updates"))
-				Directory.CreateDirectory(LongBarMain.sett.path + "\\Updates");
+			if (!Directory.Exists(LongBarMain.sett.Program.Path + "\\Updates"))
+				Directory.CreateDirectory(LongBarMain.sett.Program.Path + "\\Updates");
 
 			client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
 			client.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
-			client.DownloadFileAsync(new Uri("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.data/download"), LongBarMain.sett.path + "\\Updates\\Update");
+			client.DownloadFileAsync(new Uri("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.data/download"), LongBarMain.sett.Program.Path + "\\Updates\\Update");
 
 			tdDownload.Show();
 		}
@@ -90,7 +90,7 @@ namespace LongBar.TaskDialogs
 		{
 			if (e.Error == null && !e.Cancelled)
 			{
-				Slate.Updates.UpdatesManager.UpdateFiles(LongBarMain.sett.path);
+				Slate.Updates.UpdatesManager.UpdateFiles(LongBarMain.sett.Program.Path);
 				App.Current.Dispatcher.Invoke((Action)delegate
 				{
 					App.Current.Shutdown();

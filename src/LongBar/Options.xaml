@@ -183,10 +183,10 @@
 								Margin="0,0,0,3" />
 							<WrapPanel x:Name="SidePanel" Margin="0,3,0,0">
 								<TextBlock Text="{DynamicResource Location}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Width="108" />
-								<ComboBox Name="LocationComboBox" SelectedIndex="1" SelectionChanged="ComboBox_SelectionChanged_1" Width="233">
+								<ComboBox Name="LocationComboBox" SelectedIndex="2" SelectionChanged="ComboBox_SelectionChanged_1" Width="233">
 									<ComboBoxItem Content="{DynamicResource AtLeft}" />
-									<ComboBoxItem Content="{DynamicResource AtRight}" />
-									<ComboBoxItem Content="{DynamicResource AtTop}" />
+                                    <ComboBoxItem Content="{DynamicResource AtTop}" />
+                                    <ComboBoxItem Content="{DynamicResource AtRight}" />
 									<ComboBoxItem Content="{DynamicResource AtBottom}" />
 								</ComboBox>
 							</WrapPanel>

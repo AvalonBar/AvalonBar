@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
+using Slate.General;
 
 namespace Slate.Options
 {
@@ -12,7 +13,6 @@ namespace Slate.Options
 	public class Settings
 	{
 		public Links Links { get; set; }
-		public Experimental Experimental { get; set; }
 		public Program Program { get; set; }
 	}
 
@@ -27,16 +27,10 @@ namespace Slate.Options
 	}
 
 	[XmlTypeAttribute(AnonymousType = true)]
-	public class Experimental
-	{
-		public bool AllowAutomaticRestart { get; set; }
-	}
-
-	[XmlTypeAttribute(AnonymousType = true)]
 	public class Program
 	{
 		public bool AutoStart { get; set; }
-		public int Side { get; set; }
+		public Sidebar.Side Side { get; set; }
 		public string Theme { get; set; }
 		public string Language { get; set; }
 		public int Width { get; set; }
@@ -49,12 +43,16 @@ namespace Slate.Options
 		public string Screen { get; set; }
 		public string Path { get; set; }
 		public bool EnableUpdates { get; set; }
-		public string Tiles { get; set; }
-		public string Heights { get; set; }
-		public string PinnedTiles { get; set; }
+		public string[] Tiles { get; set; }
+		public string[] Heights { get; set; }
+		public string[] PinnedTiles { get; set; }
 		public bool EnableSnowFall { get; set; }
+	}
+
+	public class StartupFlags
+	{
 		public bool Debug { get; set; }
-		public string tileToDebug { get; set; }
+		public string TileToDebug { get; set; }
 	}
 
 	public class SettingsManager
@@ -75,6 +73,23 @@ namespace Slate.Options
 			}
 		}
 
+		public static void Save<T>(T toSerialize, string settFile)
+		{
+			XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
+			using (TextWriter textWriter = new StreamWriter(settFile))
+			{
+				xmlSerializer.Serialize(textWriter, toSerialize);
+			}
+		}
+
+		public static Settings UserSettings
+		{
+			get
+			{
+				return Load("Settings.xml");
+			}
+		}
+
 		public static Settings DefaultSettings
 		{
 			get
@@ -90,16 +105,11 @@ namespace Slate.Options
 					ThemesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0", //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
 					UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download"
 				};
-				// def. values for experimental
-				s.Experimental = new Experimental()
-				{
-					AllowAutomaticRestart = true
-				};
 				// def. values for program
 				s.Program = new Program()
 				{
 					AutoStart = false,
-					Side = 2,
+					Side = Sidebar.Side.Right,
 					Theme = "Slate",
 					Language = "English",
 					Width = 150,
@@ -110,25 +120,15 @@ namespace Slate.Options
 					OverlapTaskbar = false,
 					ShowErrors = true,
 					Screen = "Primary",
-					Path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+					Path = AppDomain.CurrentDomain.BaseDirectory,
 					EnableUpdates = false, //true
-					Tiles = "",
-					Heights = "",
-					PinnedTiles = "",
-					EnableSnowFall = false,
-					Debug = false
+					Tiles = new string[0],
+					Heights = new string[0],
+					PinnedTiles = new string[0],
+					EnableSnowFall = false
 				};
 				#endregion
 				return s;
-			}
-		}
-
-		public static void Save<T>(T toSerialize, string settFile)
-		{
-			XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
-			using (TextWriter textWriter = new StreamWriter(settFile))
-			{
-				xmlSerializer.Serialize(textWriter, toSerialize);
 			}
 		}
 	}

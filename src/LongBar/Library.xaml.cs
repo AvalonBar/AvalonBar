@@ -115,8 +115,8 @@ namespace LongBar
 		private void DoubleAnimation_Completed(object sender, EventArgs e)
 		{
 			// TODO: Localize stuff below [4]
-			if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
-				Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+			if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache"))
+				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 			DownloadingStatusTextBlock.Text = "Connecting...";
 			string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).GeTileLink(); ;
 
@@ -134,7 +134,7 @@ namespace LongBar
 			// TODO: Localize stuff below [3]
 			DownloadingStatusTextBlock.Text = "Downloading...";
 
-			dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
+			dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.Program.Path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
 		}
 
 		void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -149,7 +149,7 @@ namespace LongBar
 			if (e.Error == null && !e.Cancelled) {
 				TaskDialogs.TileInstallDialog.ShowDialog(longbar,
 														 ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header,
-														 LongBarMain.sett.path + @"\Cache\" +
+														 LongBarMain.sett.Program.Path + @"\Cache\" +
 														 ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header +
 														 ".tile");
 			} else if (!e.Cancelled) {
@@ -186,11 +186,11 @@ namespace LongBar
 		}
 		private void GetTiles()
 		{
-			string file = LongBarMain.sett.path + @"\Cache\Tiles.list";
+			string file = LongBarMain.sett.Program.Path + @"\Cache\Tiles.list";
 
-			if (Directory.Exists(LongBarMain.sett.path + @"\Cache") && File.Exists(file))
+			if (Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache") && File.Exists(file))
 			{
-				FileInfo f = new FileInfo(LongBarMain.sett.path + @"\Cache\Tiles.list");
+				FileInfo f = new FileInfo(LongBarMain.sett.Program.Path + @"\Cache\Tiles.list");
 				if (Math.Abs(DateTime.Now.Day - f.CreationTime.Day) > 3)
 				{
 					f.Delete();
@@ -258,7 +258,7 @@ namespace LongBar
 			}
 			else
 			{
-				Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 
 				try {
 					WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Tiles.list");
@@ -289,7 +289,7 @@ namespace LongBar
 								line = line.Replace(@"\x3d", "=");
 							line = line.Substring(0, line.Length - 9);
 							WebClient client = new WebClient();
-							client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\Tiles.list");
+							client.DownloadFile(line, LongBarMain.sett.Program.Path + @"\Cache\Tiles.list");
 							break;
 						}
 					}
@@ -337,9 +337,9 @@ namespace LongBar
 
 		private static BitmapImage GetIcon(string tileName)
 		{
-			if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"))
+			if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache") || !File.Exists(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"))
 			{
-				Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 
 				try
 				{
@@ -369,8 +369,8 @@ namespace LongBar
 							while (line.Contains(@"\x3d"))
 								line = line.Replace(@"\x3d", "=");
 							System.Net.WebClient client = new WebClient();
-							client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\" + tileName + ".png");
-							return new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"));
+							client.DownloadFile(line, LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png");
+							return new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"));
 						}
 					}
 					reader.Close();
@@ -384,11 +384,11 @@ namespace LongBar
 			}
 			else
 			{
-				DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.path + @"\Cache");
+				DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.Program.Path + @"\Cache");
 				if (Math.Abs(DateTime.Now.Day - d.CreationTime.Day) > 7)
 					d.Delete(true);
 
-				BitmapImage image = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + tileName + ".png"));
+				BitmapImage image = new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"));
 				return image;
 			}
 		}

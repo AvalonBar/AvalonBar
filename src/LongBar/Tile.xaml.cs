@@ -92,8 +92,8 @@ namespace LongBar
 	{
 	  try
 	  {
-		if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-			System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
+		if (!System.IO.Directory.Exists(LongBarMain.sett.Program.Path + @"\Logs"))
+			System.IO.Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Logs");
 		for (int i = 0; i < assembly.GetExportedTypes().Length; i++)
 		  if (assembly.GetExportedTypes()[i].BaseType != null)
 		  {
@@ -105,12 +105,12 @@ namespace LongBar
 	  }
 	  catch (Exception ex)
 	  {
-		  if (LongBarMain.sett.showErrors)
+		  if (LongBarMain.sett.Program.ShowErrors)
 			  MessageBox.Show(string.Format("The tile {0} is incompatible to current version of LongBar. Please contact the tile's developers" +
 		  "\nSee log for detailed information.", System.IO.Path.GetFileName(this.File)), null, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-		  if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-			  System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
-		  string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+		  if (!System.IO.Directory.Exists(LongBarMain.sett.Program.Path + @"\Logs"))
+			  System.IO.Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Logs");
+		  string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.Program.Path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
 		try
 		{
 		  System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
@@ -140,7 +140,7 @@ namespace LongBar
 			tileObject.ShowOptionsEvent += new TileLib.BaseTile.ShowOptionsEventHandler(TileObject_ShowOptionsEvent);
 			tileObject.ShowFlyoutEvent += new TileLib.BaseTile.ShowFlyoutEventHandler(TileObject_ShowFlyoutEvent);
 			tileObject.HeightChangedEvent += new TileLib.BaseTile.HeightChangedEventHandler(tileObject_HeightChangedEvent);
-			tileObject._path = LongBarMain.sett.path;
+			tileObject._path = LongBarMain.sett.Program.Path;
 			control = tileObject.Load();
 			control.MouseLeftButtonDown += new MouseButtonEventHandler(TileContentGrid_MouseLeftButtonDown);
 			break;
@@ -154,11 +154,11 @@ namespace LongBar
 	  }
 	  catch (Exception ex)
 	  {
-		  if (LongBarMain.sett.showErrors)
+		  if (LongBarMain.sett.Program.ShowErrors)
 			  TaskDialogs.ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, Info.Name), ex);
-		  if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-			  System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
-		  string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+		  if (!System.IO.Directory.Exists(LongBarMain.sett.Program.Path + @"\Logs"))
+			  System.IO.Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Logs");
+		  string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.Program.Path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
 		try
 		{
 		  System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
@@ -202,8 +202,8 @@ namespace LongBar
 	  }
 
 
-	  ChangeTheme(LongBarMain.sett.theme);
-	  ChangeLocale(LongBarMain.sett.locale);
+	  ChangeTheme(LongBarMain.sett.Program.Theme);
+	  ChangeLocale(LongBarMain.sett.Program.Language);
 
 	  isLoaded = true;
 	  this.BeginAnimation(HeightProperty, LoadHeightAnim);
@@ -378,7 +378,7 @@ namespace LongBar
 			break;
 		}
 		flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
-		System.Windows.Forms.Screen screen = Slate.Utilities.Utils.GetScreenFromName(LongBarMain.sett.screen);
+		System.Windows.Forms.Screen screen = Slate.Utilities.Utils.GetScreenFromName(LongBarMain.sett.Program.Screen);
 		flyout.ContentGrid.Children.Add(tileObject.FlyoutContent);
 		flyout.Show();
 		if ((flyout.Top + flyout.Height) > screen.WorkingArea.Height)

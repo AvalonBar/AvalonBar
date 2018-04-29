@@ -55,10 +55,10 @@ namespace LongBar
 		//this.Width = ((FrameworkElement)this.ContentGrid.Children[0]).Width + ContentGrid.Margin.Left + ContentGrid.Margin.Right;
 		//this.Height = ((FrameworkElement)this.ContentGrid.Children[0]).Height + ContentGrid.Margin.Top + ContentGrid.Margin.Bottom;
 		//Slate.DWM.DwmManager.EnableGlass(ref handle, 0);
-		switch (LongBarMain.sett.side)
+		switch (LongBarMain.sett.Program.Side)
 		{
 			case Slate.General.Sidebar.Side.Left:
-				((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + LongBarMain.sett.width;
+				((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + LongBarMain.sett.Program.Width;
 				break;
 			case Slate.General.Sidebar.Side.Right:
 				((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left - this.Width;
@@ -97,7 +97,7 @@ namespace LongBar
 	private void DoubleAnimation_Completed(object sender, EventArgs e)
 	{
 		loaded = true;
-		if (LongBar.LongBarMain.sett.enableGlass)
+		if (LongBar.LongBarMain.sett.Program.EnableGlass)
 		  Slate.DWM.DwmManager.EnableGlass(ref handle, IntPtr.Zero);
 	}
   }

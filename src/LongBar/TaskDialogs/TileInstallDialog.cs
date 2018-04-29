@@ -49,7 +49,7 @@ namespace LongBar.TaskDialogs
 				{
 					try
 					{
-						Slate.Packaging.PackageManager.Unpack(LongBar.LongBarMain.sett.path, tilePath);
+						Slate.Packaging.PackageManager.Unpack(LongBar.LongBarMain.sett.Program.Path, tilePath);
 						System.Windows.MessageBox.Show(tileName + " " + (string)Application.Current.TryFindResource("SuccesfullyInstalled"), (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 					}
 					catch (Exception ex)
@@ -67,17 +67,17 @@ namespace LongBar.TaskDialogs
 
 			try
 			{
-				Slate.Packaging.PackageManager.Unpack(LongBarMain.sett.path, tilePath);
+				Slate.Packaging.PackageManager.Unpack(LongBarMain.sett.Program.Path, tilePath);
 
 				if (longBar != null)
 				{
 					string name = Path.GetFileNameWithoutExtension(tilePath);
-					LongBarMain.Tiles.Add(new Tile(LongBarMain.sett.path + "\\Library\\" + name + "\\" + name + ".dll"));
+					LongBarMain.Tiles.Add(new Tile(LongBarMain.sett.Program.Path + "\\Library\\" + name + "\\" + name + ".dll"));
 					MenuItem item = new MenuItem();
 					item.Header = name;
 					item.Click += new RoutedEventHandler(longBar.AddTileSubItem_Click);
 					longBar.AddTileItem.Items.Add(item);
-					LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].Load(LongBarMain.sett.side, double.NaN);
+					LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].Load(LongBarMain.sett.Program.Side, double.NaN);
 					if (!LongBarMain.Tiles[LongBarMain.Tiles.Count-1].hasErrors)
 					{
 						longBar.TilesGrid.Children.Insert(0, LongBarMain.Tiles[LongBarMain.Tiles.Count-1]);

@@ -55,31 +55,24 @@ namespace LongBar
 		CopyrightString2.Text = String.Format("{0}", Application.Current.TryFindResource("CopyrightLaw"));
 		//-----------------
 
-		AutostartCheckBox.IsChecked = LongBarMain.sett.startup;
-		TopMostCheckBox.IsChecked = LongBarMain.sett.topMost;
-		LockedCheckBox.IsChecked = LongBarMain.sett.locked;
-		if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Left)
-			LocationComboBox.SelectedIndex = 0;
-		if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Right)
-			LocationComboBox.SelectedIndex = 1;
-		if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Top)
-			LocationComboBox.SelectedIndex = 2;
-		if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Bottom)
-			LocationComboBox.SelectedIndex = 3;
+		AutostartCheckBox.IsChecked = LongBarMain.sett.Program.AutoStart;
+		TopMostCheckBox.IsChecked = LongBarMain.sett.Program.TopMost;
+		LockedCheckBox.IsChecked = LongBarMain.sett.Program.Locked;
+		LocationComboBox.SelectedIndex = (int)LongBarMain.sett.Program.Side;
 
-		string[] locales = Slate.Localization.LocaleManager.GetLocales(LongBar.LongBarMain.sett.path);
+		string[] locales = Slate.Localization.LocaleManager.GetLocales(LongBar.LongBarMain.sett.Program.Path);
 		for (int i = 0; i <= locales.Length - 1; i++)
 		{
 			ComboBoxItem item2 = new ComboBoxItem();
 			item2.Content = locales[i];
 			LangComboBox.Items.Add(item2);
 		}
-		LangComboBox.Text = LongBarMain.sett.locale;
+		LangComboBox.Text = LongBarMain.sett.Program.Language;
 
 		if (Slate.DWM.DwmManager.IsGlassAvailable())
 		{
 			AeroGlassCheckBox.IsEnabled = true;
-			AeroGlassCheckBox.IsChecked = LongBarMain.sett.enableGlass;
+			AeroGlassCheckBox.IsChecked = LongBarMain.sett.Program.EnableGlass;
 		}
 		else
 		{
@@ -87,10 +80,10 @@ namespace LongBar
 			AeroGlassCheckBox.IsChecked = false;
 		}
 
-		if (LongBarMain.sett.topMost)
+		if (LongBarMain.sett.Program.TopMost)
 		{
 			OverlapCheckBox.IsEnabled = true;
-			OverlapCheckBox.IsChecked = LongBarMain.sett.overlapTaskbar;
+			OverlapCheckBox.IsChecked = LongBarMain.sett.Program.OverlapTaskbar;
 		}
 		else
 		{
@@ -98,21 +91,21 @@ namespace LongBar
 			OverlapCheckBox.IsChecked = false;
 		}
 
-		if (LongBarMain.sett.enableShadow)
+		if (LongBarMain.sett.Program.EnableShadow)
 			ShadowCheckBox.IsChecked = true;
 		else
 			ShadowCheckBox.IsChecked = false;
 
-		UpdatesCheckBox.IsChecked = LongBarMain.sett.enableUpdates;
+		UpdatesCheckBox.IsChecked = LongBarMain.sett.Program.EnableUpdates;
 
-		string[] themes = Slate.Themes.ThemesManager.GetThemes(LongBar.LongBarMain.sett.path);
+		string[] themes = Slate.Themes.ThemesManager.GetThemes(LongBar.LongBarMain.sett.Program.Path);
 		for (int i = 0; i <= themes.Length - 1; i++)
 		{
 			ComboBoxItem newItem = new ComboBoxItem();
 			newItem.Content = themes[i];
 			ThemesComboBox.Items.Add(newItem);
 		}
-		ThemesComboBox.Text = LongBarMain.sett.theme;
+		ThemesComboBox.Text = LongBarMain.sett.Program.Theme;
 		ApplyButton.IsEnabled = false;
 
 		string[] screenNames = Slate.Utilities.Utils.GetScreenFriendlyNames();
@@ -124,13 +117,13 @@ namespace LongBar
 		  item.Tag = screens[i].DeviceName;
 		  ScreenComboBox.Items.Add(item);
 		}
-		if (LongBarMain.sett.screen == "Primary")
+		if (LongBarMain.sett.Program.Screen == "Primary")
 		  ScreenComboBox.SelectedIndex = 0;
 		else
 		{
 		  ScreenComboBox.SelectedIndex = 0;
 		  foreach (ComboBoxItem cbItem in ScreenComboBox.Items)
-			if ((string)cbItem.Content!="Primary" && (string)cbItem.Tag == LongBarMain.sett.screen)
+			  if ((string)cbItem.Content != "Primary" && (string)cbItem.Tag == LongBarMain.sett.Program.Screen)
 			{
 			  ScreenComboBox.SelectedItem = cbItem;
 			  break;
@@ -148,7 +141,7 @@ namespace LongBar
 		ApplyButton.IsEnabled = true;
 		if (ThemesComboBox != null && ThemesComboBox.SelectionBoxItem != null)
 		{
-			object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
+			object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.Program.Path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
 			if (enableGlass != null)
 			{
 				AeroGlassCheckBox.IsChecked = Convert.ToBoolean(enableGlass);
@@ -173,30 +166,28 @@ namespace LongBar
 
 	private void ApplySettings()
 	{
-		if (LongBarMain.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
-		{
+		if (LongBarMain.sett.Program.OverlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
 			Slate.General.Sidebar.UnOverlapTaskbar();
-		}
 
-		LongBarMain.sett.startup = (bool)AutostartCheckBox.IsChecked;
-		LongBarMain.sett.topMost = (bool)TopMostCheckBox.IsChecked;
-		LongBarMain.sett.locked = (bool)LockedCheckBox.IsChecked;
-		LongBarMain.sett.overlapTaskbar = (bool)OverlapCheckBox.IsChecked;
-		LongBarMain.sett.enableGlass = (bool)AeroGlassCheckBox.IsChecked;
-		LongBarMain.sett.enableShadow = (bool)ShadowCheckBox.IsChecked;
-		LongBarMain.sett.locale = LangComboBox.Text;
-		LongBarMain.sett.theme = ThemesComboBox.Text;
-		LongBarMain.sett.enableUpdates = (bool)UpdatesCheckBox.IsChecked;
+		LongBarMain.sett.Program.AutoStart = (bool)AutostartCheckBox.IsChecked;
+		LongBarMain.sett.Program.TopMost = (bool)TopMostCheckBox.IsChecked;
+		LongBarMain.sett.Program.Locked = (bool)LockedCheckBox.IsChecked;
+		LongBarMain.sett.Program.OverlapTaskbar = (bool)OverlapCheckBox.IsChecked;
+		LongBarMain.sett.Program.EnableGlass = (bool)AeroGlassCheckBox.IsChecked;
+		LongBarMain.sett.Program.EnableShadow = (bool)ShadowCheckBox.IsChecked;
+		LongBarMain.sett.Program.Language = LangComboBox.Text;
+		LongBarMain.sett.Program.Theme = ThemesComboBox.Text;
+		LongBarMain.sett.Program.EnableUpdates = (bool)UpdatesCheckBox.IsChecked;
 
-		if (LongBarMain.sett.enableSnowFall)
+		if (LongBarMain.sett.Program.EnableSnowFall)
 			longBar.EnableSnowFall();
 		else
 			longBar.DisableSnowFall();
 
 		if (ScreenComboBox.SelectedIndex == 0)
-		  LongBarMain.sett.screen = "Primary";
+			LongBarMain.sett.Program.Screen = "Primary";
 		else
-		  LongBarMain.sett.screen = Slate.Utilities.Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
+			LongBarMain.sett.Program.Screen = Slate.Utilities.Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
 
 		if ((bool)AutostartCheckBox.IsChecked)
 		{
@@ -223,18 +214,11 @@ namespace LongBar
 			catch (Exception ex) { App.HandleError(ex); }
 		}
 
-		if (LocationComboBox.SelectedIndex == 0)
-			LongBarMain.sett.side = Slate.General.Sidebar.Side.Left;
-		if (LocationComboBox.SelectedIndex == 1)
-			LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
-		if (LocationComboBox.SelectedIndex == 2)
-			LongBarMain.sett.side = Slate.General.Sidebar.Side.Top;
-		if (LocationComboBox.SelectedIndex == 3)
-			LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
+		LongBarMain.sett.Program.Side = (Slate.General.Sidebar.Side)LocationComboBox.SelectedIndex;
 
 		if (Environment.OSVersion.Version.Major >= 6)
 		{
-			if (Slate.DWM.DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
+			if (Slate.DWM.DwmManager.IsGlassAvailable() && LongBarMain.sett.Program.EnableGlass)
 				Slate.DWM.DwmManager.EnableGlass(ref longBar.Handle, IntPtr.Zero);
 			else
 				Slate.DWM.DwmManager.DisableGlass(ref longBar.Handle);
@@ -247,7 +231,7 @@ namespace LongBar
 
 		Slate.General.Sidebar.AppbarRemove();
 
-		longBar.SetSide(LongBarMain.sett.side);
+		longBar.SetSide(LongBarMain.sett.Program.Side);
 		longBar.SetTheme(ThemesComboBox.Text);
 		longBar.SetLocale(LangComboBox.Text);
 	}
@@ -260,23 +244,23 @@ namespace LongBar
 
 	private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		Process.Start(LongBarMain.settOps.Links.LocalesURL);
+		Process.Start(LongBarMain.sett.Links.LocalesURL);
 	}
 
 	private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		Process.Start(LongBarMain.settOps.Links.ThemesURL);
+		Process.Start(LongBarMain.sett.Links.ThemesURL);
 	}
 
 	private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		Process.Start(LongBarMain.settOps.Links.ProjectURL);
+		Process.Start(LongBarMain.sett.Links.ProjectURL);
 	}
 
 	private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)
 	{
 		OverlapCheckBox.IsEnabled = true;
-		OverlapCheckBox.IsChecked = LongBarMain.sett.overlapTaskbar;
+		OverlapCheckBox.IsChecked = LongBarMain.sett.Program.OverlapTaskbar;
 	}
 
 	private void TopMostCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -287,7 +271,7 @@ namespace LongBar
 
 	private void ReportString_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 	{
-		Process.Start(LongBarMain.settOps.Links.BugTrackerURL);
+		Process.Start(LongBarMain.sett.Links.BugTrackerURL);
 	}
   }
 }

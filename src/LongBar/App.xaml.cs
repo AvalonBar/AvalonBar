@@ -15,11 +15,11 @@ namespace LongBar
 	public partial class App : Application
 	{
 		private static string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-		private static string userPath = LongBarMain.sett.path;
+		private static string userPath = LongBarMain.sett.Program.Path;
 
 		public static void HandleError(Exception ex)
 		{
-			if (LongBarMain.sett.showErrors) {
+			if (LongBarMain.sett.Program.ShowErrors) {
 			TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"),
 						String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.",
 						ex.Message, ex.Source), ex);
@@ -56,19 +56,15 @@ namespace LongBar
 			Slate.General.SystemTray.isRunning = false;
 			if (Slate.Utilities.Utils.PriorProcess() != null)
 			Slate.General.SystemTray.isRunning = true;
+
 			LongBarMain.ReadSettings();
 
-			Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
+			Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.Program.Path, LongBarMain.sett.Program.Language);
 
-			// If automatic restart is allowed in Settings
-			if (LongBarMain.settOps.Experimental.AllowAutomaticRestart == true) {
-				// Code below is based on the sample found in the WinApiCodePack.
-			    // Register for automatic restart if the application was terminated for any reason
-				// other than a system reboot or a system update.
-				ApplicationRestartRecoveryManager.RegisterForApplicationRestart(
-					new RestartSettings("/restart", RestartRestrictions.NotOnReboot | RestartRestrictions.NotOnPatch));
-			}
-
+			// Register for automatic restart if the application was terminated for any reason
+			// other than a system reboot or a system update.
+			ApplicationRestartRecoveryManager.RegisterForApplicationRestart(new RestartSettings("/restart", RestartRestrictions.NotOnReboot | RestartRestrictions.NotOnPatch));
+			
 		    if (Slate.General.SystemTray.isRunning && e.Args.Length == 0)
 			{
 				MessageBox.Show((string)Application.Current.TryFindResource("AlreadyRunning"), (string)Application.Current.TryFindResource("ApplicationName"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
@@ -120,8 +116,8 @@ namespace LongBar
 					case "/debug":
 	            		if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
 	            		{
-	                		LongBarMain.sett.debug = true;
-	  		                LongBarMain.sett.tileToDebug = e.Args[1];
+	                		LongBarMain.flags.Debug = true;
+	  		                LongBarMain.flags.TileToDebug = e.Args[1];
 	            		}
 					break;
 

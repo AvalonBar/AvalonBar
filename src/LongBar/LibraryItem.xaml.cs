@@ -87,9 +87,9 @@ namespace LongBar
 		private void DownloadIcon()
 		{
 			string file = _icon.Substring(_icon.LastIndexOf("/") + 1);
-			if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + file))
+			if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache") || !File.Exists(LongBarMain.sett.Program.Path + @"\Cache\" + file))
 			{
-				Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 
 			   try
 				{
@@ -119,10 +119,10 @@ namespace LongBar
 							while (line.Contains(@"\x3d"))
 								line = line.Replace(@"\x3d", "=");
 							System.Net.WebClient client = new WebClient();
-							client.DownloadFile(line, LongBarMain.sett.path + @"\Cache\" + file);
+							client.DownloadFile(line, LongBarMain.sett.Program.Path + @"\Cache\" + file);
 							ItemIconImage.Dispatcher.BeginInvoke((Action)delegate
 							{
-								ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
+								ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + file));
 							}, null);
 							reader.Close();
 							response.Close();
@@ -148,10 +148,10 @@ namespace LongBar
 			{
 				ItemIconImage.Dispatcher.Invoke((Action)delegate
 				{
-					ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
+					ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + file));
 				}, null);
 
-				DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.path + @"\Cache");
+				DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.Program.Path + @"\Cache");
 				if (Math.Abs(DateTime.Now.Day - d.CreationTime.Day) > 7)
 					try
 					{
@@ -170,8 +170,8 @@ namespace LongBar
 
 				string file = Link.Substring(Link.LastIndexOf("/") + 1);
 
-				if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
-					Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+				if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache"))
+					Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 
 					WebRequest request = WebRequest.Create(Link);
 					WebResponse response = request.GetResponse();
