@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("The AvalonBar Project")]
 [assembly: AssemblyProduct(GitInfo.BranchProdName)]
-[assembly: AssemblyCopyright("Portions © The AvalonBar Project 2016. Portions © LongBar Project Group 2010.")]
+[assembly: AssemblyCopyright("Portions © The AvalonBar Project 2018. Portions © LongBar Project Group 2010.")]
 [assembly: AssemblyVersion(AssemblyInfo.SharedVersion)]
 
 #region Assembly-level protected information classes
