@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="LongBar.Tile"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	 Height="100" MouseLeftButtonDown="TileContentGrid_MouseLeftButtonDown">
+	 Height="100">
 	<UserControl.ContextMenu>
 		<ContextMenu Name="TileMenu" Opened="TileMenu_Opened">
 			<MenuItem Name="PinItem" Header="{DynamicResource Pin}" IsCheckable="True" Checked="PinItem_Checked" Unchecked="PinItem_Unchecked"/>

@@ -114,15 +114,14 @@ namespace LongBar
 
 		private void DoubleAnimation_Completed(object sender, EventArgs e)
 		{
-			// TODO: Localize stuff below [4]
 			if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache"))
 				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
-			DownloadingStatusTextBlock.Text = "Connecting...";
-			string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).GeTileLink(); ;
+			DownloadingStatusTextBlock.Text = (string)TryFindResource("NetConnecting");
+			string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Link;
 
 			if (String.IsNullOrEmpty(url))
 			{
-				MessageBox.Show("Downloading tile failed. Can't connect to the server.");
+				MessageBox.Show((string)TryFindResource("TileDlFailedConn"));
 				LoadingGrid.Visibility = Visibility.Collapsed;
 				LoadingGrid.Opacity = 0;
 				return;
@@ -131,8 +130,7 @@ namespace LongBar
 			dowloader = new WebClient();
 			dowloader.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(dowloader_DownloadFileCompleted);
 			dowloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(dowloader_DownloadProgressChanged);
-			// TODO: Localize stuff below [3]
-			DownloadingStatusTextBlock.Text = "Downloading...";
+			DownloadingStatusTextBlock.Text = (string)TryFindResource("NetDownloading");
 
 			dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.Program.Path + @"\Cache\" + url.Substring(url.LastIndexOf("/") + 1));
 		}
@@ -140,12 +138,11 @@ namespace LongBar
 		void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
 		{
 			ProgressBar.Value = e.ProgressPercentage;
-			DownloadingProgressTextBlock.Text = string.Format("{0} Kb from {1} Kb", Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
+			DownloadingProgressTextBlock.Text = string.Format((string)TryFindResource("TileDlProgress"), Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
 		}
 
 		void dowloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
 		{
-			// TODO: Localize stuff below [2]
 			if (e.Error == null && !e.Cancelled) {
 				TaskDialogs.TileInstallDialog.ShowDialog(longbar,
 														 ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header,
@@ -153,7 +150,7 @@ namespace LongBar
 														 ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header +
 														 ".tile");
 			} else if (!e.Cancelled) {
-				MessageBox.Show("Downloading tile failed. \nError: \n" + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show((string)TryFindResource("TileDlFailed") + "\n" + (string)TryFindResource("TileDlError") + ": \n" + e.Error.ToString(), (string)TryFindResource("TileDlError"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			LoadingGrid.Visibility = Visibility.Collapsed;
 			LoadingGrid.Opacity = 0;
@@ -191,7 +188,7 @@ namespace LongBar
 			if (Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache") && File.Exists(file))
 			{
 				FileInfo f = new FileInfo(LongBarMain.sett.Program.Path + @"\Cache\Tiles.list");
-				if (Math.Abs(DateTime.Now.Day - f.CreationTime.Day) > 3)
+				if (Math.Abs(DateTime.Now.Day - f.LastAccessTime.Day) > 3)
 				{
 					f.Delete();
 					GetTiles();
@@ -260,47 +257,10 @@ namespace LongBar
 			{
 				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
 
-				try {
-					WebRequest request = WebRequest.Create("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Tiles.list");
-					WebResponse response = request.GetResponse();
+				WebClient client = new WebClient();
+				client.DownloadFile(LongBarMain.sett.Links.TilesURL, LongBarMain.sett.Program.Path + @"\Cache\Tiles.list");
 
-					StreamReader reader = new StreamReader(response.GetResponseStream());
-					string line = "";
-
-					while (!reader.EndOfStream)
-					{
-					   line = reader.ReadLine();
-
-						if (line.Contains(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:"))
-						{
-							reader.Close();
-							response.Close();
-
-							line = line.Substring(line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") + (@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:").Length + 2, line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', demoteUrl:") - line.IndexOf(@"Tiles.list\x3fdownload\x26psid\x3d1', downloadUrl:") - 17);
-							while (line.Contains(@"\x3a"))
-								line = line.Replace(@"\x3a", ":");
-							while (line.Contains(@"\x2f"))
-								line = line.Replace(@"\x2f", "/");
-							while (line.Contains(@"\x3f"))
-								line = line.Replace(@"\x3f", "?");
-							while (line.Contains(@"\x26"))
-								line = line.Replace(@"\x26", "&");
-							while (line.Contains(@"\x3d"))
-								line = line.Replace(@"\x3d", "=");
-							line = line.Substring(0, line.Length - 9);
-							WebClient client = new WebClient();
-							client.DownloadFile(line, LongBarMain.sett.Program.Path + @"\Cache\Tiles.list");
-							break;
-						}
-					}
-					reader.Close();
-					response.Close();
-					GetTiles();
-				} catch (Exception ex) {
-					if (ex.Message.Contains((string)Application.Current.TryFindResource("OfflineResolveFind"))) {
-						DownTilesCaption.Text = (string)Application.Current.TryFindResource("TileListFail");
-					} else { App.HandleError(ex); }
-				}
+				GetTiles();				
 			}
 		}
 
@@ -315,81 +275,6 @@ namespace LongBar
 				SelectedIndex = DownTilesPanel.Children.IndexOf((LibraryItem)sender);
 			} else if (ViewMode == 1) {
 				SelectedIndex = LongBarTilesPanel.Children.IndexOf((LibraryItem)sender);
-			}
-		}
-
-		private static string StripTags(string line)
-		{
-			string result = Regex.Replace(line, @"<[^>]*>", "");
-			return System.Web.HttpUtility.HtmlDecode(result);
-		}
-
-		private static string GetLink(string line)
-		{
-			Match m = Regex.Match(line, "href=\".*\"><");
-			if (m != null)
-			{
-				string result = m.Value;
-				return result.Substring(6, result.LastIndexOf('"') - 6);
-			}
-			return "";
-		}
-
-		private static BitmapImage GetIcon(string tileName)
-		{
-			if (!Directory.Exists(LongBarMain.sett.Program.Path + @"\Cache") || !File.Exists(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"))
-			{
-				Directory.CreateDirectory(LongBarMain.sett.Program.Path + @"\Cache");
-
-				try
-				{
-					WebRequest request = WebRequest.Create(String.Format("http://cid-820d4d5cef8566bf.skydrive.live.com/self.aspx/LongBar%20Project/Library%202.0/Icons/{0}.png", tileName));
-					WebResponse response = request.GetResponse();
-
-					StreamReader reader = new StreamReader(response.GetResponseStream());
-					string line = "";
-					while (!reader.EndOfStream)
-					{
-						line = reader.ReadLine();
-
-						if (line.Contains(tileName + ".png\x3fpsid\x3d1', downloadUrl:"))
-						{
-							reader.Close();
-							response.Close();
-
-							line = line.Substring(line.IndexOf(tileName + ".png\x3fpsid\x3d1', downloadUrl:") + (tileName + ".png\x3fpsid\x3d1', downloadUrl:").Length + 2, line.IndexOf(tileName + @".png\x3fdownload\x3fpsid\x3d1'") - line.IndexOf(tileName + ".png\x3fpsid\x3d1', downloadUrl:") - 5);
-							while (line.Contains(@"\x3a"))
-								line = line.Replace(@"\x3a", ":");
-							while (line.Contains(@"\x2f"))
-								line = line.Replace(@"\x2f", "/");
-							while (line.Contains(@"\x3f"))
-								line = line.Replace(@"\x3f", "?");
-							while (line.Contains(@"\x26"))
-								line = line.Replace(@"\x26", "&");
-							while (line.Contains(@"\x3d"))
-								line = line.Replace(@"\x3d", "=");
-							System.Net.WebClient client = new WebClient();
-							client.DownloadFile(line, LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png");
-							return new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"));
-						}
-					}
-					reader.Close();
-					response.Close();
-					return new BitmapImage(new Uri("/AvalonBar;component/Resources/Tile_Icon.png", UriKind.Relative));
-				}
-				catch
-				{
-					return new BitmapImage(new Uri("/AvalonBar;component/Resources/Tile_Icon.png", UriKind.Relative));
-				}
-			}
-			else
-			{
-				DirectoryInfo d = new DirectoryInfo(LongBarMain.sett.Program.Path + @"\Cache");
-				if (Math.Abs(DateTime.Now.Day - d.CreationTime.Day) > 7)
-					d.Delete(true);
-
-				BitmapImage image = new BitmapImage(new Uri(LongBarMain.sett.Program.Path + @"\Cache\" + tileName + ".png"));
-				return image;
 			}
 		}
 

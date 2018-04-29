@@ -24,6 +24,7 @@ namespace Slate.Options
 		public string LocalesURL { get; set; }
 		public string BugTrackerURL { get; set; }
 		public string UpdatesURL { get; set; }
+		public string TilesURL { get; set; }
 	}
 
 	[XmlTypeAttribute(AnonymousType = true)]
@@ -103,7 +104,8 @@ namespace Slate.Options
 					LocalesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Localization%202.0",  //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Locales.md";
 					ProjectURL = "https://franklindm.github.io/AvalonBar",
 					ThemesURL = "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Themes%202.0", //"https://github.com/FranklinDM/AvalonBar/blob/gh-pages/Themes.md";
-					UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download"
+					UpdatesURL = "https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download",
+					TilesURL = "https://sourceforge.net/projects/longbar/files/Library/Data/Tiles.list/download"
 				};
 				// def. values for program
 				s.Program = new Program()
@@ -121,7 +123,7 @@ namespace Slate.Options
 					ShowErrors = true,
 					Screen = "Primary",
 					Path = AppDomain.CurrentDomain.BaseDirectory,
-					EnableUpdates = false, //true
+					EnableUpdates = true,
 					Tiles = new string[0],
 					Heights = new string[0],
 					PinnedTiles = new string[0],

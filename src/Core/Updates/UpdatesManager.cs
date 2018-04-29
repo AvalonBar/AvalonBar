@@ -11,7 +11,6 @@ namespace Slate.Updates
 {
 	public class UpdatesManager
 	{
-		//TODO: Update the Update System
 		public struct UpdateInfo
 		{
 			public string Build;
@@ -26,7 +25,7 @@ namespace Slate.Updates
 			{
 				// get sett service
 				WebClient client = new WebClient();
-				string[] updateInfo = client.DownloadString("FIXME: Invalid STRING for UPDATE").Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+				string[] updateInfo = client.DownloadString(Options.SettingsManager.UserSettings.Links.UpdatesURL).Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 				if (Convert.ToInt32(updateInfo[0]) > build)
 				{
 					result.Build = updateInfo[0];

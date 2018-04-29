@@ -1,96 +1,102 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="clr-namespace:System;assembly=mscorlib">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="clr-namespace:System;assembly=mscorlib">
 	<s:String x:Key="ApplicationName">AvalonBar</s:String>
-    <!-- AvalonBar menu strings -->
-    <s:String x:Key="Options">Options</s:String>
-    <s:String x:Key="Lock">Lock the sidebar</s:String>
-    <s:String x:Key="Minimize">Minimize</s:String>
-    <s:String x:Key="Settings">Properties</s:String>
-    <s:String x:Key="SetSide">Set AvalonBar location</s:String>
-    <s:String x:Key="Left">Left</s:String>
-    <s:String x:Key="Right">Right</s:String>
-    <s:String x:Key="AddTile">Add a tile</s:String>
-    <s:String x:Key="RemoveTiles">Remove all tiles</s:String>
+	<!-- AvalonBar menu strings -->
+	<s:String x:Key="Options">Options</s:String>
+	<s:String x:Key="Lock">Lock the sidebar</s:String>
+	<s:String x:Key="Minimize">Minimize</s:String>
+	<s:String x:Key="Settings">Properties</s:String>
+	<s:String x:Key="SetSide">Set AvalonBar location</s:String>
+	<s:String x:Key="Left">Left</s:String>
+	<s:String x:Key="Right">Right</s:String>
+	<s:String x:Key="AddTile">Add a tile</s:String>
+	<s:String x:Key="RemoveTiles">Remove all tiles</s:String>
 	<s:String x:Key="TileLibrary">Tile Library</s:String>
-    <s:String x:Key="Close">Close</s:String>
-    <s:String x:Key="ShowHide">Show/Hide AvalonBar</s:String>
-    <!-- Error dialog strings -->
-    <s:String x:Key="LongBarError">AvalonBar Error Report</s:String>
-    <s:String x:Key="HideDetails">Hide details</s:String>
-    <s:String x:Key="ShowDetails">View details</s:String>
-    <s:String x:Key="SendFeedback1">Send to Issue Tracker</s:String>
+	<s:String x:Key="Close">Close</s:String>
+	<s:String x:Key="ShowHide">Show/Hide AvalonBar</s:String>
+	<!-- Error dialog strings -->
+	<s:String x:Key="LongBarError">AvalonBar Error Report</s:String>
+	<s:String x:Key="HideDetails">Hide details</s:String>
+	<s:String x:Key="ShowDetails">View details</s:String>
+	<s:String x:Key="SendFeedback1">Send to Issue Tracker</s:String>
 	<s:String x:Key="SendFeedback2">The exception report will be copied to your clipboard.</s:String>
-    <s:String x:Key="DontSendFeedback">Continue using AvalonBar</s:String>
+	<s:String x:Key="DontSendFeedback">Continue using AvalonBar</s:String>
 	<s:String x:Key="RestartApp1">Restart AvalonBar</s:String>
-    <s:String x:Key="ErrorOccured1">AvalonBar has encountered an error</s:String>
-    <s:String x:Key="AlreadyRunning">AvalonBar is already running!</s:String>
-    <!-- Tile install dialog strings -->
-    <s:String x:Key="InstallingTile">Installing tile</s:String>
-    <s:String x:Key="Dontdoit">Do you want to install {0}?</s:String>
-    <s:String x:Key="InstallThisIncredibleTileForMePlease1">Install</s:String>
-    <s:String x:Key="InstallThisIncredibleTileForMePlease2">Install tile to AvalonBar Library directory</s:String>
-    <s:String x:Key="SuccesfullyInstalled">was succesfully installed. You can add it to panel from AvalonBar context menu.</s:String>
-    <s:String x:Key="InstallingFailed">An error occurred while installing tile. Please contact the tile's developers.</s:String>
-    <s:String x:Key="ErrorText">Error text: </s:String>
-    <s:String x:Key="TileInstalled">Tile installed!</s:String>
-    <s:String x:Key="CantInstallTile">Can't install tile</s:String>
-    <!-- Tiles strings -->
-    <s:String x:Key="Pin">Pin</s:String>
-    <s:String x:Key="Minimized">Minimize</s:String>
-    <s:String x:Key="MoveUp">Move Up</s:String>
-    <s:String x:Key="MoveDown">Move Down</s:String>
-    <s:String x:Key="Remove">Remove {0}</s:String>
-    <s:String x:Key="Properties">{0} Properties</s:String>
-    <!-- Tile library strings -->
-    <s:String x:Key="TileListFail">Unable to retrieve list of downloadable tiles.</s:String>
-    <s:String x:Key="OfflineResolveFind">remote name could not be resolved</s:String>
-	<s:String x:Key="TileLibraryTitle">AvalonBar Library</s:String>
+	<s:String x:Key="ErrorOccured1">AvalonBar has encountered an error</s:String>
+	<s:String x:Key="AlreadyRunning">AvalonBar is already running!</s:String>
+	<!-- Tile install dialog strings -->
+	<s:String x:Key="InstallingTile">Installing tile</s:String>
+	<s:String x:Key="Dontdoit">Do you want to install {0}?</s:String>
+	<s:String x:Key="InstallThisIncredibleTileForMePlease1">Install</s:String>
+	<s:String x:Key="InstallThisIncredibleTileForMePlease2">Install tile to AvalonBar Library directory</s:String>
+	<s:String x:Key="SuccesfullyInstalled">was succesfully installed. You can add it to panel from AvalonBar context menu.</s:String>
+	<s:String x:Key="InstallingFailed">An error occurred while installing tile. Please contact the tile's developers.</s:String>
+	<s:String x:Key="ErrorText">Error text: </s:String>
+	<s:String x:Key="TileInstalled">Tile installed!</s:String>
+	<s:String x:Key="CantInstallTile">Can't install tile</s:String>
+	<!-- Tiles strings -->
+	<s:String x:Key="Pin">Pin</s:String>
+	<s:String x:Key="Minimized">Minimize</s:String>
+	<s:String x:Key="MoveUp">Move Up</s:String>
+	<s:String x:Key="MoveDown">Move Down</s:String>
+	<s:String x:Key="Remove">Remove {0}</s:String>
+	<s:String x:Key="Properties">{0} Properties</s:String>
+	<!-- Tile library strings -->
+	<s:String x:Key="SearchTile">Search tile...</s:String>
+	<s:String x:Key="TileDeveloper">Developer: </s:String>
+	<s:String x:Key="TileVersion">Version: </s:String>
+    <!-- Tile download -->
+    <s:String x:Key="TileDlError">Error</s:String>
+    <s:String x:Key="TileDlFailed">Downloading tile failed.</s:String>
+    <s:String x:Key="TileDlProgress">{0} KB from {1} KB</s:String>
+    <s:String x:Key="TileDlFailedConn">Downloading tile failed. Can't connect to the server.</s:String>
+    <s:String x:Key="NetConnecting">Connecting...</s:String>
+    <s:String x:Key="NetDownloading">Downloading...</s:String>
     <!-- Options strings -->
 	<s:String x:Key="MaintenanceGroup">Maintenance</s:String>
-	<s:String x:Key="ViewTileList">Manage Tiles</s:String>
 	<s:String x:Key="EnableShadow">Enable shadow</s:String>
 	<s:String x:Key="ArrangementGroup">Layout</s:String>
 	<s:String x:Key="HSPnalization">Display</s:String>
 	<s:String x:Key="Localization">Localization</s:String>
 	<s:String x:Key="LongBarSettings">AvalonBar Properties</s:String>
 	<s:String x:Key="General">General</s:String>
-    <s:String x:Key="Autostart">Start AvalonBar when Windows starts</s:String>
-    <s:String x:Key="Location">Location on screen:</s:String>
-    <s:String x:Key="TopMost">Sidebar is always on top of other windows</s:String>
-    <s:String x:Key="Locked">Lock the sidebar</s:String>
-    <s:String x:Key="Overlap">Overlap the taskbar</s:String>
-    <s:String x:Key="LocationOnScreen">AvalonBar location on the screen:</s:String>
-    <s:String x:Key="AtLeft">Left</s:String>
-    <s:String x:Key="AtRight">Right</s:String>
-    <s:String x:Key="AtTop">Top</s:String>
-    <s:String x:Key="AtBottom">Bottom</s:String>
-    <s:String x:Key="Appearance">Appearance</s:String>
-    <s:String x:Key="EnableGlass">Enable Aero Glass</s:String>
-    <s:String x:Key="Theme">Sidebar theme:</s:String>
-    <s:String x:Key="FindThemes">Find more themes</s:String>
-    <s:String x:Key="Language">Language:</s:String>
-    <s:String x:Key="FindLangs">Find more languages</s:String>
-    <s:String x:Key="OK">OK</s:String>
-    <s:String x:Key="Cancel">Cancel</s:String>
-    <s:String x:Key="Apply">Apply</s:String>
-    <s:String x:Key="PrimaryScreen">Primary Screen</s:String>
-    <s:String x:Key="Screen">Screen display:</s:String>
-    <s:String x:Key="CheckForUpd">Automatically check for updates</s:String>
-    <!-- About tab strings -->
-    <s:String x:Key="AboutLongBar">About</s:String>
-    <s:String x:Key="Version">Version</s:String>
-    <s:String x:Key="Build">Build</s:String>
-    <s:String x:Key="CopyrightLaw">AvalonBar is a fork of LongBar, source code could be found at the GitHub repository which could be accessed via the link below. This program is licensed under the Microsoft Public License. </s:String>
-    <s:String x:Key="Contact">Visit project site</s:String>
+	<s:String x:Key="Autostart">Start AvalonBar when Windows starts</s:String>
+	<s:String x:Key="Location">Location on screen:</s:String>
+	<s:String x:Key="TopMost">Sidebar is always on top of other windows</s:String>
+	<s:String x:Key="Locked">Lock the sidebar</s:String>
+	<s:String x:Key="Overlap">Overlap the taskbar</s:String>
+	<s:String x:Key="LocationOnScreen">AvalonBar location on the screen:</s:String>
+	<s:String x:Key="AtLeft">Left</s:String>
+	<s:String x:Key="AtRight">Right</s:String>
+	<s:String x:Key="AtTop">Top</s:String>
+	<s:String x:Key="AtBottom">Bottom</s:String>
+	<s:String x:Key="Appearance">Appearance</s:String>
+	<s:String x:Key="EnableGlass">Enable Aero Glass</s:String>
+	<s:String x:Key="Theme">Sidebar theme:</s:String>
+	<s:String x:Key="FindThemes">Find more themes</s:String>
+	<s:String x:Key="Language">Language:</s:String>
+	<s:String x:Key="FindLangs">Find more languages</s:String>
+	<s:String x:Key="OK">OK</s:String>
+	<s:String x:Key="Cancel">Cancel</s:String>
+	<s:String x:Key="Apply">Apply</s:String>
+	<s:String x:Key="PrimaryScreen">Primary Screen</s:String>
+	<s:String x:Key="Screen">Screen display:</s:String>
+	<s:String x:Key="CheckForUpd">Automatically check for updates</s:String>
+	<!-- About tab strings -->
+	<s:String x:Key="AboutLongBar">About</s:String>
+	<s:String x:Key="Version">Version</s:String>
+	<s:String x:Key="Build">Build</s:String>
+	<s:String x:Key="CopyrightLaw">AvalonBar is a fork of LongBar, source code could be found at the GitHub repository which could be accessed via the link below. This program is licensed under the Microsoft Public License. </s:String>
+	<s:String x:Key="Contact">Visit project site</s:String>
 	<s:String x:Key="ReportIssue">Visit issue tracker</s:String>
 	<s:String x:Key="GitHubRepo">Visit GitHub repository</s:String>
-    <!-- Flyouts strings -->
-    <s:String x:Key="FlyoutOptions">Options</s:String>
-    <s:String x:Key="AlwaysShow">Always show</s:String>
-    <s:String x:Key="FlyoutClose">Close</s:String>
+	<!-- Flyouts strings -->
+	<s:String x:Key="FlyoutOptions">Options</s:String>
+	<s:String x:Key="AlwaysShow">Always show</s:String>
+	<s:String x:Key="FlyoutClose">Close</s:String>
 	<!-- Update dialog strings -->
-    <s:String x:Key="UpdateDlgCaption">Downloading update</s:String>
+	<s:String x:Key="UpdateDlgCaption">Downloading update</s:String>
 	<s:String x:Key="UpdateDlgInstruct">Please wait while the update is being downloaded.</s:String>
 	<s:String x:Key="UpdateDlgText">AvalonBar will restart automatically.</s:String>
 	<s:String x:Key="UpdateDlgAlertCaption">{0} update</s:String>
