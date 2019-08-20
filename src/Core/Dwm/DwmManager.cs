@@ -36,10 +36,14 @@ namespace Slate.DWM
 
         public static bool IsGlassAvailable() //Check if it is not a Windows Vista or it is a Windows Vista Home Basic
         {
-            if (Environment.OSVersion.Version.Major < 6 || Environment.OSVersion.Version.Build < 5600 || !File.Exists(Environment.SystemDirectory + @"\dwmapi.dll"))
+            if ((Environment.OSVersion.Version.Major < 6 || Environment.OSVersion.Version.Build < 5600) ||
+                !File.Exists(Environment.SystemDirectory + @"\dwmapi.dll") ||
+                (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 2))
+            {
                 return false;
-            else
+            } else {
                 return true;
+            }
         }
 
         public static bool EnableGlass(ref IntPtr handle, IntPtr rgn) //Try to enable Aero Glass. If success return true
