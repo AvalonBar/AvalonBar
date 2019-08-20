@@ -72,7 +72,6 @@ namespace LongBar
       public string screen;
       public string path;
       public bool enableSnowFall;
-      public bool enableRain;
       public bool enableUpdates;
       public bool debug;
       public string tileToDebug;
@@ -189,11 +188,6 @@ namespace LongBar
       if (sett.enableSnowFall)
       {
           EnableSnowFall();
-      }
-
-      if (sett.enableRain)
-      {
-          EnableRain();
       }
 
       if (sett.enableUpdates)
@@ -396,7 +390,6 @@ namespace LongBar
       sett.screen = "Primary";
       sett.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
       sett.enableSnowFall = false;
-      sett.enableRain = false;
       sett.enableUpdates = true;
 
       if (System.IO.File.Exists("Settings.ini"))
@@ -475,11 +468,6 @@ namespace LongBar
               if (line.StartsWith("EnableSnowFall"))
               {
                   sett.enableSnowFall = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("EnableRain"))
-              {
-                  sett.enableRain = Convert.ToBoolean(line.Split('=')[1]);
               }
 
               if (line.StartsWith("EnableUpdates"))
@@ -995,26 +983,6 @@ namespace LongBar
               }
           }
       }
-
-      public void EnableRain()
-      {
-          if (SnowFallCanvas.Visibility == Visibility.Collapsed)
-          {
-              SnowFallCanvas.Visibility = Visibility.Visible;
-              SnowFallCanvas.Width = this.Width;
-              Random r = new Random(Environment.TickCount);
-              for (int i = 0; i < 50; i++)
-              {
-                  RainFall.RainDrop rainDrop = new RainFall.RainDrop();
-                  rainDrop.SetValue(Canvas.LeftProperty, (double)r.Next((int)this.Width));
-                  rainDrop.SetValue(Canvas.TopProperty, (double)r.Next((int)this.Height));
-                  rainDrop.Visibility = Visibility.Visible;
-                  SnowFallCanvas.Children.Add(rainDrop);
-                  rainDrop.Enabled = true;
-              }
-          }
-      }
-
 
       public void DisableSnowFall()
       {
