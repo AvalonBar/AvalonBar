@@ -53,8 +53,9 @@ namespace Slate.General
             trayMenu.Items.Add(closeMenuItem);
 
             trayIcon = new NotifyIcon();
-            trayIcon.Icon = Icon.FromHandle(ExtractIcon(IntPtr.Zero, path + @"\LongBar.exe", 0));
-            trayIcon.Text = "LongBar 2.1 RC";
+            // FIXME: application executable name should not be hardcoded
+            trayIcon.Icon = Icon.FromHandle(ExtractIcon(IntPtr.Zero, path + @"\Sidebar.exe", 0));
+            trayIcon.Text = "AvalonBar";
             trayIcon.MouseClick += new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.MouseDoubleClick += new MouseEventHandler(trayIcon_MouseDoubleClick);
             trayIcon.Visible = true;
