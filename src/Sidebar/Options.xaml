@@ -60,22 +60,18 @@
                                 <GradientStop Color="#FE8E8E8E" Offset="0.442"/>
                             </LinearGradientBrush>
                         </Grid.Background>
-                        <Image Name="Image1" Stretch="Fill" Margin="0,0,80,15" HorizontalAlignment="Right" Width="55" Height="55" Source="/LongBar;component/Resources/LongBar 2.0 Logo.png" MouseLeftButtonDown="Image1_MouseLeftButtonDown" />   <Image Name="Image2" Stretch="Fill" Margin="0,0,80,15" HorizontalAlignment="Right" Width="55" Height="55" Source="/LongBar;component/Resources/LongBar_Halo.png" Opacity="0" MouseLeftButtonDown="Image1_MouseLeftButtonDown"/>
+                        <Image Name="Image1" Stretch="Fill" Margin="0,0,80,15" HorizontalAlignment="Right" Width="55" Height="55" Source="/Sidebar;component/Resources/Sidebar_icon.png" MouseLeftButtonDown="Image1_MouseLeftButtonDown" />   <Image Name="Image2" Stretch="Fill" Margin="0,0,80,15" HorizontalAlignment="Right" Width="55" Height="55" Source="/Sidebar;component/Resources/LongBar_Halo.png" Opacity="0" MouseLeftButtonDown="Image1_MouseLeftButtonDown"/>
                         <StackPanel VerticalAlignment="Center" Width="120" Margin="0,-10,0,0">
-                            <TextBlock Margin="0,0,0,-10" FontSize="14"  Foreground="LightGray" Text="2.1" HorizontalAlignment="Right"/>
+                            <TextBlock Margin="0,0,0,-10" FontSize="14"  Foreground="LightGray" Text="1.0" HorizontalAlignment="Right"/>
                             <Grid>
                                 <TextBlock FontSize="22" Foreground="#bf1010" TextAlignment="Center">
-                                    <Run Text="Long"/><Run Text="Bar" FontWeight="Bold"/>
+                                    <Run Text="Avalon"/><Run Text="Bar" FontWeight="Bold"/>
                                 </TextBlock>
                                 <TextBlock Name="Caption" FontSize="22" Foreground="White" TextAlignment="Center" Opacity="1">
-                                    <Run Text="Long"/><Run Text="Bar" FontWeight="Bold"/>
+                                    <Run Text="Avalon"/><Run Text="Bar" FontWeight="Bold"/>
                                 </TextBlock>
                             </Grid>
-                            <TextBlock FontSize="10" Foreground="#FF6C6C6C" TextAlignment="Right" Margin="0,0,10,0">
-                                <Run Text="Slate" FontWeight="Bold"/>
-                            </TextBlock>
                         </StackPanel>
-                        <Label Content="© 2010 LongBar Project Group" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10" Foreground="Gray" />
                     </Grid>
                     <Grid DockPanel.Dock="Bottom" Margin="0,0,0,50">
                         <Line Name="SplitterLine" X1="0" Y1="3" X2="200" Y2="3" HorizontalAlignment="Right" VerticalAlignment="Bottom">
@@ -90,9 +86,9 @@
                         <TextBlock Name="ContactString" Margin="0,0,30,0"  HorizontalAlignment="Right" FontSize="11" Foreground="CornflowerBlue" Cursor="Hand" Text="http://longbar.sourceforge.net" MouseLeftButtonDown="ContactString_MouseLeftButtonDown"/>
                     </Grid>
                     <Grid>
-                        <Image Source="/LongBar;component/Resources/ga.png" />
+                        <Image Source="/Sidebar;component/Resources/ga.png" />
                         <StackPanel Margin="30,15,30,15">
-                            <TextBlock Text="LongBar Slate" FontSize="11" TextWrapping="Wrap"/>
+                            <TextBlock Text="AvalonBar" FontSize="11" TextWrapping="Wrap"/>
                             <TextBlock Name="VersionString" FontSize="11" TextWrapping="Wrap" Text="Version 2.1 Build 350 Release Candidate (L2.1.350.0rc1)"/>
                             <TextBlock Name="CopyrightString1" Text="© LongBar Project Group 2010. All rights reserved." FontSize="11" TextWrapping="Wrap"/>
                             <TextBlock Name="CopyrightString2" FontSize="11" TextWrapping="Wrap" Text="{DynamicResource CopyrightLaw}"/>

@@ -14,11 +14,11 @@
             <Rectangle Name="Rectangle3" Fill="#FF4B4B4B" Opacity="0.6" Margin="2" RadiusX="3" RadiusY="3" />
             <DockPanel>
                 <Grid Width="60">
-                    <Image DockPanel.Dock="Left" Width="40" VerticalAlignment="Center" Source="/LongBar;component/Resources/LongBar 2.0 Logo.png" />
+                <Image DockPanel.Dock="Left" Width="40" VerticalAlignment="Center" Source="/Sidebar;component/Resources/Sidebar_icon.png" />
                 </Grid>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
-                    <Image Name="CloseButton" Source="/LongBar;component/Resources/Close_button.png" DockPanel.Dock="Right" Height="14" Margin="0,0,5,0" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" MouseDown="Image_MouseDown"/>
+                    <TextBlock Name="CloseButton" Text="X" Foreground="White"  DockPanel.Dock="Right" Height="14" Margin="5,0,10,5" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" MouseDown="Image_MouseDown"/>
                     <TextBlock Name="Header" Margin="0,3,5,0" Height="20" TextAlignment="Right" Text="Notify Header" Foreground="White" />
                     </DockPanel>
                     <Grid>

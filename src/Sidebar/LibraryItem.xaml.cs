@@ -106,7 +106,7 @@ namespace LongBar
                 {
                     ItemIconImage.Dispatcher.Invoke((Action)delegate
                     {
-                        ItemIconImage.Source = new BitmapImage(new Uri("/LongBar;component/Resources/Tile_Icon.png", UriKind.Relative));
+                        ItemIconImage.Source = new BitmapImage(new Uri("/Sidebar;component/Resources/Tile_Icon.png", UriKind.Relative));
                     }, null);
                 }
             }

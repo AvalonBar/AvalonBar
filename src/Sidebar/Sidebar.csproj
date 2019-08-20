@@ -9,13 +9,13 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LongBar</RootNamespace>
-    <AssemblyName>LongBar</AssemblyName>
+    <AssemblyName>sidebar</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <StartupObject>LongBar.App</StartupObject>
-    <ApplicationIcon>LongBar 2.0 Icon.ico</ApplicationIcon>
+    <ApplicationIcon>SidebarIcon.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -349,9 +349,6 @@
     <Resource Include="Resources\LongBar 2.0 Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="LongBar 2.0 Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\SearchIcon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +373,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SidebarIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Sidebar_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

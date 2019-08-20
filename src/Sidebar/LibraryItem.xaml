@@ -42,7 +42,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <DockPanel>
-            <Image Margin="5" Name="ItemIconImage" Source="/LongBar;component/Resources/Tile_icon.png" />
+            <Image Margin="5" Name="ItemIconImage" Source="/Sidebar;component/Resources/Tile_icon.png" />
             <StackPanel DockPanel.Dock="Right" VerticalAlignment="Center">
                 <TextBlock Name="ItemTitleTextBlock" Text="Tile Name" TextAlignment="Left" TextTrimming="CharacterEllipsis" />
                 <TextBlock Name="ItemDeveloperTextBlock" Text="Tile Developer" TextAlignment="Left" TextTrimming="CharacterEllipsis" Foreground="Gray"/>

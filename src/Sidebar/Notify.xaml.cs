@@ -115,12 +115,12 @@ namespace LongBar
 
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
-            CloseButton.Source = new BitmapImage(new Uri("/LongBar;component/Resources/Close_button_g.png", UriKind.Relative));
+            //CloseButton.Source = new BitmapImage(new Uri("/Sidebar;component/Resources/Close_button_g.png", UriKind.Relative));
         }
 
         private void Image_MouseLeave(object sender, MouseEventArgs e)
         {
-            CloseButton.Source = new BitmapImage(new Uri("/LongBar;component/Resources/Close_button.png", UriKind.Relative));
+            //CloseButton.Source = new BitmapImage(new Uri("/Sidebar;component/Resources/Close_button.png", UriKind.Relative));
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)

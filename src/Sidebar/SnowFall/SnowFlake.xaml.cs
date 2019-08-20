@@ -42,7 +42,7 @@ namespace LongBar.SnowFall
             this.InitializeComponent();
 
             Random rnd = new Random(Environment.TickCount);
-            Image.Source = new BitmapImage(new Uri(string.Format("/LongBar;component/Resources/snow{0}.png", rnd.Next(6)), UriKind.Relative));
+            Image.Source = new BitmapImage(new Uri(string.Format("/Sidebar;component/Resources/snow{0}.png", rnd.Next(6)), UriKind.Relative));
             // Insert code required on object creation below this point.
 
             speed = (.1 + ranNum.Next(1000)) / 200;

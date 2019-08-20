@@ -43,7 +43,7 @@
             <Rectangle Name="Rect2" RadiusX="3" RadiusY="3" Stroke="#FFFFFFFF" Margin="1" Fill="{StaticResource Over}"/>
         </Grid>
         <DockPanel>
-            <Image Name="Icon" Margin="5, 5, 3, 5" Width="20" Height="20" VerticalAlignment="Center" Source="/LongBar;component/Resources/DownloadIcon.png" />
+            <Image Name="Icon" Margin="5, 5, 3, 5" Width="20" Height="20" VerticalAlignment="Center"/>
             <TextBlock Name="Caption" Margin="0,4,10,4" Text="ToolButton1" TextAlignment="Center" Foreground="Black" VerticalAlignment="Center"/>
         </DockPanel>
     </Grid>
