@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <!-- About window strings -->
+    <s:String x:Key="AboutLongBar">Info over &quot;LongBar&quot;</s:String>
+    <s:String x:Key="Version">Versie</s:String>
+    <s:String x:Key="Build">Build</s:String>
+    <s:String x:Key="AllRightsReserved">Alle rechten voorbehouden.</s:String>
+    <s:String x:Key="CopyrightLaw">Dit programma valt onder de copyrightwet. De publicatie ervan op het internet, of elke andere locatie mag alleen onder toestemming van de maker</s:String>
+    <s:String x:Key="Contact">Voor vragen en opmerking, neem contact op met</s:String>
+    <!-- LongBar menu strings -->
+    <s:String x:Key="Options">Opties</s:String>
+    <s:String x:Key="Lock">LongBar vergrendelen</s:String>
+    <s:String x:Key="Unlock">LongBar ontgrendelen</s:String>
+    <s:String x:Key="Minimize">Minimaliseren</s:String>
+    <s:String x:Key="Settings">Instellingen</s:String>
+    <s:String x:Key="SetSide">Positie op scherm kiezen</s:String>
+    <s:String x:Key="Left">Links</s:String>
+    <s:String x:Key="Right">Rechts</s:String>
+    <s:String x:Key="AddTile">Tile toevoegen</s:String>
+    <s:String x:Key="Close">Sluiten</s:String>
+    <s:String x:Key="ShowHide">LongBar weergeven/verbergen</s:String>
+    <!-- Tiles strings -->
+    <s:String x:Key="Minimized">Minimaliseren</s:String>
+    <s:String x:Key="MoveUp">Omhoog</s:String>
+    <s:String x:Key="MoveDown">Omlaag</s:String>
+    <s:String x:Key="Remove">{0} verwijderen</s:String>
+    <s:String x:Key="Properties">{0} Eigenschappen</s:String>
+    <!-- Options strings -->
+    <s:String x:Key="LongBarSettings">LongBar instellingen</s:String>
+    <s:String x:Key="Autostart">LongBar automatisch opstarten met Windows</s:String>
+    <s:String x:Key="Location">Positie</s:String>
+    <s:String x:Key="TopMost">LongBar altijd op voorgrond weergeven</s:String>
+    <s:String x:Key="LocationOnScreen">Positie op scherm:</s:String>
+    <s:String x:Key="AtLeft">Links</s:String>
+    <s:String x:Key="AtRight">Rechts</s:String>
+    <s:String x:Key="Appearance">Vormgeving</s:String>
+    <s:String x:Key="EnableTransparancy">Doorzichtigheid inschakelen</s:String>
+    <s:String x:Key="EnableGlass">Aero Glass inschakelen</s:String>
+    <s:String x:Key="Theme">Thema:</s:String>
+    <s:String x:Key="Language">Taal:</s:String>
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Annuleren</s:String>
+    <s:String x:Key="Apply">Toepassen</s:String>
+    <!-- Flyouts strings -->
+    <s:String x:Key="FlyoutOptions">Opties</s:String>
+    <s:String x:Key="AlwaysShow">Altijd weergeven</s:String>
+    <s:String x:Key="FlyoutClose">Sluiten</s:String>
+</ResourceDictionary>
