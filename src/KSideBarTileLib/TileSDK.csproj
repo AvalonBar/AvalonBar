@@ -54,6 +54,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="BaseTile.cs" />
     <Compile Include="ConfigWindowEventArgs.cs" />
     <Compile Include="FlyoutEventArgs.cs" />
