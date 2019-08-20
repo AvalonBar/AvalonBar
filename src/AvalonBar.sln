@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LongBar", "LongBar\LongBar.csproj", "{26F66528-1B38-4EDF-99A2-E241ED3E3AAB}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidebar", "Sidebar\Sidebar.csproj", "{26F66528-1B38-4EDF-99A2-E241ED3E3AAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6FED4AA1-9C65-436F-AA64-18645333FFAB}"
 EndProject
