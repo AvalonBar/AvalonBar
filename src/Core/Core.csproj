@@ -65,15 +65,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Dwm\DwmManager.cs" />
-    <Compile Include="General\Sidebar.cs" />
-    <Compile Include="General\SystemTray.cs" />
-    <Compile Include="Localization\LocaleManager.cs" />
-    <Compile Include="Packaging\PackageManager.cs" />
+    <Compile Include="DwmManager.cs" />
+    <Compile Include="Sidebar.cs" />
+    <Compile Include="SystemTray.cs" />
+    <Compile Include="LocaleManager.cs" />
+    <Compile Include="PackageManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Themes\ThemesManager.cs" />
-    <Compile Include="Updates\UpdatesManager.cs" />
-    <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="ThemesManager.cs" />
+    <Compile Include="UpdatesManager.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="TileIcon.ico" />
