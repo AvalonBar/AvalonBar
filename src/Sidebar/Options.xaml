@@ -1,4 +1,4 @@
-﻿<Window x:Class="LongBar.Options"
+﻿<Window x:Class="Sidebar.Options"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="{DynamicResource LongBarSettings}" Height="520" Width="420" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">

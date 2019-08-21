@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 
-namespace LongBar
+namespace Sidebar
 {
     /// <summary>
     /// Interaction logic for TileDragWindow.xaml

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Drawing;
 
-namespace Slate.DWM
+namespace Sidebar.Core
 {
     public class DwmManager
     {

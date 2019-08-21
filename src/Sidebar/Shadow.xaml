@@ -1,4 +1,4 @@
-﻿<Window x:Class="LongBar.Shadow"
+﻿<Window x:Class="Sidebar.Shadow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Shadow" Width="10" ResizeMode="NoResize" WindowStyle="None" Background="Transparent" ShowInTaskbar="False" AllowsTransparency="True" AllowDrop="True">

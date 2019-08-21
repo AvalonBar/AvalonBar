@@ -15,8 +15,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Markup;
 using System.Runtime.InteropServices;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
     /// <summary>
     /// Interaction logic for Notify.xaml
@@ -44,8 +45,8 @@ namespace LongBar
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
-            if (Slate.DWM.DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
-                Slate.DWM.DwmManager.EnableGlass(ref handle, IntPtr.Zero);
+            if (DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
+                DwmManager.EnableGlass(ref handle, IntPtr.Zero);
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

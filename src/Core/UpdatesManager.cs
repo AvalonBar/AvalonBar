@@ -7,7 +7,7 @@ using System.Windows;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Reflection;
 
-namespace Slate.Updates
+namespace Sidebar.Core
 {
     public class UpdatesManager
     {

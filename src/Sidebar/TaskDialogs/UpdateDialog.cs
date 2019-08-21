@@ -6,8 +6,9 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Net;
 using System.IO;
 using System.Reflection;
+using Sidebar.Core;
 
-namespace LongBar.TaskDialogs
+namespace Sidebar.TaskDialogs
 {
     public class UpdateDialog
     {
@@ -92,7 +93,7 @@ namespace LongBar.TaskDialogs
         {
             if (e.Error == null && !e.Cancelled)
             {
-                Slate.Updates.UpdatesManager.UpdateFiles(LongBarMain.sett.path);
+                UpdatesManager.UpdateFiles(LongBarMain.sett.path);
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
                     App.Current.Shutdown();

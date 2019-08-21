@@ -17,7 +17,7 @@ using System.Xml;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-namespace LongBar
+namespace Sidebar
 {
     /// <summary>
     /// Interaction logic for Library.xaml

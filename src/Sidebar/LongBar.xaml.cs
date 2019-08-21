@@ -18,8 +18,9 @@ using System.IO;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Threading;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
   /// <summary>
   /// Interaction logic for LongBar.xaml
@@ -56,7 +57,7 @@ namespace LongBar
     internal struct Settings
     {
       public bool startup;
-      public Slate.General.Sidebar.Side side;
+      public Appbar.Side side;
       public string theme;
       public string locale;
       public int width;
@@ -93,10 +94,10 @@ namespace LongBar
     {
         shadow.Close();
 
-        if (Slate.General.Sidebar.Overlapped && sett.side == Slate.General.Sidebar.Side.Right)
-            Slate.General.Sidebar.UnOverlapTaskbar();
-      Slate.General.SystemTray.RemoveIcon();
-      Slate.General.Sidebar.AppbarRemove();
+        if (Appbar.Overlapped && sett.side == Appbar.Side.Right)
+            Appbar.UnOverlapTaskbar();
+      SystemTray.RemoveIcon();
+      Appbar.AppbarRemove();
       WriteSettings();
 
       RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
@@ -109,39 +110,39 @@ namespace LongBar
     {
         Handle = new WindowInteropHelper(this).Handle;
         ReadSettings();
-        Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, sett.theme);
-        object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
+        ThemesManager.LoadTheme(Sidebar.LongBarMain.sett.path, sett.theme);
+        object enableGlass = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
         if (enableGlass != null && !Convert.ToBoolean(enableGlass))
             sett.enableGlass = false;
-        object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+        object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
         if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
         {
             int color;
             bool opaque;
-            Slate.DWM.DwmManager.DwmGetColorizationColor(out color, out opaque);
+            DwmManager.DwmGetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            Slate.General.Sidebar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            Appbar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
 
-        Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, sett.locale);
+        LocaleManager.LoadLocale(Sidebar.LongBarMain.sett.path, sett.locale);
 
         this.Width = sett.width;
-        Slate.General.SystemTray.AddIcon(this);
+        SystemTray.AddIcon(this);
         this.WindowStyle = WindowStyle.ToolWindow;
-        Slate.General.Sidebar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
+        Appbar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
         SetSide(sett.side);
         this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
         this.MinWidth = 31;
         if (Environment.OSVersion.Version.Major == 6)
         {
-            Slate.DWM.DwmManager.RemoveFromFlip3D(Handle);
+            DwmManager.RemoveFromFlip3D(Handle);
             if (Environment.OSVersion.Version.Minor == 1)
             {
-                Slate.DWM.DwmManager.RemoveFromAeroPeek(Handle);
+                DwmManager.RemoveFromAeroPeek(Handle);
             }
         }
 
-        Slate.General.SystemTray.SidebarvisibleChanged += new Slate.General.SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
+        SystemTray.SidebarvisibleChanged += new SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
 
         GetTiles();
     }
@@ -159,7 +160,7 @@ namespace LongBar
 
         int color;
         bool opaque;
-        Slate.DWM.DwmManager.DwmGetColorizationColor(out color, out opaque);
+        DwmManager.DwmGetColorizationColor(out color, out opaque);
         Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
 
     }
@@ -173,8 +174,8 @@ namespace LongBar
 
     private void LoadAnimation_Completed(object sender, EventArgs e)
     {
-      if (Slate.DWM.DwmManager.IsGlassAvailable() && sett.enableGlass)
-        Slate.DWM.DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
+      if (DwmManager.IsGlassAvailable() && sett.enableGlass)
+        DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
 
       shadow.Height = this.Height;
       shadow.Top = this.Top;
@@ -200,7 +201,7 @@ namespace LongBar
           ThreadStart threadStarter = delegate
           {
 
-              Slate.Updates.UpdatesManager.UpdateInfo updateInfo = Slate.Updates.UpdatesManager.CheckForUpdates(Assembly.GetExecutingAssembly().GetName().Version.Build);
+              UpdatesManager.UpdateInfo updateInfo = UpdatesManager.CheckForUpdates(Assembly.GetExecutingAssembly().GetName().Version.Build);
               if (updateInfo.Build != null && updateInfo.Description != null)
               {
                   TaskDialogs.UpdateDialog.ShowDialog(updateInfo.Build, updateInfo.Description);
@@ -216,10 +217,10 @@ namespace LongBar
     {
       switch (sett.side)
       {
-        case Slate.General.Sidebar.Side.Left:
+        case Appbar.Side.Left:
           LeftSideItem.IsChecked = true;
           break;
-        case Slate.General.Sidebar.Side.Right:
+        case Appbar.Side.Right:
           RightSideItem.IsChecked = true;
           break;
       }
@@ -371,7 +372,7 @@ namespace LongBar
 
     public static void ReadSettings()
     {
-      sett.side = Slate.General.Sidebar.Side.Right;
+      sett.side = Appbar.Side.Right;
       sett.theme = "Slate";
       sett.locale = "English";
       sett.width = 150;
@@ -399,7 +400,7 @@ namespace LongBar
 
               if (line.StartsWith("Side"))
               {
-                  sett.side = (Slate.General.Sidebar.Side)Convert.ToInt32(line.Split('=')[1]);
+                  sett.side = (Appbar.Side)Convert.ToInt32(line.Split('=')[1]);
               }
 
               if (line.StartsWith("Theme"))
@@ -586,7 +587,7 @@ namespace LongBar
     {
       switch (sett.side)
       {
-        case Slate.General.Sidebar.Side.Right:
+        case Appbar.Side.Right:
           if (e.GetPosition(this).X <= 5 && !sett.locked)
           {
             base.Cursor = Cursors.SizeWE;
@@ -595,15 +596,15 @@ namespace LongBar
               SendMessageW(Handle, 274, 61441, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
-                Slate.General.Sidebar.SizeAppbar();
+                Appbar.SizeAppbar();
               else
-                Slate.General.Sidebar.SetPos();
+                Appbar.SetPos();
             }
           }
           else if (base.Cursor != Cursors.Arrow)
             base.Cursor = Cursors.Arrow;
           break;
-        case Slate.General.Sidebar.Side.Left:
+        case Appbar.Side.Left:
           if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
           {
             base.Cursor = Cursors.SizeWE;
@@ -612,9 +613,9 @@ namespace LongBar
               SendMessageW(Handle, 274, 61442, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
-                Slate.General.Sidebar.SizeAppbar();
+                Appbar.SizeAppbar();
               else
-                  Slate.General.Sidebar.SetPos();
+                  Appbar.SetPos();
             }
           }
           else if (base.Cursor != Cursors.Arrow)
@@ -627,26 +628,26 @@ namespace LongBar
     {
       switch (sett.side)
       {
-          case Slate.General.Sidebar.Side.Right:
+          case Appbar.Side.Right:
           if (e.GetPosition(this).X <= 5 && !sett.locked)
           {
             this.Width = 150;
             if (sett.topMost)
-                Slate.General.Sidebar.SizeAppbar();
+                Appbar.SizeAppbar();
             else
-                Slate.General.Sidebar.SetPos();
+                Appbar.SetPos();
 
             shadow.Left = this.Left - shadow.Width;
           }
           break;
-          case Slate.General.Sidebar.Side.Left:
+          case Appbar.Side.Left:
           if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
           {
             this.Width = 150;
             if (sett.topMost)
-                Slate.General.Sidebar.SizeAppbar();
+                Appbar.SizeAppbar();
             else
-                Slate.General.Sidebar.SetPos();
+                Appbar.SetPos();
 
             shadow.Left = this.Left + this.Width;
           }
@@ -686,8 +687,8 @@ namespace LongBar
       if (!LeftSideItem.IsChecked)
       {
         RightSideItem.IsChecked = false;
-        SetSide(Slate.General.Sidebar.Side.Left);
-        sett.side = Slate.General.Sidebar.Side.Left;
+        SetSide(Appbar.Side.Left);
+        sett.side = Appbar.Side.Left;
         LeftSideItem.IsChecked = true;
       }
     }
@@ -697,18 +698,18 @@ namespace LongBar
       if (!RightSideItem.IsChecked)
       {
         LeftSideItem.IsChecked = false;
-        SetSide(Slate.General.Sidebar.Side.Right);
-        sett.side = Slate.General.Sidebar.Side.Right;
+        SetSide(Appbar.Side.Right);
+        sett.side = Appbar.Side.Right;
         RightSideItem.IsChecked = true;
       }
     }
 
-    public void SetSide(Slate.General.Sidebar.Side side)
+    public void SetSide(Appbar.Side side)
     {
       switch (side)
       {
-        case Slate.General.Sidebar.Side.Left:
-           Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
+        case Appbar.Side.Left:
+           Appbar.SetSidebar(this, Appbar.Side.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
            Bg.FlowDirection = FlowDirection.RightToLeft;
            BgHighlight.FlowDirection = FlowDirection.RightToLeft;
            BgHighlight.HorizontalAlignment = HorizontalAlignment.Right;
@@ -719,10 +720,10 @@ namespace LongBar
            shadow.FlowDirection = FlowDirection.RightToLeft;
 
           foreach (Tile tile in TilesGrid.Children)
-              tile.ChangeSide(Slate.General.Sidebar.Side.Left);
+              tile.ChangeSide(Appbar.Side.Left);
           break;
-        case Slate.General.Sidebar.Side.Right:
-          Slate.General.Sidebar.SetSidebar(this, Slate.General.Sidebar.Side.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
+        case Appbar.Side.Right:
+          Appbar.SetSidebar(this, Appbar.Side.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
           Bg.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -733,37 +734,37 @@ namespace LongBar
           shadow.FlowDirection = FlowDirection.LeftToRight;
 
           foreach (Tile tile in TilesGrid.Children)
-              tile.ChangeSide(Slate.General.Sidebar.Side.Right);
+              tile.ChangeSide(Appbar.Side.Right);
           break;
       }
     }
 
     public void SetLocale(string locale)
     {
-        Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, locale);
-        Slate.General.SystemTray.SetLocale();
+        LocaleManager.LoadLocale(LongBarMain.sett.path, locale);
+        SystemTray.SetLocale();
         foreach (Tile tile in TilesGrid.Children)
           tile.ChangeLocale(locale);
     }
 
     public void SetTheme(string theme)
     {
-        Slate.Themes.ThemesManager.LoadTheme(LongBar.LongBarMain.sett.path, theme);
+        ThemesManager.LoadTheme(Sidebar.LongBarMain.sett.path, theme);
 
-        object useSystemColor = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+        object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
         if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
         {
             int color;
             bool opaque;
-            Slate.DWM.DwmManager.DwmGetColorizationColor(out color, out opaque);
+            DwmManager.DwmGetColorizationColor(out color, out opaque);
             //HwndSource.FromHwnd(Handle).CompositionTarget.BackgroundColor = Color.FromArgb(System.Drawing.Color.FromArgb(color).A,System.Drawing.Color.FromArgb(color).R,System.Drawing.Color.FromArgb(color).G,System.Drawing.Color.FromArgb(color).B);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            Slate.General.Sidebar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            Appbar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
         else
         {
             Bg.SetResourceReference(Rectangle.StyleProperty, "Background");
-            Slate.General.Sidebar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
+            Appbar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
         }
 
         string file = string.Format(@"{0}\{1}.theme.xaml", sett.path, theme);
@@ -850,9 +851,9 @@ namespace LongBar
 
     private void MinimizeItem_Click(object sender, RoutedEventArgs e)
     {
-        if (!Slate.General.SystemTray.SidebarVisible)
-            Slate.General.SystemTray.SidebarVisible = true;
-        else Slate.General.SystemTray.SidebarVisible = false;
+        if (!SystemTray.SidebarVisible)
+            SystemTray.SidebarVisible = true;
+        else SystemTray.SidebarVisible = false;
     }
 
     private void LongBar_DragEnter(object sender, DragEventArgs e)
@@ -874,7 +875,7 @@ namespace LongBar
               }
               if (files[i].EndsWith(".locale.xaml"))
               {
-                  if (Slate.Localization.LocaleManager.InstallLocale(LongBar.LongBarMain.sett.path, files[i]))
+                  if (LocaleManager.InstallLocale(Sidebar.LongBarMain.sett.path, files[i]))
                   {
                       MessageBox.Show("Localization was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
                       string name = System.IO.Path.GetFileName(files[i]);
@@ -886,7 +887,7 @@ namespace LongBar
               }
               if (files[i].EndsWith(".theme.xaml"))
               {
-                  if (Slate.Themes.ThemesManager.InstallTheme(LongBar.LongBarMain.sett.path, files[i]))
+                  if (ThemesManager.InstallTheme(Sidebar.LongBarMain.sett.path, files[i]))
                   {
                       MessageBox.Show("Theme was succesfully installed!", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Information);
                       string name = System.IO.Path.GetFileName(files[i]);
@@ -942,10 +943,10 @@ namespace LongBar
           shadow.Top = this.Top;
           switch (sett.side)
           {
-              case Slate.General.Sidebar.Side.Right:
+              case Appbar.Side.Right:
                   shadow.Left = this.Left - shadow.Width;
                   break;
-              case Slate.General.Sidebar.Side.Left:
+              case Appbar.Side.Left:
                   shadow.Left = this.Left + this.Width;
                   break;
           }

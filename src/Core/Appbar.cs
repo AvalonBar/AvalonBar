@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Interop;
 
-namespace Slate.General
+namespace Sidebar.Core
 {
-    public class Sidebar
+    public class Appbar
     {
         [DllImport("shell32.dll")]
         private static extern int SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
@@ -131,13 +131,13 @@ namespace Slate.General
 
             if (msg == WM_DWMCOMPOSITIONCHANGED)
             {
-                if (DWM.DwmManager.IsGlassAvailable())
+                if (DwmManager.IsGlassAvailable())
                 {
-                    DWM.DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
+                    DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
                 }
                 else
                 {
-                    DWM.DwmManager.DisableGlass(ref Handle);
+                    DwmManager.DisableGlass(ref Handle);
                 }
             }
 
@@ -199,7 +199,7 @@ namespace Slate.General
 
         public static void SizeAppbar()
         {
-            screen = Utilities.Utils.GetScreenFromName(screenName);
+            screen = Utils.GetScreenFromName(screenName);
             Rect rt = new Rect();
             if (LongBarSide == Side.Left || LongBarSide == Side.Right)
             {
@@ -213,13 +213,13 @@ namespace Slate.General
                           rt.Left = SystemInformation.VirtualScreen.Left;
                         else
                           rt.Left = 0;*/
-                        rt.Left = Utilities.Utils.CalculatePos(LongBarSide);
+                        rt.Left = Utils.CalculatePos(LongBarSide);
                     rt.Right = (int)window.Width;
                 }
                 else
                 {
                     if (screen != Screen.PrimaryScreen)
-                        rt.Right = Utilities.Utils.CalculatePos(LongBarSide);
+                        rt.Right = Utils.CalculatePos(LongBarSide);
                     else
                         rt.Right = SystemInformation.PrimaryMonitorSize.Width;
                     rt.Left = rt.Right - (int)window.Width;
@@ -279,7 +279,7 @@ namespace Slate.General
             Handle = new WindowInteropHelper(wnd).Handle;
             LongBarSide = side;
             screenName = scrnName;
-            screen = Utilities.Utils.GetScreenFromName(scrnName);
+            screen = Utils.GetScreenFromName(scrnName);
             if (topMost)
             {
                 AlwaysTop = topMost;
@@ -306,10 +306,10 @@ namespace Slate.General
 
         public static void ResizeBar()
         {
-            bool visible = General.SystemTray.SidebarVisible;
-            General.SystemTray.SidebarVisible = false;
-            General.SystemTray.SidebarVisible = true;
-            General.SystemTray.SidebarVisible = visible;
+            bool visible = SystemTray.SidebarVisible;
+            SystemTray.SidebarVisible = false;
+            SystemTray.SidebarVisible = true;
+            SystemTray.SidebarVisible = visible;
         }
 
         public static void OverlapTaskbar()

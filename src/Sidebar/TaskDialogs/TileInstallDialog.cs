@@ -7,8 +7,9 @@ using Microsoft.Win32;
 using System.Windows;
 using System.IO;
 using System.Windows.Controls;
+using Sidebar.Core;
 
-namespace LongBar.TaskDialogs
+namespace Sidebar.TaskDialogs
 {
     public class TileInstallDialog
     {
@@ -49,7 +50,7 @@ namespace LongBar.TaskDialogs
                 {
                     try
                     {
-                        Slate.Packaging.PackageManager.Unpack(LongBar.LongBarMain.sett.path, tilePath);
+                        PackageManager.Unpack(Sidebar.LongBarMain.sett.path, tilePath);
                         System.Windows.MessageBox.Show(tileName + " " + (string)Application.Current.TryFindResource("SuccesfullyInstalled"), (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                     }
                     catch (Exception ex)
@@ -67,7 +68,7 @@ namespace LongBar.TaskDialogs
 
             try
             {
-                Slate.Packaging.PackageManager.Unpack(LongBarMain.sett.path, tilePath);
+                PackageManager.Unpack(LongBarMain.sett.path, tilePath);
 
                 if (longBar != null)
                 {

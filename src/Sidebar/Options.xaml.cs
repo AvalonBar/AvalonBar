@@ -14,8 +14,9 @@ using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
   /// <summary>
   /// Interaction logic for Options.xaml
@@ -65,12 +66,12 @@ namespace LongBar
         TopMostCheckBox.IsChecked = LongBarMain.sett.topMost;
         LockedCheckBox.IsChecked = LongBarMain.sett.locked;
 
-        if (LongBarMain.sett.side == Slate.General.Sidebar.Side.Left)
+        if (LongBarMain.sett.side == Appbar.Side.Left)
             LocationComboBox.SelectedIndex = 0;
         else
             LocationComboBox.SelectedIndex = 1;
 
-        string[] locales = Slate.Localization.LocaleManager.GetLocales(LongBar.LongBarMain.sett.path);
+        string[] locales = LocaleManager.GetLocales(Sidebar.LongBarMain.sett.path);
         for (int i = 0; i <= locales.Length - 1; i++)
         {
             ComboBoxItem item2 = new ComboBoxItem();
@@ -79,7 +80,7 @@ namespace LongBar
         }
         LangComboBox.Text = LongBarMain.sett.locale;
 
-        if (Slate.DWM.DwmManager.IsGlassAvailable())
+        if (DwmManager.IsGlassAvailable())
         {
             AeroGlassCheckBox.IsEnabled = true;
             AeroGlassCheckBox.IsChecked = LongBarMain.sett.enableGlass;
@@ -108,7 +109,7 @@ namespace LongBar
         
         UpdatesCheckBox.IsChecked = LongBarMain.sett.enableUpdates;
 
-        string[] themes = Slate.Themes.ThemesManager.GetThemes(LongBar.LongBarMain.sett.path);
+        string[] themes = ThemesManager.GetThemes(Sidebar.LongBarMain.sett.path);
         for (int i = 0; i <= themes.Length - 1; i++)
         {
             ComboBoxItem newItem = new ComboBoxItem();
@@ -118,7 +119,7 @@ namespace LongBar
         ThemesComboBox.Text = LongBarMain.sett.theme;
         ApplyButton.IsEnabled = false;
 
-        string[] screenNames = Slate.Utilities.Utils.GetScreenFriendlyNames();
+        string[] screenNames = Utils.GetScreenFriendlyNames();
         System.Windows.Forms.Screen[] screens = System.Windows.Forms.Screen.AllScreens;
         for (int i = 0; i < screenNames.Length; i++)
         {
@@ -151,7 +152,7 @@ namespace LongBar
         ApplyButton.IsEnabled = true;
         if (ThemesComboBox != null && ThemesComboBox.SelectionBoxItem != null)
         {
-            object enableGlass = Slate.Themes.ThemesManager.GetThemeParameter(LongBar.LongBarMain.sett.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
+            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
             if (enableGlass != null)
             {
                 AeroGlassCheckBox.IsChecked = Convert.ToBoolean(enableGlass);
@@ -178,7 +179,7 @@ namespace LongBar
     {
         if (LongBarMain.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
         {
-            Slate.General.Sidebar.UnOverlapTaskbar();
+            Appbar.UnOverlapTaskbar();
         }
 
         LongBarMain.sett.startup = (bool)AutostartCheckBox.IsChecked;
@@ -194,7 +195,7 @@ namespace LongBar
         if (ScreenComboBox.SelectedIndex == 0)
           LongBarMain.sett.screen = "Primary";
         else
-          LongBarMain.sett.screen = Slate.Utilities.Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
+          LongBarMain.sett.screen = Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
 
         if ((bool)AutostartCheckBox.IsChecked)
         {
@@ -222,16 +223,16 @@ namespace LongBar
         }
 
         if (LocationComboBox.SelectedIndex == 0)
-            LongBarMain.sett.side = Slate.General.Sidebar.Side.Left;
+            LongBarMain.sett.side = Appbar.Side.Left;
         else
-            LongBarMain.sett.side = Slate.General.Sidebar.Side.Right;
+            LongBarMain.sett.side = Appbar.Side.Right;
 
         if (Environment.OSVersion.Version.Major >= 6)
         {
-            if (Slate.DWM.DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
-                Slate.DWM.DwmManager.EnableGlass(ref longBar.Handle, IntPtr.Zero);
+            if (DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
+                DwmManager.EnableGlass(ref longBar.Handle, IntPtr.Zero);
             else
-                Slate.DWM.DwmManager.DisableGlass(ref longBar.Handle);
+                DwmManager.DisableGlass(ref longBar.Handle);
         }
 
         if (ShadowCheckBox.IsChecked == true)
@@ -239,7 +240,7 @@ namespace LongBar
         else
             longBar.shadow.Hide();
 
-        Slate.General.Sidebar.AppbarRemove();
+        Appbar.AppbarRemove();
         longBar.SetSide(LongBarMain.sett.side);
 
         longBar.SetTheme(ThemesComboBox.Text);

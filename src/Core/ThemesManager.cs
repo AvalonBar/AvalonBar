@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 
-namespace Slate.Themes
+namespace Sidebar.Core
 {
     public class ThemesManager
     {

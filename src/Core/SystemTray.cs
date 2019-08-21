@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Windows;
 using System.Drawing;
 
-namespace Slate.General
+namespace Sidebar.Core
 {
     public class SystemTray
     {
@@ -117,27 +117,27 @@ namespace Slate.General
             {
                 if (value)
                 {
-                    ShowWindow(Sidebar.Handle, 5);
-                    if (Sidebar.AlwaysTop)
+                    ShowWindow(Appbar.Handle, 5);
+                    if (Appbar.AlwaysTop)
                     {
-                        Sidebar.AppbarRemove();
-                        Sidebar.AppbarNew();
-                        if (!Sidebar.Overlapped && overlapTaskbar)
-                            Sidebar.OverlapTaskbar();
-                        Sidebar.SizeAppbar();
+                        Appbar.AppbarRemove();
+                        Appbar.AppbarNew();
+                        if (!Appbar.Overlapped && overlapTaskbar)
+                            Appbar.OverlapTaskbar();
+                        Appbar.SizeAppbar();
                     }
                     _SidebarVisible = true;
                     OnSidebarVisibleChanged(true);
                 }
                 else
                 {
-                    ShowWindow(Sidebar.Handle, 0);
-                    if (Sidebar.AlwaysTop)
+                    ShowWindow(Appbar.Handle, 0);
+                    if (Appbar.AlwaysTop)
                     {
-                        Sidebar.AppbarRemove();
-                        if (Sidebar.Overlapped)
+                        Appbar.AppbarRemove();
+                        if (Appbar.Overlapped)
                         {
-                            Sidebar.UnOverlapTaskbar();
+                            Appbar.UnOverlapTaskbar();
                             overlapTaskbar = true;
                         }
                         else

@@ -8,8 +8,8 @@
     <ProjectGuid>{6FED4AA1-9C65-436F-AA64-18645333FFAB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Slate</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <RootNamespace>Sidebar.Core</RootNamespace>
+    <AssemblyName>Sidebar.Core</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -66,7 +66,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DwmManager.cs" />
-    <Compile Include="Sidebar.cs" />
+    <Compile Include="Appbar.cs" />
     <Compile Include="SystemTray.cs" />
     <Compile Include="LocaleManager.cs" />
     <Compile Include="PackageManager.cs" />

@@ -1,4 +1,4 @@
-﻿<Window x:Class="LongBar.Notify"
+﻿<Window x:Class="Sidebar.Notify"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Notify" Height="150" Width="350" ShowInTaskbar="False" AllowsTransparency="True"

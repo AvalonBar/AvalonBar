@@ -14,7 +14,7 @@ using System.Threading;
 using System.IO;
 using System.Net;
 
-namespace LongBar
+namespace Sidebar
 {
     /// <summary>
     /// Interaction logic for LibraryItem.xaml

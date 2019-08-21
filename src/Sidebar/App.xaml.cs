@@ -5,8 +5,9 @@ using System.Windows;
 using System.Windows.Threading;
 using System.IO;
 using System.Diagnostics;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
   /// <summary>
   /// Interaction logic for App.xaml
@@ -30,7 +31,7 @@ namespace LongBar
         {
             MessageBox.Show("Can't write log. Reason: " + ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
-        if (LongBar.LongBarMain.sett.showErrors)
+        if (Sidebar.LongBarMain.sett.showErrors)
             TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
         
         e.Handled = true;
@@ -39,14 +40,14 @@ namespace LongBar
     private void App_Startup(object sender, StartupEventArgs e)
     {
       Microsoft.Win32.SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
-      Slate.General.SystemTray.isRunning = false;
-      if (Slate.Utilities.Utils.PriorProcess() != null)
-        Slate.General.SystemTray.isRunning = true;
+      SystemTray.isRunning = false;
+      if (Utils.PriorProcess() != null)
+        SystemTray.isRunning = true;
       //SimpleLoadLocale();
       LongBarMain.ReadSettings();
-      Slate.Localization.LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
+      LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
 
-      if (Slate.General.SystemTray.isRunning && e.Args.Length == 0)
+      if (SystemTray.isRunning && e.Args.Length == 0)
       {
           MessageBox.Show((string)Application.Current.TryFindResource("AlreadyRunning"), "LongBar", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
           this.Shutdown();
@@ -142,14 +143,14 @@ namespace LongBar
             }
             break;
         }
-        if (Slate.General.SystemTray.isRunning)
+        if (SystemTray.isRunning)
             this.Shutdown();
       }
     }
 
     private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
     {
-      Slate.General.Sidebar.ResizeBar();
+      Appbar.ResizeBar();
     }
 
     /*private void SimpleLoadLocale()
@@ -159,7 +160,7 @@ namespace LongBar
         using (RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("LongBar", false))
         {
           string locale = (string)key.GetValue("Locale", "English");
-          Slate.Localization.LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, locale);
+          LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, locale);
         }
       }
       catch { }

@@ -12,8 +12,9 @@ using System.Windows.Shapes;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Animation;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
   /// <summary>
   /// Interaction logic for Flyout.xaml
@@ -51,16 +52,16 @@ namespace LongBar
 
     private void Flyout_Loaded(object sender, RoutedEventArgs e)
     {
-        //Slate.DWM.DwmManager.DisableGlass(ref handle);
+        //DwmManager.DisableGlass(ref handle);
         //this.Width = ((FrameworkElement)this.ContentGrid.Children[0]).Width + ContentGrid.Margin.Left + ContentGrid.Margin.Right;
         //this.Height = ((FrameworkElement)this.ContentGrid.Children[0]).Height + ContentGrid.Margin.Top + ContentGrid.Margin.Bottom;
-        //Slate.DWM.DwmManager.EnableGlass(ref handle, 0);
+        //DwmManager.EnableGlass(ref handle, 0);
         switch (LongBarMain.sett.side)
         {
-            case Slate.General.Sidebar.Side.Left:
+            case Appbar.Side.Left:
                 ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + LongBarMain.sett.width;
                 break;
-            case Slate.General.Sidebar.Side.Right:
+            case Appbar.Side.Right:
                 ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left - this.Width;
                 break;
         }
@@ -80,7 +81,7 @@ namespace LongBar
       handle = new WindowInteropHelper(this).Handle;
       this.Width = ((FrameworkElement)this.ContentGrid.Children[0]).Width + ContentGrid.Margin.Left + ContentGrid.Margin.Right;
       this.Height = ((FrameworkElement)this.ContentGrid.Children[0]).Height + ContentGrid.Margin.Top + ContentGrid.Margin.Bottom;
-      //Slate.DWM.DwmManager.EnableGlass(ref handle, 0);
+      //DwmManager.EnableGlass(ref handle, 0);
     }
 
     private void DropDownMenu_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -97,8 +98,8 @@ namespace LongBar
     private void DoubleAnimation_Completed(object sender, EventArgs e)
     {
         loaded = true;
-        if (LongBar.LongBarMain.sett.enableGlass)
-          Slate.DWM.DwmManager.EnableGlass(ref handle, IntPtr.Zero);
+        if (Sidebar.LongBarMain.sett.enableGlass)
+          DwmManager.EnableGlass(ref handle, IntPtr.Zero);
     }
   }
 }

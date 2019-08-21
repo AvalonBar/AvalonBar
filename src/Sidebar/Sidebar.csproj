@@ -8,13 +8,13 @@
     <ProjectGuid>{26F66528-1B38-4EDF-99A2-E241ED3E3AAB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LongBar</RootNamespace>
-    <AssemblyName>sidebar</AssemblyName>
+    <RootNamespace>Sidebar</RootNamespace>
+    <AssemblyName>Sidebar</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <StartupObject>LongBar.App</StartupObject>
+    <StartupObject>Sidebar.App</StartupObject>
     <ApplicationIcon>SidebarIcon.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -300,9 +300,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\Core\Sidebar.Core.csproj">
       <Project>{6FED4AA1-9C65-436F-AA64-18645333FFAB}</Project>
-      <Name>Core</Name>
+      <Name>Sidebar.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TileLib\TileLib.csproj">
       <Project>{E9D551B9-C80A-41D6-915A-5C6C005547A8}</Project>

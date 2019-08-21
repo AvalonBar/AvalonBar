@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Slate.Utilities
+namespace Sidebar.Core
 {
     public class Utils
     {
@@ -96,25 +96,25 @@ namespace Slate.Utilities
             return Screen.PrimaryScreen;
         }
 
-        internal static int CalculatePos(General.Sidebar.Side side)
+        internal static int CalculatePos(Appbar.Side side)
         {
             int pos = 0;
             Screen[] screens = Screen.AllScreens;
             switch (side)
             {
-                case General.Sidebar.Side.Left:
+                case Appbar.Side.Left:
                     pos = SystemInformation.VirtualScreen.Left;
                     foreach (Screen scr in screens)
-                        if (scr == General.Sidebar.screen)
+                        if (scr == Appbar.screen)
                             break;
                         else
                             pos += scr.Bounds.Width;
                     break;
 
-                case General.Sidebar.Side.Right:
+                case Appbar.Side.Right:
                     pos = SystemInformation.VirtualScreen.Right;
                     for (int i = screens.Length - 1; i > 0; i--)
-                        if (screens[i] == General.Sidebar.screen)
+                        if (screens[i] == Appbar.screen)
                             break;
                         else
                             pos -= screens[i].Bounds.Width;

@@ -9,7 +9,7 @@ using System.Windows;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
-namespace LongBar.TaskDialogs
+namespace Sidebar.TaskDialogs
 {
     public class ErrorDialog
     {

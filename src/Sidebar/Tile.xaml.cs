@@ -15,8 +15,9 @@ using System.Windows.Media.Animation;
 using Applications.Sidebar;
 using System.Threading;
 using System.IO;
+using Sidebar.Core;
 
-namespace LongBar
+namespace Sidebar
 {
   /// <summary>
   /// Interaction logic for Tile.xaml
@@ -31,7 +32,7 @@ namespace LongBar
     private Assembly tileAssembly;
     private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
     private Flyout flyout;
-    private Slate.General.Sidebar.Side side;
+    private Appbar.Side side;
     private TileOptions options;
     private ModelType tileModelType;
     public bool hasErrors;
@@ -97,7 +98,7 @@ namespace LongBar
     }
 
     FrameworkElement control = null;
-    public void Load(Slate.General.Sidebar.Side side, double height)
+    public void Load(Appbar.Side side, double height)
     {
       this.side = side;
 
@@ -292,14 +293,14 @@ namespace LongBar
             this.TitleTextBlock.Text = value;
     }
 
-    public void ChangeSide(Slate.General.Sidebar.Side side)
+    public void ChangeSide(Appbar.Side side)
     {
       switch (side)
       {
-        case Slate.General.Sidebar.Side.Left:
+        case Appbar.Side.Left:
           Splitter.FlowDirection = FlowDirection.RightToLeft;
           break;
-        case Slate.General.Sidebar.Side.Right:
+        case Appbar.Side.Right:
           Splitter.FlowDirection = FlowDirection.LeftToRight;
           break;
       }
@@ -383,15 +384,15 @@ namespace LongBar
         flyout = new Flyout(Info.Name);
         switch (side)
         {
-          case Slate.General.Sidebar.Side.Left:
+          case Appbar.Side.Left:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X;
             break;
-          case Slate.General.Sidebar.Side.Right:
+          case Appbar.Side.Right:
             flyout.Left = this.PointToScreen(new Point(0,0)).X;
             break;
         }
         flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
-        System.Windows.Forms.Screen screen = Slate.Utilities.Utils.GetScreenFromName(LongBarMain.sett.screen);
+        System.Windows.Forms.Screen screen = Utils.GetScreenFromName(LongBarMain.sett.screen);
         flyout.ContentGrid.Children.Add(tileObject.FlyoutContent);
         flyout.Show();
         if ((flyout.Top + flyout.Height) > screen.WorkingArea.Height)
@@ -415,10 +416,10 @@ namespace LongBar
         flyout.Height = tileKObject.FlyoutContent.Height;
         switch (side)
         {
-          case Slate.General.Sidebar.Side.Left:
+          case Appbar.Side.Left:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X + this.ActualWidth;
             break;
-          case Slate.General.Sidebar.Side.Right:
+          case Appbar.Side.Right:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X - flyout.Width - 3;
             break;
         }

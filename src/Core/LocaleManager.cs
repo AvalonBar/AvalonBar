@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Windows;
 
-namespace Slate.Localization
+namespace Sidebar.Core
 {
     public class LocaleManager
     {

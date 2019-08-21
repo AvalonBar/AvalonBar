@@ -1,4 +1,4 @@
-﻿<Window x:Class="LongBar.TileDragWindow"
+﻿<Window x:Class="Sidebar.TileDragWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="TileDragWindow" Background="#00000000" Opacity="1" Height="300" Width="300" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True"
