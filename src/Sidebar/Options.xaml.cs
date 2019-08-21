@@ -139,7 +139,6 @@ namespace LongBar
               break;
             }
         }
-                                                                                                                                                                                                                                       if (alt) { Image1.Visibility = Visibility.Hidden; Image2.Opacity = 1; Caption.Visibility = Visibility.Hidden; AboutDockPanel.Background = Brushes.Black; SplitterLine.Visibility = Visibility.Hidden; CaptionGrid.Background = Brushes.Black; }
     }
 
     private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -173,11 +172,6 @@ namespace LongBar
             ApplyButton.IsEnabled = false;
         }
         this.Close();
-    }
-
-    private void Image1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.ClickCount > 1) { alt = !alt; this.Close(); }
     }
 
     private void ApplySettings()
@@ -285,7 +279,5 @@ namespace LongBar
         OverlapCheckBox.IsEnabled = false;
         OverlapCheckBox.IsChecked = false;
     }
-
-    private static bool alt; // <-- wtf?   [o_O]
   }
 }

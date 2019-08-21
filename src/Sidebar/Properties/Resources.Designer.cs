@@ -63,39 +63,9 @@ namespace LongBar.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ga {
-            get {
-                object obj = ResourceManager.GetObject("ga", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Library_icon {
             get {
                 object obj = ResourceManager.GetObject("Library_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LongBar_2_0_Logo {
-            get {
-                object obj = ResourceManager.GetObject("LongBar_2_0_Logo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LongBar_Halo {
-            get {
-                object obj = ResourceManager.GetObject("LongBar_Halo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
