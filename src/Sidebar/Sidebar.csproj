@@ -214,12 +214,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SnowFall\SnowFlake.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Tile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -292,9 +286,6 @@
     </Compile>
     <Compile Include="Shadow.xaml.cs">
       <DependentUpon>Shadow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SnowFall\SnowFlake.xaml.cs">
-      <DependentUpon>SnowFlake.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskDialogs\ErrorDialog.cs" />
     <Compile Include="TaskDialogs\TileInstallDialog.cs" />

@@ -71,7 +71,6 @@ namespace LongBar
       public bool overlapTaskbar;
       public string screen;
       public string path;
-      public bool enableSnowFall;
       public bool enableUpdates;
       public bool debug;
       public string tileToDebug;
@@ -183,11 +182,6 @@ namespace LongBar
       if (sett.enableShadow)
       {
           shadow.Show();
-      }
-
-      if (sett.enableSnowFall)
-      {
-          EnableSnowFall();
       }
 
       if (sett.enableUpdates)
@@ -389,7 +383,6 @@ namespace LongBar
       sett.showErrors = true;
       sett.screen = "Primary";
       sett.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-      sett.enableSnowFall = false;
       sett.enableUpdates = true;
 
       if (System.IO.File.Exists("Settings.ini"))
@@ -463,11 +456,6 @@ namespace LongBar
               {
                   if (line.Split('=')[1] != "\\")
                      sett.path = line.Split('=')[1];
-              }
-
-              if (line.StartsWith("EnableSnowFall"))
-              {
-                  sett.enableSnowFall = Convert.ToBoolean(line.Split('=')[1]);
               }
 
               if (line.StartsWith("EnableUpdates"))
@@ -962,38 +950,6 @@ namespace LongBar
                   break;
           }
       }
-
-      public void EnableSnowFall()
-      {
-          if (SnowFallCanvas.Visibility == Visibility.Collapsed)
-          {
-              SnowFallCanvas.Visibility = Visibility.Visible;
-              SnowFallCanvas.Width = this.Width;
-              Random r = new Random(Environment.TickCount);
-              for (int i = 0; i < 50; i++)
-              {
-                  SnowFall.SnowFlake snowFlake = new LongBar.SnowFall.SnowFlake();
-                  snowFlake.SetValue(Canvas.LeftProperty, (double)r.Next((int)this.Width));
-                  snowFlake.SetValue(Canvas.TopProperty, (double)r.Next((int)this.Height));
-                  snowFlake.Width = 10 + r.Next(15);
-                  snowFlake.Height = snowFlake.Width;
-                  snowFlake.Visibility = Visibility.Visible;
-                  SnowFallCanvas.Children.Add(snowFlake);
-                  snowFlake.Enabled = true;
-              }
-          }
-      }
-
-      public void DisableSnowFall()
-      {
-          SnowFallCanvas.Visibility = Visibility.Collapsed;
-          foreach (LongBar.SnowFall.SnowFlake snowFlake in SnowFallCanvas.Children)
-          {
-              snowFlake.Enabled = false;
-          }
-          SnowFallCanvas.Children.Clear();
-      }
-
 
       public static void ShowNotification()
       {

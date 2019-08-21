@@ -197,11 +197,6 @@ namespace LongBar
         LongBarMain.sett.theme = ThemesComboBox.Text;
         LongBarMain.sett.enableUpdates = (bool)UpdatesCheckBox.IsChecked;
 
-        if (LongBarMain.sett.enableSnowFall)
-            longBar.EnableSnowFall();
-        else
-            longBar.DisableSnowFall();
-
         if (ScreenComboBox.SelectedIndex == 0)
           LongBarMain.sett.screen = "Primary";
         else

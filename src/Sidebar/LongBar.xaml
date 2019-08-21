@@ -42,8 +42,6 @@
             <Line Name="SplitterLine2" Style="{DynamicResource TileSplitterLine2}"/>
         </StackPanel>
 
-        <Canvas x:Name="SnowFallCanvas" Visibility="Collapsed"/>
-        
         <DockPanel  Name="MainPanel" Style="{DynamicResource MainPanel}">
             <StackPanel Name="PinGrid" Style="{DynamicResource PinGrid}"/>
             <StackPanel  Name="TilesGrid" Style="{DynamicResource TilesPanel}"/>
