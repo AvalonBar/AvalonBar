@@ -107,6 +107,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <None Include="app.manifest" />
     <None Include="Localization\English.locale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -296,9 +297,6 @@
       <DependentUpon>ToolButton.xaml</DependentUpon>
     </Compile>
     <None Include="app.config" />
-    <None Include="app.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
