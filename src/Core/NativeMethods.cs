@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Drawing;
 
 namespace Sidebar.Core
 {
@@ -20,7 +21,7 @@ namespace Sidebar.Core
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetWindowPlacement(IntPtr hWnd, ref WindowPlacement lpwndpl);
+        internal static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
         [DllImport("user32.dll")]
         internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
 
@@ -29,19 +30,22 @@ namespace Sidebar.Core
 
     }
 
-    internal struct WindowPlacement
+    internal struct WINDOWPLACEMENT
     {
         public int length;
         public int flags;
         public int showCmd;
-        public System.Drawing.Point ptMinPosition;
-        public System.Drawing.Point ptMaxPosition;
-        public System.Drawing.Rectangle rcNormalPosition;
+        public Point ptMinPosition;
+        public Point ptMaxPosition;
+        public Rectangle rcNormalPosition;
     }
 
-    internal struct Rect
+    internal struct RECT
     {
         public int Left, Top, Right, Bottom;
+        public static RECT Empty
+        {
+            get { return default(RECT); }
+        }
     }
-
 }

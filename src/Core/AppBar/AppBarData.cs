@@ -10,7 +10,7 @@ namespace Sidebar.Core
         internal int hWnd;
         internal int uCallBackMessage;
         internal int uEdge;
-        internal Rect rc;
+        internal RECT rc;
         internal int lParam;
     }
 }
