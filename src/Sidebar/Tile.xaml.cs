@@ -32,7 +32,7 @@ namespace Sidebar
     private Assembly tileAssembly;
     private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
     private Flyout flyout;
-    private Appbar.Side side;
+    private AppBarSide side;
     private TileOptions options;
     private ModelType tileModelType;
     public bool hasErrors;
@@ -98,7 +98,7 @@ namespace Sidebar
     }
 
     FrameworkElement control = null;
-    public void Load(Appbar.Side side, double height)
+    public void Load(AppBarSide side, double height)
     {
       this.side = side;
 
@@ -293,14 +293,14 @@ namespace Sidebar
             this.TitleTextBlock.Text = value;
     }
 
-    public void ChangeSide(Appbar.Side side)
+    public void ChangeSide(AppBarSide side)
     {
       switch (side)
       {
-        case Appbar.Side.Left:
+        case AppBarSide.Left:
           Splitter.FlowDirection = FlowDirection.RightToLeft;
           break;
-        case Appbar.Side.Right:
+        case AppBarSide.Right:
           Splitter.FlowDirection = FlowDirection.LeftToRight;
           break;
       }
@@ -384,10 +384,10 @@ namespace Sidebar
         flyout = new Flyout(Info.Name);
         switch (side)
         {
-          case Appbar.Side.Left:
+          case AppBarSide.Left:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X;
             break;
-          case Appbar.Side.Right:
+          case AppBarSide.Right:
             flyout.Left = this.PointToScreen(new Point(0,0)).X;
             break;
         }
@@ -416,10 +416,10 @@ namespace Sidebar
         flyout.Height = tileKObject.FlyoutContent.Height;
         switch (side)
         {
-          case Appbar.Side.Left:
+          case AppBarSide.Left:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X + this.ActualWidth;
             break;
-          case Appbar.Side.Right:
+          case AppBarSide.Right:
             flyout.Left = this.PointToScreen(new Point(0, 0)).X - flyout.Width - 3;
             break;
         }

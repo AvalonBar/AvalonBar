@@ -57,7 +57,7 @@ namespace Sidebar
     internal struct Settings
     {
       public bool startup;
-      public Appbar.Side side;
+      public AppBarSide side;
       public string theme;
       public string locale;
       public int width;
@@ -94,10 +94,10 @@ namespace Sidebar
     {
         shadow.Close();
 
-        if (Appbar.Overlapped && sett.side == Appbar.Side.Right)
-            Appbar.UnOverlapTaskbar();
+        if (AppBar.Overlapped && sett.side == AppBarSide.Right)
+            AppBar.UnOverlapTaskbar();
       SystemTray.RemoveIcon();
-      Appbar.AppbarRemove();
+      AppBar.AppbarRemove();
       WriteSettings();
 
       RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
@@ -121,7 +121,7 @@ namespace Sidebar
             bool opaque;
             DwmManager.DwmGetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            Appbar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
 
         LocaleManager.LoadLocale(Sidebar.LongBarMain.sett.path, sett.locale);
@@ -129,7 +129,7 @@ namespace Sidebar
         this.Width = sett.width;
         SystemTray.AddIcon(this);
         this.WindowStyle = WindowStyle.ToolWindow;
-        Appbar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
+        AppBar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
         SetSide(sett.side);
         this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
         this.MinWidth = 31;
@@ -217,10 +217,10 @@ namespace Sidebar
     {
       switch (sett.side)
       {
-        case Appbar.Side.Left:
+        case AppBarSide.Left:
           LeftSideItem.IsChecked = true;
           break;
-        case Appbar.Side.Right:
+        case AppBarSide.Right:
           RightSideItem.IsChecked = true;
           break;
       }
@@ -372,7 +372,7 @@ namespace Sidebar
 
     public static void ReadSettings()
     {
-      sett.side = Appbar.Side.Right;
+      sett.side = AppBarSide.Right;
       sett.theme = "Slate";
       sett.locale = "English";
       sett.width = 150;
@@ -400,7 +400,7 @@ namespace Sidebar
 
               if (line.StartsWith("Side"))
               {
-                  sett.side = (Appbar.Side)Convert.ToInt32(line.Split('=')[1]);
+                  sett.side = (AppBarSide)Convert.ToInt32(line.Split('=')[1]);
               }
 
               if (line.StartsWith("Theme"))
@@ -587,7 +587,7 @@ namespace Sidebar
     {
       switch (sett.side)
       {
-        case Appbar.Side.Right:
+        case AppBarSide.Right:
           if (e.GetPosition(this).X <= 5 && !sett.locked)
           {
             base.Cursor = Cursors.SizeWE;
@@ -596,15 +596,15 @@ namespace Sidebar
               SendMessageW(Handle, 274, 61441, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
-                Appbar.SizeAppbar();
+                AppBar.SizeAppbar();
               else
-                Appbar.SetPos();
+                AppBar.SetPos();
             }
           }
           else if (base.Cursor != Cursors.Arrow)
             base.Cursor = Cursors.Arrow;
           break;
-        case Appbar.Side.Left:
+        case AppBarSide.Left:
           if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
           {
             base.Cursor = Cursors.SizeWE;
@@ -613,9 +613,9 @@ namespace Sidebar
               SendMessageW(Handle, 274, 61442, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
-                Appbar.SizeAppbar();
+                AppBar.SizeAppbar();
               else
-                  Appbar.SetPos();
+                  AppBar.SetPos();
             }
           }
           else if (base.Cursor != Cursors.Arrow)
@@ -628,26 +628,26 @@ namespace Sidebar
     {
       switch (sett.side)
       {
-          case Appbar.Side.Right:
+          case AppBarSide.Right:
           if (e.GetPosition(this).X <= 5 && !sett.locked)
           {
             this.Width = 150;
             if (sett.topMost)
-                Appbar.SizeAppbar();
+                AppBar.SizeAppbar();
             else
-                Appbar.SetPos();
+                AppBar.SetPos();
 
             shadow.Left = this.Left - shadow.Width;
           }
           break;
-          case Appbar.Side.Left:
+          case AppBarSide.Left:
           if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
           {
             this.Width = 150;
             if (sett.topMost)
-                Appbar.SizeAppbar();
+                AppBar.SizeAppbar();
             else
-                Appbar.SetPos();
+                AppBar.SetPos();
 
             shadow.Left = this.Left + this.Width;
           }
@@ -687,8 +687,8 @@ namespace Sidebar
       if (!LeftSideItem.IsChecked)
       {
         RightSideItem.IsChecked = false;
-        SetSide(Appbar.Side.Left);
-        sett.side = Appbar.Side.Left;
+        SetSide(AppBarSide.Left);
+        sett.side = AppBarSide.Left;
         LeftSideItem.IsChecked = true;
       }
     }
@@ -698,18 +698,18 @@ namespace Sidebar
       if (!RightSideItem.IsChecked)
       {
         LeftSideItem.IsChecked = false;
-        SetSide(Appbar.Side.Right);
-        sett.side = Appbar.Side.Right;
+        SetSide(AppBarSide.Right);
+        sett.side = AppBarSide.Right;
         RightSideItem.IsChecked = true;
       }
     }
 
-    public void SetSide(Appbar.Side side)
+    public void SetSide(AppBarSide side)
     {
       switch (side)
       {
-        case Appbar.Side.Left:
-           Appbar.SetSidebar(this, Appbar.Side.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
+        case AppBarSide.Left:
+           AppBar.SetSidebar(this, AppBarSide.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
            Bg.FlowDirection = FlowDirection.RightToLeft;
            BgHighlight.FlowDirection = FlowDirection.RightToLeft;
            BgHighlight.HorizontalAlignment = HorizontalAlignment.Right;
@@ -720,10 +720,10 @@ namespace Sidebar
            shadow.FlowDirection = FlowDirection.RightToLeft;
 
           foreach (Tile tile in TilesGrid.Children)
-              tile.ChangeSide(Appbar.Side.Left);
+              tile.ChangeSide(AppBarSide.Left);
           break;
-        case Appbar.Side.Right:
-          Appbar.SetSidebar(this, Appbar.Side.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
+        case AppBarSide.Right:
+          AppBar.SetSidebar(this, AppBarSide.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
           Bg.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.FlowDirection = FlowDirection.LeftToRight;
           BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -734,7 +734,7 @@ namespace Sidebar
           shadow.FlowDirection = FlowDirection.LeftToRight;
 
           foreach (Tile tile in TilesGrid.Children)
-              tile.ChangeSide(Appbar.Side.Right);
+              tile.ChangeSide(AppBarSide.Right);
           break;
       }
     }
@@ -759,12 +759,12 @@ namespace Sidebar
             DwmManager.DwmGetColorizationColor(out color, out opaque);
             //HwndSource.FromHwnd(Handle).CompositionTarget.BackgroundColor = Color.FromArgb(System.Drawing.Color.FromArgb(color).A,System.Drawing.Color.FromArgb(color).R,System.Drawing.Color.FromArgb(color).G,System.Drawing.Color.FromArgb(color).B);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            Appbar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
         else
         {
             Bg.SetResourceReference(Rectangle.StyleProperty, "Background");
-            Appbar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
+            AppBar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
         }
 
         string file = string.Format(@"{0}\{1}.theme.xaml", sett.path, theme);
@@ -943,10 +943,10 @@ namespace Sidebar
           shadow.Top = this.Top;
           switch (sett.side)
           {
-              case Appbar.Side.Right:
+              case AppBarSide.Right:
                   shadow.Left = this.Left - shadow.Width;
                   break;
-              case Appbar.Side.Left:
+              case AppBarSide.Left:
                   shadow.Left = this.Left + this.Width;
                   break;
           }

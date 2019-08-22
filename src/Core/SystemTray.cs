@@ -117,27 +117,27 @@ namespace Sidebar.Core
             {
                 if (value)
                 {
-                    ShowWindow(Appbar.Handle, 5);
-                    if (Appbar.AlwaysTop)
+                    ShowWindow(AppBar.Handle, 5);
+                    if (AppBar.AlwaysTop)
                     {
-                        Appbar.AppbarRemove();
-                        Appbar.AppbarNew();
-                        if (!Appbar.Overlapped && overlapTaskbar)
-                            Appbar.OverlapTaskbar();
-                        Appbar.SizeAppbar();
+                        AppBar.AppbarRemove();
+                        AppBar.AppbarNew();
+                        if (!AppBar.Overlapped && overlapTaskbar)
+                            AppBar.OverlapTaskbar();
+                        AppBar.SizeAppbar();
                     }
                     _SidebarVisible = true;
                     OnSidebarVisibleChanged(true);
                 }
                 else
                 {
-                    ShowWindow(Appbar.Handle, 0);
-                    if (Appbar.AlwaysTop)
+                    ShowWindow(AppBar.Handle, 0);
+                    if (AppBar.AlwaysTop)
                     {
-                        Appbar.AppbarRemove();
-                        if (Appbar.Overlapped)
+                        AppBar.AppbarRemove();
+                        if (AppBar.Overlapped)
                         {
-                            Appbar.UnOverlapTaskbar();
+                            AppBar.UnOverlapTaskbar();
                             overlapTaskbar = true;
                         }
                         else

@@ -150,7 +150,7 @@ namespace Sidebar
 
     private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
     {
-      Appbar.ResizeBar();
+      AppBar.ResizeBar();
     }
 
     /*private void SimpleLoadLocale()

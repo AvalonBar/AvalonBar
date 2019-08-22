@@ -96,25 +96,25 @@ namespace Sidebar.Core
             return Screen.PrimaryScreen;
         }
 
-        internal static int CalculatePos(Appbar.Side side)
+        internal static int CalculatePos(AppBarSide side)
         {
             int pos = 0;
             Screen[] screens = Screen.AllScreens;
             switch (side)
             {
-                case Appbar.Side.Left:
+                case AppBarSide.Left:
                     pos = SystemInformation.VirtualScreen.Left;
                     foreach (Screen scr in screens)
-                        if (scr == Appbar.screen)
+                        if (scr == AppBar.screen)
                             break;
                         else
                             pos += scr.Bounds.Width;
                     break;
 
-                case Appbar.Side.Right:
+                case AppBarSide.Right:
                     pos = SystemInformation.VirtualScreen.Right;
                     for (int i = screens.Length - 1; i > 0; i--)
-                        if (screens[i] == Appbar.screen)
+                        if (screens[i] == AppBar.screen)
                             break;
                         else
                             pos -= screens[i].Bounds.Width;

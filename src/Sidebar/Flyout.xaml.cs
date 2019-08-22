@@ -58,10 +58,10 @@ namespace Sidebar
         //DwmManager.EnableGlass(ref handle, 0);
         switch (LongBarMain.sett.side)
         {
-            case Appbar.Side.Left:
+            case AppBarSide.Left:
                 ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + LongBarMain.sett.width;
                 break;
-            case Appbar.Side.Right:
+            case AppBarSide.Right:
                 ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left - this.Width;
                 break;
         }

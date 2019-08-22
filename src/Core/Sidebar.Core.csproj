@@ -65,8 +65,13 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AppBar\AppBarData.cs" />
+    <Compile Include="AppBar\AppBarMessages.cs" />
+    <Compile Include="AppBar\AppBarNotifications.cs" />
+    <Compile Include="AppBar\AppBarSide.cs" />
     <Compile Include="DwmManager.cs" />
-    <Compile Include="Appbar.cs" />
+    <Compile Include="AppBar\AppBar.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="SystemTray.cs" />
     <Compile Include="LocaleManager.cs" />
     <Compile Include="PackageManager.cs" />

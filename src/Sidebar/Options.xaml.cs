@@ -66,7 +66,7 @@ namespace Sidebar
         TopMostCheckBox.IsChecked = LongBarMain.sett.topMost;
         LockedCheckBox.IsChecked = LongBarMain.sett.locked;
 
-        if (LongBarMain.sett.side == Appbar.Side.Left)
+        if (LongBarMain.sett.side == AppBarSide.Left)
             LocationComboBox.SelectedIndex = 0;
         else
             LocationComboBox.SelectedIndex = 1;
@@ -179,7 +179,7 @@ namespace Sidebar
     {
         if (LongBarMain.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
         {
-            Appbar.UnOverlapTaskbar();
+            AppBar.UnOverlapTaskbar();
         }
 
         LongBarMain.sett.startup = (bool)AutostartCheckBox.IsChecked;
@@ -223,9 +223,9 @@ namespace Sidebar
         }
 
         if (LocationComboBox.SelectedIndex == 0)
-            LongBarMain.sett.side = Appbar.Side.Left;
+            LongBarMain.sett.side = AppBarSide.Left;
         else
-            LongBarMain.sett.side = Appbar.Side.Right;
+            LongBarMain.sett.side = AppBarSide.Right;
 
         if (Environment.OSVersion.Version.Major >= 6)
         {
@@ -240,7 +240,7 @@ namespace Sidebar
         else
             longBar.shadow.Hide();
 
-        Appbar.AppbarRemove();
+        AppBar.AppbarRemove();
         longBar.SetSide(LongBarMain.sett.side);
 
         longBar.SetTheme(ThemesComboBox.Text);
