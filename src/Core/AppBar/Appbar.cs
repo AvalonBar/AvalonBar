@@ -17,6 +17,7 @@ namespace Sidebar.Core
         internal static IntPtr Handle;
         private static Window MainWindow;
         private static int MessageId;
+        private const string MessageGuid = "{5C72002F-E216-4AE1-ABA1-7BCE5B1A2440}";
         internal static AppBarSide Side;
         internal static bool AlwaysTop;
 
@@ -42,7 +43,7 @@ namespace Sidebar.Core
         internal static bool AppbarNew()
         {
             AppBarData messageData = DefaultMessage;
-            messageData.uCallBackMessage = NativeMethods.RegisterWindowMessageW("LongBarMessage");
+            messageData.uCallBackMessage = NativeMethods.RegisterWindowMessageW(MessageGuid);
             MessageId = messageData.uCallBackMessage;
             int value = NativeMethods.SHAppBarMessage((int)AppBarMessages.NewAppBar, ref messageData);
             return (value != 0);
