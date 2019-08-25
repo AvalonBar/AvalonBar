@@ -94,7 +94,7 @@ namespace Sidebar.Core
             return (retVal != 0);
         }
 
-        private static void AppbarQueryPos(ref Rect appRect)
+        private static void AppbarQueryPos(ref RECT appRect)
         {
             AppBarData msgData = new AppBarData();
             msgData.cbSize = Marshal.SizeOf(msgData);
@@ -104,7 +104,7 @@ namespace Sidebar.Core
             NativeMethods.SHAppBarMessage((int)AppBarMessages.QueryPos, ref msgData);
         }
 
-        private static void AppbarSetPos(ref Rect appRect)
+        private static void AppbarSetPos(ref RECT appRect)
         {
             AppBarData msgData = new AppBarData();
             msgData.cbSize = Marshal.SizeOf(msgData);
@@ -118,7 +118,7 @@ namespace Sidebar.Core
         public static void SizeAppbar()
         {
             screen = Utils.GetScreenFromName(screenName);
-            Rect rt = new Rect();
+            RECT rt = new RECT();
             if (LongBarSide == AppBarSide.Left || LongBarSide == AppBarSide.Right)
             {
                 rt.Top = 0;
@@ -269,8 +269,8 @@ namespace Sidebar.Core
             IntPtr trayHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
             IntPtr rebarHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "RebarWindow32", null);
 
-            WindowPlacement lpwndpl = new WindowPlacement();
-            lpwndpl.length = Marshal.SizeOf(typeof(WindowPlacement));
+            WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
+            lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
             NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
             //Check if taskbar at top or bottom and it isn't cropped
             if (lpwndpl.rcNormalPosition.Top != 0
@@ -306,8 +306,8 @@ namespace Sidebar.Core
             IntPtr taskbarHwnd = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
             IntPtr trayHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
 
-            WindowPlacement lpwndpl = new WindowPlacement();
-            lpwndpl.length = Marshal.SizeOf(typeof(WindowPlacement));
+            WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
+            lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
             NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
             //Check if taskbar at top or bottom and it is cropped
             if (lpwndpl.rcNormalPosition.Top != 0
