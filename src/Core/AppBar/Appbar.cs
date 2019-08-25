@@ -155,6 +155,7 @@ namespace Sidebar.Core
         public static bool Overlapped;
         private static int trayWndWidth;
         private static int trayWndLeft;
+        private static bool WindowHooksAdded;
 
         public static void SetSidebar(Window wnd, AppBarSide side, bool topMost, bool overlapTaskBar, string scrnName)
         {
@@ -184,8 +185,13 @@ namespace Sidebar.Core
                 }
                 SetPos();
             }
-            HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(WndProc));
-            HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(DwmManager.WndProc));
+
+            if (!WindowHooksAdded)
+            {
+                HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(WndProc));
+                HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(DwmManager.WndProc));
+                WindowHooksAdded = true;
+            }
         }
 
         public static void ResizeBar()
