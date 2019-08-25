@@ -271,7 +271,7 @@ namespace Sidebar
                 {
                     foreach (Tile tile in Tiles)
                     {
-                        if (tile.File.EndsWith(sett.pinnedTiles[i]))
+                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == sett.pinnedTiles[i])
                         {
                             tile.pinned = true;
                             tile.Load(sett.side, double.NaN);
