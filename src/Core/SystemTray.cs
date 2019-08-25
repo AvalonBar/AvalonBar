@@ -135,7 +135,9 @@ namespace Sidebar.Core
                             overlapTaskbar = true;
                         }
                         else
-                            overlapTaskbar = true;
+                        {
+                            overlapTaskbar = false;
+                        }
                     }
                     _SidebarVisible = false;
                     OnSidebarVisibleChanged(false);
