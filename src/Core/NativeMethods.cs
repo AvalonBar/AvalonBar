@@ -26,7 +26,7 @@ namespace Sidebar.Core
         [DllImport("user32.dll")]
         internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
         [DllImport("user32.dll")]
-        internal static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
+        internal static extern int ShowWindow(IntPtr hwnd, ShowWindowCommands nCmdShow);
         [DllImport("user32.dll")]
         public static extern bool EnumDisplayDevices(string lpDevice,
                                                      int iDevNum, [In, Out] DISPLAY_DEVICE lpDisplayDevice, int dwFlags);
@@ -89,5 +89,22 @@ namespace Sidebar.Core
         public string DeviceID = new String(' ', 128);
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         public string DeviceKey = new String(' ', 128);
+    }
+
+    internal enum ShowWindowCommands
+    {
+        Hide = 0,
+        Normal = 1,
+        ShowMinimized = 2,
+        Maximize = 3, // is this the right value?
+        ShowMaximized = 3,
+        ShowNoActivate = 4,
+        Show = 5,
+        Minimize = 6,
+        ShowMinNoActive = 7,
+        ShowNA = 8,
+        Restore = 9,
+        ShowDefault = 10,
+        ForceMinimize = 11
     }
 }

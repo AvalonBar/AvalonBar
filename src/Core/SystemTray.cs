@@ -111,7 +111,7 @@ namespace Sidebar.Core
             {
                 if (value)
                 {
-                    NativeMethods.ShowWindow(AppBar.Handle, 5);
+                    NativeMethods.ShowWindow(AppBar.Handle, ShowWindowCommands.Show);
                     if (AppBar.AlwaysTop)
                     {
                         AppBar.AppbarRemove();
@@ -125,7 +125,7 @@ namespace Sidebar.Core
                 }
                 else
                 {
-                    NativeMethods.ShowWindow(AppBar.Handle, 0);
+                    NativeMethods.ShowWindow(AppBar.Handle, ShowWindowCommands.Hide);
                     if (AppBar.AlwaysTop)
                     {
                         AppBar.AppbarRemove();
