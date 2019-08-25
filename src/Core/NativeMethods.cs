@@ -16,8 +16,6 @@ namespace Sidebar.Core
         // User32
         [DllImport("user32.dll")]
         internal static extern int RegisterWindowMessageW(string LPString);
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
         [DllImport("user32.dll", SetLastError = true)]
@@ -30,8 +28,6 @@ namespace Sidebar.Core
         [DllImport("user32.dll")]
         internal static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
         [DllImport("user32.dll")]
-        internal static extern int SetForeGroundWindow(ref IntPtr hWnd);
-        [DllImport("user32.dll")]
         public static extern bool EnumDisplayDevices(string lpDevice,
                                                      int iDevNum, [In, Out] DISPLAY_DEVICE lpDisplayDevice, int dwFlags);
         // Gdi32
@@ -40,8 +36,6 @@ namespace Sidebar.Core
         // Dwmapi
         [DllImport("dwmapi.dll")]
         internal static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref BB_Struct BlurBehind);
-        [DllImport("dwmapi.dll")]
-        internal static extern void DwmIscompositionEnabled(ref bool result);
         [DllImport("dwmapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern void DwmGetColorizationColor(out int color, out bool opaque);
         [DllImport("dwmapi.dll", PreserveSig = false)]
