@@ -76,43 +76,46 @@ namespace Sidebar.Core
 
         internal static bool AppbarNew()
         {
-            AppBarData msgData = new AppBarData();
-            msgData.cbSize = Marshal.SizeOf(msgData);
-            msgData.hWnd = Handle.ToInt32();
-            msgData.uCallBackMessage = NativeMethods.RegisterWindowMessageW("LongBarMessage");
-            appBarMessage = msgData.uCallBackMessage;
-            int retVal = NativeMethods.SHAppBarMessage((int)AppBarMessages.NewAppBar, ref msgData);
-            return (retVal != 0);
+            AppBarData messageData = DefaultMessage;
+            messageData.uCallBackMessage = NativeMethods.RegisterWindowMessageW("LongBarMessage");
+            appBarMessage = messageData.uCallBackMessage;
+            int value = NativeMethods.SHAppBarMessage((int)AppBarMessages.NewAppBar, ref messageData);
+            return (value != 0);
         }
 
         public static bool AppbarRemove()
         {
-            AppBarData msgData = new AppBarData();
-            msgData.cbSize = Marshal.SizeOf(msgData);
-            msgData.hWnd = Handle.ToInt32();
-            int retVal = NativeMethods.SHAppBarMessage((int)AppBarMessages.Remove, ref msgData);
-            return (retVal != 0);
+            AppBarData messageData = DefaultMessage;
+            int value = NativeMethods.SHAppBarMessage((int)AppBarMessages.Remove, ref messageData);
+            return (value != 0);
         }
 
-        private static void AppbarQueryPos(ref RECT appRect)
+        private static void AppbarQueryPos(ref RECT rect)
         {
-            AppBarData msgData = new AppBarData();
-            msgData.cbSize = Marshal.SizeOf(msgData);
-            msgData.hWnd = Handle.ToInt32();
-            msgData.uEdge = (int)LongBarSide;
-            msgData.rc = appRect;
-            NativeMethods.SHAppBarMessage((int)AppBarMessages.QueryPos, ref msgData);
+            AppBarData messageData = DefaultMessage;
+            messageData.uEdge = (int)LongBarSide;
+            messageData.rc = rect;
+            NativeMethods.SHAppBarMessage((int)AppBarMessages.QueryPos, ref messageData);
         }
 
-        private static void AppbarSetPos(ref RECT appRect)
+        private static void AppbarSetPos(ref RECT rect)
         {
-            AppBarData msgData = new AppBarData();
-            msgData.cbSize = Marshal.SizeOf(msgData);
-            msgData.hWnd = Handle.ToInt32();
-            msgData.uEdge = (int)LongBarSide;
-            msgData.rc = appRect;
-            NativeMethods.SHAppBarMessage((int)AppBarMessages.SetPos, ref msgData);
-            appRect = msgData.rc;
+            AppBarData messageData = DefaultMessage;
+            messageData.uEdge = (int)LongBarSide;
+            messageData.rc = rect;
+            NativeMethods.SHAppBarMessage((int)AppBarMessages.SetPos, ref messageData);
+            rect = messageData.rc;
+        }
+
+        private static AppBarData DefaultMessage
+        {
+            get
+            {
+                AppBarData messageData = new AppBarData();
+                messageData.cbSize = Marshal.SizeOf(messageData);
+                messageData.hWnd = Handle.ToInt32();
+                return messageData;
+            }
         }
 
         public static void SizeAppbar()
