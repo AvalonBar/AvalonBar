@@ -20,12 +20,6 @@ namespace Sidebar.Core
                 SidebarvisibleChanged(value);
         }
 
-        [DllImport("shell32.dll")]
-        private static extern IntPtr ExtractIcon(IntPtr hInstance, string path, int iconIndex);
-        [DllImport("user32.dll")]
-        private static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
-        [DllImport("user32.dll")]
-        private static extern int SetForeGroundWindow(ref IntPtr hWnd);
 
         private static string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
@@ -54,7 +48,7 @@ namespace Sidebar.Core
 
             trayIcon = new NotifyIcon();
             // FIXME: application executable name should not be hardcoded
-            trayIcon.Icon = Icon.FromHandle(ExtractIcon(IntPtr.Zero, path + @"\Sidebar.exe", 0));
+            trayIcon.Icon = Icon.FromHandle(NativeMethods.ExtractIcon(IntPtr.Zero, path + @"\Sidebar.exe", 0));
             trayIcon.Text = "AvalonBar";
             trayIcon.MouseClick += new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.MouseDoubleClick += new MouseEventHandler(trayIcon_MouseDoubleClick);
@@ -117,7 +111,7 @@ namespace Sidebar.Core
             {
                 if (value)
                 {
-                    ShowWindow(AppBar.Handle, 5);
+                    NativeMethods.ShowWindow(AppBar.Handle, 5);
                     if (AppBar.AlwaysTop)
                     {
                         AppBar.AppbarRemove();
@@ -131,7 +125,7 @@ namespace Sidebar.Core
                 }
                 else
                 {
-                    ShowWindow(AppBar.Handle, 0);
+                    NativeMethods.ShowWindow(AppBar.Handle, 0);
                     if (AppBar.AlwaysTop)
                     {
                         AppBar.AppbarRemove();

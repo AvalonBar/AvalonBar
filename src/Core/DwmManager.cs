@@ -9,31 +9,6 @@ namespace Sidebar.Core
 {
     public class DwmManager
     {
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref BB_Struct BlurBehind);
-        [DllImport("dwmapi.dll")]
-        private static extern void DwmIscompositionEnabled(ref bool result);
-        [DllImport("dwmapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern void DwmGetColorizationColor(out int color, out bool opaque);
-
-        [DllImport("dwmapi.dll", PreserveSig = false)]
-        public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
-
-        private struct BB_Struct //Blur Behind Structure
-        {
-            public BB_Flags flags;
-            public bool enable;
-            public IntPtr region;
-            public bool transitionOnMaximized;
-        }
-
-        private enum BB_Flags : byte //Blur Behind Flags
-        {
-            DWM_BB_ENABLE = 1,
-            DWM_BB_BLURREGION = 2,
-            DWM_BB_TRANSITIONONMAXIMIZED = 4,
-        };
-
         public static bool IsGlassAvailable() //Check if it is not a Windows Vista or it is a Windows Vista Home Basic
         {
             if ((Environment.OSVersion.Version.Major < 6 || Environment.OSVersion.Version.Build < 5600) ||
@@ -57,7 +32,7 @@ namespace Sidebar.Core
                 bb.region = rgn;
             else
                 bb.region = IntPtr.Zero;
-            if (DwmEnableBlurBehindWindow(handle, ref bb) != 0)
+            if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
                 return false;
             else
                 return true;
@@ -71,7 +46,7 @@ namespace Sidebar.Core
             bb.enable = false;
             bb.flags = BB_Flags.DWM_BB_ENABLE | BB_Flags.DWM_BB_BLURREGION;
             bb.region = IntPtr.Zero;
-            if (DwmEnableBlurBehindWindow(handle, ref bb) != 0)
+            if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
                 return false;
             else
                 return true;
@@ -92,7 +67,7 @@ namespace Sidebar.Core
             if (IsGlassAvailable())
             {
                 int attrValue = 1; // True
-                DwmSetWindowAttribute(hwnd, 12, ref attrValue, sizeof(int));
+                NativeMethods.DwmSetWindowAttribute(hwnd, 12, ref attrValue, sizeof(int));
             }
         }
 
@@ -101,8 +76,13 @@ namespace Sidebar.Core
             if (IsGlassAvailable())
             {
                 int attrValue = (int)Flip3DPolicy.ExcludeBelow; // True
-                DwmSetWindowAttribute(hwnd, Flip3D, ref attrValue, sizeof(int));
+                NativeMethods.DwmSetWindowAttribute(hwnd, Flip3D, ref attrValue, sizeof(int));
             }
+        }
+
+        public static void GetColorizationColor(out int color, out bool opaque)
+        {
+            NativeMethods.DwmGetColorizationColor(out color, out opaque);
         }
     }
 }

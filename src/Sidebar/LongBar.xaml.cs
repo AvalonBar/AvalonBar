@@ -119,7 +119,7 @@ namespace Sidebar
         {
             int color;
             bool opaque;
-            DwmManager.DwmGetColorizationColor(out color, out opaque);
+            DwmManager.GetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
             AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
@@ -160,7 +160,7 @@ namespace Sidebar
 
         int color;
         bool opaque;
-        DwmManager.DwmGetColorizationColor(out color, out opaque);
+        DwmManager.GetColorizationColor(out color, out opaque);
         Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
 
     }
@@ -746,7 +746,7 @@ namespace Sidebar
         {
             int color;
             bool opaque;
-            DwmManager.DwmGetColorizationColor(out color, out opaque);
+            DwmManager.GetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
             AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
