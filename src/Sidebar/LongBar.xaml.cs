@@ -94,7 +94,7 @@ namespace Sidebar
     {
         shadow.Close();
 
-        if (AppBar.Overlapped && sett.side == AppBarSide.Right)
+        if (AppBar.IsOverlapping && sett.side == AppBarSide.Right)
             AppBar.UnOverlapTaskbar();
       SystemTray.RemoveIcon();
       AppBar.AppbarRemove();

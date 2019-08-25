@@ -116,7 +116,7 @@ namespace Sidebar.Core
                     {
                         AppBar.AppbarRemove();
                         AppBar.AppbarNew();
-                        if (!AppBar.Overlapped && overlapTaskbar)
+                        if (!AppBar.IsOverlapping && overlapTaskbar)
                             AppBar.OverlapTaskbar();
                         AppBar.SizeAppbar();
                     }
@@ -129,7 +129,7 @@ namespace Sidebar.Core
                     if (AppBar.AlwaysTop)
                     {
                         AppBar.AppbarRemove();
-                        if (AppBar.Overlapped)
+                        if (AppBar.IsOverlapping)
                         {
                             AppBar.UnOverlapTaskbar();
                             overlapTaskbar = true;

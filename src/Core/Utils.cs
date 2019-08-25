@@ -86,7 +86,7 @@ namespace Sidebar.Core
                 case AppBarSide.Left:
                     pos = SystemInformation.VirtualScreen.Left;
                     foreach (Screen scr in screens)
-                        if (scr == AppBar.screen)
+                        if (scr == AppBar.Screen)
                             break;
                         else
                             pos += scr.Bounds.Width;
@@ -95,7 +95,7 @@ namespace Sidebar.Core
                 case AppBarSide.Right:
                     pos = SystemInformation.VirtualScreen.Right;
                     for (int i = screens.Length - 1; i > 0; i--)
-                        if (screens[i] == AppBar.screen)
+                        if (screens[i] == AppBar.Screen)
                             break;
                         else
                             pos -= screens[i].Bounds.Width;

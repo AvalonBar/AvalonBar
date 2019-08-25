@@ -11,24 +11,20 @@ namespace Sidebar.Core
 {
     public class AppBar
     {
-        internal static Screen screen = Screen.PrimaryScreen;
-        private static string screenName;
+        internal static Screen Screen = Screen.PrimaryScreen;
+        private static string ScreenName;
 
         internal static IntPtr Handle;
-        private static Window window;
-        private static int appBarMessage;
-        internal static AppBarSide LongBarSide;
+        private static Window MainWindow;
+        private static int MessageId;
+        internal static AppBarSide Side;
         internal static bool AlwaysTop;
 
-        #region Taskbar Overlapping
-
-        private static DispatcherTimer timer;
-
-        #endregion
+        private static DispatcherTimer OverlapTimer;
 
         private static IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == appBarMessage && wParam.ToInt32() == (int)AppBarNotifications.PosChanged)
+            if (msg == MessageId && wParam.ToInt32() == (int)AppBarNotifications.PosChanged)
             {
                 SizeAppbar();
                 return new IntPtr(msg);
@@ -53,7 +49,7 @@ namespace Sidebar.Core
         {
             AppBarData messageData = DefaultMessage;
             messageData.uCallBackMessage = NativeMethods.RegisterWindowMessageW("LongBarMessage");
-            appBarMessage = messageData.uCallBackMessage;
+            MessageId = messageData.uCallBackMessage;
             int value = NativeMethods.SHAppBarMessage((int)AppBarMessages.NewAppBar, ref messageData);
             return (value != 0);
         }
@@ -68,7 +64,7 @@ namespace Sidebar.Core
         private static void AppbarQueryPos(ref RECT rect)
         {
             AppBarData messageData = DefaultMessage;
-            messageData.uEdge = (int)LongBarSide;
+            messageData.uEdge = (int)Side;
             messageData.rc = rect;
             NativeMethods.SHAppBarMessage((int)AppBarMessages.QueryPos, ref messageData);
         }
@@ -76,7 +72,7 @@ namespace Sidebar.Core
         private static void AppbarSetPos(ref RECT rect)
         {
             AppBarData messageData = DefaultMessage;
-            messageData.uEdge = (int)LongBarSide;
+            messageData.uEdge = (int)Side;
             messageData.rc = rect;
             NativeMethods.SHAppBarMessage((int)AppBarMessages.SetPos, ref messageData);
             rect = messageData.rc;
@@ -95,80 +91,80 @@ namespace Sidebar.Core
 
         public static void SizeAppbar()
         {
-            screen = Utils.GetScreenFromName(screenName);
+            Screen = Utils.GetScreenFromName(ScreenName);
             RECT rt = new RECT();
-            if (LongBarSide == AppBarSide.Left || LongBarSide == AppBarSide.Right)
+            if (Side == AppBarSide.Left || Side == AppBarSide.Right)
             {
                 rt.Top = 0;
-                rt.Bottom = screen.Bounds.Size.Height;
-                if (LongBarSide == AppBarSide.Left)
+                rt.Bottom = Screen.Bounds.Size.Height;
+                if (Side == AppBarSide.Left)
                 {
-                    if (screen != Screen.PrimaryScreen)
-                        rt.Left = Utils.CalculatePos(LongBarSide);
-                    rt.Right = (int)window.Width;
+                    if (Screen != Screen.PrimaryScreen)
+                        rt.Left = Utils.CalculatePos(Side);
+                    rt.Right = (int)MainWindow.Width;
                 }
                 else
                 {
-                    if (screen != Screen.PrimaryScreen)
-                        rt.Right = Utils.CalculatePos(LongBarSide);
+                    if (Screen != Screen.PrimaryScreen)
+                        rt.Right = Utils.CalculatePos(Side);
                     else
                         rt.Right = SystemInformation.PrimaryMonitorSize.Width;
-                    rt.Left = rt.Right - (int)window.Width;
+                    rt.Left = rt.Right - (int)MainWindow.Width;
                 }
             }
             AppbarQueryPos(ref rt);
-            switch (LongBarSide)
+            switch (Side)
             {
                 case AppBarSide.Left:
-                    rt.Right = rt.Left + (int)window.Width;
+                    rt.Right = rt.Left + (int)MainWindow.Width;
                     break;
                 case AppBarSide.Right:
-                    rt.Left = rt.Right - (int)window.Width;
+                    rt.Left = rt.Right - (int)MainWindow.Width;
                     break;
             }
             AppbarSetPos(ref rt);
-            window.Left = rt.Left;
-            window.Top = rt.Top;
-            window.Width = rt.Right - rt.Left;
-            if (!Overlapped)
-                window.Height = rt.Bottom - rt.Top;
+            MainWindow.Left = rt.Left;
+            MainWindow.Top = rt.Top;
+            MainWindow.Width = rt.Right - rt.Left;
+            if (!IsOverlapping)
+                MainWindow.Height = rt.Bottom - rt.Top;
             else
-                window.Height = screen.Bounds.Size.Height;
+                MainWindow.Height = Screen.Bounds.Size.Height;
         }
 
         public static void SetPos()
         {
-            if (LongBarSide == AppBarSide.Right)
+            if (Side == AppBarSide.Right)
             {
-                window.Left = screen.WorkingArea.Right - window.Width;
-                window.Top = screen.WorkingArea.Top;
-                window.Height = screen.WorkingArea.Height;
+                MainWindow.Left = Screen.WorkingArea.Right - MainWindow.Width;
+                MainWindow.Top = Screen.WorkingArea.Top;
+                MainWindow.Height = Screen.WorkingArea.Height;
             }
             else
             {
-                window.Left = screen.WorkingArea.Left;
-                window.Top = screen.WorkingArea.Top;
-                window.Height = screen.WorkingArea.Height;
+                MainWindow.Left = Screen.WorkingArea.Left;
+                MainWindow.Top = Screen.WorkingArea.Top;
+                MainWindow.Height = Screen.WorkingArea.Height;
             }
         }
 
-        public static bool Overlapped;
+        public static bool IsOverlapping;
         private static int trayWndWidth;
         private static int trayWndLeft;
         private static bool WindowHooksAdded;
 
         public static void SetSidebar(Window wnd, AppBarSide side, bool topMost, bool overlapTaskBar, string scrnName)
         {
-            window = wnd;
+            MainWindow = wnd;
             Handle = new WindowInteropHelper(wnd).Handle;
-            LongBarSide = side;
-            screenName = scrnName;
-            screen = Utils.GetScreenFromName(scrnName);
+            Side = side;
+            ScreenName = scrnName;
+            Screen = Utils.GetScreenFromName(scrnName);
             if (topMost)
             {
                 AlwaysTop = topMost;
                 AppbarNew();
-                if (!Overlapped && overlapTaskBar && side == AppBarSide.Right)
+                if (!IsOverlapping && overlapTaskBar && side == AppBarSide.Right)
                 {
                     OverlapTaskbar();
                 }
@@ -179,7 +175,7 @@ namespace Sidebar.Core
             {
                 AlwaysTop = topMost;
                 wnd.Topmost = false;
-                if (Overlapped && side == AppBarSide.Right)
+                if (IsOverlapping && side == AppBarSide.Right)
                 {
                     UnOverlapTaskbar();
                 }
@@ -204,13 +200,13 @@ namespace Sidebar.Core
 
         public static void OverlapTaskbar()
         {
-            if (screen != Screen.PrimaryScreen)
+            if (Screen != Screen.PrimaryScreen)
                 return;
 
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
+            OverlapTimer = new DispatcherTimer();
+            OverlapTimer.Interval = TimeSpan.FromMilliseconds(500);
+            OverlapTimer.Tick += new EventHandler(timer_Tick);
+            OverlapTimer.Start();
             timer_Tick(null, null);
         }
 
@@ -234,22 +230,22 @@ namespace Sidebar.Core
                 NativeMethods.MoveWindow(trayHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, 0, lpwndpl.rcNormalPosition.Height, true);
 
                 NativeMethods.GetWindowPlacement(rebarHwnd, ref lpwndpl);
-                NativeMethods.MoveWindow(rebarHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width - lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Height, true);
+                NativeMethods.MoveWindow(rebarHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width - lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Height, true);
 
                 //second, cut taskbar window
                 NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)window.Width, lpwndpl.rcNormalPosition.Height);
+                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width, lpwndpl.rcNormalPosition.Height);
                 NativeMethods.SetWindowRgn(taskbarHwnd, rgn, true);
-                Overlapped = true;
+                IsOverlapping = true;
             }
         }
 
         public static void UnOverlapTaskbar()
         {
-            if (screen != Screen.PrimaryScreen)
+            if (Screen != Screen.PrimaryScreen)
                 return;
 
-            timer.Stop();
+            OverlapTimer.Stop();
 
             IntPtr taskbarHwnd = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
             IntPtr trayHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
@@ -272,7 +268,7 @@ namespace Sidebar.Core
                 IntPtr rgn = NativeMethods.CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width, lpwndpl.rcNormalPosition.Height);
                 NativeMethods.SetWindowRgn(taskbarHwnd, rgn, true);
 
-                Overlapped = false;
+                IsOverlapping = false;
             }
         }
 
