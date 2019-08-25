@@ -11,11 +11,6 @@ namespace Sidebar.Core
 {
     public class AppBar
     {
-        private const int WM_DWMCOMPOSITIONCHANGED = 0x0000031E;
-        private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320;
-
-        public static event EventHandler DwmColorChanged;
-
         internal static Screen screen = Screen.PrimaryScreen;
         private static string screenName;
 
@@ -33,36 +28,16 @@ namespace Sidebar.Core
 
         private static IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == appBarMessage)
-                switch (wParam.ToInt32())
-                {
-                    case (int)AppBarNotifications.PosChanged:
-                        SizeAppbar();
-                        return new IntPtr(msg);
-                }
+            if (msg == appBarMessage && wParam.ToInt32() == (int)AppBarNotifications.PosChanged)
+            {
+                SizeAppbar();
+                return new IntPtr(msg);
+            }
 
             if (msg == 26 && wParam.ToInt32() == 47 && !AlwaysTop)
             {
                 SetPos();
                 return new IntPtr(msg);
-            }
-
-            if (msg == WM_DWMCOMPOSITIONCHANGED)
-            {
-                if (DwmManager.IsGlassAvailable())
-                {
-                    DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
-                }
-                else
-                {
-                    DwmManager.DisableGlass(ref Handle);
-                }
-            }
-
-            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
-            {
-                if (DwmColorChanged != null)
-                    DwmColorChanged(null, EventArgs.Empty);
             }
 
             return IntPtr.Zero;
@@ -210,6 +185,7 @@ namespace Sidebar.Core
                 SetPos();
             }
             HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(WndProc));
+            HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(DwmManager.WndProc));
         }
 
         public static void ResizeBar()

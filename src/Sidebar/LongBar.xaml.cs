@@ -121,7 +121,7 @@ namespace Sidebar
             bool opaque;
             DwmManager.GetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
 
         LocaleManager.LoadLocale(Sidebar.LongBarMain.sett.path, sett.locale);
@@ -748,12 +748,12 @@ namespace Sidebar
             bool opaque;
             DwmManager.GetColorizationColor(out color, out opaque);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-            AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
+            DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
         else
         {
             Bg.SetResourceReference(Rectangle.StyleProperty, "Background");
-            AppBar.DwmColorChanged -= new EventHandler(SideBar_DwmColorChanged);
+            DwmManager.ColorizationColorChanged -= new EventHandler(SideBar_DwmColorChanged);
         }
 
         string file = string.Format(@"{0}\{1}.theme.xaml", sett.path, theme);

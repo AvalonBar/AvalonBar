@@ -9,6 +9,11 @@ namespace Sidebar.Core
 {
     public class DwmManager
     {
+        private const int WM_DWMCOMPOSITIONCHANGED = 0x0000031E;
+        private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320;
+
+        public static event EventHandler ColorizationColorChanged;
+
         public static bool IsGlassAvailable() //Check if it is not a Windows Vista or it is a Windows Vista Home Basic
         {
             if ((Environment.OSVersion.Version.Major < 6 || Environment.OSVersion.Version.Build < 5600) ||
@@ -83,6 +88,31 @@ namespace Sidebar.Core
         public static void GetColorizationColor(out int color, out bool opaque)
         {
             NativeMethods.DwmGetColorizationColor(out color, out opaque);
+        }
+
+        internal static IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_DWMCOMPOSITIONCHANGED)
+            {
+                if (IsGlassAvailable())
+                {
+                    EnableGlass(ref hWnd, IntPtr.Zero);
+                }
+                else
+                {
+                    DisableGlass(ref hWnd);
+                }
+            }
+
+            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
+            {
+                if (ColorizationColorChanged != null)
+                {
+                    ColorizationColorChanged(null, EventArgs.Empty);
+                }
+            }
+
+            return IntPtr.Zero;
         }
     }
 }
