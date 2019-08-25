@@ -90,29 +90,10 @@ namespace Sidebar
             catch { }
             this.Close();
 
-            /*DoubleAnimation LeftAnim = (DoubleAnimation)FindResource("LeftAnim");
-            DoubleAnimation TopAnim = (DoubleAnimation)FindResource("TopAnim");
-            DoubleAnimation OpacityAnim = (DoubleAnimation)FindResource("OpacityAnim");
-
-            LeftAnim.To = splitter.PointToScreen(new Point(0, 0)).X;
-            TopAnim.To = splitter.PointToScreen(new Point(0, 0)).Y;
-
-            this.BeginAnimation(LeftProperty, LeftAnim);
-            this.BeginAnimation(TopProperty, TopAnim);
-            this.BeginAnimation(OpacityProperty, OpacityAnim);*/
         }
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
-            /*if (panel.Children.Contains(splitter))
-                panel.Children.Remove(splitter);
-            SourceGrid.Children.Clear();
-            try
-            {
-                panel.Children.Insert(currentIndex, content);
-            }
-            catch { }
-            this.Close();*/
         }
     }
 }

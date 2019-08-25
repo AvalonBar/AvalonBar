@@ -137,14 +137,6 @@ namespace TileLib
             writer.WriteLine(setting + "=" + value);
             writer.Flush();
             writer.Close();
-            /*RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key = key.OpenSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (key == null)
-                key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree).CreateSubKey(tileName,RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key.SetValue(setting, value, RegistryValueKind.String);
-            key.Close();*/
         }
 
         public void WriteSetting(string tileName, string setting, int value)
@@ -169,14 +161,6 @@ namespace TileLib
             writer.WriteLine(setting + "=" + value.ToString());
             writer.Flush();
             writer.Close();
-            /*RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key = key.OpenSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (key == null)
-                key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree).CreateSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key.SetValue(setting, value, RegistryValueKind.DWord);
-            key.Close();*/
         }
 
         public void WriteSetting(string tileName, string setting, string[] value)
@@ -210,14 +194,6 @@ namespace TileLib
             writer.WriteLine();
             writer.Flush();
             writer.Close();
-            /*RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key = key.OpenSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (key == null)
-                key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree).CreateSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key.SetValue(setting, value, RegistryValueKind.MultiString);
-            key.Close();*/
         }
 
         public object ReadSetting(string tileName, string setting)
@@ -243,17 +219,6 @@ namespace TileLib
             }
             else
                 return null;
-            /*RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree)
-                .OpenSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-            key = key.OpenSubKey(tileName, RegistryKeyPermissionCheck.ReadWriteSubTree);
-            if (key == null)
-            {
-                return null;
-            }
-            else
-            {
-                return key.GetValue(setting);
-            }*/
         }
     }
 }

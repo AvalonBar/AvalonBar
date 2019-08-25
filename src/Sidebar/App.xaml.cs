@@ -15,7 +15,7 @@ namespace Sidebar
   public partial class App : Application
   {
     private static string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    private static string userPath = LongBarMain.sett.path;//System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"LongBar Project Group\LongBar");
+    private static string userPath = LongBarMain.sett.path;
 
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
@@ -43,7 +43,6 @@ namespace Sidebar
       SystemTray.isRunning = false;
       if (Utils.PriorProcess() != null)
         SystemTray.isRunning = true;
-      //SimpleLoadLocale();
       LongBarMain.ReadSettings();
       LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
 
@@ -94,30 +93,6 @@ namespace Sidebar
             catch { }
             break;
 
-          /*case @"/firstrun":
-            try
-            {
-                RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                key.CreateSubKey("LongBar", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("LongBar", true);
-                key.SetValue("Side", 2, RegistryValueKind.DWord);
-                key.SetValue("Theme", "Aero", RegistryValueKind.String);
-                key.SetValue("Locale", "English", RegistryValueKind.String);
-                if (Environment.OSVersion.Version.Build>6)
-                    key.SetValue("EnableGlass", 1, RegistryValueKind.DWord);
-                key.SetValue("Locked", 1, RegistryValueKind.DWord);
-                key.SetValue("Tiles", "HardMeter Notes", RegistryValueKind.MultiString);
-                key.SetValue("Version", "2.0", RegistryValueKind.String);
-                key.SetValue("ShowErrors", 1, RegistryValueKind.DWord);
-                key.Close();
-            }
-            catch { }
-            try
-            {
-                Process.Start(Assembly.GetExecutingAssembly().Location, "/regext");
-            }
-            catch { };
-            break;*/
             case "/debug":
             if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
             {
@@ -152,19 +127,6 @@ namespace Sidebar
     {
       AppBar.ResizeBar();
     }
-
-    /*private void SimpleLoadLocale()
-    {
-      try
-      {
-        using (RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", RegistryKeyPermissionCheck.ReadWriteSubTree).OpenSubKey("LongBar", false))
-        {
-          string locale = (string)key.GetValue("Locale", "English");
-          LocaleManager.LoadLocale(LongBar.LongBarMain.sett.path, locale);
-        }
-      }
-      catch { }
-    }*/
 
     private void Application_Exit(object sender, ExitEventArgs e)
     {

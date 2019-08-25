@@ -56,7 +56,7 @@ namespace Sidebar.Core
             if (region != null)
                 bb.region = rgn;
             else
-                bb.region = IntPtr.Zero; //Region.GetHrgn(Graphics)
+                bb.region = IntPtr.Zero;
             if (DwmEnableBlurBehindWindow(handle, ref bb) != 0)
                 return false;
             else

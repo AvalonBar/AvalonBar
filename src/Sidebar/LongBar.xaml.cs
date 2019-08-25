@@ -494,13 +494,8 @@ namespace Sidebar
 
       StreamWriter writer = System.IO.File.AppendText("Settings.ini");
 
-      //Array.Resize(ref sett.tiles, TilesGrid.Children.Count - 1);
       Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
-      //Array.Resize(ref sett.heights, TilesGrid.Children.Count - 1);
       Array.Resize(ref sett.heights, TilesGrid.Children.Count);
-
-      //Properties.Settings.Default.Tiles = new System.Collections.Specialized.StringCollection();
-      //Properties.Settings.Default.Heights = new System.Collections.Specialized.StringCollection();
 
       if (TilesGrid.Children.Count > 0)
       {
@@ -508,25 +503,20 @@ namespace Sidebar
           for (int i = 0; i < TilesGrid.Children.Count; i++)
           {
               sett.tiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File);
-              //Properties.Settings.Default.Tiles.Add(System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File));
               if (Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].minimized)
                   sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M";
-                  //Properties.Settings.Default.Heights.Add(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M");
               else
                   sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString();
-                  //Properties.Settings.Default.Heights.Add(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString());
           }
       }
 
       if (PinGrid.Children.Count > 0)
       {
-          //Properties.Settings.Default.PinnedTiles = new System.Collections.Specialized.StringCollection();
           sett.pinnedTiles = new string[PinGrid.Children.Count];
 
           for (int i = 0; i < PinGrid.Children.Count; i++)
           {
               sett.pinnedTiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File);
-              //Properties.Settings.Default.PinnedTiles.Add(System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File));
           }
       }
 
@@ -757,7 +747,6 @@ namespace Sidebar
             int color;
             bool opaque;
             DwmManager.DwmGetColorizationColor(out color, out opaque);
-            //HwndSource.FromHwnd(Handle).CompositionTarget.BackgroundColor = Color.FromArgb(System.Drawing.Color.FromArgb(color).A,System.Drawing.Color.FromArgb(color).R,System.Drawing.Color.FromArgb(color).G,System.Drawing.Color.FromArgb(color).B);
             Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
             AppBar.DwmColorChanged += new EventHandler(SideBar_DwmColorChanged);
         }
@@ -909,7 +898,6 @@ namespace Sidebar
             library = new Library(this);
             library.Show();
         }
-        //ShellExecute(IntPtr.Zero, "open", "http://cid-820d4d5cef8566bf.skydrive.live.com/browse.aspx/LongBar%20Project/Library%202.0", "", "", 1);
     }
 
     private void RemoveTilesItem_Click(object sender, RoutedEventArgs e)

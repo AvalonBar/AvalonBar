@@ -14,7 +14,6 @@ namespace Sidebar.TaskDialogs
     public class ErrorDialog
     {
         private static SmtpClient client = new SmtpClient("smtp.live.com",25);
-        //private static MailMessage msg = new MailMessage();
         private static Exception ex = null;
 
         public static void ShowDialog(string caption, string errorText, Exception exception)
@@ -57,8 +56,6 @@ namespace Sidebar.TaskDialogs
 
         static void dontSendButton_Click(object sender, EventArgs e)
         {
-            /*if (tdError != null)
-                tdError.Close(TaskDialogResult.Cancel);*/
            ((TaskDialog)((TaskDialogControl)sender).HostingDialog).Close(TaskDialogResult.Close);
         }
 
@@ -140,8 +137,6 @@ namespace Sidebar.TaskDialogs
             sendFeedbackProgressBar = new TaskDialogProgressBar(0, 100, 0);
             tdSendFeedback.ProgressBar = sendFeedbackProgressBar;
 
-            /*if (tdError != null)
-                tdError.Close(TaskDialogResult.Ok);*/
             MailMessage msg = new MailMessage();
             msg.From = new MailAddress("longbarbugs@hotmail.com", "LongBar Bugs Service");
             msg.To.Clear();
