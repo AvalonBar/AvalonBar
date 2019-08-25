@@ -179,7 +179,7 @@ namespace Sidebar
     {
         if (LongBarMain.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
         {
-            AppBar.UnOverlapTaskbar();
+            AppBar.RestoreTaskbar();
         }
 
         LongBarMain.sett.startup = (bool)AutostartCheckBox.IsChecked;

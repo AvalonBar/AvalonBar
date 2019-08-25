@@ -39,12 +39,6 @@ namespace Sidebar.Core
             return IntPtr.Zero;
         }
 
-        private static int RegisterCallBackMessage()
-        {
-            string uniqueMessageString = Guid.NewGuid().ToString();
-            return NativeMethods.RegisterWindowMessageW(uniqueMessageString);
-        }
-
         internal static bool AppbarNew()
         {
             AppBarData messageData = DefaultMessage;
@@ -177,7 +171,7 @@ namespace Sidebar.Core
                 wnd.Topmost = false;
                 if (IsOverlapping && side == AppBarSide.Right)
                 {
-                    UnOverlapTaskbar();
+                    RestoreTaskbar();
                 }
                 SetPos();
             }
@@ -212,65 +206,72 @@ namespace Sidebar.Core
 
         static void timer_Tick(object sender, EventArgs e)
         {
-            IntPtr taskbarHwnd = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
-            IntPtr trayHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
-            IntPtr rebarHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "RebarWindow32", null);
+            IntPtr TaskbarHandle = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
+            IntPtr TrayHandle = NativeMethods.FindWindowEx(TaskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
+            IntPtr RebarHandle = NativeMethods.FindWindowEx(TaskbarHandle, IntPtr.Zero, "RebarWindow32", null);
 
-            WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
-            lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
-            NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-            //Check if taskbar at top or bottom and it isn't cropped
-            if (lpwndpl.rcNormalPosition.Top != 0
-                && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
+            WINDOWPLACEMENT WindowPlacement = new WINDOWPLACEMENT();
+            WindowPlacement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+            NativeMethods.GetWindowPlacement(TaskbarHandle, ref WindowPlacement);
+
+            // Check if the taskbar is placed at the top/bottom and isn't cropped
+            if (WindowPlacement.rcNormalPosition.Top != 0 &&
+                WindowPlacement.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
             {
-                //first, hide tray by setting it's width to 0
-                NativeMethods.GetWindowPlacement(trayHwnd, ref lpwndpl);
-                trayWndWidth = lpwndpl.rcNormalPosition.Width; //save original width of tray
-                trayWndLeft = lpwndpl.rcNormalPosition.X; //save original left pos of tray
-                NativeMethods.MoveWindow(trayHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, 0, lpwndpl.rcNormalPosition.Height, true);
-
-                NativeMethods.GetWindowPlacement(rebarHwnd, ref lpwndpl);
-                NativeMethods.MoveWindow(rebarHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width - lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Height, true);
-
-                //second, cut taskbar window
-                NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width, lpwndpl.rcNormalPosition.Height);
-                NativeMethods.SetWindowRgn(taskbarHwnd, rgn, true);
+                // Hide system tray by zeroing its width
+                NativeMethods.GetWindowPlacement(TrayHandle, ref WindowPlacement);
+                trayWndWidth = WindowPlacement.rcNormalPosition.Width;
+                trayWndLeft = WindowPlacement.rcNormalPosition.X;
+                NativeMethods.MoveWindow(TrayHandle, WindowPlacement.rcNormalPosition.X,
+                    WindowPlacement.rcNormalPosition.Y, 0, WindowPlacement.rcNormalPosition.Height, true);
+                // Reduce width of running applications bar (unsure if this is necessary)
+                NativeMethods.GetWindowPlacement(RebarHandle, ref WindowPlacement);
+                NativeMethods.MoveWindow(RebarHandle, WindowPlacement.rcNormalPosition.X,
+                    WindowPlacement.rcNormalPosition.Y,
+                    SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width -
+                    WindowPlacement.rcNormalPosition.X, WindowPlacement.rcNormalPosition.Height, true);
+                // Cut the taskbar window
+                NativeMethods.GetWindowPlacement(TaskbarHandle, ref WindowPlacement);
+                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0,
+                    SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width,
+                    WindowPlacement.rcNormalPosition.Height);
+                NativeMethods.SetWindowRgn(TaskbarHandle, rgn, true);
                 IsOverlapping = true;
             }
         }
 
-        public static void UnOverlapTaskbar()
+        public static void RestoreTaskbar()
         {
             if (Screen != Screen.PrimaryScreen)
                 return;
 
             OverlapTimer.Stop();
 
-            IntPtr taskbarHwnd = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
-            IntPtr trayHwnd = NativeMethods.FindWindowEx(taskbarHwnd, IntPtr.Zero, "TrayNotifyWnd", null);
+            IntPtr TaskbarHandle = NativeMethods.FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", null);
+            IntPtr TrayHandle = NativeMethods.FindWindowEx(TaskbarHandle, IntPtr.Zero, "TrayNotifyWnd", null);
 
-            WINDOWPLACEMENT lpwndpl = new WINDOWPLACEMENT();
-            lpwndpl.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
-            NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-            //Check if taskbar at top or bottom and it is cropped
-            if (lpwndpl.rcNormalPosition.Top != 0
-                && lpwndpl.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
+            WINDOWPLACEMENT WindowPlacement = new WINDOWPLACEMENT();
+            WindowPlacement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
+            NativeMethods.GetWindowPlacement(TaskbarHandle, ref WindowPlacement);
+
+            // Check if the taskbar is placed at the top/bottom and cropped
+            if (WindowPlacement.rcNormalPosition.Top != 0 &&
+                WindowPlacement.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
             {
-                //first, return tray by setting it's width back
-                NativeMethods.GetWindowPlacement(trayHwnd, ref lpwndpl);
-                lpwndpl.rcNormalPosition.Width = trayWndWidth; //restore original width of tray
-                lpwndpl.rcNormalPosition.X = trayWndLeft; //restore original left pos of tray
-                NativeMethods.MoveWindow(trayHwnd, lpwndpl.rcNormalPosition.X, lpwndpl.rcNormalPosition.Y, trayWndWidth, lpwndpl.rcNormalPosition.Height, true);
-
-                //second, extend taskbar window
-                NativeMethods.GetWindowPlacement(taskbarHwnd, ref lpwndpl);
-                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0, SystemInformation.PrimaryMonitorSize.Width, lpwndpl.rcNormalPosition.Height);
-                NativeMethods.SetWindowRgn(taskbarHwnd, rgn, true);
+                // Restore original tray width and X position
+                NativeMethods.GetWindowPlacement(TrayHandle, ref WindowPlacement);
+                WindowPlacement.rcNormalPosition.Width = trayWndWidth;
+                WindowPlacement.rcNormalPosition.X = trayWndLeft;
+                NativeMethods.MoveWindow(TrayHandle, WindowPlacement.rcNormalPosition.X,
+                    WindowPlacement.rcNormalPosition.Y, trayWndWidth, WindowPlacement.rcNormalPosition.Height, true);
+                // Extend the taskbar back to its original dimensions
+                NativeMethods.GetWindowPlacement(TaskbarHandle, ref WindowPlacement);
+                IntPtr rgn = NativeMethods.CreateRectRgn(0, 0,
+                    SystemInformation.PrimaryMonitorSize.Width, WindowPlacement.rcNormalPosition.Height);
+                NativeMethods.SetWindowRgn(TaskbarHandle, rgn, true);
 
                 IsOverlapping = false;
             }
         }
-
     }
 }
