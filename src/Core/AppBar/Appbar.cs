@@ -121,10 +121,10 @@ namespace Sidebar.Core
             MainWindow.Left = rt.Left;
             MainWindow.Top = rt.Top;
             MainWindow.Width = rt.Right - rt.Left;
-            if (!IsOverlapping)
-                MainWindow.Height = rt.Bottom - rt.Top;
-            else
+            if (IsOverlapping)
                 MainWindow.Height = Screen.Bounds.Size.Height;
+            else
+                MainWindow.Height = rt.Bottom - rt.Top;
         }
 
         public static void SetPos()
