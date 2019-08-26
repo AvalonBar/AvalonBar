@@ -266,6 +266,7 @@
     <Compile Include="LongBar.xaml.cs">
       <DependentUpon>LongBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Notify.xaml.cs">
       <DependentUpon>Notify.xaml</DependentUpon>
     </Compile>

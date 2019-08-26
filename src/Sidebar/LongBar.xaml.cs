@@ -27,24 +27,6 @@ namespace Sidebar
   /// </summary>
   public partial class LongBarMain : Window
   {
-      [DllImport("user32.dll")]
-      public static extern IntPtr SendMessageW(IntPtr hWnd, UInt32 msg, UInt32 wParam, IntPtr lParam);
-      [DllImport("user32.dll")]
-      private static extern int FindWindowW(string className, string windowName);
-
-    [DllImport("shell32.dll")]
-    public static extern IntPtr ShellExecute(
-        IntPtr hwnd,
-        string lpOperation,
-        string lpFile,
-        string lpParameters,
-        string lpDirectory,
-        int nShowCmd);
-
-    [DllImport("gdi32.dll")]
-    static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect,
-       int nBottomRect);
-
     public IntPtr Handle;
     static internal Settings sett;
     private Options options;
@@ -583,7 +565,7 @@ namespace Sidebar
             base.Cursor = Cursors.SizeWE;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-              SendMessageW(Handle, 274, 61441, IntPtr.Zero);
+              NativeMethods.SendMessageW(Handle, 274, 61441, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
                 AppBar.SizeAppbar();
@@ -600,7 +582,7 @@ namespace Sidebar
             base.Cursor = Cursors.SizeWE;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-              SendMessageW(Handle, 274, 61442, IntPtr.Zero);
+              NativeMethods.SendMessageW(Handle, 274, 61442, IntPtr.Zero);
               sett.width = (int)this.Width;
               if (sett.topMost)
                 AppBar.SizeAppbar();

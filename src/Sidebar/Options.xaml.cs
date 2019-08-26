@@ -23,16 +23,6 @@ namespace Sidebar
   /// </summary>
   public partial class Options : Window
   {
-
-      [DllImport("shell32.dll")]
-      static extern IntPtr ShellExecute(
-          IntPtr hwnd,
-          string lpOperation,
-          string lpFile,
-          string lpParameters,
-          string lpDirectory,
-          int nShowCmd);
-
     private LongBarMain longBar;
     
     public Options(LongBarMain wnd)
@@ -256,17 +246,17 @@ namespace Sidebar
 
     private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Localization/2.0", "", "", 1);
+        NativeMethods.ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Localization/2.0", "", "", 1);
     }
 
     private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Themes/2.0", "", "", 1);
+        NativeMethods.ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/files/Themes/2.0", "", "", 1);
     }
 
     private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/", "", "", 1);
+        NativeMethods.ShellExecute(IntPtr.Zero, "open", "https://sourceforge.net/projects/longbar/", "", "", 1);
     }
 
     private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)

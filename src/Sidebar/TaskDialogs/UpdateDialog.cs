@@ -98,7 +98,7 @@ namespace Sidebar.TaskDialogs
                 {
                     App.Current.Shutdown();
                 }, null);
-                LongBarMain.ShellExecute(IntPtr.Zero, "open", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\LongBar.exe", String.Empty, String.Empty, 1);
+                NativeMethods.ShellExecute(IntPtr.Zero, "open", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\LongBar.exe", String.Empty, String.Empty, 1);
                 tdDownload.Close();
             }
         }

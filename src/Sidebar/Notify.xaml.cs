@@ -27,15 +27,6 @@ namespace Sidebar
         private DispatcherTimer timer;
         private int counter = 0;
 
-        [DllImport("shell32.dll")]
-        static extern IntPtr ShellExecute(
-            IntPtr hwnd,
-            string lpOperation,
-            string lpFile,
-            string lpParameters,
-            string lpDirectory,
-            int nShowCmd);
-
         public Notify()
         {
             InitializeComponent();
@@ -90,7 +81,7 @@ namespace Sidebar
 
         void Notify_Click(object sender, RoutedEventArgs e)
         {
-            ShellExecute(IntPtr.Zero, "open", ((Hyperlink)sender).NavigateUri.OriginalString, "", "", 1);
+            NativeMethods.ShellExecute(IntPtr.Zero, "open", ((Hyperlink)sender).NavigateUri.OriginalString, "", "", 1);
         }
 
         public void HideNotification()

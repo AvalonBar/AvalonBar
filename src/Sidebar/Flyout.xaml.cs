@@ -21,9 +21,6 @@ namespace Sidebar
   /// </summary>
   public partial class Flyout : Window
   {
-    [DllImport("gdi32.dll")]
-    private static extern int CreateRoundRectRgn(int x1, int y1, int x2, int y2, int xradius, int yradius);
-
     private IntPtr handle;
     private ContextMenu m;
 
@@ -73,7 +70,7 @@ namespace Sidebar
     private void Flyout_MouseMove(object sender, MouseEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed)
-        LongBarMain.SendMessageW(handle, 274, 61449, IntPtr.Zero);
+        NativeMethods.SendMessageW(handle, 274, 61449, IntPtr.Zero);
     }
 
     private void Flyout_SourceInitialized(object sender, EventArgs e)
