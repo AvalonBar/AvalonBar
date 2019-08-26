@@ -79,6 +79,7 @@
     <Compile Include="UpdateInfo.cs" />
     <Compile Include="UpdateManager.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="TileIcon.ico" />
