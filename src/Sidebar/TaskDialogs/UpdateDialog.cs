@@ -93,7 +93,7 @@ namespace Sidebar.TaskDialogs
         {
             if (e.Error == null && !e.Cancelled)
             {
-                UpdatesManager.UpdateFiles(LongBarMain.sett.path);
+                UpdateManager.UpdateFiles(LongBarMain.sett.path);
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
                     App.Current.Shutdown();

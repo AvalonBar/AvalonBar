@@ -181,7 +181,7 @@ namespace Sidebar
 
           ThreadStart threadStarter = delegate
           {
-              UpdateInfo updateInfo = UpdatesManager.CheckForUpdates();
+              UpdateInfo updateInfo = UpdateManager.CheckForUpdates();
               if (updateInfo.Version != null && updateInfo.Description != null)
               {
                   TaskDialogs.UpdateDialog.ShowDialog(updateInfo.Version, updateInfo.Description);

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace Sidebar.Core
 {
-    public class UpdatesManager
+    public class UpdateManager
     {
         private const string UpdateInfoUrl = "https://franklindm.github.io/AvalonBar/services/UpdateInfo.xml";
 
