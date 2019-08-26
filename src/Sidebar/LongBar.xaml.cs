@@ -110,8 +110,8 @@ namespace Sidebar
 
         this.Width = sett.width;
         SystemTray.AddIcon(this);
-        this.WindowStyle = WindowStyle.ToolWindow;
-        AppBar.SetSidebar(this, sett.side, false, sett.overlapTaskbar, sett.screen);
+        // Force set sidebar window style to tool window, bypassing the restriction placed on AllowTransparency
+        NativeMethods.SetWindowLong(Handle, GetWindowLongMessage.GWL_EXSTYLE, 128);
         SetSide(sett.side);
         this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
         this.MinWidth = 31;
