@@ -169,7 +169,6 @@ namespace Sidebar
 
       if (sett.enableUpdates)
       {
-
           foreach (string file in Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old", SearchOption.TopDirectoryOnly))
           {
               File.Delete(file);
@@ -182,11 +181,10 @@ namespace Sidebar
 
           ThreadStart threadStarter = delegate
           {
-
-              UpdatesManager.UpdateInfo updateInfo = UpdatesManager.CheckForUpdates(Assembly.GetExecutingAssembly().GetName().Version.Build);
-              if (updateInfo.Build != null && updateInfo.Description != null)
+              UpdateInfo updateInfo = UpdatesManager.CheckForUpdates();
+              if (updateInfo.Version != null && updateInfo.Description != null)
               {
-                  TaskDialogs.UpdateDialog.ShowDialog(updateInfo.Build, updateInfo.Description);
+                  TaskDialogs.UpdateDialog.ShowDialog(updateInfo.Version, updateInfo.Description);
               }
           };
           Thread thread = new Thread(threadStarter);

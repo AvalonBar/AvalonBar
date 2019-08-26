@@ -6,35 +6,37 @@ using System.IO;
 using System.Windows;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace Sidebar.Core
 {
     public class UpdatesManager
     {
-        public struct UpdateInfo
-        {
-            public string Build;
-            public string Description;
-        }
+        private const string UpdateInfoUrl = "https://franklindm.github.io/AvalonBar/services/UpdateInfo.xml";
 
-        public static UpdateInfo CheckForUpdates(int build)
+        public static UpdateInfo CheckForUpdates()
         {
             UpdateInfo result = new UpdateInfo();
 
-            try
+            using (WebClient client = new WebClient())
             {
-                WebClient client = new WebClient();
-                string[] updateInfo = client.DownloadString("https://sourceforge.net/projects/longbar/files/Debug/LongBar%202.1/Updates/Update.info/download").Split("\n\r".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                if (Convert.ToInt32(updateInfo[0]) > build)
+                try
                 {
-                    result.Build = updateInfo[0];
-                    for (int i = 1; i < updateInfo.Length; i++)
+                    string updateInfoFile = client.DownloadString(UpdateInfoUrl);
+                    XmlSerializer serializer = new XmlSerializer(typeof(UpdateInfo));
+                    UpdateInfo updateInfo = (UpdateInfo)serializer.Deserialize(new StringReader(updateInfoFile));
+
+                    if (updateInfo.Version != VersionInfo.Core)
                     {
-                        result.Description += updateInfo[i] + "\n\r";
+                        result = updateInfo;
                     }
                 }
+                catch
+                {
+                    // Ignore exceptions thrown when downloading the update info file
+                }
             }
-            catch { }
+
             return result;
         }
 
