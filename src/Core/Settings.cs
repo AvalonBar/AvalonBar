@@ -25,7 +25,6 @@ namespace Sidebar.Core
             overlapTaskbar = false;
             showErrors = true;
             screen = "Primary";
-            _path = "\\";
             enableUpdates = true;
         }
 
@@ -44,20 +43,12 @@ namespace Sidebar.Core
         public bool showErrors;
         public bool overlapTaskbar;
         public string screen;
-        private string _path;
+        [XmlIgnore]
         public string path
         {
             get
             {
-                if (_path == "\\" || _path == null)
-                {
-                    return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                }
-                return _path;
-            }
-            set
-            {
-                _path = value;
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             }
         }
         public bool enableUpdates;
