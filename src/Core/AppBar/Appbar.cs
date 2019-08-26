@@ -187,10 +187,10 @@ namespace Sidebar.Core
 
         public static void ResizeBar()
         {
-            bool visible = SystemTray.SidebarVisible;
-            SystemTray.SidebarVisible = false;
-            SystemTray.SidebarVisible = true;
-            SystemTray.SidebarVisible = visible;
+            bool visible = SystemTray.IsSidebarVisible;
+            SystemTray.IsSidebarVisible = false;
+            SystemTray.IsSidebarVisible = true;
+            SystemTray.IsSidebarVisible = visible;
         }
 
         public static void OverlapTaskbar()

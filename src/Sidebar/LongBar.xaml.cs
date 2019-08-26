@@ -142,7 +142,7 @@ namespace Sidebar
             }
         }
 
-        SystemTray.SidebarvisibleChanged += new SystemTray.SidebarvisibleChangedEventHandler(SystemTray_SidebarvisibleChanged);
+        SystemTray.SidebarVisibilityChanged += new SystemTray.SidebarVisibilityChangedEventHandler(SystemTray_SidebarvisibleChanged);
 
         GetTiles();
     }
@@ -840,9 +840,9 @@ namespace Sidebar
 
     private void MinimizeItem_Click(object sender, RoutedEventArgs e)
     {
-        if (!SystemTray.SidebarVisible)
-            SystemTray.SidebarVisible = true;
-        else SystemTray.SidebarVisible = false;
+        if (!SystemTray.IsSidebarVisible)
+            SystemTray.IsSidebarVisible = true;
+        else SystemTray.IsSidebarVisible = false;
     }
 
     private void LongBar_DragEnter(object sender, DragEventArgs e)

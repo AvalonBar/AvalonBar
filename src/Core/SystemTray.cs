@@ -10,14 +10,13 @@ namespace Sidebar.Core
 {
     public class SystemTray
     {
-        public delegate void SidebarvisibleChangedEventHandler(bool value);
-        public static event SidebarvisibleChangedEventHandler SidebarvisibleChanged;
-        private static bool _SidebarVisible = true;
-        public static bool isRunning = false;
-        protected static void OnSidebarVisibleChanged(bool value)
+        public delegate void SidebarVisibilityChangedEventHandler(bool value);
+        public static event SidebarVisibilityChangedEventHandler SidebarVisibilityChanged;
+        public static bool IsRunning = false;
+        protected static void OnSidebarVisibilityChanged(bool value)
         {
-            if (SidebarvisibleChanged != null)
-                SidebarvisibleChanged(value);
+            if (SidebarVisibilityChanged != null)
+                SidebarVisibilityChanged(value);
         }
 
 
@@ -31,7 +30,7 @@ namespace Sidebar.Core
 
         public static void AddIcon(Window wnd)
         {
-            if (isRunning)
+            if (IsRunning)
                 return;
             trayMenu = new System.Windows.Controls.ContextMenu();
 
@@ -59,9 +58,9 @@ namespace Sidebar.Core
         private static void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                if (!SidebarVisible)
-                    SystemTray.SidebarVisible = true;
-                else SystemTray.SidebarVisible = false;
+                if (!IsSidebarVisible)
+                    SystemTray.IsSidebarVisible = true;
+                else SystemTray.IsSidebarVisible = false;
         }
 
         private static void trayIcon_MouseClick(object sender, MouseEventArgs e)
@@ -80,7 +79,7 @@ namespace Sidebar.Core
 
         public static void RemoveIcon()
         {
-            if (isRunning)
+            if (IsRunning)
                 return;
             trayIcon.MouseClick -= new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.Visible = false;
@@ -94,19 +93,14 @@ namespace Sidebar.Core
 
         private static void ShowHideMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!SidebarVisible)
-                SystemTray.SidebarVisible = true;
-            else SystemTray.SidebarVisible = false;
+            IsSidebarVisible = !IsSidebarVisible;
         }
 
         private static bool overlapTaskbar = false;
-
-        public static bool SidebarVisible
+        private static bool isSidebarVisible = true;
+        public static bool IsSidebarVisible
         {
-            get
-            {
-                return _SidebarVisible;
-            }
+            get { return isSidebarVisible; }
             set
             {
                 if (value)
@@ -120,8 +114,8 @@ namespace Sidebar.Core
                             AppBar.OverlapTaskbar();
                         AppBar.SizeAppbar();
                     }
-                    _SidebarVisible = true;
-                    OnSidebarVisibleChanged(true);
+                    isSidebarVisible = true;
+                    OnSidebarVisibilityChanged(true);
                 }
                 else
                 {
@@ -139,8 +133,8 @@ namespace Sidebar.Core
                             overlapTaskbar = false;
                         }
                     }
-                    _SidebarVisible = false;
-                    OnSidebarVisibleChanged(false);
+                    isSidebarVisible = false;
+                    OnSidebarVisibilityChanged(false);
                 }
             }
         }
