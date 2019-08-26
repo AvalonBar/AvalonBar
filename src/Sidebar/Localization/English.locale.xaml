@@ -32,8 +32,6 @@
     <s:String x:Key="TileVersion">Version:</s:String>
     <!-- Error dialog strings -->
     <s:String x:Key="LongBarError">Application error</s:String>
-    <s:String x:Key="HideDetails">Hide details</s:String>
-    <s:String x:Key="ShowDetails">Show details</s:String>
     <s:String x:Key="SendFeedback1">Create an issue</s:String>
     <s:String x:Key="SendFeedback2">The details will be copied to your clipboard.</s:String>
     <s:String x:Key="DontSendFeedback1">Continue using the application</s:String>
@@ -96,4 +94,13 @@
     <s:String x:Key="FlyoutOptions">Options</s:String>
     <s:String x:Key="AlwaysShow">Always show</s:String>
     <s:String x:Key="FlyoutClose">Close</s:String>
+    <!-- Common Task Dialog strings -->
+    <s:String x:Key="HideDetails">Hide details</s:String>
+    <s:String x:Key="ShowDetails">Show details</s:String>
+    <!-- Update Dialog strings -->
+    <s:String x:Key="UpdateDialogTitle">Update Available</s:String>
+    <s:String x:Key="UpdateDialogHeader">An update for AvalonBar is available</s:String>
+    <s:String x:Key="UpdateDialogText">Latest version: {0}, current version: {1}</s:String>
+    <s:String x:Key="UpdateDownloadDialogTitle">Downloading Update</s:String>
+    <s:String x:Key="UpdateDownloadDialogHeader">Downloading update package for AvalonBar</s:String>
 </ResourceDictionary>
