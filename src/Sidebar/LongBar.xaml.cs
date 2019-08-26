@@ -36,29 +36,6 @@ namespace Sidebar
     public Shadow shadow = new Shadow();
     private Library library;
 
-    internal struct Settings
-    {
-      public bool startup;
-      public AppBarSide side;
-      public string theme;
-      public string locale;
-      public int width;
-      public bool topMost;
-      public bool enableGlass;
-      public bool enableShadow;
-      public bool locked;
-      public string[] tiles;
-      public string[] heights;
-      public string[] pinnedTiles;
-      public bool showErrors;
-      public bool overlapTaskbar;
-      public string screen;
-      public string path;
-      public bool enableUpdates;
-      public bool debug;
-      public string tileToDebug;
-    }
-
     public LongBarMain()
     {
       InitializeComponent();
@@ -352,127 +329,16 @@ namespace Sidebar
 
     public static void ReadSettings()
     {
-      sett.side = AppBarSide.Right;
-      sett.theme = "Slate";
-      sett.locale = "English";
-      sett.width = 150;
-      sett.topMost = false;
-      sett.enableGlass = true;
-      sett.enableShadow = true;
-      sett.locked = false;
-      sett.overlapTaskbar = false;
-      sett.showErrors = true;
-      sett.screen = "Primary";
-      sett.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-      sett.enableUpdates = true;
-
-      if (System.IO.File.Exists("Settings.ini"))
+      sett = new Settings();
+      if (File.Exists("Settings.xml"))
       {
-          string line = "";
-          StreamReader reader = System.IO.File.OpenText("Settings.ini");
-          while (!reader.EndOfStream)
-          {
-              line = reader.ReadLine();
-              if (line.StartsWith("Autostart"))
-              {
-                  sett.startup = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("Side"))
-              {
-                  sett.side = (AppBarSide)Convert.ToInt32(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("Theme"))
-              {
-                  sett.theme = line.Split('=')[1];
-              }
-
-              if (line.StartsWith("Language"))
-              {
-                  sett.locale = line.Split('=')[1];
-              }
-
-              if (line.StartsWith("Width"))
-              {
-                  sett.width = Convert.ToInt32(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("TopMost"))
-              {
-                  sett.topMost = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("EnableGlass"))
-              {
-                  sett.enableGlass = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("EnableShadow"))
-              {
-                  sett.enableShadow = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("Locked"))
-              {
-                  sett.locked = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("OverlapTaskbar"))
-              {
-                  sett.overlapTaskbar = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("ShowErrors"))
-              {
-                  sett.showErrors = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("Screen"))
-              {
-                  sett.screen = line.Split('=')[1];
-              }
-
-              if (line.StartsWith("Path"))
-              {
-                  if (line.Split('=')[1] != "\\")
-                     sett.path = line.Split('=')[1];
-              }
-
-              if (line.StartsWith("EnableUpdates"))
-              {
-                  sett.enableUpdates = Convert.ToBoolean(line.Split('=')[1]);
-              }
-
-              if (line.StartsWith("Tiles"))
-              {
-                  string s = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 2);
-                  sett.tiles = s.Split(new char[] {';'},  StringSplitOptions.RemoveEmptyEntries);
-              }
-
-              if (line.StartsWith("Heights"))
-              {
-                  string s = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 2);
-                  sett.heights = s.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-              }
-
-              if (line.StartsWith("PinnedTiles"))
-              {
-                  string s = line.Substring(line.IndexOf(":") + 2, line.Length - line.IndexOf(":") - 2);
-                  sett.pinnedTiles = s.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-              }
-          }
+        sett = XmlHelper.Load<Settings>("Settings.xml");
       }
     }
 
     private void WriteSettings()
     {
       sett.width = (int)this.Width;
-
-      if (System.IO.File.Exists("Settings.ini"))
-          System.IO.File.WriteAllText("Settings.ini", "");
-
-      StreamWriter writer = System.IO.File.AppendText("Settings.ini");
 
       Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
       Array.Resize(ref sett.heights, TilesGrid.Children.Count);
@@ -500,57 +366,7 @@ namespace Sidebar
           }
       }
 
-      writer.WriteLine("Autostart=" + sett.startup.ToString());
-      writer.WriteLine("Side=" + ((int)sett.side).ToString());
-      writer.WriteLine("Theme=" + sett.theme);
-      writer.WriteLine("Language=" + sett.locale.ToString());
-      writer.WriteLine("Width=" + sett.width.ToString());
-      writer.WriteLine("TopMost=" + sett.topMost.ToString());
-      writer.WriteLine("EnableGlass=" + sett.enableGlass.ToString());
-      writer.WriteLine("EnableShadow=" + sett.enableShadow.ToString());
-      writer.WriteLine("Locked=" + sett.locked.ToString());
-      writer.WriteLine("OverlapTaskbar=" + sett.overlapTaskbar.ToString());
-      writer.WriteLine("ShowErrors=" + sett.showErrors.ToString());
-      writer.WriteLine("Screen=" + sett.screen.ToString());
-      if (sett.path == System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location))
-          writer.WriteLine(@"Path=\");
-      else
-          writer.WriteLine("Path=" + sett.path);
-
-      writer.WriteLine("EnableUpdates=" + sett.enableUpdates);
-
-      if (sett.tiles != null && sett.tiles.Length > 0)
-      {
-          writer.Write("Tiles: ");
-          for (int i = 0; i < sett.tiles.Length; i++)
-          {
-              writer.Write(sett.tiles[i] + ";");
-          }
-          writer.WriteLine();
-      }
-
-      if (sett.heights != null && sett.heights.Length > 0)
-      {
-          writer.Write("Heights: ");
-          for (int i = 0; i < sett.heights.Length; i++)
-          {
-              writer.Write(sett.heights[i] + ";");
-          }
-          writer.WriteLine();
-      }
-
-      if (sett.pinnedTiles != null && sett.pinnedTiles.Length > 0)
-      {
-          writer.Write("PinnedTiles: ");
-          for (int i = 0; i < sett.pinnedTiles.Length; i++)
-          {
-              writer.Write(sett.pinnedTiles[i] + ";");
-          }
-          writer.WriteLine();
-      }
-
-      writer.Flush();
-      writer.Close();
+      XmlHelper.Save<Settings>(sett, "Settings.xml");
     }
 
     private void LongBar_MouseMove(object sender, MouseEventArgs e)

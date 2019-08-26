@@ -15,10 +15,10 @@ namespace Sidebar
   public partial class App : Application
   {
     private static string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    private static string userPath = LongBarMain.sett.path;
 
     private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
+        string userPath = LongBarMain.sett.path;
         if (!Directory.Exists(userPath + @"\Logs"))
             Directory.CreateDirectory(userPath + @"\Logs");
         string logFile = String.Format(@"{0}\Logs\{1}.{2}.{3}.log", userPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
