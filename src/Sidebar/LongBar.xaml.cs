@@ -186,71 +186,60 @@ namespace Sidebar
 
         private void LoadTilesAtStartup()
         {
-            if (!sett.debug)
-            {
-                if (sett.tiles != null && Tiles != null && sett.tiles.Length > 0 && Tiles.Count > 0)
-                {
-                    for (int i = 0; i < sett.tiles.Length; i++)
-                    {
-                        string tileName = sett.tiles[i];
-                        foreach (Tile tile in Tiles)
-                        {
-                            if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == tileName)
-                            {
-                                double tileHeight = double.NaN;
-                                if (sett.heights != null && sett.heights.Length > i)
-                                {
-                                    if (sett.heights[i].EndsWith("M"))
-                                    {
-                                        tileHeight = double.Parse(sett.heights[i].Replace("M", string.Empty));
-                                        tile.minimized = true;
-                                    }
-                                    else
-                                        tileHeight = double.Parse(sett.heights[i]);
-                                }
-                                if (!double.IsNaN(tileHeight))
-                                    tile.Load(sett.side, tileHeight);
-                                else
-                                    tile.Load(sett.side, double.NaN);
-                                if (!tile.hasErrors)
-                                {
-                                    TilesGrid.Children.Add(tile);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (sett.pinnedTiles != null && Tiles != null && sett.pinnedTiles.Length > 0 && Tiles.Count > 0)
-                {
-                    for (int i = 0; i < sett.pinnedTiles.Length; i++)
-                    {
-                        foreach (Tile tile in Tiles)
-                        {
-                            if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == sett.pinnedTiles[i])
-                            {
-                                tile.pinned = true;
-                                tile.Load(sett.side, double.NaN);
-
-                                tile.Header.Visibility = System.Windows.Visibility.Collapsed;
-                                DockPanel.SetDock(tile.Splitter, Dock.Top);
-                                ((MenuItem)tile.ContextMenu.Items[0]).IsChecked = true;
-
-                                if (!tile.hasErrors)
-                                {
-                                    PinGrid.Children.Add(tile);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if (sett.debug)
             {
                 if (Tiles.Count > 0)
                 {
                     Tiles[0].Load(sett.side, double.NaN);
                     TilesGrid.Children.Add(Tiles[0]);
+                }
+                return;
+            }
+
+            if (sett.tiles != null && Tiles != null && sett.tiles.Length > 0 && Tiles.Count > 0)
+            {
+                for (int i = 0; i < sett.tiles.Length; i++)
+                {
+                    TileMetadata currentMetadata = sett.tiles[i];
+                    foreach (Tile tile in Tiles)
+                    {
+                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
+                        {
+                            tile.minimized = currentMetadata.IsMinimized;
+                            tile.Load(sett.side, currentMetadata.Height);
+
+                            if (!tile.hasErrors)
+                            {
+                                TilesGrid.Children.Add(tile);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (sett.pinnedTiles != null && Tiles != null && sett.pinnedTiles.Length > 0 && Tiles.Count > 0)
+            {
+                for (int i = 0; i < sett.pinnedTiles.Length; i++)
+                {
+                    foreach (Tile tile in Tiles)
+                    {
+                        TileMetadata currentMetadata = sett.pinnedTiles[i];
+                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
+                        {
+                            tile.minimized = currentMetadata.IsMinimized;
+                            tile.pinned = true;
+                            tile.Load(sett.side, currentMetadata.Height);
+
+                            tile.Header.Visibility = Visibility.Collapsed;
+                            DockPanel.SetDock(tile.Splitter, Dock.Top);
+                            ((MenuItem)tile.ContextMenu.Items[0]).IsChecked = true;
+
+                            if (!tile.hasErrors)
+                            {
+                                PinGrid.Children.Add(tile);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -340,28 +329,41 @@ namespace Sidebar
             sett.width = (int)this.Width;
 
             Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
-            Array.Resize(ref sett.heights, TilesGrid.Children.Count);
+            Array.Resize(ref sett.pinnedTiles, PinGrid.Children.Count);
 
             if (TilesGrid.Children.Count > 0)
             {
-
                 for (int i = 0; i < TilesGrid.Children.Count; i++)
                 {
-                    sett.tiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].File);
-                    if (Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].minimized)
-                        sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].normalHeight.ToString() + "M";
+                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))];
+                    TileMetadata currentMetadata = new TileMetadata();
+
+                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
+                    currentMetadata.IsMinimized = currentTile.minimized;
+                    if (currentMetadata.IsMinimized)
+                        currentMetadata.Height = currentTile.normalHeight;
                     else
-                        sett.heights[i] = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))].Height.ToString();
+                        currentMetadata.Height = currentTile.Height;
+                    sett.tiles[i] = currentMetadata;
                 }
             }
 
             if (PinGrid.Children.Count > 0)
             {
-                sett.pinnedTiles = new string[PinGrid.Children.Count];
-
                 for (int i = 0; i < PinGrid.Children.Count; i++)
                 {
-                    sett.pinnedTiles[i] = System.IO.Path.GetFileName(Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))].File);
+                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))];
+                    TileMetadata currentMetadata = new TileMetadata();
+
+                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
+                    currentMetadata.IsMinimized = currentTile.minimized;
+                    currentMetadata.Height = currentTile.Height;
+                    if (currentMetadata.IsMinimized)
+                        currentMetadata.Height = currentTile.normalHeight;
+                    else
+                        currentMetadata.Height = currentTile.Height;
+
+                    sett.pinnedTiles[i] = currentMetadata;
                 }
             }
 

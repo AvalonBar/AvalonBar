@@ -71,6 +71,7 @@
     <Compile Include="DwmManager.cs" />
     <Compile Include="AppBar\AppBar.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="TileMetadata.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SystemTray.cs" />
     <Compile Include="LocaleManager.cs" />
