@@ -12,15 +12,6 @@ namespace Sidebar
         internal static extern int FindWindowW(string className, string windowName);
         [DllImport("user32.dll")]
         internal static extern int SetWindowLong(IntPtr hWnd, GetWindowLongMessage nIndex, int dwNewLong);
-        // Shell32
-        [DllImport("shell32.dll")]
-        internal static extern IntPtr ShellExecute(
-            IntPtr hwnd,
-            string lpOperation,
-            string lpFile,
-            string lpParameters,
-            string lpDirectory,
-            int nShowCmd);
         // Gdi32
         [DllImport("gdi32.dll")]
         internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect,

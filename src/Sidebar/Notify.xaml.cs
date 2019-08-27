@@ -16,6 +16,7 @@ using System.Windows.Threading;
 using System.Windows.Markup;
 using System.Runtime.InteropServices;
 using Sidebar.Core;
+using System.Diagnostics;
 
 namespace Sidebar
 {
@@ -81,7 +82,7 @@ namespace Sidebar
 
         void Notify_Click(object sender, RoutedEventArgs e)
         {
-            NativeMethods.ShellExecute(IntPtr.Zero, "open", ((Hyperlink)sender).NavigateUri.OriginalString, "", "", 1);
+            Process.Start(((Hyperlink)sender).NavigateUri.OriginalString);
         }
 
         public void HideNotification()

@@ -6,6 +6,7 @@ using System.Reflection;
 using Sidebar.Core;
 using System.Windows;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Sidebar.TaskDialogs
 {
@@ -57,7 +58,7 @@ namespace Sidebar.TaskDialogs
                     Application.Current.Shutdown();
                 }, null);
                 // TODO: Usage of hardcoded executable name
-                NativeMethods.ShellExecute(IntPtr.Zero, "open", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\LongBar.exe", String.Empty, String.Empty, 1);
+                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\LongBar.exe");
                 td.Close();
             }
         }
