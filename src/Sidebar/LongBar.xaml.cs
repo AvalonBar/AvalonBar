@@ -30,7 +30,6 @@ namespace Sidebar
         public IntPtr Handle;
         static internal Settings sett;
         private Options options;
-        private string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public static List<Tile> Tiles = new List<Tile>();
 
         public Shadow shadow = new Shadow();
