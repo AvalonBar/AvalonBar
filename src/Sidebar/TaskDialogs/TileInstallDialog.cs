@@ -27,39 +27,21 @@ namespace Sidebar.TaskDialogs
 
             tilePath = path;
             tileName = name;
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
-                td = new TaskDialog();
-                td.Cancelable = true;
-                td.Icon = TaskDialogStandardIcon.None;
 
-                td.Caption = (string)Application.Current.TryFindResource("InstallingTile");
-                td.Text = path;
-                td.InstructionText = string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName);
-                td.StandardButtons = TaskDialogStandardButtons.Cancel;
+            td = new TaskDialog();
+            td.Cancelable = true;
+            td.Icon = TaskDialogStandardIcon.None;
 
-                TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease1"), (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease2"));
-                installButton.Click += new EventHandler(installButton_Click);
+            td.Caption = (string)Application.Current.TryFindResource("InstallingTile");
+            td.Text = path;
+            td.InstructionText = string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName);
+            td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
-                td.Controls.Add(installButton);
-                td.Show();
-            }
-            else
-            {
-                if (System.Windows.MessageBox.Show(string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName), (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Information) == System.Windows.MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        PackageManager.Unpack(Sidebar.LongBarMain.sett.path, tilePath);
-                        System.Windows.MessageBox.Show(tileName + " " + (string)Application.Current.TryFindResource("SuccesfullyInstalled"), (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Windows.MessageBox.Show((string)Application.Current.TryFindResource("InstallingFailed") + "\n" + (string)Application.Current.TryFindResource("ErrorText") + ex.Message, (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Exclamation);
-                    }
-                }
+            TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease1"), (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease2"));
+            installButton.Click += new EventHandler(installButton_Click);
 
-            }
+            td.Controls.Add(installButton);
+            td.Show();
         }
 
         static void installButton_Click(object sender, EventArgs e)
