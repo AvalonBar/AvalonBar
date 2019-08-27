@@ -21,7 +21,9 @@ namespace Sidebar.Core
                 (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 2))
             {
                 return false;
-            } else {
+            }
+            else
+            {
                 return true;
             }
         }

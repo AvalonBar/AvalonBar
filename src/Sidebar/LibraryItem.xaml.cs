@@ -41,7 +41,7 @@ namespace Sidebar
         public string Icon
         {
             get { return _icon; }
-            set 
+            set
             {
                 _icon = value;
 
@@ -92,7 +92,7 @@ namespace Sidebar
             {
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
-               try
+                try
                 {
                     WebClient client = new WebClient();
                     client.DownloadFile(_icon, LongBarMain.sett.path + @"\Cache\" + file);

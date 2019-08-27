@@ -29,20 +29,20 @@ namespace Sidebar.TaskDialogs
             tileName = name;
             if (Environment.OSVersion.Version.Major >= 6)
             {
-                    td = new TaskDialog();
-                    td.Cancelable = true;
-                    td.Icon = TaskDialogStandardIcon.None;
+                td = new TaskDialog();
+                td.Cancelable = true;
+                td.Icon = TaskDialogStandardIcon.None;
 
-                    td.Caption = (string)Application.Current.TryFindResource("InstallingTile");
-                    td.Text = path;
-                    td.InstructionText = string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName);
-                    td.StandardButtons = TaskDialogStandardButtons.Cancel;
+                td.Caption = (string)Application.Current.TryFindResource("InstallingTile");
+                td.Text = path;
+                td.InstructionText = string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName);
+                td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
-                    TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease1"), (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease2"));
-                    installButton.Click += new EventHandler(installButton_Click);
+                TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease1"), (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease2"));
+                installButton.Click += new EventHandler(installButton_Click);
 
-                    td.Controls.Add(installButton);
-                    td.Show();
+                td.Controls.Add(installButton);
+                td.Show();
             }
             else
             {
@@ -58,7 +58,7 @@ namespace Sidebar.TaskDialogs
                         System.Windows.MessageBox.Show((string)Application.Current.TryFindResource("InstallingFailed") + "\n" + (string)Application.Current.TryFindResource("ErrorText") + ex.Message, (string)Application.Current.TryFindResource("InstallingTile"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Exclamation);
                     }
                 }
-            
+
             }
         }
 
@@ -79,9 +79,9 @@ namespace Sidebar.TaskDialogs
                     item.Click += new RoutedEventHandler(longBar.AddTileSubItem_Click);
                     longBar.AddTileItem.Items.Add(item);
                     LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].Load(LongBarMain.sett.side, double.NaN);
-                    if (!LongBarMain.Tiles[LongBarMain.Tiles.Count-1].hasErrors)
+                    if (!LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].hasErrors)
                     {
-                        longBar.TilesGrid.Children.Insert(0, LongBarMain.Tiles[LongBarMain.Tiles.Count-1]);
+                        longBar.TilesGrid.Children.Insert(0, LongBarMain.Tiles[LongBarMain.Tiles.Count - 1]);
                         ((MenuItem)longBar.AddTileItem.Items[((MenuItem)longBar.AddTileItem).Items.Count - 1]).IsChecked = true;
                     }
                 }

@@ -60,7 +60,7 @@ namespace Sidebar.Core
                                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
                             if (File.Exists(path + "\\" + entry.Name))
-                                File.Move(path + "\\" + entry.Name,path + "\\" + entry.Name + ".old");
+                                File.Move(path + "\\" + entry.Name, path + "\\" + entry.Name + ".old");
 
                             using (FileStream fileStreamOut = new FileStream(string.Format(@"{0}\{1}", path, entry.Name), FileMode.Create, FileAccess.Write))
                             {
@@ -75,8 +75,8 @@ namespace Sidebar.Core
                             }
                         }
                         else
-                            if (!Directory.Exists(string.Format(@"{0}\{1}", path,  entry.Name)))
-                                Directory.CreateDirectory(string.Format(@"{0}\{1}", path,  entry.Name));
+                            if (!Directory.Exists(string.Format(@"{0}\{1}", path, entry.Name)))
+                                Directory.CreateDirectory(string.Format(@"{0}\{1}", path, entry.Name));
                     }
                     zipInStream.Close();
                 }

@@ -12,26 +12,26 @@ using System.Windows.Shapes;
 
 namespace Sidebar
 {
-  /// <summary>
-  /// Interaction logic for TileOptions.xaml
-  /// </summary>
-  public partial class TileOptions : Window
-  {
-    public TileOptions()
+    /// <summary>
+    /// Interaction logic for TileOptions.xaml
+    /// </summary>
+    public partial class TileOptions : Window
     {
-      InitializeComponent();
-      this.OKbutton.Click += new RoutedEventHandler(OKbutton_Click);
-      this.Closing += new System.ComponentModel.CancelEventHandler(TileOptions_Closing);
-    }
+        public TileOptions()
+        {
+            InitializeComponent();
+            this.OKbutton.Click += new RoutedEventHandler(OKbutton_Click);
+            this.Closing += new System.ComponentModel.CancelEventHandler(TileOptions_Closing);
+        }
 
-    private void OKbutton_Click(object sender, RoutedEventArgs e)
-    {
-      this.Close();
-    }
+        private void OKbutton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 
-    private void TileOptions_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-      ContentGrid.Children.Clear();
+        private void TileOptions_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ContentGrid.Children.Clear();
+        }
     }
-  }
 }

@@ -43,7 +43,7 @@ namespace Sidebar
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-            NativeMethods.SendMessageW(handle, 274, 61449, IntPtr.Zero);
+                NativeMethods.SendMessageW(handle, 274, 61449, IntPtr.Zero);
             if (e.LeftButton == MouseButtonState.Released)
                 Window_MouseLeftButtonUp(this, new MouseButtonEventArgs((MouseDevice)e.Device, e.Timestamp, MouseButton.Left));
         }
@@ -59,7 +59,7 @@ namespace Sidebar
                     return;
                 if (index > 0 && index < 100500 && panel.Children.IndexOf(splitter) == index - 1)
                     return;
-                if (panel.Children.Contains(splitter) ) //если сплиттер уже на панели,
+                if (panel.Children.Contains(splitter)) //если сплиттер уже на панели,
                     panel.Children.Remove(splitter); //убираем его нафиг
                 switch (index)
                 {

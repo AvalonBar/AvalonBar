@@ -21,7 +21,7 @@ namespace Sidebar
     {
         public string Text
         {
-            get {return Caption.Text;}
+            get { return Caption.Text; }
             set
             {
                 Caption.Text = value;

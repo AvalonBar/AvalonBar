@@ -129,7 +129,7 @@ namespace Sidebar
                 TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
             else if (!e.Cancelled)
                 MessageBox.Show((string)Application.Current.TryFindResource("DownloadingFailed") + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            
+
             LoadingGrid.Visibility = Visibility.Collapsed;
             LoadingGrid.Opacity = 0;
         }
@@ -241,7 +241,7 @@ namespace Sidebar
 
         private void BottomBorderRect_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Mouse.Captured == BottomBorderRect && 
+            if (Mouse.Captured == BottomBorderRect &&
                 ((MainPanel.ActualHeight - e.GetPosition(MainPanel).Y) > 50
                 && (MainPanel.ActualHeight - e.GetPosition(MainPanel).Y) < 200))
             {

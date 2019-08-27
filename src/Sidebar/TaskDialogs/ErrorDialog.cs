@@ -13,7 +13,7 @@ namespace Sidebar.TaskDialogs
 {
     public class ErrorDialog
     {
-        private static SmtpClient client = new SmtpClient("smtp.live.com",25);
+        private static SmtpClient client = new SmtpClient("smtp.live.com", 25);
         private static Exception ex = null;
 
         public static void ShowDialog(string caption, string errorText, Exception exception)
@@ -56,7 +56,7 @@ namespace Sidebar.TaskDialogs
 
         static void dontSendButton_Click(object sender, EventArgs e)
         {
-           ((TaskDialog)((TaskDialogControl)sender).HostingDialog).Close(TaskDialogResult.Close);
+            ((TaskDialog)((TaskDialogControl)sender).HostingDialog).Close(TaskDialogResult.Close);
         }
 
         static TaskDialogProgressBar sendFeedbackProgressBar;
@@ -146,8 +146,8 @@ namespace Sidebar.TaskDialogs
             Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             Version version = assembly.GetName().Version;
 
-            msg.Body = "From: " + mailBox.Text + "\nComment: " + commentBox.Text + 
-                "\n-------------------------------------------------------------------" + 
+            msg.Body = "From: " + mailBox.Text + "\nComment: " + commentBox.Text +
+                "\n-------------------------------------------------------------------" +
                 "\nLongBar version: " + string.Format("LongBar Slate {0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision) +
                 "\nOS Version: " + Environment.OSVersion.ToString() +
                 "\nException source: " + ex.Source +
