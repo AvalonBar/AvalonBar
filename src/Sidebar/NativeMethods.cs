@@ -7,9 +7,9 @@ namespace Sidebar
     {
         // User32
         [DllImport("user32.dll")]
-        internal static extern IntPtr SendMessageW(IntPtr hWnd, uint msg, uint wParam, IntPtr lParam);
-        [DllImport("user32.dll")]
-        internal static extern int FindWindowW(string className, string windowName);
+        internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        internal static extern IntPtr FindWindow(string className, string windowName);
         [DllImport("user32.dll")]
         internal static extern int SetWindowLong(IntPtr hWnd, GetWindowLongMessage nIndex, int dwNewLong);
         // Gdi32

@@ -380,7 +380,7 @@ namespace Sidebar
                         base.Cursor = Cursors.SizeWE;
                         if (e.LeftButton == MouseButtonState.Pressed)
                         {
-                            NativeMethods.SendMessageW(Handle, 274, 61441, IntPtr.Zero);
+                            NativeMethods.SendMessage(Handle, 274, new IntPtr(61441), IntPtr.Zero);
                             sett.width = (int)this.Width;
                             if (sett.topMost)
                                 AppBar.SizeAppbar();
@@ -397,7 +397,7 @@ namespace Sidebar
                         base.Cursor = Cursors.SizeWE;
                         if (e.LeftButton == MouseButtonState.Pressed)
                         {
-                            NativeMethods.SendMessageW(Handle, 274, 61442, IntPtr.Zero);
+                            NativeMethods.SendMessage(Handle, 274, new IntPtr(61442), IntPtr.Zero);
                             sett.width = (int)this.Width;
                             if (sett.topMost)
                                 AppBar.SizeAppbar();

@@ -43,7 +43,7 @@ namespace Sidebar
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                NativeMethods.SendMessageW(handle, 274, 61449, IntPtr.Zero);
+                NativeMethods.SendMessage(handle, 274, new IntPtr(61449), IntPtr.Zero);
             if (e.LeftButton == MouseButtonState.Released)
                 Window_MouseLeftButtonUp(this, new MouseButtonEventArgs((MouseDevice)e.Device, e.Timestamp, MouseButton.Left));
         }
