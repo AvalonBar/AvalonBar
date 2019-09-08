@@ -12,8 +12,6 @@ namespace Sidebar.Core
 {
     public class UpdateManager
     {
-        private const string UpdateInfoUrl = "https://franklindm.github.io/AvalonBar/services/UpdateInfo.xml";
-
         public static UpdateInfo CheckForUpdates()
         {
             UpdateInfo result = new UpdateInfo();
@@ -22,7 +20,7 @@ namespace Sidebar.Core
             {
                 try
                 {
-                    string updateInfoFile = client.DownloadString(UpdateInfoUrl);
+                    string updateInfoFile = client.DownloadString(ServiceUrls.UpdateInfo);
                     XmlSerializer serializer = new XmlSerializer(typeof(UpdateInfo));
                     UpdateInfo updateInfo = (UpdateInfo)serializer.Deserialize(new StringReader(updateInfoFile));
 

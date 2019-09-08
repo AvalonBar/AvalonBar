@@ -246,17 +246,17 @@ namespace Sidebar
 
         private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://sourceforge.net/projects/longbar/files/Localization/2.0");
+            Process.Start(ServiceUrls.Languages);
         }
 
         private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://sourceforge.net/projects/longbar/files/Themes/2.0");
+            Process.Start(ServiceUrls.Themes);
         }
 
         private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start("https://sourceforge.net/projects/longbar/");
+            Process.Start(ServiceUrls.LandingPage);
         }
 
         private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)

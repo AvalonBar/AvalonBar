@@ -214,7 +214,7 @@ namespace Sidebar
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
                 WebClient client = new WebClient();
-                client.DownloadFile("http://space.dl.sourceforge.net/project/longbar/Library/Data/Tiles.list", LongBarMain.sett.path + @"\Cache\Tiles.list");
+                client.DownloadFile(Core.ServiceUrls.TileInfo, LongBarMain.sett.path + @"\Cache\Tiles.list");
                 GetTiles();
             }
         }

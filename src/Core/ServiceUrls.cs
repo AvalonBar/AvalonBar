@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sidebar.Core
+{
+    public static class ServiceUrls
+    {
+        public static readonly string LandingPage = "https://franklindm.github.io/AvalonBar/";
+        public static readonly string UpdateInfo = LandingPage + "services/UpdateInfo.xml";
+        public static readonly string TileInfo = LandingPage + "services/TileList.xml";
+        public static readonly string Languages = LandingPage + "languages";
+        public static readonly string Themes = LandingPage + "themes";
+    }
+}
