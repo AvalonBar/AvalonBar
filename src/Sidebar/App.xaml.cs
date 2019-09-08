@@ -18,6 +18,9 @@ namespace Sidebar
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+#if DEBUG
+            throw e.Exception;
+#else
             string userPath = LongBarMain.sett.path;
             if (!Directory.Exists(userPath + @"\Logs"))
                 Directory.CreateDirectory(userPath + @"\Logs");
@@ -35,6 +38,7 @@ namespace Sidebar
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
             e.Handled = true;
+#endif
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
