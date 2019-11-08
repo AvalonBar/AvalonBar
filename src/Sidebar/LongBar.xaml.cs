@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using System.Diagnostics;
 using System.Threading;
 using Sidebar.Core;
+using System.Xml.Serialization;
 
 namespace Sidebar
 {
@@ -320,7 +321,11 @@ namespace Sidebar
             sett = new Settings();
             if (File.Exists("Settings.xml"))
             {
-                sett = XmlHelper.Load<Settings>("Settings.xml");
+                using (StreamReader reader = new StreamReader("Settings.xml"))
+                {
+                    XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+                    sett = (Settings)deserializer.Deserialize(reader);
+                }
             }
         }
 
@@ -367,7 +372,11 @@ namespace Sidebar
                 }
             }
 
-            XmlHelper.Save<Settings>(sett, "Settings.xml");
+            XmlSerializer xmlSerializer = new XmlSerializer(sett.GetType());
+            using (TextWriter textWriter = new StreamWriter("Settings.xml"))
+            {
+                xmlSerializer.Serialize(textWriter, sett);
+            }
         }
 
         private void LongBar_MouseMove(object sender, MouseEventArgs e)
