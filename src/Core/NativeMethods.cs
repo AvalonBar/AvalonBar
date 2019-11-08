@@ -11,7 +11,7 @@ namespace Sidebar.Core
         // Shell32
         [DllImport("shell32.dll")]
         internal static extern int SHAppBarMessage(int dwMessage, ref AppBarData pData);
-        [DllImport("shell32.dll")]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr ExtractIcon(IntPtr hInstance, string path, int iconIndex);
         // User32
         [DllImport("user32.dll")]
@@ -27,9 +27,6 @@ namespace Sidebar.Core
         internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
         [DllImport("user32.dll")]
         internal static extern int ShowWindow(IntPtr hwnd, ShowWindowCommands nCmdShow);
-        [DllImport("user32.dll")]
-        public static extern bool EnumDisplayDevices(string lpDevice,
-                                                     int iDevNum, [In, Out] DISPLAY_DEVICE lpDisplayDevice, int dwFlags);
         // Gdi32
         [DllImport("gdi32.dll")]
         internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
@@ -75,21 +72,6 @@ namespace Sidebar.Core
         DWM_BB_BLURREGION = 2,
         DWM_BB_TRANSITIONONMAXIMIZED = 4,
     };
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    internal class DISPLAY_DEVICE
-    {
-        public int cb = 0;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string DeviceName = new String(' ', 32);
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceString = new String(' ', 128);
-        public int StateFlags = 0;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceID = new String(' ', 128);
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceKey = new String(' ', 128);
-    }
 
     internal enum ShowWindowCommands
     {

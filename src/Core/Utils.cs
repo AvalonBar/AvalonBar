@@ -31,19 +31,7 @@ namespace Sidebar.Core
             List<string> screenNames = new List<string>();
             foreach (Screen screen in Screen.AllScreens)
             {
-                int dwf = 0;
-                DISPLAY_DEVICE info = new DISPLAY_DEVICE();
-                string monitorname = null;
-                info.cb = Marshal.SizeOf(info);
-                if (NativeMethods.EnumDisplayDevices(screen.DeviceName, 0, info, dwf))
-                {
-                    monitorname = info.DeviceString;
-                }
-                if (monitorname == null)
-                {
-                    monitorname = "";
-                }
-                screenNames.Add(monitorname);
+                screenNames.Add(screen.DeviceName);
             }
             return screenNames.ToArray();
         }
@@ -55,14 +43,10 @@ namespace Sidebar.Core
 
             foreach (Screen screen in Screen.AllScreens)
             {
-                int dwf = 0;
-                DISPLAY_DEVICE info = new DISPLAY_DEVICE();
-                info.cb = Marshal.SizeOf(info);
-                if (NativeMethods.EnumDisplayDevices(screen.DeviceName, 0, info, dwf))
-                    if (info.DeviceString != null)
-                        if (info.DeviceString == monitorname)
-                            return screen;
+                if (screen.DeviceName == monitorname)
+                    return screen;
             }
+
             return Screen.PrimaryScreen;
         }
 
@@ -72,8 +56,10 @@ namespace Sidebar.Core
                 return Screen.PrimaryScreen;
 
             foreach (Screen screen in Screen.AllScreens)
+            {
                 if (screen.DeviceName == monitorname)
                     return screen;
+            }
             return Screen.PrimaryScreen;
         }
 
