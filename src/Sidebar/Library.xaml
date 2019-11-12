@@ -110,7 +110,6 @@
                             <Line Margin="5,0,10,0" X1="0" X2="200" Stroke="Gray"  StrokeThickness="1" Stretch="UniformToFill" Opacity="0.7"/>
                         </DockPanel>
                     <Grid Background="White">
-                        <Image Source="/Sidebar;component/Resources/LongBar%202.0%20Logo.png" Height="150" Margin="0,0,15,0" Opacity="0.2" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                         <ScrollViewer Name="DownTilesPanelScrollViewer" VerticalScrollBarVisibility="Auto" PreviewMouseLeftButtonDown="DownTilesPanel_PreviewMouseLeftButtonDown">
                                 <WrapPanel Name="DownTilesPanel" Orientation="Horizontal"/>
                         </ScrollViewer>
