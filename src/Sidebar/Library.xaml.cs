@@ -140,7 +140,7 @@ namespace Sidebar
                 dowloader.CancelAsync();
         }
 
-        private void GetTiles()
+        private void ParseTileList()
         {
             string file = LongBarMain.sett.path + @"\Cache\Tiles.list";
 
@@ -150,7 +150,7 @@ namespace Sidebar
                 if (Math.Abs(DateTime.Now.Day - f.LastAccessTime.Day) > 3)
                 {
                     f.Delete();
-                    GetTiles();
+                    ParseTileList();
                     return;
                 }
 
@@ -209,14 +209,23 @@ namespace Sidebar
                 }
                 reader.Close();
             }
-            else
-            {
-                Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+        }
 
-                WebClient client = new WebClient();
-                client.DownloadFile(Core.ServiceUrls.TileInfo, LongBarMain.sett.path + @"\Cache\Tiles.list");
-                GetTiles();
+        private bool GetTileList()
+        {
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    client.DownloadFile(Core.ServiceUrls.TileInfo, LongBarMain.sett.path + @"\Cache\Tiles.list");
+                }
+                catch (Exception ex)
+                {
+                    DownTilesCaption.Text = ex.Message;
+                    return false;
+                }
             }
+            return true;
         }
 
         void item_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -360,8 +369,11 @@ namespace Sidebar
 
         private void DoubleAnimation_Completed_1(object sender, EventArgs e)
         {
-            GetTiles();
+            Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+            if (GetTileList())
+            {
+                ParseTileList();
+            }
         }
-
     }
 }
