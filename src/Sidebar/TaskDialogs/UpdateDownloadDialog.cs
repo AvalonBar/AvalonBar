@@ -34,8 +34,7 @@ namespace Sidebar.TaskDialogs
 
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            // TODO: Hardcoded string
-            client.DownloadFileAsync(new Uri("http://franklindm.github.io/AvalonBar/services/UpdatePackage.zip"), LongBarMain.sett.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri(ServiceUrls.UpdatePackage), LongBarMain.sett.path + "\\Updates\\Update");
 
             td.Show();
         }
