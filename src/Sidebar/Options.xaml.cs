@@ -70,7 +70,7 @@ namespace Sidebar
             }
             LangComboBox.Text = LongBarMain.sett.locale;
 
-            if (DwmManager.IsGlassAvailable())
+            if (DwmManager.IsBlurAvailable)
             {
                 AeroGlassCheckBox.IsEnabled = true;
                 AeroGlassCheckBox.IsChecked = LongBarMain.sett.enableGlass;
@@ -217,13 +217,10 @@ namespace Sidebar
             else
                 LongBarMain.sett.side = AppBarSide.Right;
 
-            if (Environment.OSVersion.Version.Major >= 6)
-            {
-                if (DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
-                    DwmManager.EnableGlass(ref longBar.Handle, IntPtr.Zero);
-                else
-                    DwmManager.DisableGlass(ref longBar.Handle);
-            }
+            if (DwmManager.IsBlurAvailable && LongBarMain.sett.enableGlass)
+                DwmManager.EnableBlurBehindWindow(ref longBar.Handle);
+            else
+                DwmManager.DisableBlurBehindWindow(ref longBar.Handle);
 
             if (ShadowCheckBox.IsChecked == true)
                 longBar.shadow.Show();

@@ -35,11 +35,11 @@ namespace Sidebar.Core
         internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
         // Dwmapi
         [DllImport("dwmapi.dll")]
-        internal static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref BB_Struct BlurBehind);
+        internal static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref BlurBehind BlurBehind);
         [DllImport("dwmapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern void DwmGetColorizationColor(out int color, out bool opaque);
-        [DllImport("dwmapi.dll", PreserveSig = false)]
-        internal static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+        [DllImport("dwmapi.dll", PreserveSig = true)]
+        internal static extern int DwmSetWindowAttribute(IntPtr hwnd, DwmWindowAttribute attr, ref int attrValue, uint attrSize);
     }
 
     internal struct WINDOWPLACEMENT
@@ -61,20 +61,47 @@ namespace Sidebar.Core
         }
     }
 
-    internal struct BB_Struct //Blur Behind Structure
+    internal struct BlurBehind
     {
-        public BB_Flags flags;
-        public bool enable;
-        public IntPtr region;
-        public bool transitionOnMaximized;
+        public BlurBehindFlags Flags;
+        public bool Enabled;
+        public IntPtr Region;
+        public bool TransitionOnMaximized;
     }
 
-    internal enum BB_Flags : byte //Blur Behind Flags
+    internal enum BlurBehindFlags : byte
     {
         DWM_BB_ENABLE = 1,
         DWM_BB_BLURREGION = 2,
         DWM_BB_TRANSITIONONMAXIMIZED = 4,
     };
+
+    [Flags]
+    internal enum DwmWindowAttribute : uint
+    {
+        NCRenderingEnabled = 1,
+        NCRenderingPolicy,
+        TransitionsForceDisabled,
+        AllowNCPaint,
+        CaptionButtonBounds,
+        NonClientRtlLayout,
+        ForceIconicRepresentation,
+        Flip3DPolicy,
+        ExtendedFrameBounds,
+        HasIconicBitmap,
+        DisallowPeek,
+        ExcludedFromPeek,
+        Cloak,
+        Cloaked,
+        FreezeRepresentation
+    };
+
+    internal enum Flip3DPolicy
+    {
+        Default = 0,
+        ExcludeBelow,
+        ExcludeAbove
+    }
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     internal class DISPLAY_DEVICE

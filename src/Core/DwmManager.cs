@@ -9,104 +9,91 @@ namespace Sidebar.Core
 {
     public class DwmManager
     {
-        private const int WM_DWMCOMPOSITIONCHANGED = 0x0000031E;
-        private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320;
-
         public static event EventHandler ColorizationColorChanged;
 
-        public static bool IsGlassAvailable() //Check if it is not a Windows Vista or it is a Windows Vista Home Basic
+        public static bool IsBlurAvailable
         {
-            if ((Environment.OSVersion.Version.Major < 6 || Environment.OSVersion.Version.Build < 5600) ||
-                !File.Exists(Environment.SystemDirectory + @"\dwmapi.dll") ||
-                (Environment.OSVersion.Version.Major >= 6 && Environment.OSVersion.Version.Minor >= 2))
+            get
             {
-                return false;
-            }
-            else
-            {
+                Version OSVersion = Environment.OSVersion.Version;
+                // Windows 8 and above have crippled support for Aero Blur
+                if ((OSVersion.Major >= 6 && OSVersion.Minor > 1) || OSVersion.Major >= 10)
+                {
+                    return false;
+                }
                 return true;
             }
         }
 
-        public static bool EnableGlass(ref IntPtr handle, IntPtr rgn) //Try to enable Aero Glass. If success return true
+        public static bool EnableBlurBehindWindow(ref IntPtr handle)
         {
-            Region region = new Region();
-            region.MakeInfinite();
-            BB_Struct bb = new BB_Struct();
-            bb.enable = true;
-            bb.flags = BB_Flags.DWM_BB_ENABLE | BB_Flags.DWM_BB_BLURREGION;
-            if (region != null)
-                bb.region = rgn;
-            else
-                bb.region = IntPtr.Zero;
+            return SetBlurBehindWindow(ref handle, true);
+        }
+
+        public static bool DisableBlurBehindWindow(ref IntPtr handle)
+        {
+            return SetBlurBehindWindow(ref handle, false);
+        }
+
+        private static bool SetBlurBehindWindow(ref IntPtr handle, bool enabled)
+        {
+            BlurBehind bb = new BlurBehind()
+            {
+                Enabled = enabled,
+                Flags = BlurBehindFlags.DWM_BB_ENABLE | BlurBehindFlags.DWM_BB_BLURREGION,
+                Region = IntPtr.Zero
+            };
             if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
-                return false;
-            else
-                return true;
-        }
-
-        public static bool DisableGlass(ref IntPtr handle) //Try to disable Aero Glass. If success return true
-        {
-            Region region = new Region();
-            Graphics graphics = Graphics.FromHwnd(handle);
-            BB_Struct bb = new BB_Struct();
-            bb.enable = false;
-            bb.flags = BB_Flags.DWM_BB_ENABLE | BB_Flags.DWM_BB_BLURREGION;
-            bb.region = IntPtr.Zero;
-            if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
-                return false;
-            else
-                return true;
-        }
-
-        private const int ExcludedFromPeek = 12;
-        private const int Flip3D = 8;
-
-        public enum Flip3DPolicy
-        {
-            Default = 0,
-            ExcludeBelow,
-            ExcludeAbove
-        }
-
-        public static void RemoveFromAeroPeek(IntPtr hwnd)
-        {
-            if (IsGlassAvailable())
             {
-                int attrValue = 1; // True
-                NativeMethods.DwmSetWindowAttribute(hwnd, 12, ref attrValue, sizeof(int));
+                return false;
             }
+            return true;
         }
 
-        public static void RemoveFromFlip3D(IntPtr hwnd)
+        public static void ExcludeFromPeek(IntPtr handle)
         {
-            if (IsGlassAvailable())
+            int attributeValue = 1;
+            NativeMethods.DwmSetWindowAttribute(
+                handle, DwmWindowAttribute.ExcludedFromPeek, ref attributeValue, sizeof(uint));
+        }
+
+        public static void ExcludeFromFlip3D(IntPtr handle)
+        {
+            int attributeValue = (int)Flip3DPolicy.ExcludeBelow;
+            NativeMethods.DwmSetWindowAttribute(
+                handle, DwmWindowAttribute.Flip3DPolicy, ref attributeValue, sizeof(uint));
+        }
+
+        public static System.Windows.Media.Color ColorizationColor
+        {
+            get
             {
-                int attrValue = (int)Flip3DPolicy.ExcludeBelow; // True
-                NativeMethods.DwmSetWindowAttribute(hwnd, Flip3D, ref attrValue, sizeof(int));
+                int color;
+                bool opaque;
+                NativeMethods.DwmGetColorizationColor(out color, out opaque);
+                Color DrawingColor = Color.FromArgb(color);
+                return System.Windows.Media.Color.FromArgb(
+                    DrawingColor.A, DrawingColor.R, DrawingColor.G, DrawingColor.B);
             }
-        }
-
-        public static void GetColorizationColor(out int color, out bool opaque)
-        {
-            NativeMethods.DwmGetColorizationColor(out color, out opaque);
         }
 
         internal static IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == WM_DWMCOMPOSITIONCHANGED)
+            // WM_DWMCOMPOSITIONCHANGED
+            if (msg == 0x0000031E)
             {
-                if (IsGlassAvailable())
+                if (IsBlurAvailable)
                 {
-                    EnableGlass(ref hWnd, IntPtr.Zero);
+                    EnableBlurBehindWindow(ref hWnd);
                 }
                 else
                 {
-                    DisableGlass(ref hWnd);
+                    DisableBlurBehindWindow(ref hWnd);
                 }
             }
 
-            if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
+            // WM_DWMCOLORIZATIONCOLORCHANGED
+            if (msg == 0x0320)
             {
                 if (ColorizationColorChanged != null)
                 {

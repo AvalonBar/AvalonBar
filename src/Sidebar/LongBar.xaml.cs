@@ -76,10 +76,7 @@ namespace Sidebar
             object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
-                int color;
-                bool opaque;
-                DwmManager.GetColorizationColor(out color, out opaque);
-                Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
+                Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
                 DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
 
@@ -92,14 +89,9 @@ namespace Sidebar
             SetSide(sett.side);
             this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
             this.MinWidth = 31;
-            if (Environment.OSVersion.Version.Major == 6)
-            {
-                DwmManager.RemoveFromFlip3D(Handle);
-                if (Environment.OSVersion.Version.Minor == 1)
-                {
-                    DwmManager.RemoveFromAeroPeek(Handle);
-                }
-            }
+
+            DwmManager.ExcludeFromFlip3D(Handle);
+            DwmManager.ExcludeFromPeek(Handle);
 
             SystemTray.SidebarVisibilityChanged += new SystemTray.SidebarVisibilityChangedEventHandler(SystemTray_SidebarvisibleChanged);
 
@@ -116,12 +108,7 @@ namespace Sidebar
 
         void SideBar_DwmColorChanged(object sender, EventArgs e)
         {
-
-            int color;
-            bool opaque;
-            DwmManager.GetColorizationColor(out color, out opaque);
-            Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
-
+            Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
         }
 
         private void LongBar_ContentRendered(object sender, EventArgs e)
@@ -133,8 +120,8 @@ namespace Sidebar
 
         private void LoadAnimation_Completed(object sender, EventArgs e)
         {
-            if (DwmManager.IsGlassAvailable() && sett.enableGlass)
-                DwmManager.EnableGlass(ref Handle, IntPtr.Zero);
+            if (DwmManager.IsBlurAvailable && sett.enableGlass)
+                DwmManager.EnableBlurBehindWindow(ref Handle);
 
             shadow.Height = this.Height;
             shadow.Top = this.Top;
@@ -550,10 +537,7 @@ namespace Sidebar
             object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
-                int color;
-                bool opaque;
-                DwmManager.GetColorizationColor(out color, out opaque);
-                Bg.Fill = new SolidColorBrush(Color.FromArgb(System.Drawing.Color.FromArgb(color).A, System.Drawing.Color.FromArgb(color).R, System.Drawing.Color.FromArgb(color).G, System.Drawing.Color.FromArgb(color).B));
+                Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
                 DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
             else

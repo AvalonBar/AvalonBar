@@ -37,8 +37,8 @@ namespace Sidebar
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
-            if (DwmManager.IsGlassAvailable() && LongBarMain.sett.enableGlass)
-                DwmManager.EnableGlass(ref handle, IntPtr.Zero);
+            if (DwmManager.IsBlurAvailable && LongBarMain.sett.enableGlass)
+                DwmManager.EnableBlurBehindWindow(ref handle);
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

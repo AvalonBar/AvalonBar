@@ -96,7 +96,7 @@ namespace Sidebar
         {
             loaded = true;
             if (Sidebar.LongBarMain.sett.enableGlass)
-                DwmManager.EnableGlass(ref handle, IntPtr.Zero);
+                DwmManager.EnableBlurBehindWindow(ref handle);
         }
     }
 }
