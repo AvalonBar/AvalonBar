@@ -436,8 +436,6 @@ namespace Sidebar
                     }
                     break;
             }
-            if (Keyboard.IsKeyDown(Key.LeftShift))
-                ShowNotification();
         }
 
         private void DropDownMenu_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -728,14 +726,6 @@ namespace Sidebar
                     shadow.Left = this.Left + this.Width;
                     break;
             }
-        }
-
-        public static void ShowNotification()
-        {
-            Notify notify = new Notify();
-            notify.Left = System.Windows.Forms.SystemInformation.WorkingArea.Right - notify.Width;
-            notify.Top = System.Windows.Forms.SystemInformation.WorkingArea.Bottom - notify.Height;
-            notify.ShowNotification("LongBar 2.1 Release Candidate", "<Hyperlink NavigateUri=\"http://longbar.sourceforge.net\">Click</Hyperlink>");
         }
     }
 }
