@@ -39,17 +39,12 @@ namespace Sidebar
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //AboutWindow.xaml
-            System.Reflection.Assembly _AsmObj = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Reflection.AssemblyName _CurrAsmName = _AsmObj.GetName();
-            string _Major = _CurrAsmName.Version.Major.ToString();
-            string _Minor = _CurrAsmName.Version.Minor.ToString();
-            string _Build = _CurrAsmName.Version.Build.ToString();//.Substring(0, 1);
-            string _Revision = _CurrAsmName.Version.Revision.ToString();//.Substring(0, 1);
-
-            VersionString.Text = string.Format("{0} {2}.{3} Release Candidate. {1} {4} (L{2}.{3}.{4}.{5}rc1)",
-            TryFindResource("Version"), TryFindResource("Build"), _Major, _Minor, _Build, _Revision);
-            CopyrightString1.Text = String.Format("© LongBar Project Group 2010. {0}", TryFindResource("AllRightsReserved"));
-            CopyrightString2.Text = String.Format("{0}", Application.Current.TryFindResource("CopyrightLaw"));
+            VersionString.Text = string.Format("{0} {1} ({2})",
+                TryFindResource("Version"), VersionInfo.Core, VersionInfo.Configuration);
+            CopyrightLongBar.Text = string.Format("© 2010 LongBar Project Group. {0}",
+                TryFindResource("AllRightsReserved"));
+            CopyrightProject.Text = string.Format("© 2016-{1} The AvalonBar Project. {0}",
+                TryFindResource("AllRightsReserved"), DateTime.Now.Year);
             //-----------------
 
             AutostartCheckBox.IsChecked = LongBarMain.sett.startup;
