@@ -2,8 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="LongBar" Height="500" Width="150" ResizeMode="NoResize" Opacity="1" WindowStyle="None"
-    Background="Transparent" ShowInTaskbar="False" AllowsTransparency="True"
-    AllowDrop="True" SizeChanged="Window_SizeChanged">
+    Background="Transparent" ShowInTaskbar="False" AllowsTransparency="True" AllowDrop="True"
+    SizeChanged="Window_SizeChanged" Closed="LongBar_Closed" SourceInitialized="LongBar_SourceInitialized"
+    ContentRendered="LongBar_ContentRendered" MouseMove="LongBar_MouseMove" MouseDoubleClick="LongBar_MouseDoubleClick"
+    DragEnter="LongBar_DragEnter" Drop="LongBar_Drop">
     <Window.Resources>
         <DoubleAnimation x:Key="LoadAnimOffset" Storyboard.TargetName="OpacityMaskGradStop" BeginTime="0:0:0.05" Storyboard.TargetProperty="Offset" To="0" Duration="0:0:0.25"/>
         <DoubleAnimation x:Key="LoadAnimOffset1" Storyboard.TargetName="OpacityMaskGradStop1" Storyboard.TargetProperty="Offset" To="0" Duration="0:0:0.25" Completed="LoadAnimation_Completed"/>

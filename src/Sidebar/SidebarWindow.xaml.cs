@@ -40,13 +40,6 @@ namespace Sidebar
         {
             InitializeComponent();
             options = new Options(this);
-            this.Closed += new EventHandler(LongBar_Closed);
-            this.SourceInitialized += new EventHandler(LongBar_SourceInitialized);
-            this.ContentRendered += new EventHandler(LongBar_ContentRendered);
-            this.MouseMove += new MouseEventHandler(LongBar_MouseMove);
-            this.MouseDoubleClick += new MouseButtonEventHandler(LongBar_MouseDoubleClick);
-            this.DragEnter += new DragEventHandler(LongBar_DragEnter);
-            this.Drop += new DragEventHandler(LongBar_Drop);
         }
 
         private void LongBar_Closed(object sender, EventArgs e)
