@@ -27,14 +27,14 @@ namespace Sidebar.TaskDialogs
             td.Controls.Add(progressBar);
             td.Closing += new EventHandler<TaskDialogClosingEventArgs>(tdDownload_Closing);
 
-            if (!Directory.Exists(LongBarMain.sett.path + "\\Updates"))
+            if (!Directory.Exists(SidebarWindow.sett.path + "\\Updates"))
             {
-                Directory.CreateDirectory(LongBarMain.sett.path + "\\Updates");
+                Directory.CreateDirectory(SidebarWindow.sett.path + "\\Updates");
             }
 
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            client.DownloadFileAsync(new Uri(ServiceUrls.UpdatePackage), LongBarMain.sett.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri(ServiceUrls.UpdatePackage), SidebarWindow.sett.path + "\\Updates\\Update");
 
             td.Show();
         }
@@ -51,7 +51,7 @@ namespace Sidebar.TaskDialogs
         {
             if (e.Error == null && !e.Cancelled)
             {
-                UpdateManager.UpdateFiles(LongBarMain.sett.path);
+                UpdateManager.UpdateFiles(SidebarWindow.sett.path);
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     Application.Current.Shutdown();

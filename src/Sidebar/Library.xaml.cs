@@ -26,7 +26,7 @@ namespace Sidebar
     /// </summary>
     public partial class Library : Window
     {
-        private LongBarMain longbar;
+        private SidebarWindow longbar;
         private WebClient dowloader;
         private ToolButton DownloadButton;
 
@@ -76,7 +76,7 @@ namespace Sidebar
             }
         }
 
-        public Library(LongBarMain longbar)
+        public Library(SidebarWindow longbar)
         {
             InitializeComponent();
 
@@ -96,8 +96,8 @@ namespace Sidebar
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
-            if (!Directory.Exists(LongBarMain.sett.path + @"\Cache"))
-                Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+            if (!Directory.Exists(SidebarWindow.sett.path + @"\Cache"))
+                Directory.CreateDirectory(SidebarWindow.sett.path + @"\Cache");
             DownloadingStatusTextBlock.Text = (string)Application.Current.TryFindResource("Connecting");
             string url = ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Link; ;
 
@@ -115,7 +115,7 @@ namespace Sidebar
 
             DownloadingStatusTextBlock.Text = (string)Application.Current.TryFindResource("DownloadingTile");
 
-            dowloader.DownloadFileAsync(new Uri(url), LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
+            dowloader.DownloadFileAsync(new Uri(url), SidebarWindow.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
         }
 
         void dowloader_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -128,7 +128,7 @@ namespace Sidebar
         void dowloader_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             if (e.Error == null && !e.Cancelled)
-                TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, LongBarMain.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
+                TaskDialogs.TileInstallDialog.ShowDialog(longbar, ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header, SidebarWindow.sett.path + @"\Cache\" + ((LibraryItem)DownTilesPanel.Children[SelectedIndex]).Header + ".tile");
             else if (!e.Cancelled)
                 MessageBox.Show((string)Application.Current.TryFindResource("DownloadingFailed") + e.Error.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -144,11 +144,11 @@ namespace Sidebar
 
         private void ParseTileList()
         {
-            string file = LongBarMain.sett.path + @"\Cache\Tiles.list";
+            string file = SidebarWindow.sett.path + @"\Cache\Tiles.list";
 
-            if (Directory.Exists(LongBarMain.sett.path + @"\Cache") && File.Exists(file))
+            if (Directory.Exists(SidebarWindow.sett.path + @"\Cache") && File.Exists(file))
             {
-                FileInfo f = new FileInfo(LongBarMain.sett.path + @"\Cache\Tiles.list");
+                FileInfo f = new FileInfo(SidebarWindow.sett.path + @"\Cache\Tiles.list");
                 if (Math.Abs(DateTime.Now.Day - f.LastAccessTime.Day) > 3)
                 {
                     f.Delete();
@@ -198,7 +198,7 @@ namespace Sidebar
             {
                 try
                 {
-                    client.DownloadFile(Core.ServiceUrls.TileInfo, LongBarMain.sett.path + @"\Cache\Tiles.list");
+                    client.DownloadFile(Core.ServiceUrls.TileInfo, SidebarWindow.sett.path + @"\Cache\Tiles.list");
                 }
                 catch (Exception ex)
                 {
@@ -350,7 +350,7 @@ namespace Sidebar
 
         private void DoubleAnimation_Completed_1(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
+            Directory.CreateDirectory(SidebarWindow.sett.path + @"\Cache");
             if (GetTileList())
             {
                 ParseTileList();

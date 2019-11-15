@@ -23,9 +23,9 @@ namespace Sidebar
     /// </summary>
     public partial class Options : Window
     {
-        private LongBarMain longBar;
+        private SidebarWindow longBar;
 
-        public Options(LongBarMain wnd)
+        public Options(SidebarWindow wnd)
         {
             InitializeComponent();
             longBar = wnd;
@@ -47,28 +47,28 @@ namespace Sidebar
                 TryFindResource("AllRightsReserved"), DateTime.Now.Year);
             //-----------------
 
-            AutostartCheckBox.IsChecked = LongBarMain.sett.startup;
-            TopMostCheckBox.IsChecked = LongBarMain.sett.topMost;
-            LockedCheckBox.IsChecked = LongBarMain.sett.locked;
+            AutostartCheckBox.IsChecked = SidebarWindow.sett.startup;
+            TopMostCheckBox.IsChecked = SidebarWindow.sett.topMost;
+            LockedCheckBox.IsChecked = SidebarWindow.sett.locked;
 
-            if (LongBarMain.sett.side == AppBarSide.Left)
+            if (SidebarWindow.sett.side == AppBarSide.Left)
                 LocationComboBox.SelectedIndex = 0;
             else
                 LocationComboBox.SelectedIndex = 1;
 
-            string[] locales = LocaleManager.GetLocales(Sidebar.LongBarMain.sett.path);
+            string[] locales = LocaleManager.GetLocales(Sidebar.SidebarWindow.sett.path);
             for (int i = 0; i <= locales.Length - 1; i++)
             {
                 ComboBoxItem item2 = new ComboBoxItem();
                 item2.Content = locales[i];
                 LangComboBox.Items.Add(item2);
             }
-            LangComboBox.Text = LongBarMain.sett.locale;
+            LangComboBox.Text = SidebarWindow.sett.locale;
 
             if (DwmManager.IsBlurAvailable)
             {
                 AeroGlassCheckBox.IsEnabled = true;
-                AeroGlassCheckBox.IsChecked = LongBarMain.sett.enableGlass;
+                AeroGlassCheckBox.IsChecked = SidebarWindow.sett.enableGlass;
             }
             else
             {
@@ -76,10 +76,10 @@ namespace Sidebar
                 AeroGlassCheckBox.IsChecked = false;
             }
 
-            if (LongBarMain.sett.topMost)
+            if (SidebarWindow.sett.topMost)
             {
                 OverlapCheckBox.IsEnabled = true;
-                OverlapCheckBox.IsChecked = LongBarMain.sett.overlapTaskbar;
+                OverlapCheckBox.IsChecked = SidebarWindow.sett.overlapTaskbar;
             }
             else
             {
@@ -87,21 +87,21 @@ namespace Sidebar
                 OverlapCheckBox.IsChecked = false;
             }
 
-            if (LongBarMain.sett.enableShadow)
+            if (SidebarWindow.sett.enableShadow)
                 ShadowCheckBox.IsChecked = true;
             else
                 ShadowCheckBox.IsChecked = false;
 
-            UpdatesCheckBox.IsChecked = LongBarMain.sett.enableUpdates;
+            UpdatesCheckBox.IsChecked = SidebarWindow.sett.enableUpdates;
 
-            string[] themes = ThemesManager.GetThemes(Sidebar.LongBarMain.sett.path);
+            string[] themes = ThemesManager.GetThemes(Sidebar.SidebarWindow.sett.path);
             for (int i = 0; i <= themes.Length - 1; i++)
             {
                 ComboBoxItem newItem = new ComboBoxItem();
                 newItem.Content = themes[i];
                 ThemesComboBox.Items.Add(newItem);
             }
-            ThemesComboBox.Text = LongBarMain.sett.theme;
+            ThemesComboBox.Text = SidebarWindow.sett.theme;
             ApplyButton.IsEnabled = false;
 
             string[] screenNames = Utils.GetScreenFriendlyNames();
@@ -113,13 +113,13 @@ namespace Sidebar
                 item.Tag = screens[i].DeviceName;
                 ScreenComboBox.Items.Add(item);
             }
-            if (LongBarMain.sett.screen == "Primary")
+            if (SidebarWindow.sett.screen == "Primary")
                 ScreenComboBox.SelectedIndex = 0;
             else
             {
                 ScreenComboBox.SelectedIndex = 0;
                 foreach (ComboBoxItem cbItem in ScreenComboBox.Items)
-                    if ((string)cbItem.Content != "Primary" && (string)cbItem.Tag == LongBarMain.sett.screen)
+                    if ((string)cbItem.Content != "Primary" && (string)cbItem.Tag == SidebarWindow.sett.screen)
                     {
                         ScreenComboBox.SelectedItem = cbItem;
                         break;
@@ -137,7 +137,7 @@ namespace Sidebar
             ApplyButton.IsEnabled = true;
             if (ThemesComboBox != null && ThemesComboBox.SelectionBoxItem != null)
             {
-                object enableGlass = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
+                object enableGlass = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
                 if (enableGlass != null)
                 {
                     AeroGlassCheckBox.IsChecked = Convert.ToBoolean(enableGlass);
@@ -162,25 +162,25 @@ namespace Sidebar
 
         private void ApplySettings()
         {
-            if (LongBarMain.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
+            if (SidebarWindow.sett.overlapTaskbar && !(bool)OverlapCheckBox.IsChecked)
             {
                 AppBar.RestoreTaskbar();
             }
 
-            LongBarMain.sett.startup = (bool)AutostartCheckBox.IsChecked;
-            LongBarMain.sett.topMost = (bool)TopMostCheckBox.IsChecked;
-            LongBarMain.sett.locked = (bool)LockedCheckBox.IsChecked;
-            LongBarMain.sett.overlapTaskbar = (bool)OverlapCheckBox.IsChecked;
-            LongBarMain.sett.enableGlass = (bool)AeroGlassCheckBox.IsChecked;
-            LongBarMain.sett.enableShadow = (bool)ShadowCheckBox.IsChecked;
-            LongBarMain.sett.locale = LangComboBox.Text;
-            LongBarMain.sett.theme = ThemesComboBox.Text;
-            LongBarMain.sett.enableUpdates = (bool)UpdatesCheckBox.IsChecked;
+            SidebarWindow.sett.startup = (bool)AutostartCheckBox.IsChecked;
+            SidebarWindow.sett.topMost = (bool)TopMostCheckBox.IsChecked;
+            SidebarWindow.sett.locked = (bool)LockedCheckBox.IsChecked;
+            SidebarWindow.sett.overlapTaskbar = (bool)OverlapCheckBox.IsChecked;
+            SidebarWindow.sett.enableGlass = (bool)AeroGlassCheckBox.IsChecked;
+            SidebarWindow.sett.enableShadow = (bool)ShadowCheckBox.IsChecked;
+            SidebarWindow.sett.locale = LangComboBox.Text;
+            SidebarWindow.sett.theme = ThemesComboBox.Text;
+            SidebarWindow.sett.enableUpdates = (bool)UpdatesCheckBox.IsChecked;
 
             if (ScreenComboBox.SelectedIndex == 0)
-                LongBarMain.sett.screen = "Primary";
+                SidebarWindow.sett.screen = "Primary";
             else
-                LongBarMain.sett.screen = Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
+                SidebarWindow.sett.screen = Utils.GetScreenFromFriendlyName(ScreenComboBox.Text).DeviceName;
 
             if ((bool)AutostartCheckBox.IsChecked)
             {
@@ -208,11 +208,11 @@ namespace Sidebar
             }
 
             if (LocationComboBox.SelectedIndex == 0)
-                LongBarMain.sett.side = AppBarSide.Left;
+                SidebarWindow.sett.side = AppBarSide.Left;
             else
-                LongBarMain.sett.side = AppBarSide.Right;
+                SidebarWindow.sett.side = AppBarSide.Right;
 
-            if (DwmManager.IsBlurAvailable && LongBarMain.sett.enableGlass)
+            if (DwmManager.IsBlurAvailable && SidebarWindow.sett.enableGlass)
                 DwmManager.EnableBlurBehindWindow(ref longBar.Handle);
             else
                 DwmManager.DisableBlurBehindWindow(ref longBar.Handle);
@@ -223,7 +223,7 @@ namespace Sidebar
                 longBar.shadow.Hide();
 
             AppBar.AppbarRemove();
-            longBar.SetSide(LongBarMain.sett.side);
+            longBar.SetSide(SidebarWindow.sett.side);
 
             longBar.SetTheme(ThemesComboBox.Text);
             longBar.SetLocale(LangComboBox.Text);
@@ -254,7 +254,7 @@ namespace Sidebar
         private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             OverlapCheckBox.IsEnabled = true;
-            OverlapCheckBox.IsChecked = LongBarMain.sett.overlapTaskbar;
+            OverlapCheckBox.IsChecked = SidebarWindow.sett.overlapTaskbar;
         }
 
         private void TopMostCheckBox_Unchecked(object sender, RoutedEventArgs e)

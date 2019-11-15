@@ -24,9 +24,9 @@ using System.Xml.Serialization;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for LongBar.xaml
+    /// Interaction logic for SidebarWindow.xaml
     /// </summary>
-    public partial class LongBarMain : Window
+    public partial class SidebarWindow : Window
     {
         public IntPtr Handle;
         static internal Settings sett;
@@ -36,7 +36,7 @@ namespace Sidebar
         public Shadow shadow = new Shadow();
         private Library library;
 
-        public LongBarMain()
+        public SidebarWindow()
         {
             InitializeComponent();
             options = new Options(this);
@@ -69,18 +69,18 @@ namespace Sidebar
         {
             Handle = new WindowInteropHelper(this).Handle;
             ReadSettings();
-            ThemesManager.LoadTheme(Sidebar.LongBarMain.sett.path, sett.theme);
-            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "EnableGlass");
+            ThemesManager.LoadTheme(Sidebar.SidebarWindow.sett.path, sett.theme);
+            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "EnableGlass");
             if (enableGlass != null && !Convert.ToBoolean(enableGlass))
                 sett.enableGlass = false;
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
                 DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
 
-            LocaleManager.LoadLocale(Sidebar.LongBarMain.sett.path, sett.locale);
+            LocaleManager.LoadLocale(Sidebar.SidebarWindow.sett.path, sett.locale);
 
             this.Width = sett.width;
             SystemTray.AddIcon(this);
@@ -522,7 +522,7 @@ namespace Sidebar
 
         public void SetLocale(string locale)
         {
-            LocaleManager.LoadLocale(LongBarMain.sett.path, locale);
+            LocaleManager.LoadLocale(SidebarWindow.sett.path, locale);
             SystemTray.SetLocale();
             foreach (Tile tile in TilesGrid.Children)
                 tile.ChangeLocale(locale);
@@ -530,9 +530,9 @@ namespace Sidebar
 
         public void SetTheme(string theme)
         {
-            ThemesManager.LoadTheme(Sidebar.LongBarMain.sett.path, theme);
+            ThemesManager.LoadTheme(Sidebar.SidebarWindow.sett.path, theme);
 
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.LongBarMain.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
@@ -652,7 +652,7 @@ namespace Sidebar
                     }
                     if (files[i].EndsWith(".locale.xaml"))
                     {
-                        if (LocaleManager.InstallLocale(Sidebar.LongBarMain.sett.path, files[i]))
+                        if (LocaleManager.InstallLocale(Sidebar.SidebarWindow.sett.path, files[i]))
                         {
                             MessageBox.Show("Localization was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);
@@ -664,7 +664,7 @@ namespace Sidebar
                     }
                     if (files[i].EndsWith(".theme.xaml"))
                     {
-                        if (ThemesManager.InstallTheme(Sidebar.LongBarMain.sett.path, files[i]))
+                        if (ThemesManager.InstallTheme(Sidebar.SidebarWindow.sett.path, files[i]))
                         {
                             MessageBox.Show("Theme was succesfully installed!", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);

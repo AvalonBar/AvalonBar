@@ -64,8 +64,8 @@ namespace Sidebar
         {
             try
             {
-                if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
+                if (!System.IO.Directory.Exists(SidebarWindow.sett.path + @"\Logs"))
+                    System.IO.Directory.CreateDirectory(SidebarWindow.sett.path + @"\Logs");
                 for (int i = 0; i < assembly.GetExportedTypes().Length; i++)
                     if (assembly.GetExportedTypes()[i].BaseType != null)
                     {
@@ -77,12 +77,12 @@ namespace Sidebar
             }
             catch (Exception ex)
             {
-                if (LongBarMain.sett.showErrors)
+                if (SidebarWindow.sett.showErrors)
                     MessageBox.Show(string.Format("The tile {0} is incompatible to current version of application. Please contact the tile's developers" +
                 "\nSee log for detailed information.", System.IO.Path.GetFileName(this.File)), null, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
-                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+                if (!System.IO.Directory.Exists(SidebarWindow.sett.path + @"\Logs"))
+                    System.IO.Directory.CreateDirectory(SidebarWindow.sett.path + @"\Logs");
+                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", SidebarWindow.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
                 try
                 {
                     System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
@@ -152,7 +152,7 @@ namespace Sidebar
                         tileObject.ShowOptionsEvent += new TileLib.BaseTile.ShowOptionsEventHandler(TileObject_ShowOptionsEvent);
                         tileObject.ShowFlyoutEvent += new TileLib.BaseTile.ShowFlyoutEventHandler(TileObject_ShowFlyoutEvent);
                         tileObject.HeightChangedEvent += new TileLib.BaseTile.HeightChangedEventHandler(tileObject_HeightChangedEvent);
-                        tileObject._path = LongBarMain.sett.path;
+                        tileObject._path = SidebarWindow.sett.path;
 
                         control = tileObject.Load();
 
@@ -168,11 +168,11 @@ namespace Sidebar
             }
             catch (Exception ex)
             {
-                if (LongBarMain.sett.showErrors)
+                if (SidebarWindow.sett.showErrors)
                     TaskDialogs.ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, Info.Name), ex);
-                if (!System.IO.Directory.Exists(LongBarMain.sett.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(LongBarMain.sett.path + @"\Logs");
-                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", LongBarMain.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+                if (!System.IO.Directory.Exists(SidebarWindow.sett.path + @"\Logs"))
+                    System.IO.Directory.CreateDirectory(SidebarWindow.sett.path + @"\Logs");
+                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", SidebarWindow.sett.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
                 try
                 {
                     System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
@@ -216,8 +216,8 @@ namespace Sidebar
             }
 
 
-            ChangeTheme(LongBarMain.sett.theme);
-            ChangeLocale(LongBarMain.sett.locale);
+            ChangeTheme(SidebarWindow.sett.theme);
+            ChangeLocale(SidebarWindow.sett.locale);
 
             isLoaded = true;
             this.BeginAnimation(HeightProperty, LoadHeightAnim);
@@ -392,7 +392,7 @@ namespace Sidebar
                         break;
                 }
                 flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
-                System.Windows.Forms.Screen screen = Utils.GetScreenFromName(LongBarMain.sett.screen);
+                System.Windows.Forms.Screen screen = Utils.GetScreenFromName(SidebarWindow.sett.screen);
                 flyout.ContentGrid.Children.Add(tileObject.FlyoutContent);
                 flyout.Show();
                 if ((flyout.Top + flyout.Height) > screen.WorkingArea.Height)

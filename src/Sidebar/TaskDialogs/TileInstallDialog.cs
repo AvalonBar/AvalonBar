@@ -19,9 +19,9 @@ namespace Sidebar.TaskDialogs
         private static string tilePath;
         private static string tileName;
 
-        private static LongBarMain longBar;
+        private static SidebarWindow longBar;
 
-        public static void ShowDialog(LongBarMain longbar, string name, string path)
+        public static void ShowDialog(SidebarWindow longbar, string name, string path)
         {
             longBar = longbar;
 
@@ -50,20 +50,20 @@ namespace Sidebar.TaskDialogs
 
             try
             {
-                PackageManager.Unpack(LongBarMain.sett.path, tilePath);
+                PackageManager.Unpack(SidebarWindow.sett.path, tilePath);
 
                 if (longBar != null)
                 {
                     string name = Path.GetFileNameWithoutExtension(tilePath);
-                    LongBarMain.Tiles.Add(new Tile(LongBarMain.sett.path + "\\Library\\" + name + "\\" + name + ".dll"));
+                    SidebarWindow.Tiles.Add(new Tile(SidebarWindow.sett.path + "\\Library\\" + name + "\\" + name + ".dll"));
                     MenuItem item = new MenuItem();
                     item.Header = name;
                     item.Click += new RoutedEventHandler(longBar.AddTileSubItem_Click);
                     longBar.AddTileItem.Items.Add(item);
-                    LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].Load(LongBarMain.sett.side, double.NaN);
-                    if (!LongBarMain.Tiles[LongBarMain.Tiles.Count - 1].hasErrors)
+                    SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1].Load(SidebarWindow.sett.side, double.NaN);
+                    if (!SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1].hasErrors)
                     {
-                        longBar.TilesGrid.Children.Insert(0, LongBarMain.Tiles[LongBarMain.Tiles.Count - 1]);
+                        longBar.TilesGrid.Children.Insert(0, SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1]);
                         ((MenuItem)longBar.AddTileItem.Items[((MenuItem)longBar.AddTileItem).Items.Count - 1]).IsChecked = true;
                     }
                 }

@@ -50,7 +50,7 @@ namespace Sidebar
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
-            int index = LongBarMain.GetElementIndexByYCoord(panel, this.Top); //берем индекс элемента по координате
+            int index = SidebarWindow.GetElementIndexByYCoord(panel, this.Top); //берем индекс элемента по координате
             //Txt.Text = currentIndex.ToString() + "|" + index.ToString();
             if (index != currentIndex) //и не равен текущему, то суем сплиттер перед элементом с этим индексом
             {

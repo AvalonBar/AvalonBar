@@ -53,10 +53,10 @@ namespace Sidebar
             //this.Width = ((FrameworkElement)this.ContentGrid.Children[0]).Width + ContentGrid.Margin.Left + ContentGrid.Margin.Right;
             //this.Height = ((FrameworkElement)this.ContentGrid.Children[0]).Height + ContentGrid.Margin.Top + ContentGrid.Margin.Bottom;
             //DwmManager.EnableGlass(ref handle, 0);
-            switch (LongBarMain.sett.side)
+            switch (SidebarWindow.sett.side)
             {
                 case AppBarSide.Left:
-                    ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + LongBarMain.sett.width;
+                    ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left + SidebarWindow.sett.width;
                     break;
                 case AppBarSide.Right:
                     ((DoubleAnimation)TryFindResource("LoadAnimLeft")).To = this.Left - this.Width;
@@ -95,7 +95,7 @@ namespace Sidebar
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
             loaded = true;
-            if (Sidebar.LongBarMain.sett.enableGlass)
+            if (Sidebar.SidebarWindow.sett.enableGlass)
                 DwmManager.EnableBlurBehindWindow(ref handle);
         }
     }

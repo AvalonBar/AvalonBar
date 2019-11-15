@@ -135,7 +135,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LongBar.xaml">
+    <Page Include="SidebarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -258,8 +258,8 @@
     <Compile Include="LibraryItem.xaml.cs">
       <DependentUpon>LibraryItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LongBar.xaml.cs">
-      <DependentUpon>LongBar.xaml</DependentUpon>
+    <Compile Include="SidebarWindow.xaml.cs">
+      <DependentUpon>SidebarWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Options.xaml.cs">

@@ -21,7 +21,7 @@ namespace Sidebar
 #if DEBUG
             throw e.Exception;
 #else
-            string userPath = LongBarMain.sett.path;
+            string userPath = SidebarWindow.sett.path;
             if (!Directory.Exists(userPath + @"\Logs"))
                 Directory.CreateDirectory(userPath + @"\Logs");
             string logFile = String.Format(@"{0}\Logs\{1}.{2}.{3}.log", userPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
@@ -34,7 +34,7 @@ namespace Sidebar
             {
                 MessageBox.Show("Can't write log. Reason: " + ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
-            if (Sidebar.LongBarMain.sett.showErrors)
+            if (SidebarWindow.sett.showErrors)
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
             e.Handled = true;
@@ -47,8 +47,8 @@ namespace Sidebar
             SystemTray.IsRunning = false;
             if (Utils.PriorProcess() != null)
                 SystemTray.IsRunning = true;
-            LongBarMain.ReadSettings();
-            LocaleManager.LoadLocale(LongBarMain.sett.path, LongBarMain.sett.locale);
+            SidebarWindow.ReadSettings();
+            LocaleManager.LoadLocale(SidebarWindow.sett.path, SidebarWindow.sett.locale);
 
             if (SystemTray.IsRunning && e.Args.Length == 0)
             {
@@ -100,8 +100,8 @@ namespace Sidebar
                     case "/debug":
                         if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
                         {
-                            LongBarMain.sett.debug = true;
-                            LongBarMain.sett.tileToDebug = e.Args[1];
+                            SidebarWindow.sett.debug = true;
+                            SidebarWindow.sett.tileToDebug = e.Args[1];
                         }
                         break;
 
