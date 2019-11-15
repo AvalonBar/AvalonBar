@@ -188,7 +188,7 @@ namespace Sidebar
             {
                 for (int i = 0; i < sett.tiles.Length; i++)
                 {
-                    TileMetadata currentMetadata = sett.tiles[i];
+                    TileState currentMetadata = sett.tiles[i];
                     foreach (Tile tile in Tiles)
                     {
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
@@ -211,7 +211,7 @@ namespace Sidebar
                 {
                     foreach (Tile tile in Tiles)
                     {
-                        TileMetadata currentMetadata = sett.pinnedTiles[i];
+                        TileState currentMetadata = sett.pinnedTiles[i];
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
                         {
                             tile.minimized = currentMetadata.IsMinimized;
@@ -328,7 +328,7 @@ namespace Sidebar
                 for (int i = 0; i < TilesGrid.Children.Count; i++)
                 {
                     Tile currentTile = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))];
-                    TileMetadata currentMetadata = new TileMetadata();
+                    TileState currentMetadata = new TileState();
 
                     currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
                     currentMetadata.IsMinimized = currentTile.minimized;
@@ -345,7 +345,7 @@ namespace Sidebar
                 for (int i = 0; i < PinGrid.Children.Count; i++)
                 {
                     Tile currentTile = Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))];
-                    TileMetadata currentMetadata = new TileMetadata();
+                    TileState currentMetadata = new TileState();
 
                     currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
                     currentMetadata.IsMinimized = currentTile.minimized;

@@ -45,13 +45,16 @@ namespace Sidebar
             {
                 _icon = value;
 
-                ThreadStart threadStarter = delegate
+                if (_icon != null)
                 {
-                    DownloadIcon();
-                };
-                Thread thread = new Thread(threadStarter);
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
+                    ThreadStart threadStarter = delegate
+                    {
+                        DownloadIcon();
+                    };
+                    Thread thread = new Thread(threadStarter);
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                }
             }
         }
 
@@ -73,6 +76,7 @@ namespace Sidebar
             set { ItemDeveloperTextBlock.Text = value; }
         }
 
+        public int Id;
         public string Link;
         public string Description;
         public string Version;
@@ -84,22 +88,18 @@ namespace Sidebar
 
         private void DownloadIcon()
         {
-            string file = "";
-            if (_icon.IndexOf("/download") > -1)
-                file = _icon.Replace("/download", "");
-            file = file.Substring(file.LastIndexOf("/") + 1);
-            if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + file))
+            if (!Directory.Exists(LongBarMain.sett.path + @"\Cache") || !File.Exists(LongBarMain.sett.path + @"\Cache\" + Id))
             {
                 Directory.CreateDirectory(LongBarMain.sett.path + @"\Cache");
 
                 try
                 {
                     WebClient client = new WebClient();
-                    client.DownloadFile(_icon, LongBarMain.sett.path + @"\Cache\" + file);
+                    client.DownloadFile(_icon, LongBarMain.sett.path + @"\Cache\" + Id);
 
                     ItemIconImage.Dispatcher.BeginInvoke((Action)delegate
                     {
-                        ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
+                        ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + Id));
                     }, null);
                 }
                 catch
@@ -112,14 +112,14 @@ namespace Sidebar
             }
             else
             {
-                if (File.Exists(LongBarMain.sett.path + @"\Cache\" + file))
+                if (File.Exists(LongBarMain.sett.path + @"\Cache\" + Id))
                 {
-                    FileInfo info = new FileInfo(LongBarMain.sett.path + @"\Cache\" + file);
+                    FileInfo info = new FileInfo(LongBarMain.sett.path + @"\Cache\" + Id);
                     if (info.Length > 0)
                     {
                         ItemIconImage.Dispatcher.Invoke((Action)delegate
                         {
-                            ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + file));
+                            ItemIconImage.Source = new BitmapImage(new Uri(LongBarMain.sett.path + @"\Cache\" + Id));
                         }, null);
                     }
                     else

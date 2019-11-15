@@ -7,15 +7,22 @@ using System.Xml.Serialization;
 
 namespace Sidebar.Core
 {
-    [Serializable]
-    [XmlType("Tile")]
+    [XmlRoot("tile")]
     public class TileMetadata
     {
-        [XmlAttribute]
+        [XmlAttribute("id")]
+        public int Id { get; set; }
+        [XmlElement("name")]
         public string Name { get; set; }
-        [XmlAttribute]
-        public double Height { get; set; }
-        [XmlAttribute]
-        public bool IsMinimized { get; set; }
+        [XmlElement("developer")]
+        public string Developer { get; set; }
+        [XmlElement("version")]
+        public string Version { get; set; }
+        [XmlElement("description")]
+        public string Description { get; set; }
+        [XmlElement("icon")]
+        public string Icon { get; set; }
+        [XmlElement("link")]
+        public string DownloadUrl { get; set; }
     }
 }

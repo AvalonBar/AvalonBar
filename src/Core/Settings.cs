@@ -9,7 +9,6 @@ using System.Xml.Serialization;
 
 namespace Sidebar.Core
 {
-    [Serializable]
     public class Settings
     {
         public Settings()
@@ -37,8 +36,8 @@ namespace Sidebar.Core
         public bool enableGlass;
         public bool enableShadow;
         public bool locked;
-        public TileMetadata[] tiles;
-        public TileMetadata[] pinnedTiles;
+        public TileState[] tiles;
+        public TileState[] pinnedTiles;
         public bool showErrors;
         public bool overlapTaskbar;
         public string screen;

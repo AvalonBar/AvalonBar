@@ -16,6 +16,8 @@ using System.Threading;
 using System.Xml;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using System.Xml.Serialization;
+using Sidebar.Core;
 
 namespace Sidebar
 {
@@ -154,60 +156,39 @@ namespace Sidebar
                     return;
                 }
 
-                XmlTextReader reader = new XmlTextReader(file);
-                LibraryItem item = new LibraryItem();
-                while (reader.Read())
+                TileListManifest manifest;
+
+                using (StreamReader reader = new StreamReader(file))
                 {
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("tile"))
-                    {
-                        item = new LibraryItem();
-                        item.MouseLeftButtonDown += new MouseButtonEventHandler(item_MouseLeftButtonDown);
-                    }
-                    if (reader.NodeType == XmlNodeType.EndElement && reader.Name.ToLower().Equals("tile"))
-                    {
-                        item.MouseDoubleClick += new MouseButtonEventHandler(item_MouseDoubleClick);
-                        DownTilesPanel.Children.Add(item);
-                        DownTilesCaption.Text = String.Format((string)Application.Current.TryFindResource("DownloadableTiles"), DownTilesPanel.Children.Count);
-                        ItemsCount.Text = String.Format((string)Application.Current.TryFindResource("ElementsCount"), DownTilesPanel.Children.Count);
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("name"))
-                    {
-                        reader.MoveToContent();
-                        item.Header = reader.ReadElementString();
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("developer"))
-                    {
-                        reader.MoveToContent();
-                        item.Developer = reader.ReadElementString();
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("icon"))
-                    {
-                        reader.MoveToContent();
-                        item.Icon = reader.ReadElementString();
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("link"))
-                    {
-                        reader.MoveToContent();
-                        item.Link = reader.ReadElementString();
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("description"))
-                    {
-                        reader.MoveToContent();
-                        item.Description = reader.ReadElementString();
-                    }
-
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower().Equals("version"))
-                    {
-                        reader.MoveToContent();
-                        item.Version = reader.ReadElementString();
-                    }
+                    XmlSerializer deserializer = new XmlSerializer(typeof(TileListManifest));
+                    manifest = (TileListManifest)deserializer.Deserialize(reader);
                 }
-                reader.Close();
+
+                for (int i = 0; i < manifest.Tiles.Length; i++)
+                {
+                    TileMetadata metadata = manifest.Tiles[i];
+                    LibraryItem item = new LibraryItem()
+                    {
+                        Id = metadata.Id,
+                        Header = metadata.Name,
+                        Developer = metadata.Developer,
+                        Icon = manifest.Provider.IconBaseUrl + metadata.Icon,
+                        Link = manifest.Provider.PackageBaseUrl + metadata.DownloadUrl,
+                        Description = metadata.Description,
+                        Version = metadata.Version,
+                    };
+                    item.MouseLeftButtonDown += new MouseButtonEventHandler(item_MouseLeftButtonDown);
+                    item.MouseDoubleClick += new MouseButtonEventHandler(item_MouseDoubleClick);
+
+                    DownTilesPanel.Children.Add(item);
+                }
+
+                DownTilesCaption.Text = string.Format(
+                    (string)Application.Current.TryFindResource("DownloadableTiles"),
+                    DownTilesPanel.Children.Count);
+                ItemsCount.Text = string.Format(
+                    (string)Application.Current.TryFindResource("ElementsCount"),
+                    DownTilesPanel.Children.Count);
             }
         }
 
