@@ -22,4 +22,10 @@ internal static class VersionInfo
     internal const string Core = "1.0.0.0";
     // Increment if Tile API changes
     internal const string Tiles = "1.1.74.0";
+    internal const string Configuration
+#if DEBUG
+        = "Debug";
+#else
+        = "Release";
+#endif
 }
