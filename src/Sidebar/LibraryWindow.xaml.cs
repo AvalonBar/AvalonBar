@@ -22,9 +22,9 @@ using Sidebar.Core;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for Library.xaml
+    /// Interaction logic for LibraryWindow.xaml
     /// </summary>
-    public partial class Library : Window
+    public partial class LibraryWindow : Window
     {
         private SidebarWindow longbar;
         private WebClient dowloader;
@@ -76,7 +76,7 @@ namespace Sidebar
             }
         }
 
-        public Library(SidebarWindow longbar)
+        public LibraryWindow(SidebarWindow longbar)
         {
             InitializeComponent();
 

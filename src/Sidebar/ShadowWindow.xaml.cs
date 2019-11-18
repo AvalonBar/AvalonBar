@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for Shadow.xaml
+    /// Interaction logic for ShadowWindow.xaml
     /// </summary>
-    public partial class Shadow : Window
+    public partial class ShadowWindow : Window
     {
-        public Shadow()
+        public ShadowWindow()
         {
             InitializeComponent();
         }

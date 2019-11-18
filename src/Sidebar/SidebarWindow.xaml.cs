@@ -30,16 +30,16 @@ namespace Sidebar
     {
         public IntPtr Handle;
         static internal Settings sett;
-        private Options options;
+        private OptionsWindow options;
         public static List<Tile> Tiles = new List<Tile>();
 
-        public Shadow shadow = new Shadow();
-        private Library library;
+        public ShadowWindow shadow = new ShadowWindow();
+        private LibraryWindow library;
 
         public SidebarWindow()
         {
             InitializeComponent();
-            options = new Options(this);
+            options = new OptionsWindow(this);
         }
 
         private void LongBar_Closed(object sender, EventArgs e)
@@ -564,7 +564,7 @@ namespace Sidebar
                 options.Activate();
                 return;
             }
-            options = new Options(this);
+            options = new OptionsWindow(this);
             options.ShowDialog();
         }
 
@@ -676,7 +676,7 @@ namespace Sidebar
                 library.Activate();
             else
             {
-                library = new Library(this);
+                library = new LibraryWindow(this);
                 library.Show();
             }
         }

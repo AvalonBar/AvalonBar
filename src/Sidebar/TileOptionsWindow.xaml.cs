@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for TileOptions.xaml
+    /// Interaction logic for TileOptionsWindow.xaml
     /// </summary>
-    public partial class TileOptions : Window
+    public partial class TileOptionsWindow : Window
     {
-        public TileOptions()
+        public TileOptionsWindow()
         {
             InitializeComponent();
             this.OKbutton.Click += new RoutedEventHandler(OKbutton_Click);

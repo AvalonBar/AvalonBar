@@ -102,7 +102,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Flyout.xaml">
+    <Page Include="FlyoutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -123,7 +123,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
-    <Page Include="Library.xaml">
+    <Page Include="LibraryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -146,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Options.xaml">
+    <Page Include="OptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -209,7 +209,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
-    <Page Include="Shadow.xaml">
+    <Page Include="ShadowWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -233,7 +233,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TileOptions.xaml">
+    <Page Include="TileOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -254,11 +254,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Flyout.xaml.cs">
-      <DependentUpon>Flyout.xaml</DependentUpon>
+    <Compile Include="FlyoutWindow.xaml.cs">
+      <DependentUpon>FlyoutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Library.xaml.cs">
-      <DependentUpon>Library.xaml</DependentUpon>
+    <Compile Include="LibraryWindow.xaml.cs">
+      <DependentUpon>LibraryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LibraryItem.xaml.cs">
       <DependentUpon>LibraryItem.xaml</DependentUpon>
@@ -267,14 +267,14 @@
       <DependentUpon>SidebarWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
-    <Compile Include="Options.xaml.cs">
-      <DependentUpon>Options.xaml</DependentUpon>
+    <Compile Include="OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Shadow.xaml.cs">
-      <DependentUpon>Shadow.xaml</DependentUpon>
+    <Compile Include="ShadowWindow.xaml.cs">
+      <DependentUpon>ShadowWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskDialogs\ErrorDialog.cs" />
     <Compile Include="TaskDialogs\TileInstallDialog.cs" />
@@ -289,8 +289,8 @@
     <Compile Include="TileDragWindow.xaml.cs">
       <DependentUpon>TileDragWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TileOptions.xaml.cs">
-      <DependentUpon>TileOptions.xaml</DependentUpon>
+    <Compile Include="TileOptionsWindow.xaml.cs">
+      <DependentUpon>TileOptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolButton.xaml.cs">
       <DependentUpon>ToolButton.xaml</DependentUpon>

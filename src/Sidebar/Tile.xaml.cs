@@ -31,9 +31,9 @@ namespace Sidebar
         private Applications.Sidebar.Tile tileKObject;
         private Assembly tileAssembly;
         private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-        private Flyout flyout;
+        private FlyoutWindow flyout;
         private AppBarSide side;
-        private TileOptions options;
+        private TileOptionsWindow options;
         private ModelType tileModelType;
         public bool hasErrors;
         internal bool minimized;
@@ -381,7 +381,7 @@ namespace Sidebar
                     flyout.Activate();
                     return;
                 }
-                flyout = new Flyout(Info.Name);
+                flyout = new FlyoutWindow(Info.Name);
                 switch (side)
                 {
                     case AppBarSide.Left:
@@ -411,7 +411,7 @@ namespace Sidebar
                     flyout.Activate();
                     return;
                 }
-                flyout = new Flyout(Info.Name);
+                flyout = new FlyoutWindow(Info.Name);
                 flyout.Width = tileKObject.FlyoutContent.Width;
                 flyout.Height = tileKObject.FlyoutContent.Height;
                 switch (side)
@@ -451,7 +451,7 @@ namespace Sidebar
                     options.Activate();
                     return;
                 }
-                options = new TileOptions();
+                options = new TileOptionsWindow();
                 options.Width = tileObject.OptionsContent.Width;
                 options.Height = tileObject.OptionsContent.Height + 5;
                 options.ContentGrid.Children.Add(tileObject.OptionsContent);

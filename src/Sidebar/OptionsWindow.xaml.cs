@@ -19,13 +19,13 @@ using Sidebar.Core;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for Options.xaml
+    /// Interaction logic for OptionsWindow.xaml
     /// </summary>
-    public partial class Options : Window
+    public partial class OptionsWindow : Window
     {
         private SidebarWindow longBar;
 
-        public Options(SidebarWindow wnd)
+        public OptionsWindow(SidebarWindow wnd)
         {
             InitializeComponent();
             longBar = wnd;

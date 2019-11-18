@@ -17,16 +17,16 @@ using Sidebar.Core;
 namespace Sidebar
 {
     /// <summary>
-    /// Interaction logic for Flyout.xaml
+    /// Interaction logic for FlyoutWindow.xaml
     /// </summary>
-    public partial class Flyout : Window
+    public partial class FlyoutWindow : Window
     {
         private IntPtr handle;
         private ContextMenu m;
 
         private bool loaded = false;
 
-        public Flyout(string tileName)
+        public FlyoutWindow(string tileName)
         {
             InitializeComponent();
             this.Deactivated += new EventHandler(Flyout_Deactivated);
