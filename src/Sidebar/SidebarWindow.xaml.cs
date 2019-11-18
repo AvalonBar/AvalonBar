@@ -28,7 +28,7 @@ namespace Sidebar
     /// </summary>
     public partial class SidebarWindow : Window
     {
-        public IntPtr Handle;
+        private IntPtr Handle;
         static internal Settings sett;
         private OptionsWindow options;
         public static List<Tile> Tiles = new List<Tile>();

@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
 using Sidebar.Core;
+using System.Windows.Interop;
 
 namespace Sidebar
 {
@@ -23,12 +24,14 @@ namespace Sidebar
     /// </summary>
     public partial class OptionsWindow : Window
     {
-        private SidebarWindow longBar;
+        private SidebarWindow SidebarWindow;
+        private IntPtr SidebarHandle;
 
         public OptionsWindow(SidebarWindow wnd)
         {
             InitializeComponent();
-            longBar = wnd;
+            SidebarWindow = wnd;
+            SidebarHandle = new WindowInteropHelper(wnd).Handle;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -213,20 +216,20 @@ namespace Sidebar
                 SidebarWindow.sett.side = AppBarSide.Right;
 
             if (DwmManager.IsBlurAvailable && SidebarWindow.sett.enableGlass)
-                DwmManager.EnableBlurBehindWindow(ref longBar.Handle);
+                DwmManager.EnableBlurBehindWindow(ref SidebarHandle);
             else
-                DwmManager.DisableBlurBehindWindow(ref longBar.Handle);
+                DwmManager.DisableBlurBehindWindow(ref SidebarHandle);
 
             if (ShadowCheckBox.IsChecked == true)
-                longBar.shadow.Show();
+                SidebarWindow.shadow.Show();
             else
-                longBar.shadow.Hide();
+                SidebarWindow.shadow.Hide();
 
             AppBar.AppbarRemove();
-            longBar.SetSide(SidebarWindow.sett.side);
+            SidebarWindow.SetSide(SidebarWindow.sett.side);
 
-            longBar.SetTheme(ThemesComboBox.Text);
-            longBar.SetLocale(LangComboBox.Text);
+            SidebarWindow.SetTheme(ThemesComboBox.Text);
+            SidebarWindow.SetLocale(LangComboBox.Text);
 
         }
 
