@@ -122,6 +122,7 @@ namespace Sidebar
             if (sett.enableShadow)
             {
                 shadow.Show();
+                shadow.Owner = this;
             }
 
             if (sett.enableUpdates)
