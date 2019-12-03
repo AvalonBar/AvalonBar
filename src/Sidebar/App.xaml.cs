@@ -21,19 +21,23 @@ namespace Sidebar
 #if DEBUG
             throw e.Exception;
 #else
-            string userPath = SidebarWindow.sett.path;
-            if (!Directory.Exists(userPath + @"\Logs"))
-                Directory.CreateDirectory(userPath + @"\Logs");
-            string logFile = String.Format(@"{0}\Logs\{1}.{2}.{3}.log", userPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+            string logPath = Path.Combine(SidebarWindow.sett.path, "Logs");
+            string logFile = string.Format(@"{0}\{1}.{2}.{3}.log",
+                logPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+
+            Directory.CreateDirectory(logPath);
+
             try
             {
-                System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
+                File.AppendAllText(logFile, string.Format("{0}\r\n{1}\r\n----\r\n",
                     DateTime.UtcNow.ToString(), e.Exception));
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Can't write log. Reason: " + ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                MessageBox.Show("Failed to write exception log.\n\nDetails: " + ex.Message,
+                    null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
+
             if (SidebarWindow.sett.showErrors)
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
