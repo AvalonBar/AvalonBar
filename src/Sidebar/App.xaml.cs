@@ -33,48 +33,9 @@ namespace Sidebar
         internal static void SaveSettings(SidebarWindow sidebar)
         {
             Settings.width = (int)sidebar.Width;
+            Settings.tiles = sidebar.GetAllTileStates(false);
+            Settings.pinnedTiles = sidebar.GetAllTileStates(true);
 
-            Array.Resize(ref Settings.tiles, sidebar.TilesGrid.Children.Count);
-            Array.Resize(ref Settings.pinnedTiles, sidebar.PinGrid.Children.Count);
-
-            // TODO: Move tile state logic into its own method in the SidebarWindow class
-            #region Tile State
-            if (sidebar.TilesGrid.Children.Count > 0)
-            {
-                for (int i = 0; i < sidebar.TilesGrid.Children.Count; i++)
-                {
-                    Tile currentTile = SidebarWindow.Tiles[SidebarWindow.Tiles.IndexOf(((Tile)sidebar.TilesGrid.Children[i]))];
-                    TileState currentMetadata = new TileState();
-
-                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
-                    currentMetadata.IsMinimized = currentTile.minimized;
-                    if (currentMetadata.IsMinimized)
-                        currentMetadata.Height = currentTile.normalHeight;
-                    else
-                        currentMetadata.Height = currentTile.Height;
-                    Settings.tiles[i] = currentMetadata;
-                }
-            }
-
-            if (sidebar.PinGrid.Children.Count > 0)
-            {
-                for (int i = 0; i < sidebar.PinGrid.Children.Count; i++)
-                {
-                    Tile currentTile = SidebarWindow.Tiles[SidebarWindow.Tiles.IndexOf(((Tile)sidebar.PinGrid.Children[i]))];
-                    TileState currentMetadata = new TileState();
-
-                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
-                    currentMetadata.IsMinimized = currentTile.minimized;
-                    currentMetadata.Height = currentTile.Height;
-                    if (currentMetadata.IsMinimized)
-                        currentMetadata.Height = currentTile.normalHeight;
-                    else
-                        currentMetadata.Height = currentTile.Height;
-
-                    Settings.pinnedTiles[i] = currentMetadata;
-                }
-            }
-            #endregion
             XmlSerializer xmlSerializer = new XmlSerializer(Settings.GetType());
             using (TextWriter textWriter = new StreamWriter("Settings.xml"))
             {

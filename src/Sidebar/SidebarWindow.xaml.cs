@@ -41,6 +41,49 @@ namespace Sidebar
             options = new OptionsWindow(this);
         }
 
+        public TileState GetTileState(Tile tile)
+        {
+            TileState tileState = new TileState();
+
+            tileState.Name = System.IO.Path.GetFileName(tile.File);
+            tileState.IsMinimized = tile.minimized;
+            tileState.Height = tile.Height;
+            if (tileState.IsMinimized)
+            {
+                tileState.Height = tile.normalHeight;
+            }
+
+            return tileState;
+        }
+        public TileState[] GetAllTileStates(bool isPinned)
+        {
+            TileState[] tileStates = { };
+
+            if (isPinned && PinGrid.Children.Count > 0)
+            {
+                Array.Resize(ref tileStates, PinGrid.Children.Count);
+                for (int i = 0; i < PinGrid.Children.Count; i++)
+                {
+                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))];
+                    tileStates[i] = GetTileState(currentTile);
+                }
+                return tileStates;
+            }
+
+            if (TilesGrid.Children.Count > 0)
+            {
+                Array.Resize(ref tileStates, TilesGrid.Children.Count);
+                for (int i = 0; i < TilesGrid.Children.Count; i++)
+                {
+                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))];
+                    tileStates[i] = GetTileState(currentTile);
+                }
+                return tileStates;
+            }
+
+            return tileStates;
+        }
+
         private void LongBar_Closed(object sender, EventArgs e)
         {
             shadow.Close();
