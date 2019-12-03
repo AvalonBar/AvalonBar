@@ -44,10 +44,21 @@ namespace Sidebar
             //AboutWindow.xaml
             VersionString.Text = string.Format("{0} {1} ({2})",
                 TryFindResource("Version"), VersionInfo.Core, VersionInfo.Configuration);
-            CopyrightLongBar.Text = string.Format("© 2010 LongBar Project Group. {0}",
-                TryFindResource("AllRightsReserved"));
-            CopyrightProject.Text = string.Format("© 2016-{1} The AvalonBar Project. {0}",
-                TryFindResource("AllRightsReserved"), DateTime.Now.Year);
+            CopyrightProject.Text = string.Format("© 2016-{0} The AvalonBar Project.",
+                DateTime.Now.Year);
+
+            Paragraph block = new Paragraph();
+            string licensePath = System.IO.Path.Combine(SidebarWindow.sett.path, "LICENSE");
+            Run licenseMissing = new Run((string)TryFindResource("LicenseFileMissing"));
+
+            block.Inlines.Add(licenseMissing);
+            if (File.Exists(licensePath))
+            {
+                block.Inlines.Remove(licenseMissing);
+                block.Inlines.Add(File.ReadAllText(licensePath));
+            }
+
+            LicenseTextBox.Document = new FlowDocument(block);
             //-----------------
 
             AutostartCheckBox.IsChecked = SidebarWindow.sett.startup;

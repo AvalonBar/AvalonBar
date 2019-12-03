@@ -93,8 +93,8 @@
     <s:String x:Key="Version">Версия</s:String>
     <s:String x:Key="Build">Сборка</s:String>
     <s:String x:Key="AllRightsReserved">Все права защищены.</s:String>
-    <s:String x:Key="CopyrightLaw">Программа LongBar защищена законом об авторских правах. Публикация в Интернете или в иных местах возможна только с разрешения разработчиков.</s:String>
-    <s:String x:Key="Contact">http://longbar.codeplex.com</s:String>
+    <s:String x:Key="CopyrightLaw">License terms:</s:String>
+    <s:String x:Key="LicenseFileMissing">License file from the application directory is missing.</s:String>
     <!-- Flyouts strings -->
     <s:String x:Key="FlyoutOptions">Настройки</s:String>
     <s:String x:Key="AlwaysShow">Всегда отображать</s:String>

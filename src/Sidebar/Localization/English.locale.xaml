@@ -89,7 +89,8 @@
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Build">Build</s:String>
     <s:String x:Key="AllRightsReserved">All rights reserved.</s:String>
-    <s:String x:Key="CopyrightLaw">Licensed under the Microsoft Public License (MS-PL).</s:String>
+    <s:String x:Key="CopyrightLaw">License terms:</s:String>
+    <s:String x:Key="LicenseFileMissing">License file from the application directory is missing.</s:String>
     <!-- Flyouts strings -->
     <s:String x:Key="FlyoutOptions">Options</s:String>
     <s:String x:Key="AlwaysShow">Always show</s:String>

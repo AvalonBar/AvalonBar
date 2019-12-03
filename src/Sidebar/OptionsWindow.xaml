@@ -51,15 +51,17 @@
                         <TextBlock x:Name="BrandingName" FontSize="40" Foreground="Black" Opacity="1" Margin="10,-5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Avalon"/><Run FontWeight="Bold" Text="Bar"/></TextBlock>
                     </StackPanel>
                     <Border BorderBrush="#FFD1D1D1" BorderThickness="0,1,0,0"/>
-                    <Grid>
-                        <StackPanel Margin="30,15,30,15">
+                    <StackPanel>
+                        <StackPanel Margin="30,15,30,0">
                             <TextBlock x:Name="BrandingNameSmall" Text="AvalonBar" TextWrapping="Wrap"/>
                             <TextBlock x:Name="VersionString" TextWrapping="Wrap" Text="Version x.x"/>
                             <TextBlock x:Name="CopyrightLongBar" Text="© 2010 LongBar Project Group." TextWrapping="Wrap"/>
                             <TextBlock x:Name="CopyrightProject" Text="© 2016-2019 The AvalonBar Project." TextWrapping="Wrap"/>
-                            <TextBlock x:Name="CopyrightString2" TextWrapping="Wrap" Text="{DynamicResource CopyrightLaw}"/>
+                            <TextBlock x:Name="CopyrightString1" TextWrapping="Wrap" Text="{DynamicResource AllRightsReserved}"/>
+                            <TextBlock x:Name="CopyrightString2" TextWrapping="Wrap" Text="{DynamicResource CopyrightLaw}" Margin="0,5"/>
                         </StackPanel>
-                    </Grid>
+                        <RichTextBox x:Name="LicenseTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" Margin="30,0,30,15" Height="210"/>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
         </TabControl>
