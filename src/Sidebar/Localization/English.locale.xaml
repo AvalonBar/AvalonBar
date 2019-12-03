@@ -31,7 +31,7 @@
     <s:String x:Key="TileDeveloper">Developer:</s:String>
     <s:String x:Key="TileVersion">Version:</s:String>
     <!-- Error dialog strings -->
-    <s:String x:Key="LongBarError">Application error</s:String>
+    <s:String x:Key="LongBarError">AvalonBar error</s:String>
     <s:String x:Key="SendFeedback1">Create an issue</s:String>
     <s:String x:Key="SendFeedback2">The details will be copied to your clipboard.</s:String>
     <s:String x:Key="DontSendFeedback1">Continue using the application</s:String>

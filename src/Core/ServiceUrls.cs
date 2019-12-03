@@ -18,5 +18,6 @@ namespace Sidebar.Core
         public static readonly string UpdatePackage = LandingPage + "services/UpdatePackage.zip";
         public static readonly string Languages = LandingPage + "languages";
         public static readonly string Themes = LandingPage + "themes";
+        public static readonly string Issues = LandingPage + "issue-help";
     }
 }
