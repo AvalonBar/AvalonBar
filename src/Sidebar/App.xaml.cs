@@ -18,9 +18,6 @@ namespace Sidebar
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-#if DEBUG
-            throw e.Exception;
-#else
             string logPath = Path.Combine(SidebarWindow.sett.path, "Logs");
             string logFile = string.Format(@"{0}\{1}.{2}.{3}.log",
                 logPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
@@ -37,7 +34,9 @@ namespace Sidebar
                 MessageBox.Show("Failed to write exception log.\n\nDetails: " + ex.Message,
                     null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
-
+#if DEBUG
+            throw e.Exception;
+#else
             if (SidebarWindow.sett.showErrors)
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
