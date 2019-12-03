@@ -29,7 +29,6 @@ namespace Sidebar
     public partial class SidebarWindow : Window
     {
         private IntPtr Handle;
-        static internal Settings sett;
         private OptionsWindow options;
         public static List<Tile> Tiles = new List<Tile>();
 
@@ -46,11 +45,11 @@ namespace Sidebar
         {
             shadow.Close();
 
-            if (AppBar.IsOverlapping && sett.side == AppBarSide.Right)
+            if (AppBar.IsOverlapping && App.Settings.side == AppBarSide.Right)
                 AppBar.RestoreTaskbar();
             SystemTray.RemoveIcon();
             AppBar.AppbarRemove();
-            WriteSettings();
+            App.SaveSettings(this);
 
             RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
             foreach (Tile tile in TilesGrid.Children)
@@ -61,25 +60,24 @@ namespace Sidebar
         private void LongBar_SourceInitialized(object sender, EventArgs e)
         {
             Handle = new WindowInteropHelper(this).Handle;
-            ReadSettings();
-            ThemesManager.LoadTheme(Sidebar.SidebarWindow.sett.path, sett.theme);
-            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "EnableGlass");
+            ThemesManager.LoadTheme(Sidebar.App.Settings.path, App.Settings.theme);
+            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.App.Settings.path, App.Settings.theme, "boolean", "EnableGlass");
             if (enableGlass != null && !Convert.ToBoolean(enableGlass))
-                sett.enableGlass = false;
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+                App.Settings.enableGlass = false;
+            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.App.Settings.path, App.Settings.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
                 DwmManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
 
-            LocaleManager.LoadLocale(Sidebar.SidebarWindow.sett.path, sett.locale);
+            LocaleManager.LoadLocale(Sidebar.App.Settings.path, App.Settings.locale);
 
-            this.Width = sett.width;
+            this.Width = App.Settings.width;
             SystemTray.AddIcon(this);
             // Force set sidebar window style to tool window, bypassing the restriction placed on AllowTransparency
             NativeMethods.SetWindowLong(Handle, GetWindowLongMessage.GWL_EXSTYLE, 128);
-            SetSide(sett.side);
+            SetSide(App.Settings.side);
             this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
             this.MinWidth = 31;
 
@@ -113,26 +111,26 @@ namespace Sidebar
 
         private void LoadAnimation_Completed(object sender, EventArgs e)
         {
-            if (DwmManager.IsBlurAvailable && sett.enableGlass)
+            if (DwmManager.IsBlurAvailable && App.Settings.enableGlass)
                 DwmManager.EnableBlurBehindWindow(ref Handle);
 
             shadow.Height = this.Height;
             shadow.Top = this.Top;
 
-            if (sett.enableShadow)
+            if (App.Settings.enableShadow)
             {
                 shadow.Show();
                 shadow.Owner = this;
             }
 
-            if (sett.enableUpdates)
+            if (App.Settings.enableUpdates)
             {
                 foreach (string file in Directory.GetFiles(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old", SearchOption.TopDirectoryOnly))
                 {
                     File.Delete(file);
                 }
 
-                foreach (string file in Directory.GetFiles(sett.path, "*.old", SearchOption.AllDirectories))
+                foreach (string file in Directory.GetFiles(App.Settings.path, "*.old", SearchOption.AllDirectories))
                 {
                     File.Delete(file);
                 }
@@ -153,7 +151,7 @@ namespace Sidebar
 
         private void DummyAnimation_Completed(object sender, EventArgs e)
         {
-            switch (sett.side)
+            switch (App.Settings.side)
             {
                 case AppBarSide.Left:
                     LeftSideItem.IsChecked = true;
@@ -168,27 +166,27 @@ namespace Sidebar
 
         private void LoadTilesAtStartup()
         {
-            if (sett.debug)
+            if (App.Settings.debug)
             {
                 if (Tiles.Count > 0)
                 {
-                    Tiles[0].Load(sett.side, double.NaN);
+                    Tiles[0].Load(App.Settings.side, double.NaN);
                     TilesGrid.Children.Add(Tiles[0]);
                 }
                 return;
             }
 
-            if (sett.tiles != null && Tiles != null && sett.tiles.Length > 0 && Tiles.Count > 0)
+            if (App.Settings.tiles != null && Tiles != null && App.Settings.tiles.Length > 0 && Tiles.Count > 0)
             {
-                for (int i = 0; i < sett.tiles.Length; i++)
+                for (int i = 0; i < App.Settings.tiles.Length; i++)
                 {
-                    TileState currentMetadata = sett.tiles[i];
+                    TileState currentMetadata = App.Settings.tiles[i];
                     foreach (Tile tile in Tiles)
                     {
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
                         {
                             tile.minimized = currentMetadata.IsMinimized;
-                            tile.Load(sett.side, currentMetadata.Height);
+                            tile.Load(App.Settings.side, currentMetadata.Height);
 
                             if (!tile.hasErrors)
                             {
@@ -199,18 +197,18 @@ namespace Sidebar
                 }
             }
 
-            if (sett.pinnedTiles != null && Tiles != null && sett.pinnedTiles.Length > 0 && Tiles.Count > 0)
+            if (App.Settings.pinnedTiles != null && Tiles != null && App.Settings.pinnedTiles.Length > 0 && Tiles.Count > 0)
             {
-                for (int i = 0; i < sett.pinnedTiles.Length; i++)
+                for (int i = 0; i < App.Settings.pinnedTiles.Length; i++)
                 {
                     foreach (Tile tile in Tiles)
                     {
-                        TileState currentMetadata = sett.pinnedTiles[i];
+                        TileState currentMetadata = App.Settings.pinnedTiles[i];
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
                         {
                             tile.minimized = currentMetadata.IsMinimized;
                             tile.pinned = true;
-                            tile.Load(sett.side, currentMetadata.Height);
+                            tile.Load(App.Settings.side, currentMetadata.Height);
 
                             tile.Header.Visibility = Visibility.Collapsed;
                             DockPanel.SetDock(tile.Splitter, Dock.Top);
@@ -228,10 +226,10 @@ namespace Sidebar
 
         private void GetTiles()
         {
-            if (!sett.debug)
+            if (!App.Settings.debug)
             {
-                if (System.IO.Directory.Exists(sett.path + @"\Library"))
-                    foreach (string dir in System.IO.Directory.GetDirectories(sett.path + @"\Library"))
+                if (System.IO.Directory.Exists(App.Settings.path + @"\Library"))
+                    foreach (string dir in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
                     {
                         string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
                         if (System.IO.File.Exists(file))
@@ -257,7 +255,7 @@ namespace Sidebar
             }
             else
             {
-                Tiles.Add(new Tile(sett.tileToDebug));
+                Tiles.Add(new Tile(App.Settings.tileToDebug));
                 if (Tiles[Tiles.Count - 1].hasErrors)
                     Tiles.RemoveAt(Tiles.Count - 1);
                 else
@@ -282,7 +280,7 @@ namespace Sidebar
             if (!((MenuItem)AddTileItem.Items[index]).IsChecked)
             {
 
-                Tiles[index].Load(sett.side, double.NaN);
+                Tiles[index].Load(App.Settings.side, double.NaN);
 
                 if (!Tiles[index].hasErrors)
                 {
@@ -297,82 +295,19 @@ namespace Sidebar
             }
         }
 
-        public static void ReadSettings()
-        {
-            sett = new Settings();
-            if (File.Exists("Settings.xml"))
-            {
-                using (StreamReader reader = new StreamReader("Settings.xml"))
-                {
-                    XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
-                    sett = (Settings)deserializer.Deserialize(reader);
-                }
-            }
-        }
-
-        private void WriteSettings()
-        {
-            sett.width = (int)this.Width;
-
-            Array.Resize(ref sett.tiles, TilesGrid.Children.Count);
-            Array.Resize(ref sett.pinnedTiles, PinGrid.Children.Count);
-
-            if (TilesGrid.Children.Count > 0)
-            {
-                for (int i = 0; i < TilesGrid.Children.Count; i++)
-                {
-                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))];
-                    TileState currentMetadata = new TileState();
-
-                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
-                    currentMetadata.IsMinimized = currentTile.minimized;
-                    if (currentMetadata.IsMinimized)
-                        currentMetadata.Height = currentTile.normalHeight;
-                    else
-                        currentMetadata.Height = currentTile.Height;
-                    sett.tiles[i] = currentMetadata;
-                }
-            }
-
-            if (PinGrid.Children.Count > 0)
-            {
-                for (int i = 0; i < PinGrid.Children.Count; i++)
-                {
-                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))];
-                    TileState currentMetadata = new TileState();
-
-                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
-                    currentMetadata.IsMinimized = currentTile.minimized;
-                    currentMetadata.Height = currentTile.Height;
-                    if (currentMetadata.IsMinimized)
-                        currentMetadata.Height = currentTile.normalHeight;
-                    else
-                        currentMetadata.Height = currentTile.Height;
-
-                    sett.pinnedTiles[i] = currentMetadata;
-                }
-            }
-
-            XmlSerializer xmlSerializer = new XmlSerializer(sett.GetType());
-            using (TextWriter textWriter = new StreamWriter("Settings.xml"))
-            {
-                xmlSerializer.Serialize(textWriter, sett);
-            }
-        }
-
         private void LongBar_MouseMove(object sender, MouseEventArgs e)
         {
-            switch (sett.side)
+            switch (App.Settings.side)
             {
                 case AppBarSide.Right:
-                    if (e.GetPosition(this).X <= 5 && !sett.locked)
+                    if (e.GetPosition(this).X <= 5 && !App.Settings.locked)
                     {
                         base.Cursor = Cursors.SizeWE;
                         if (e.LeftButton == MouseButtonState.Pressed)
                         {
                             NativeMethods.SendMessage(Handle, 274, new IntPtr(61441), IntPtr.Zero);
-                            sett.width = (int)this.Width;
-                            if (sett.topMost)
+                            App.Settings.width = (int)this.Width;
+                            if (App.Settings.topMost)
                                 AppBar.SizeAppbar();
                             else
                                 AppBar.SetPos();
@@ -382,14 +317,14 @@ namespace Sidebar
                         base.Cursor = Cursors.Arrow;
                     break;
                 case AppBarSide.Left:
-                    if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
+                    if (e.GetPosition(this).X >= this.Width - 5 && !App.Settings.locked)
                     {
                         base.Cursor = Cursors.SizeWE;
                         if (e.LeftButton == MouseButtonState.Pressed)
                         {
                             NativeMethods.SendMessage(Handle, 274, new IntPtr(61442), IntPtr.Zero);
-                            sett.width = (int)this.Width;
-                            if (sett.topMost)
+                            App.Settings.width = (int)this.Width;
+                            if (App.Settings.topMost)
                                 AppBar.SizeAppbar();
                             else
                                 AppBar.SetPos();
@@ -403,13 +338,13 @@ namespace Sidebar
 
         private void LongBar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            switch (sett.side)
+            switch (App.Settings.side)
             {
                 case AppBarSide.Right:
-                    if (e.GetPosition(this).X <= 5 && !sett.locked)
+                    if (e.GetPosition(this).X <= 5 && !App.Settings.locked)
                     {
                         this.Width = 150;
-                        if (sett.topMost)
+                        if (App.Settings.topMost)
                             AppBar.SizeAppbar();
                         else
                             AppBar.SetPos();
@@ -418,10 +353,10 @@ namespace Sidebar
                     }
                     break;
                 case AppBarSide.Left:
-                    if (e.GetPosition(this).X >= this.Width - 5 && !sett.locked)
+                    if (e.GetPosition(this).X >= this.Width - 5 && !App.Settings.locked)
                     {
                         this.Width = 150;
-                        if (sett.topMost)
+                        if (App.Settings.topMost)
                             AppBar.SizeAppbar();
                         else
                             AppBar.SetPos();
@@ -449,12 +384,12 @@ namespace Sidebar
 
         private void LockItem_Checked(object sender, RoutedEventArgs e)
         {
-            sett.locked = true;
+            App.Settings.locked = true;
         }
 
         private void LockItem_Unchecked(object sender, RoutedEventArgs e)
         {
-            sett.locked = false;
+            App.Settings.locked = false;
         }
 
         private void LeftSideItem_Click(object sender, RoutedEventArgs e)
@@ -463,7 +398,7 @@ namespace Sidebar
             {
                 RightSideItem.IsChecked = false;
                 SetSide(AppBarSide.Left);
-                sett.side = AppBarSide.Left;
+                App.Settings.side = AppBarSide.Left;
                 LeftSideItem.IsChecked = true;
             }
         }
@@ -474,7 +409,7 @@ namespace Sidebar
             {
                 LeftSideItem.IsChecked = false;
                 SetSide(AppBarSide.Right);
-                sett.side = AppBarSide.Right;
+                App.Settings.side = AppBarSide.Right;
                 RightSideItem.IsChecked = true;
             }
         }
@@ -484,7 +419,7 @@ namespace Sidebar
             switch (side)
             {
                 case AppBarSide.Left:
-                    AppBar.SetSidebar(this, AppBarSide.Left, sett.topMost, sett.overlapTaskbar, sett.screen);
+                    AppBar.SetSidebar(this, AppBarSide.Left, App.Settings.topMost, App.Settings.overlapTaskbar, App.Settings.screen);
                     Bg.FlowDirection = FlowDirection.RightToLeft;
                     BgHighlight.FlowDirection = FlowDirection.RightToLeft;
                     BgHighlight.HorizontalAlignment = HorizontalAlignment.Right;
@@ -498,7 +433,7 @@ namespace Sidebar
                         tile.ChangeSide(AppBarSide.Left);
                     break;
                 case AppBarSide.Right:
-                    AppBar.SetSidebar(this, AppBarSide.Right, sett.topMost, sett.overlapTaskbar, sett.screen);
+                    AppBar.SetSidebar(this, AppBarSide.Right, App.Settings.topMost, App.Settings.overlapTaskbar, App.Settings.screen);
                     Bg.FlowDirection = FlowDirection.LeftToRight;
                     BgHighlight.FlowDirection = FlowDirection.LeftToRight;
                     BgHighlight.HorizontalAlignment = HorizontalAlignment.Left;
@@ -516,7 +451,7 @@ namespace Sidebar
 
         public void SetLocale(string locale)
         {
-            LocaleManager.LoadLocale(SidebarWindow.sett.path, locale);
+            LocaleManager.LoadLocale(App.Settings.path, locale);
             SystemTray.SetLocale();
             foreach (Tile tile in TilesGrid.Children)
                 tile.ChangeLocale(locale);
@@ -524,9 +459,9 @@ namespace Sidebar
 
         public void SetTheme(string theme)
         {
-            ThemesManager.LoadTheme(Sidebar.SidebarWindow.sett.path, theme);
+            ThemesManager.LoadTheme(Sidebar.App.Settings.path, theme);
 
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.SidebarWindow.sett.path, sett.theme, "boolean", "UseSystemGlassColor");
+            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.App.Settings.path, App.Settings.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(DwmManager.ColorizationColor);
@@ -538,7 +473,7 @@ namespace Sidebar
                 DwmManager.ColorizationColorChanged -= new EventHandler(SideBar_DwmColorChanged);
             }
 
-            string file = string.Format(@"{0}\{1}.theme.xaml", sett.path, theme);
+            string file = string.Format(@"{0}\{1}.theme.xaml", App.Settings.path, theme);
 
             foreach (Tile tile in TilesGrid.Children)
                 tile.ChangeTheme(file);
@@ -546,15 +481,15 @@ namespace Sidebar
 
         private void LockItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sett.locked)
+            if (App.Settings.locked)
             {
                 LockItem.Header = TryFindResource("Lock");
-                sett.locked = false;
+                App.Settings.locked = false;
             }
             else
             {
                 LockItem.Header = TryFindResource("Unlock");
-                sett.locked = true;
+                App.Settings.locked = true;
             }
         }
 
@@ -571,7 +506,7 @@ namespace Sidebar
 
         private void Menu_Opened(object sender, RoutedEventArgs e)
         {
-            if (sett.locked)
+            if (App.Settings.locked)
                 LockItem.Header = TryFindResource("Unlock");
             else
                 LockItem.Header = TryFindResource("Lock");
@@ -581,8 +516,8 @@ namespace Sidebar
             else
                 RemoveTilesItem.IsEnabled = true;
 
-            if (System.IO.Directory.Exists(sett.path + @"\Library") && Tiles.Count != System.IO.Directory.GetDirectories(sett.path + @"\Library").Length)
-                foreach (string d in System.IO.Directory.GetDirectories(sett.path + @"\Library"))
+            if (System.IO.Directory.Exists(App.Settings.path + @"\Library") && Tiles.Count != System.IO.Directory.GetDirectories(App.Settings.path + @"\Library").Length)
+                foreach (string d in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
                 {
                     string file = string.Format(@"{0}\{1}.dll", d, System.IO.Path.GetFileName(d));
                     if (!CheckTileAdded(file))
@@ -646,24 +581,24 @@ namespace Sidebar
                     }
                     if (files[i].EndsWith(".locale.xaml"))
                     {
-                        if (LocaleManager.InstallLocale(Sidebar.SidebarWindow.sett.path, files[i]))
+                        if (LocaleManager.InstallLocale(Sidebar.App.Settings.path, files[i]))
                         {
                             MessageBox.Show("Localization was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);
-                            sett.locale = name.Substring(0, name.IndexOf(@".locale.xaml"));
-                            SetLocale(sett.locale);
+                            App.Settings.locale = name.Substring(0, name.IndexOf(@".locale.xaml"));
+                            SetLocale(App.Settings.locale);
                         }
                         else
                             MessageBox.Show("Can't install localization.", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     if (files[i].EndsWith(".theme.xaml"))
                     {
-                        if (ThemesManager.InstallTheme(Sidebar.SidebarWindow.sett.path, files[i]))
+                        if (ThemesManager.InstallTheme(Sidebar.App.Settings.path, files[i]))
                         {
                             MessageBox.Show("Theme was succesfully installed!", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);
-                            sett.theme = name.Substring(0, name.IndexOf(@".theme.xaml"));
-                            SetTheme(sett.theme);
+                            App.Settings.theme = name.Substring(0, name.IndexOf(@".theme.xaml"));
+                            SetTheme(App.Settings.theme);
                         }
                         else
                             MessageBox.Show("Can't install theme.", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -711,7 +646,7 @@ namespace Sidebar
         {
             shadow.Height = this.Height;
             shadow.Top = this.Top;
-            switch (sett.side)
+            switch (App.Settings.side)
             {
                 case AppBarSide.Right:
                     shadow.Left = this.Left - shadow.Width;

@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using System.IO;
 using System.Diagnostics;
 using Sidebar.Core;
+using System.Xml.Serialization;
 
 namespace Sidebar
 {
@@ -14,11 +15,76 @@ namespace Sidebar
     /// </summary>
     public partial class App : Application
     {
-        private static string path = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        internal static Settings Settings;
+
+        internal static void ReadSettings()
+        {
+            Settings = new Settings();
+            if (File.Exists("Settings.xml"))
+            {
+                using (StreamReader reader = new StreamReader("Settings.xml"))
+                {
+                    XmlSerializer deserializer = new XmlSerializer(typeof(Settings));
+                    Settings = (Settings)deserializer.Deserialize(reader);
+                }
+            }
+        }
+
+        internal static void SaveSettings(SidebarWindow sidebar)
+        {
+            Settings.width = (int)sidebar.Width;
+
+            Array.Resize(ref Settings.tiles, sidebar.TilesGrid.Children.Count);
+            Array.Resize(ref Settings.pinnedTiles, sidebar.PinGrid.Children.Count);
+
+            // TODO: Move tile state logic into its own method in the SidebarWindow class
+            #region Tile State
+            if (sidebar.TilesGrid.Children.Count > 0)
+            {
+                for (int i = 0; i < sidebar.TilesGrid.Children.Count; i++)
+                {
+                    Tile currentTile = SidebarWindow.Tiles[SidebarWindow.Tiles.IndexOf(((Tile)sidebar.TilesGrid.Children[i]))];
+                    TileState currentMetadata = new TileState();
+
+                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
+                    currentMetadata.IsMinimized = currentTile.minimized;
+                    if (currentMetadata.IsMinimized)
+                        currentMetadata.Height = currentTile.normalHeight;
+                    else
+                        currentMetadata.Height = currentTile.Height;
+                    Settings.tiles[i] = currentMetadata;
+                }
+            }
+
+            if (sidebar.PinGrid.Children.Count > 0)
+            {
+                for (int i = 0; i < sidebar.PinGrid.Children.Count; i++)
+                {
+                    Tile currentTile = SidebarWindow.Tiles[SidebarWindow.Tiles.IndexOf(((Tile)sidebar.PinGrid.Children[i]))];
+                    TileState currentMetadata = new TileState();
+
+                    currentMetadata.Name = System.IO.Path.GetFileName(currentTile.File);
+                    currentMetadata.IsMinimized = currentTile.minimized;
+                    currentMetadata.Height = currentTile.Height;
+                    if (currentMetadata.IsMinimized)
+                        currentMetadata.Height = currentTile.normalHeight;
+                    else
+                        currentMetadata.Height = currentTile.Height;
+
+                    Settings.pinnedTiles[i] = currentMetadata;
+                }
+            }
+            #endregion
+            XmlSerializer xmlSerializer = new XmlSerializer(Settings.GetType());
+            using (TextWriter textWriter = new StreamWriter("Settings.xml"))
+            {
+                xmlSerializer.Serialize(textWriter, Settings);
+            }
+        }
 
         private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            string logPath = Path.Combine(SidebarWindow.sett.path, "Logs");
+            string logPath = Path.Combine(Settings.path, "Logs");
             string logFile = string.Format(@"{0}\{1}.{2}.{3}.log",
                 logPath, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
 
@@ -37,7 +103,7 @@ namespace Sidebar
 #if DEBUG
             throw e.Exception;
 #else
-            if (SidebarWindow.sett.showErrors)
+            if (Settings.showErrors)
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
             e.Handled = true;
@@ -50,8 +116,8 @@ namespace Sidebar
             SystemTray.IsRunning = false;
             if (Utils.PriorProcess() != null)
                 SystemTray.IsRunning = true;
-            SidebarWindow.ReadSettings();
-            LocaleManager.LoadLocale(SidebarWindow.sett.path, SidebarWindow.sett.locale);
+            ReadSettings();
+            LocaleManager.LoadLocale(Settings.path, Settings.locale);
 
             if (SystemTray.IsRunning && e.Args.Length == 0)
             {
@@ -73,13 +139,13 @@ namespace Sidebar
                             key = key.CreateSubKey("LongBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
                             key.SetValue(null, "LongBar Tile", RegistryValueKind.String);
                             key = key.CreateSubKey("DefaultIcon", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, path + @"\Slate.dll,0", RegistryValueKind.ExpandString);
+                            key.SetValue(null, Settings.path + @"\Slate.dll,0", RegistryValueKind.ExpandString);
                             key = Registry.ClassesRoot;
                             key = key.OpenSubKey("LongBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
                             key = key.CreateSubKey("shell", RegistryKeyPermissionCheck.ReadWriteSubTree);
                             key = key.CreateSubKey("Install", RegistryKeyPermissionCheck.ReadWriteSubTree);
                             key = key.CreateSubKey("command", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, path + @"\" + Assembly.GetExecutingAssembly().GetName().Name + @".exe %1", RegistryValueKind.String);
+                            key.SetValue(null, Settings.path + @"\" + Assembly.GetExecutingAssembly().GetName().Name + @".exe %1", RegistryValueKind.String);
                             key.Close();
                         }
                         catch { }
@@ -103,8 +169,8 @@ namespace Sidebar
                     case "/debug":
                         if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
                         {
-                            SidebarWindow.sett.debug = true;
-                            SidebarWindow.sett.tileToDebug = e.Args[1];
+                            Settings.debug = true;
+                            Settings.tileToDebug = e.Args[1];
                         }
                         break;
 

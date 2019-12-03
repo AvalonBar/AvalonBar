@@ -50,17 +50,17 @@ namespace Sidebar.TaskDialogs
 
             try
             {
-                PackageManager.Unpack(SidebarWindow.sett.path, tilePath);
+                PackageManager.Unpack(App.Settings.path, tilePath);
 
                 if (longBar != null)
                 {
                     string name = Path.GetFileNameWithoutExtension(tilePath);
-                    SidebarWindow.Tiles.Add(new Tile(SidebarWindow.sett.path + "\\Library\\" + name + "\\" + name + ".dll"));
+                    SidebarWindow.Tiles.Add(new Tile(App.Settings.path + "\\Library\\" + name + "\\" + name + ".dll"));
                     MenuItem item = new MenuItem();
                     item.Header = name;
                     item.Click += new RoutedEventHandler(longBar.AddTileSubItem_Click);
                     longBar.AddTileItem.Items.Add(item);
-                    SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1].Load(SidebarWindow.sett.side, double.NaN);
+                    SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1].Load(App.Settings.side, double.NaN);
                     if (!SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1].hasErrors)
                     {
                         longBar.TilesGrid.Children.Insert(0, SidebarWindow.Tiles[SidebarWindow.Tiles.Count - 1]);

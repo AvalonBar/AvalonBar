@@ -88,18 +88,18 @@ namespace Sidebar
 
         private void DownloadIcon()
         {
-            if (!Directory.Exists(SidebarWindow.sett.path + @"\Cache") || !File.Exists(SidebarWindow.sett.path + @"\Cache\" + Id))
+            if (!Directory.Exists(App.Settings.path + @"\Cache") || !File.Exists(App.Settings.path + @"\Cache\" + Id))
             {
-                Directory.CreateDirectory(SidebarWindow.sett.path + @"\Cache");
+                Directory.CreateDirectory(App.Settings.path + @"\Cache");
 
                 try
                 {
                     WebClient client = new WebClient();
-                    client.DownloadFile(_icon, SidebarWindow.sett.path + @"\Cache\" + Id);
+                    client.DownloadFile(_icon, App.Settings.path + @"\Cache\" + Id);
 
                     ItemIconImage.Dispatcher.BeginInvoke((Action)delegate
                     {
-                        ItemIconImage.Source = new BitmapImage(new Uri(SidebarWindow.sett.path + @"\Cache\" + Id));
+                        ItemIconImage.Source = new BitmapImage(new Uri(App.Settings.path + @"\Cache\" + Id));
                     }, null);
                 }
                 catch
@@ -112,14 +112,14 @@ namespace Sidebar
             }
             else
             {
-                if (File.Exists(SidebarWindow.sett.path + @"\Cache\" + Id))
+                if (File.Exists(App.Settings.path + @"\Cache\" + Id))
                 {
-                    FileInfo info = new FileInfo(SidebarWindow.sett.path + @"\Cache\" + Id);
+                    FileInfo info = new FileInfo(App.Settings.path + @"\Cache\" + Id);
                     if (info.Length > 0)
                     {
                         ItemIconImage.Dispatcher.Invoke((Action)delegate
                         {
-                            ItemIconImage.Source = new BitmapImage(new Uri(SidebarWindow.sett.path + @"\Cache\" + Id));
+                            ItemIconImage.Source = new BitmapImage(new Uri(App.Settings.path + @"\Cache\" + Id));
                         }, null);
                     }
                     else
@@ -129,7 +129,7 @@ namespace Sidebar
                     }
                 }
 
-                DirectoryInfo d = new DirectoryInfo(SidebarWindow.sett.path + @"\Cache");
+                DirectoryInfo d = new DirectoryInfo(App.Settings.path + @"\Cache");
                 if (Math.Abs(DateTime.Now.Day - d.CreationTime.Day) > 7)
                     try
                     {
