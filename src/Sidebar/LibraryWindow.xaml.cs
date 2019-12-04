@@ -47,13 +47,16 @@ namespace Sidebar
                     WrapPanel1.Visibility = Visibility.Visible;
                     WrapPanel2.Visibility = Visibility.Visible;
 
-                    CurrentItemTitle.Text = ((LibraryItem)DownTilesPanel.Children[value]).Header;
-                    CurrentItemDescription.Text = ((LibraryItem)DownTilesPanel.Children[value]).Description;
-                    CurrentItemDescription.ToolTip = CurrentItemDescription.Text;
-                    CurrentItemAuthor.Text = ((LibraryItem)DownTilesPanel.Children[value]).Developer;
-                    CurrentItemVersion.Text = ((LibraryItem)DownTilesPanel.Children[value]).Version;
-                    CurrentItemIcon.Source = ((LibraryItem)DownTilesPanel.Children[value]).ItemIconImage.Source;
-                    ((LibraryItem)DownTilesPanel.Children[value]).Selected = true;
+                    LibraryItem currentItem = ((LibraryItem)DownTilesPanel.Children[value]);
+                    currentItem.Selected = true;
+
+                    CurrentItemTitle.Text = currentItem.Header;
+                    CurrentItemDescription.Text = currentItem.Description;
+                    CurrentItemDescription.ToolTip = currentItem.Description;
+                    CurrentItemAuthor.Text = currentItem.Developer;
+                    CurrentItemVersion.Text = currentItem.Version;
+                    CurrentItemIcon.Source = currentItem.ItemIconImage.Source;
+
                     if (DownloadButton.Visibility != Visibility.Visible)
                     {
                         DownloadButton.Visibility = Visibility.Visible;
