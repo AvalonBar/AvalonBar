@@ -9,9 +9,9 @@ namespace Sidebar.Core
     public static class ServiceUrls
     {
 #if DEBUG
-        public static readonly string LandingPage = "http://franklindm.github.io/AvalonBar/";
+        public static readonly string LandingPage = "http://avalonbar.github.io/";
 #else
-        public static readonly string LandingPage = "https://franklindm.github.io/AvalonBar/";
+        public static readonly string LandingPage = "https://avalonbar.github.io/";
 #endif
         public static readonly string UpdateInfo = LandingPage + "services/UpdateInfo.xml";
         public static readonly string TileInfo = LandingPage + "services/TileList.xml";
