@@ -96,7 +96,7 @@ namespace Sidebar
         {
             loaded = true;
             if (Sidebar.App.Settings.enableGlass)
-                DwmManager.EnableBlurBehindWindow(ref handle);
+                CompositionManager.EnableBlurBehindWindow(ref handle);
         }
     }
 }

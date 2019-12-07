@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Sidebar.Core
 {
-    public class DwmManager
+    public class CompositionManager
     {
         public static event EventHandler ColorizationColorChanged;
 
