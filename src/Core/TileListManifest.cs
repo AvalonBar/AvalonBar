@@ -14,5 +14,23 @@ namespace Sidebar.Core
         public TileListProvider Provider { get; set; }
         [XmlElement("tile")]
         public TileMetadata[] Tiles { get; set; }
+
+        public bool ResolveUrls()
+        {
+            if (Provider == null && Tiles == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < Tiles.Length; i++)
+            {
+                TileMetadata metadata = Tiles[i];
+
+                metadata.ResolvedIcon = Provider.IconBaseUrl + metadata.Icon;
+                metadata.ResolvedDownloadUrl = Provider.PackageBaseUrl + metadata.DownloadUrl;
+            }
+
+            return true;
+        }
     }
 }

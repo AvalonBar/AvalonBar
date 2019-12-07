@@ -24,5 +24,9 @@ namespace Sidebar.Core
         public string Icon { get; set; }
         [XmlElement("link")]
         public string DownloadUrl { get; set; }
+        [XmlIgnore]
+        public string ResolvedIcon { get; set; }
+        [XmlIgnore]
+        public string ResolvedDownloadUrl { get; set; }
     }
 }

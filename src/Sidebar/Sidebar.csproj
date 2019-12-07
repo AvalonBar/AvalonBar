@@ -133,12 +133,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LibraryItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Properties\DesignTimeResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -243,12 +237,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ToolButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
@@ -263,9 +251,6 @@
     </Compile>
     <Compile Include="LibraryWindow.xaml.cs">
       <DependentUpon>LibraryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LibraryItem.xaml.cs">
-      <DependentUpon>LibraryItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidebarWindow.xaml.cs">
       <DependentUpon>SidebarWindow.xaml</DependentUpon>
@@ -295,9 +280,6 @@
     </Compile>
     <Compile Include="TileOptionsWindow.xaml.cs">
       <DependentUpon>TileOptionsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ToolButton.xaml.cs">
-      <DependentUpon>ToolButton.xaml</DependentUpon>
     </Compile>
     <None Include="app.config" />
     <AppDesigner Include="Properties\" />

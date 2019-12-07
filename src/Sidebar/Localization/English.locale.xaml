@@ -15,17 +15,17 @@
     <s:String x:Key="GetTiles">Get more tiles</s:String>
     <s:String x:Key="Close">Close</s:String>
     <s:String x:Key="ShowHide">Show/Hide Sidebar</s:String>
-    <!-- Library strings -->
-    <s:String x:Key="LibraryTitle">Tile Library</s:String>
+    <!-- Tile Gallery strings -->
+    <s:String x:Key="LibraryTitle">Tile Gallery</s:String>
     <s:String x:Key="SearchTile">Search for tiles...</s:String>
     <s:String x:Key="TilesFound">Found:</s:String>
     <s:String x:Key="DownloadTileButton">Download Tile</s:String>
     <s:String x:Key="GettingTilesList">Retrieving list of available tiles...</s:String>
     <s:String x:Key="DownloadableTiles">Downloadable Tiles: {0}</s:String>
-    <s:String x:Key="ElementsCount">Elements: {0}</s:String>
+    <s:String x:Key="ElementsCount">{0} items</s:String>
     <s:String x:Key="DownloadingTile">Downloading...</s:String>
-    <s:String x:Key="DownloadProgress">{0} Kb from {1} Kb</s:String>
-    <s:String x:Key="DownloadingFailed">Downloading tile failed. \nError: \n</s:String>
+    <s:String x:Key="DownloadProgress">{0} KB from {1} KB</s:String>
+    <s:String x:Key="DownloadingFailed">Downloading Tile Failed</s:String>
     <s:String x:Key="Connecting">Connecting...</s:String>
     <s:String x:Key="ConnectionFailed">Downloading tile failed. Can't connect to the server.</s:String>
     <s:String x:Key="TileDeveloper">Developer:</s:String>
