@@ -30,6 +30,8 @@ namespace Sidebar.Core
         [DllImport("user32.dll")]
         public static extern bool EnumDisplayDevices(string lpDevice,
                                                      int iDevNum, [In, Out] DISPLAY_DEVICE lpDisplayDevice, int dwFlags);
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
         // Gdi32
         [DllImport("gdi32.dll")]
         internal static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
@@ -133,5 +135,37 @@ namespace Sidebar.Core
         Restore = 9,
         ShowDefault = 10,
         ForceMinimize = 11
+    }
+
+    internal enum AccentState
+    {
+        ACCENT_DISABLED = 0,
+        ACCENT_ENABLE_GRADIENT = 1,
+        ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+        ACCENT_ENABLE_BLURBEHIND = 3,
+        ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
+        ACCENT_INVALID_STATE = 5
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct AccentPolicy
+    {
+        public AccentState AccentState;
+        public uint AccentFlags;
+        public uint GradientColor;
+        public uint AnimationId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WindowCompositionAttributeData
+    {
+        public WindowCompositionAttribute Attribute;
+        public IntPtr Data;
+        public int SizeOfData;
+    }
+
+    internal enum WindowCompositionAttribute
+    {
+        WCA_ACCENT_POLICY = 19
     }
 }

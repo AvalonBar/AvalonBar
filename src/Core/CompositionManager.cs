@@ -17,7 +17,7 @@ namespace Sidebar.Core
             {
                 Version OSVersion = Environment.OSVersion.Version;
                 // Windows 8 and above have crippled support for Aero Blur
-                if ((OSVersion.Major >= 6 && OSVersion.Minor > 1) || OSVersion.Major >= 10)
+                if ((OSVersion.Major == 6 && OSVersion.Minor > 1))
                 {
                     return false;
                 }
@@ -25,6 +25,19 @@ namespace Sidebar.Core
             }
         }
 
+        public static bool IsAcrylicBlurAvailable
+        {
+            get
+            {
+                Version OSVersion = Environment.OSVersion.Version;
+                // RS4 acrylic blur is the only supported implementation
+                if (OSVersion.Major == 10 && OSVersion.Build >= 17134)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
         public static bool EnableBlurBehindWindow(ref IntPtr handle)
         {
             return SetBlurBehindWindow(ref handle, true);
@@ -37,16 +50,45 @@ namespace Sidebar.Core
 
         private static bool SetBlurBehindWindow(ref IntPtr handle, bool enabled)
         {
-            BlurBehind bb = new BlurBehind()
+            if (IsAcrylicBlurAvailable)
             {
-                Enabled = enabled,
-                Flags = BlurBehindFlags.DWM_BB_ENABLE | BlurBehindFlags.DWM_BB_BLURREGION,
-                Region = IntPtr.Zero
-            };
-            if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
-            {
-                return false;
+                var accent = new AccentPolicy();
+                accent.AccentState = AccentState.ACCENT_DISABLED;
+                if (enabled)
+                {
+                    accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
+                }
+                accent.GradientColor = (0 << 24) | (0xFFFFFF);
+
+                var accentStructSize = Marshal.SizeOf(accent);
+
+                var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+                Marshal.StructureToPtr(accent, accentPtr, false);
+
+                var data = new WindowCompositionAttributeData();
+                data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+                data.SizeOfData = accentStructSize;
+                data.Data = accentPtr;
+
+                NativeMethods.SetWindowCompositionAttribute(handle, ref data);
+
+                Marshal.FreeHGlobal(accentPtr);
             }
+
+            if (IsBlurAvailable)
+            {
+                BlurBehind bb = new BlurBehind()
+                {
+                    Enabled = enabled,
+                    Flags = BlurBehindFlags.DWM_BB_ENABLE | BlurBehindFlags.DWM_BB_BLURREGION,
+                    Region = IntPtr.Zero
+                };
+                if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
