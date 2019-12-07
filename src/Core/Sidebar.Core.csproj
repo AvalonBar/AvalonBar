@@ -68,7 +68,7 @@
     <Compile Include="AppBar\AppBarMessages.cs" />
     <Compile Include="AppBar\AppBarNotifications.cs" />
     <Compile Include="AppBar\AppBarSide.cs" />
-    <Compile Include="DwmManager.cs" />
+    <Compile Include="CompositionManager.cs" />
     <Compile Include="AppBar\AppBar.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="ServiceUrls.cs" />
