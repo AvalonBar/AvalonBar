@@ -95,8 +95,8 @@ namespace Sidebar
         private void DoubleAnimation_Completed(object sender, EventArgs e)
         {
             loaded = true;
-            if (Sidebar.App.Settings.enableGlass)
-                CompositionManager.EnableBlurBehindWindow(ref handle);
+            if (App.Settings.enableGlass)
+                CompositionManager.SetBlurBehindWindow(ref handle, true);
         }
     }
 }

@@ -7,86 +7,90 @@ using System.Drawing;
 
 namespace Sidebar.Core
 {
+    public enum CompositionMethod
+    {
+        None,
+        Aero,
+        AcrylicOld,
+        AcrylicRS4,
+    }
+
     public class CompositionManager
     {
         public static event EventHandler ColorizationColorChanged;
 
-        public static bool IsBlurAvailable
+        public static CompositionMethod AvailableCompositionMethod
         {
             get
             {
                 Version OSVersion = Environment.OSVersion.Version;
-                // Windows 8 and above have crippled support for Aero Blur
-                if ((OSVersion.Major == 6 && OSVersion.Minor > 1))
+                // Windows Vista/7
+                if (OSVersion.Major == 6 && OSVersion.Minor <= 1)
                 {
-                    return false;
+                    return CompositionMethod.Aero;
                 }
-                return true;
-            }
-        }
-
-        public static bool IsAcrylicBlurAvailable
-        {
-            get
-            {
-                Version OSVersion = Environment.OSVersion.Version;
-                // RS4 acrylic blur is the only supported implementation
+                // Windows 10 (build 10074 and above)
+                if (OSVersion.Major == 10 && OSVersion.Build >= 10074 && OSVersion.Build < 17134)
+                {
+                    return CompositionMethod.AcrylicOld;
+                }
+                // Windows 10 (build 17134 and above)
                 if (OSVersion.Major == 10 && OSVersion.Build >= 17134)
                 {
-                    return true;
+                    return CompositionMethod.AcrylicRS4;
                 }
-                return false;
+                return CompositionMethod.None;
             }
         }
-        public static bool EnableBlurBehindWindow(ref IntPtr handle)
-        {
-            return SetBlurBehindWindow(ref handle, true);
-        }
 
-        public static bool DisableBlurBehindWindow(ref IntPtr handle)
+        public static bool SetBlurBehindWindow(ref IntPtr handle, bool enabled)
         {
-            return SetBlurBehindWindow(ref handle, false);
-        }
-
-        private static bool SetBlurBehindWindow(ref IntPtr handle, bool enabled)
-        {
-            if (IsAcrylicBlurAvailable)
+            switch (AvailableCompositionMethod)
             {
-                var accent = new AccentPolicy();
-                accent.AccentState = AccentState.ACCENT_DISABLED;
-                if (enabled)
-                {
-                    accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
-                }
-                accent.GradientColor = (0 << 24) | (0xFFFFFF);
+                case CompositionMethod.Aero:
+                    BlurBehind bb = new BlurBehind()
+                    {
+                        Enabled = enabled,
+                        Flags = BlurBehindFlags.DWM_BB_ENABLE | BlurBehindFlags.DWM_BB_BLURREGION,
+                        Region = IntPtr.Zero
+                    };
 
-                var accentStructSize = Marshal.SizeOf(accent);
+                    if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
+                    {
+                        return false;
+                    }
+                    break;
+                case CompositionMethod.AcrylicOld:
+                case CompositionMethod.AcrylicRS4:
+                    AccentPolicy accent = new AccentPolicy();
+                    accent.AccentState = AccentState.ACCENT_DISABLED;
 
-                var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-                Marshal.StructureToPtr(accent, accentPtr, false);
+                    if (enabled)
+                    {
+                        accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+                        if (AvailableCompositionMethod == CompositionMethod.AcrylicRS4)
+                        {
+                            accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
+                            accent.GradientColor = (0 << 24) | (0xFFFFFF);
+                        }
+                    }
 
-                var data = new WindowCompositionAttributeData();
-                data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-                data.SizeOfData = accentStructSize;
-                data.Data = accentPtr;
+                    int accentStructSize = Marshal.SizeOf(accent);
+                    IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
+                    Marshal.StructureToPtr(accent, accentPtr, false);
 
-                NativeMethods.SetWindowCompositionAttribute(handle, ref data);
+                    WindowCompositionAttributeData data = new WindowCompositionAttributeData();
+                    data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+                    data.SizeOfData = accentStructSize;
+                    data.Data = accentPtr;
 
-                Marshal.FreeHGlobal(accentPtr);
-            }
+                    NativeMethods.SetWindowCompositionAttribute(handle, ref data);
 
-            if (IsBlurAvailable)
-            {
-                BlurBehind bb = new BlurBehind()
-                {
-                    Enabled = enabled,
-                    Flags = BlurBehindFlags.DWM_BB_ENABLE | BlurBehindFlags.DWM_BB_BLURREGION,
-                    Region = IntPtr.Zero
-                };
-                if (NativeMethods.DwmEnableBlurBehindWindow(handle, ref bb) != 0)
-                {
-                    return false;
-                }
+                    Marshal.FreeHGlobal(accentPtr);
+                    break;
+                case CompositionMethod.None:
+                default:
+                    break;
             }
 
             return true;
@@ -124,13 +128,13 @@ namespace Sidebar.Core
             // WM_DWMCOMPOSITIONCHANGED
             if (msg == 0x0000031E)
             {
-                if (IsBlurAvailable)
+                if (AvailableCompositionMethod != CompositionMethod.None)
                 {
-                    EnableBlurBehindWindow(ref hWnd);
+                    SetBlurBehindWindow(ref hWnd, true);
                 }
                 else
                 {
-                    DisableBlurBehindWindow(ref hWnd);
+                    SetBlurBehindWindow(ref hWnd, false);
                 }
             }
 

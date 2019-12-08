@@ -154,8 +154,8 @@ namespace Sidebar
 
         private void LoadAnimation_Completed(object sender, EventArgs e)
         {
-            if (CompositionManager.IsBlurAvailable && App.Settings.enableGlass)
-                CompositionManager.EnableBlurBehindWindow(ref Handle);
+            if (CompositionManager.AvailableCompositionMethod != CompositionMethod.None && App.Settings.enableGlass)
+                CompositionManager.SetBlurBehindWindow(ref Handle, true);
 
             shadow.Height = this.Height;
             shadow.Top = this.Top;
