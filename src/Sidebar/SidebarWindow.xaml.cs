@@ -30,6 +30,7 @@ namespace Sidebar
     {
         private IntPtr Handle;
         private OptionsWindow options;
+        private SystemTray Tray;
         public static List<Tile> Tiles = new List<Tile>();
 
         public ShadowWindow shadow = new ShadowWindow();
@@ -90,7 +91,7 @@ namespace Sidebar
 
             if (AppBar.IsOverlapping && App.Settings.side == AppBarSide.Right)
                 AppBar.RestoreTaskbar();
-            SystemTray.RemoveIcon();
+            Tray.Dispose();
             AppBar.AppbarRemove();
             App.SaveSettings(this);
 
@@ -117,7 +118,7 @@ namespace Sidebar
             LocaleManager.LoadLocale(Sidebar.App.Settings.path, App.Settings.locale);
 
             this.Width = App.Settings.width;
-            SystemTray.AddIcon(this);
+            Tray = new SystemTray(this);
             // Force set sidebar window style to tool window, bypassing the restriction placed on AllowTransparency
             NativeMethods.SetWindowLong(Handle, GetWindowLongMessage.GWL_EXSTYLE, 128);
             SetSide(App.Settings.side);
@@ -485,7 +486,7 @@ namespace Sidebar
         public void SetLocale(string locale)
         {
             LocaleManager.LoadLocale(App.Settings.path, locale);
-            SystemTray.SetLocale();
+            Tray.SetLocale();
             foreach (Tile tile in TilesGrid.Children)
                 tile.ChangeLocale(locale);
         }

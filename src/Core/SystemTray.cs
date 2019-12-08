@@ -9,15 +9,15 @@ using System.IO;
 
 namespace Sidebar.Core
 {
-    public class SystemTray
+    public class SystemTray : IDisposable
     {
-        private static NotifyIcon trayIcon;
-        private static System.Windows.Controls.ContextMenu trayMenu;
-        private static Window window;
-        private static System.Windows.Controls.MenuItem closeMenuItem;
-        private static System.Windows.Controls.MenuItem showHideMenuItem;
+        private NotifyIcon trayIcon;
+        private System.Windows.Controls.ContextMenu trayMenu;
+        private Window window;
+        private System.Windows.Controls.MenuItem closeMenuItem;
+        private System.Windows.Controls.MenuItem showHideMenuItem;
 
-        public static void AddIcon(Window wnd)
+        public SystemTray(Window parentWindow)
         {
             trayMenu = new System.Windows.Controls.ContextMenu();
 
@@ -42,10 +42,12 @@ namespace Sidebar.Core
             trayIcon.MouseDoubleClick += new MouseEventHandler(trayIcon_MouseDoubleClick);
             trayIcon.Visible = true;
 
-            window = wnd;
+            iconStream.Dispose();
+
+            window = parentWindow;
         }
 
-        private static void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -53,7 +55,7 @@ namespace Sidebar.Core
             }
         }
 
-        private static void trayIcon_MouseClick(object sender, MouseEventArgs e)
+        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
                 window.Activate();
@@ -61,25 +63,18 @@ namespace Sidebar.Core
                 trayMenu.IsOpen = true;
         }
 
-        public static void SetLocale()
+        public void SetLocale()
         {
             closeMenuItem.Header = System.Windows.Application.Current.TryFindResource("Close");
             showHideMenuItem.Header = System.Windows.Application.Current.TryFindResource("ShowHide");
         }
 
-        public static void RemoveIcon()
-        {
-            trayIcon.MouseClick -= new MouseEventHandler(trayIcon_MouseClick);
-            trayIcon.Visible = false;
-            trayIcon.Dispose();
-        }
-
-        private static void CloseMenuItem_Click(object sender, RoutedEventArgs e)
+        private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
             window.Close();
         }
 
-        private static void ShowHideMenuItem_Click(object sender, RoutedEventArgs e)
+        private void ShowHideMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (window.IsVisible)
             {
@@ -87,6 +82,11 @@ namespace Sidebar.Core
                 return;
             }
             window.Show();
+        }
+
+        public void Dispose()
+        {
+            trayIcon.Dispose();
         }
     }
 }
