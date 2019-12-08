@@ -127,17 +127,7 @@ namespace Sidebar
             CompositionManager.ExcludeFromFlip3D(Handle);
             CompositionManager.ExcludeFromPeek(Handle);
 
-            SystemTray.SidebarVisibilityChanged += new SystemTray.SidebarVisibilityChangedEventHandler(SystemTray_SidebarvisibleChanged);
-
             GetTiles();
-        }
-
-        void SystemTray_SidebarvisibleChanged(bool value)
-        {
-            if (value)
-                shadow.Visibility = Visibility.Visible;
-            else
-                shadow.Visibility = Visibility.Collapsed;
         }
 
         void SideBar_DwmColorChanged(object sender, EventArgs e)
@@ -600,9 +590,7 @@ namespace Sidebar
 
         private void MinimizeItem_Click(object sender, RoutedEventArgs e)
         {
-            if (!SystemTray.IsSidebarVisible)
-                SystemTray.IsSidebarVisible = true;
-            else SystemTray.IsSidebarVisible = false;
+            Hide();
         }
 
         private void LongBar_DragEnter(object sender, DragEventArgs e)
@@ -697,6 +685,41 @@ namespace Sidebar
                 case AppBarSide.Left:
                     shadow.Left = this.Left + this.Width;
                     break;
+            }
+        }
+
+        // TODO: Taken from SystemTray.css
+        private static bool overlapTaskbar = false;
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                if (AppBar.IsTopmost)
+                {
+                    AppBar.AppbarRemove();
+                    AppBar.AppbarNew();
+                    if (!AppBar.IsOverlapping && overlapTaskbar)
+                        AppBar.OverlapTaskbar();
+                    AppBar.SizeAppbar();
+                }
+                shadow.Show();
+            }
+            else
+            {
+                if (AppBar.IsTopmost)
+                {
+                    AppBar.AppbarRemove();
+                    if (AppBar.IsOverlapping)
+                    {
+                        AppBar.RestoreTaskbar();
+                        overlapTaskbar = true;
+                    }
+                    else
+                    {
+                        overlapTaskbar = false;
+                    }
+                }
+                shadow.Hide();
             }
         }
     }

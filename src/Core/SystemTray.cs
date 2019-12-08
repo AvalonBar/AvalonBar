@@ -10,16 +10,7 @@ namespace Sidebar.Core
 {
     public class SystemTray
     {
-        public delegate void SidebarVisibilityChangedEventHandler(bool value);
-        public static event SidebarVisibilityChangedEventHandler SidebarVisibilityChanged;
         public static bool IsRunning = false;
-        protected static void OnSidebarVisibilityChanged(bool value)
-        {
-            if (SidebarVisibilityChanged != null)
-                SidebarVisibilityChanged(value);
-        }
-
-
         private static string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         private static NotifyIcon trayIcon;
@@ -58,9 +49,9 @@ namespace Sidebar.Core
         private static void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                if (!IsSidebarVisible)
-                    SystemTray.IsSidebarVisible = true;
-                else SystemTray.IsSidebarVisible = false;
+            {
+                ShowHideMenuItem_Click(sender, null);
+            }
         }
 
         private static void trayIcon_MouseClick(object sender, MouseEventArgs e)
@@ -93,50 +84,12 @@ namespace Sidebar.Core
 
         private static void ShowHideMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IsSidebarVisible = !IsSidebarVisible;
-        }
-
-        private static bool overlapTaskbar = false;
-        private static bool isSidebarVisible = true;
-        public static bool IsSidebarVisible
-        {
-            get { return isSidebarVisible; }
-            set
+            if (window.IsVisible)
             {
-                if (value)
-                {
-                    NativeMethods.ShowWindow(AppBar.Handle, ShowWindowCommands.Show);
-                    if (AppBar.AlwaysTop)
-                    {
-                        AppBar.AppbarRemove();
-                        AppBar.AppbarNew();
-                        if (!AppBar.IsOverlapping && overlapTaskbar)
-                            AppBar.OverlapTaskbar();
-                        AppBar.SizeAppbar();
-                    }
-                    isSidebarVisible = true;
-                    OnSidebarVisibilityChanged(true);
-                }
-                else
-                {
-                    NativeMethods.ShowWindow(AppBar.Handle, ShowWindowCommands.Hide);
-                    if (AppBar.AlwaysTop)
-                    {
-                        AppBar.AppbarRemove();
-                        if (AppBar.IsOverlapping)
-                        {
-                            AppBar.RestoreTaskbar();
-                            overlapTaskbar = true;
-                        }
-                        else
-                        {
-                            overlapTaskbar = false;
-                        }
-                    }
-                    isSidebarVisible = false;
-                    OnSidebarVisibilityChanged(false);
-                }
+                window.Hide();
+                return;
             }
+            window.Show();
         }
     }
 }

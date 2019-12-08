@@ -19,7 +19,7 @@ namespace Sidebar.Core
         private static int MessageId;
         private const string MessageGuid = "{5C72002F-E216-4AE1-ABA1-7BCE5B1A2440}";
         internal static AppBarSide Side;
-        internal static bool AlwaysTop;
+        public static bool IsTopmost { get; set; }
 
         private static DispatcherTimer OverlapTimer;
 
@@ -31,7 +31,7 @@ namespace Sidebar.Core
                 return new IntPtr(msg);
             }
 
-            if (msg == 26 && wParam.ToInt32() == 47 && !AlwaysTop)
+            if (msg == 26 && wParam.ToInt32() == 47 && !IsTopmost)
             {
                 SetPos();
                 return new IntPtr(msg);
@@ -40,7 +40,7 @@ namespace Sidebar.Core
             return IntPtr.Zero;
         }
 
-        internal static bool AppbarNew()
+        public static bool AppbarNew()
         {
             AppBarData messageData = DefaultMessage;
             messageData.uCallBackMessage = NativeMethods.RegisterWindowMessageW(MessageGuid);
@@ -157,7 +157,7 @@ namespace Sidebar.Core
             Screen = Utils.GetScreenFromName(scrnName);
             if (topMost)
             {
-                AlwaysTop = topMost;
+                IsTopmost = topMost;
                 AppbarNew();
                 if (!IsOverlapping && overlapTaskBar && side == AppBarSide.Right)
                 {
@@ -168,7 +168,7 @@ namespace Sidebar.Core
             }
             else
             {
-                AlwaysTop = topMost;
+                IsTopmost = topMost;
                 wnd.Topmost = false;
                 if (IsOverlapping && side == AppBarSide.Right)
                 {
@@ -187,10 +187,13 @@ namespace Sidebar.Core
 
         public static void ResizeBar()
         {
-            bool visible = SystemTray.IsSidebarVisible;
-            SystemTray.IsSidebarVisible = false;
-            SystemTray.IsSidebarVisible = true;
-            SystemTray.IsSidebarVisible = visible;
+            bool visible = MainWindow.IsVisible;
+            MainWindow.Hide();
+            MainWindow.Show();
+            if (!visible)
+            {
+                MainWindow.Hide();
+            }
         }
 
         public static void OverlapTaskbar()
