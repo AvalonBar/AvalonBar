@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows;
 using System.Drawing;
+using System.IO;
 
 namespace Sidebar.Core
 {
     public class SystemTray
     {
         public static bool IsRunning = false;
-        private static string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
         private static NotifyIcon trayIcon;
         private static System.Windows.Controls.ContextMenu trayMenu;
@@ -26,23 +26,26 @@ namespace Sidebar.Core
             trayMenu = new System.Windows.Controls.ContextMenu();
 
             closeMenuItem = new System.Windows.Controls.MenuItem();
-            closeMenuItem.AddHandler(System.Windows.Controls.MenuItem.ClickEvent, new RoutedEventHandler(CloseMenuItem_Click));
+            closeMenuItem.Click += CloseMenuItem_Click;
 
             showHideMenuItem = new System.Windows.Controls.MenuItem();
-            showHideMenuItem.AddHandler(System.Windows.Controls.MenuItem.ClickEvent, new RoutedEventHandler(ShowHideMenuItem_Click));
+            showHideMenuItem.Click += ShowHideMenuItem_Click;
 
             SetLocale();
 
             trayMenu.Items.Add(showHideMenuItem);
             trayMenu.Items.Add(closeMenuItem);
 
+            Uri iconUri = new Uri("pack://application:,,,/Sidebar;component/SidebarIcon.ico");
+            Stream iconStream = System.Windows.Application.GetResourceStream(iconUri).Stream;
+
             trayIcon = new NotifyIcon();
-            // FIXME: application executable name should not be hardcoded
-            trayIcon.Icon = Icon.FromHandle(NativeMethods.ExtractIcon(IntPtr.Zero, path + @"\Sidebar.exe", 0));
+            trayIcon.Icon = new Icon(iconStream);
             trayIcon.Text = "AvalonBar";
             trayIcon.MouseClick += new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.MouseDoubleClick += new MouseEventHandler(trayIcon_MouseDoubleClick);
             trayIcon.Visible = true;
+
             window = wnd;
         }
 

@@ -11,8 +11,6 @@ namespace Sidebar.Core
         // Shell32
         [DllImport("shell32.dll")]
         internal static extern int SHAppBarMessage(int dwMessage, ref AppBarData pData);
-        [DllImport("shell32.dll")]
-        internal static extern IntPtr ExtractIcon(IntPtr hInstance, string path, int iconIndex);
         // User32
         [DllImport("user32.dll")]
         internal static extern int RegisterWindowMessageW(string LPString);
