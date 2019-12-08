@@ -11,8 +11,6 @@ namespace Sidebar.Core
 {
     public class SystemTray
     {
-        public static bool IsRunning = false;
-
         private static NotifyIcon trayIcon;
         private static System.Windows.Controls.ContextMenu trayMenu;
         private static Window window;
@@ -21,8 +19,6 @@ namespace Sidebar.Core
 
         public static void AddIcon(Window wnd)
         {
-            if (IsRunning)
-                return;
             trayMenu = new System.Windows.Controls.ContextMenu();
 
             closeMenuItem = new System.Windows.Controls.MenuItem();
@@ -73,8 +69,6 @@ namespace Sidebar.Core
 
         public static void RemoveIcon()
         {
-            if (IsRunning)
-                return;
             trayIcon.MouseClick -= new MouseEventHandler(trayIcon_MouseClick);
             trayIcon.Visible = false;
             trayIcon.Dispose();

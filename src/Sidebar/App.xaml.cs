@@ -74,17 +74,17 @@ namespace Sidebar
         private void App_Startup(object sender, StartupEventArgs e)
         {
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
-            SystemTray.IsRunning = false;
-            if (Utils.PriorProcess() != null)
-                SystemTray.IsRunning = true;
             ReadSettings();
             LocaleManager.LoadLocale(Settings.path, Settings.locale);
 
-            if (SystemTray.IsRunning && e.Args.Length == 0)
+            if (Utils.PriorProcess() != null && e.Args.Length == 0)
             {
-                MessageBox.Show((string)Application.Current.TryFindResource("AlreadyRunning"), "LongBar", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
-                this.Shutdown();
+                MessageBox.Show(
+                    (string)Current.TryFindResource("AlreadyRunning"),
+                    "AvalonBar", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Shutdown();
             }
+
             if (e.Args.Length > 0)
             {
                 switch (e.Args[0])
@@ -152,8 +152,6 @@ namespace Sidebar
                         }
                         break;
                 }
-                if (SystemTray.IsRunning)
-                    this.Shutdown();
             }
         }
 
