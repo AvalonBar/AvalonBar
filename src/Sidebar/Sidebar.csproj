@@ -80,10 +80,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
-    <Reference Include="TileSDK, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\KSideBarTileLib\bin\Debug\TileSDK.dll</HintPath>
-    </Reference>
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -290,6 +286,10 @@
     <ProjectReference Include="..\Core\Sidebar.Core.csproj">
       <Project>{6FED4AA1-9C65-436F-AA64-18645333FFAB}</Project>
       <Name>Sidebar.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KSideBarTileLib\TileSDK.csproj">
+      <Project>{5c7cd956-f85c-47e6-9053-785eb66eb487}</Project>
+      <Name>TileSDK</Name>
     </ProjectReference>
     <ProjectReference Include="..\TileLib\TileLib.csproj">
       <Project>{E9D551B9-C80A-41D6-915A-5C6C005547A8}</Project>
