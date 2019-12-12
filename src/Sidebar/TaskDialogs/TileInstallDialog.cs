@@ -55,7 +55,7 @@ namespace Sidebar.TaskDialogs
                 if (longBar != null)
                 {
                     string name = Path.GetFileNameWithoutExtension(tilePath);
-                    SidebarWindow.Tiles.Add(new Tile(App.Settings.path + "\\Library\\" + name + "\\" + name + ".dll"));
+                    SidebarWindow.Tiles.Add(new TileControl(App.Settings.path + "\\Library\\" + name + "\\" + name + ".dll"));
                     MenuItem item = new MenuItem();
                     item.Header = name;
                     item.Click += new RoutedEventHandler(longBar.AddTileSubItem_Click);

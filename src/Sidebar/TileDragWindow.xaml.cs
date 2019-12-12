@@ -23,9 +23,9 @@ namespace Sidebar
         private StackPanel panel;
         private TileDragSplitter splitter;
         private int currentIndex = -1;
-        private Tile content;
+        private TileControl content;
 
-        public TileDragWindow(StackPanel panel, Tile content)
+        public TileDragWindow(StackPanel panel, TileControl content)
         {
             InitializeComponent();
 

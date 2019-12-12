@@ -31,7 +31,7 @@ namespace Sidebar
         private IntPtr Handle;
         private OptionsWindow options;
         private SystemTray Tray;
-        public static List<Tile> Tiles = new List<Tile>();
+        public static List<TileControl> Tiles = new List<TileControl>();
 
         public ShadowWindow shadow = new ShadowWindow();
         private LibraryWindow library;
@@ -42,7 +42,7 @@ namespace Sidebar
             options = new OptionsWindow(this);
         }
 
-        public TileState GetTileState(Tile tile)
+        public TileState GetTileState(TileControl tile)
         {
             TileState tileState = new TileState();
 
@@ -65,7 +65,7 @@ namespace Sidebar
                 Array.Resize(ref tileStates, PinGrid.Children.Count);
                 for (int i = 0; i < PinGrid.Children.Count; i++)
                 {
-                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)PinGrid.Children[i]))];
+                    TileControl currentTile = Tiles[Tiles.IndexOf(((TileControl)PinGrid.Children[i]))];
                     tileStates[i] = GetTileState(currentTile);
                 }
                 return tileStates;
@@ -76,7 +76,7 @@ namespace Sidebar
                 Array.Resize(ref tileStates, TilesGrid.Children.Count);
                 for (int i = 0; i < TilesGrid.Children.Count; i++)
                 {
-                    Tile currentTile = Tiles[Tiles.IndexOf(((Tile)TilesGrid.Children[i]))];
+                    TileControl currentTile = Tiles[Tiles.IndexOf(((TileControl)TilesGrid.Children[i]))];
                     tileStates[i] = GetTileState(currentTile);
                 }
                 return tileStates;
@@ -96,7 +96,7 @@ namespace Sidebar
             App.SaveSettings(this);
 
             RoutedEventArgs args = new RoutedEventArgs(UserControl.UnloadedEvent);
-            foreach (Tile tile in TilesGrid.Children)
+            foreach (TileControl tile in TilesGrid.Children)
                 tile.RaiseEvent(args);
             TilesGrid.Children.Clear();
         }
@@ -205,7 +205,7 @@ namespace Sidebar
                 for (int i = 0; i < App.Settings.tiles.Length; i++)
                 {
                     TileState currentMetadata = App.Settings.tiles[i];
-                    foreach (Tile tile in Tiles)
+                    foreach (TileControl tile in Tiles)
                     {
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
                         {
@@ -225,7 +225,7 @@ namespace Sidebar
             {
                 for (int i = 0; i < App.Settings.pinnedTiles.Length; i++)
                 {
-                    foreach (Tile tile in Tiles)
+                    foreach (TileControl tile in Tiles)
                     {
                         TileState currentMetadata = App.Settings.pinnedTiles[i];
                         if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
@@ -256,7 +256,7 @@ namespace Sidebar
                     string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
                     if (System.IO.File.Exists(file))
                     {
-                        Tiles.Add(new Tile(file));
+                        Tiles.Add(new TileControl(file));
                         if (Tiles[Tiles.Count - 1].hasErrors)
                             Tiles.RemoveAt(Tiles.Count - 1);
                         else
@@ -431,7 +431,7 @@ namespace Sidebar
                     shadow.Left = this.Left + this.Width;
                     shadow.FlowDirection = FlowDirection.RightToLeft;
 
-                    foreach (Tile tile in TilesGrid.Children)
+                    foreach (TileControl tile in TilesGrid.Children)
                         tile.ChangeSide(AppBarSide.Left);
                     break;
                 case AppBarSide.Right:
@@ -445,7 +445,7 @@ namespace Sidebar
                     shadow.Left = this.Left - shadow.Width;
                     shadow.FlowDirection = FlowDirection.LeftToRight;
 
-                    foreach (Tile tile in TilesGrid.Children)
+                    foreach (TileControl tile in TilesGrid.Children)
                         tile.ChangeSide(AppBarSide.Right);
                     break;
             }
@@ -455,7 +455,7 @@ namespace Sidebar
         {
             LocaleManager.LoadLocale(App.Settings.path, locale);
             Tray.SetLocale();
-            foreach (Tile tile in TilesGrid.Children)
+            foreach (TileControl tile in TilesGrid.Children)
                 tile.ChangeLocale(locale);
         }
 
@@ -477,7 +477,7 @@ namespace Sidebar
 
             string file = string.Format(@"{0}\{1}.theme.xaml", App.Settings.path, theme);
 
-            foreach (Tile tile in TilesGrid.Children)
+            foreach (TileControl tile in TilesGrid.Children)
                 tile.ChangeTheme(file);
         }
 
@@ -525,7 +525,7 @@ namespace Sidebar
                     if (!CheckTileAdded(file))
                         if (System.IO.File.Exists(file))
                         {
-                            Tiles.Add(new Tile(file));
+                            Tiles.Add(new TileControl(file));
                             if (Tiles[Tiles.Count - 1].hasErrors)
                                 Tiles.RemoveAt(Tiles.Count - 1);
                             else
@@ -551,7 +551,7 @@ namespace Sidebar
 
         private bool CheckTileAdded(string file)
         {
-            foreach (Tile tile in Tiles)
+            foreach (TileControl tile in Tiles)
                 if (tile.File == file)
                     return true;
             return false;
@@ -621,7 +621,7 @@ namespace Sidebar
         {
             for (int i = 0; i < TilesGrid.Children.Count; i++)
             {
-                int index = Tiles.IndexOf((Tile)TilesGrid.Children[i]);
+                int index = Tiles.IndexOf((TileControl)TilesGrid.Children[i]);
                 Tiles[index].Unload();
                 ((MenuItem)AddTileItem.Items[index]).IsChecked = false;
             }

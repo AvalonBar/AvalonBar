@@ -22,7 +22,7 @@ namespace Sidebar
     /// <summary>
     /// Interaction logic for Tile.xaml
     /// </summary>
-    public partial class Tile : UserControl
+    public partial class TileControl : UserControl
     {
         public string File;
         public TileLib.TileInfo Info;
@@ -47,7 +47,7 @@ namespace Sidebar
             KarlsSidebar
         };
 
-        public Tile(string file)
+        public TileControl(string file)
         {
             InitializeComponent();
             if (System.IO.File.Exists(file))
@@ -56,8 +56,6 @@ namespace Sidebar
                 this.Info = new TileLib.TileInfo("", false, false);
                 this.Info.Name = file.Substring(file.LastIndexOf(@"\") + 1, file.Length - file.LastIndexOf(@"\") - 5);
             }
-
-
         }
 
         private ModelType GetTileModelType(Assembly assembly)
@@ -107,7 +105,7 @@ namespace Sidebar
                 return;
             tileAssembly = Assembly.LoadFrom(this.File);
             tileModelType = GetTileModelType(tileAssembly);
-            switch ((ModelType)tileModelType)
+            switch (tileModelType)
             {
                 case ModelType.LongBar:
                     foreach (Type type in tileAssembly.GetTypes())
@@ -617,7 +615,7 @@ namespace Sidebar
         {
             if (!pinned)
             {
-                Tile t = this;
+                TileControl t = this;
                 PinTile(ref t);
             }
 
@@ -627,12 +625,12 @@ namespace Sidebar
         {
             if (pinned)
             {
-                Tile t = this;
+                TileControl t = this;
                 UnpinTile(ref t, true);
             }
         }
 
-        public static void PinTile(ref Tile tile)
+        public static void PinTile(ref TileControl tile)
         {
             tile.pinned = true;
 
@@ -647,7 +645,7 @@ namespace Sidebar
             pinGrid.Children.Add(tile);
         }
 
-        public static void UnpinTile(ref Tile tile, bool MoveToMain)
+        public static void UnpinTile(ref TileControl tile, bool MoveToMain)
         {
             tile.pinned = false;
 
