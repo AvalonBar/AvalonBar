@@ -4,7 +4,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Windows;
-using ICSharpCode.SharpZipLib.Zip;
+using System.IO.Compression;
 using System.Reflection;
 using System.Xml.Serialization;
 
@@ -41,44 +41,18 @@ namespace Sidebar.Core
         public static void UpdateFiles(string path)
         {
             string file = path + "\\Updates\\Update";
-            using (FileStream fileStreamIn = new FileStream(file, FileMode.Open, FileAccess.Read))
+            using (ZipArchive archive = ZipFile.OpenRead(file))
             {
-                using (ZipInputStream zipInStream = new ZipInputStream(fileStreamIn))
+                foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    ZipEntry entry;
-                    FileInfo info = new FileInfo(file);
-                    while (true)
-                    {
-                        entry = zipInStream.GetNextEntry();
-                        if (entry == null)
-                            break;
-                        if (!entry.IsDirectory)
-                        {
-                            if (!entry.Name.Contains("/"))
-                                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    if (!entry.Name.Contains("/"))
+                        path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-                            if (File.Exists(path + "\\" + entry.Name))
-                                File.Move(path + "\\" + entry.Name, path + "\\" + entry.Name + ".old");
+                    if (File.Exists(path + "\\" + entry.Name))
+                        File.Move(path + "\\" + entry.Name, path + "\\" + entry.Name + ".old");
 
-                            using (FileStream fileStreamOut = new FileStream(string.Format(@"{0}\{1}", path, entry.Name), FileMode.Create, FileAccess.Write))
-                            {
-                                int size;
-                                byte[] buffer = new byte[1024];
-                                do
-                                {
-                                    size = zipInStream.Read(buffer, 0, buffer.Length);
-                                    fileStreamOut.Write(buffer, 0, size);
-                                } while (size > 0);
-                                fileStreamOut.Close();
-                            }
-                        }
-                        else
-                            if (!Directory.Exists(string.Format(@"{0}\{1}", path, entry.Name)))
-                                Directory.CreateDirectory(string.Format(@"{0}\{1}", path, entry.Name));
-                    }
-                    zipInStream.Close();
+                    entry.ExtractToFile(string.Format(@"{0}\{1}", path, entry.Name));
                 }
-                fileStreamIn.Close();
             }
         }
     }
