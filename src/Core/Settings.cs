@@ -50,7 +50,5 @@ namespace Sidebar.Core
             }
         }
         public bool enableUpdates;
-        public bool debug;
-        public string tileToDebug;
     }
 }

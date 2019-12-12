@@ -200,16 +200,6 @@ namespace Sidebar
 
         private void LoadTilesAtStartup()
         {
-            if (App.Settings.debug)
-            {
-                if (Tiles.Count > 0)
-                {
-                    Tiles[0].Load(App.Settings.side, double.NaN);
-                    TilesGrid.Children.Add(Tiles[0]);
-                }
-                return;
-            }
-
             if (App.Settings.tiles != null && Tiles != null && App.Settings.tiles.Length > 0 && Tiles.Count > 0)
             {
                 for (int i = 0; i < App.Settings.tiles.Length; i++)
@@ -260,52 +250,30 @@ namespace Sidebar
 
         private void GetTiles()
         {
-            if (!App.Settings.debug)
-            {
-                if (System.IO.Directory.Exists(App.Settings.path + @"\Library"))
-                    foreach (string dir in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
+            if (System.IO.Directory.Exists(App.Settings.path + @"\Library"))
+                foreach (string dir in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
+                {
+                    string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
+                    if (System.IO.File.Exists(file))
                     {
-                        string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
-                        if (System.IO.File.Exists(file))
+                        Tiles.Add(new Tile(file));
+                        if (Tiles[Tiles.Count - 1].hasErrors)
+                            Tiles.RemoveAt(Tiles.Count - 1);
+                        else
                         {
-                            Tiles.Add(new Tile(file));
-                            if (Tiles[Tiles.Count - 1].hasErrors)
-                                Tiles.RemoveAt(Tiles.Count - 1);
-                            else
-                            {
-                                MenuItem item = new MenuItem();
-                                if (Tiles[Tiles.Count - 1].Info != null)
-                                    item.Header = Tiles[Tiles.Count - 1].Info.Name;
-                                item.Click += new RoutedEventHandler(AddTileSubItem_Click);
-                                Image icon = new Image();
-                                icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
-                                icon.Width = 25;
-                                icon.Height = 25;
-                                item.Icon = icon;
-                                AddTileItem.Items.Add(item);
-                            }
+                            MenuItem item = new MenuItem();
+                            if (Tiles[Tiles.Count - 1].Info != null)
+                                item.Header = Tiles[Tiles.Count - 1].Info.Name;
+                            item.Click += new RoutedEventHandler(AddTileSubItem_Click);
+                            Image icon = new Image();
+                            icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
+                            icon.Width = 25;
+                            icon.Height = 25;
+                            item.Icon = icon;
+                            AddTileItem.Items.Add(item);
                         }
                     }
-            }
-            else
-            {
-                Tiles.Add(new Tile(App.Settings.tileToDebug));
-                if (Tiles[Tiles.Count - 1].hasErrors)
-                    Tiles.RemoveAt(Tiles.Count - 1);
-                else
-                {
-                    MenuItem item = new MenuItem();
-                    if (Tiles[Tiles.Count - 1].Info != null)
-                        item.Header = Tiles[Tiles.Count - 1].Info.Name;
-                    item.Click += new RoutedEventHandler(AddTileSubItem_Click);
-                    Image icon = new Image();
-                    icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
-                    icon.Width = 25;
-                    icon.Height = 25;
-                    item.Icon = icon;
-                    AddTileItem.Items.Add(item);
                 }
-            }
         }
 
         public void AddTileSubItem_Click(object sender, RoutedEventArgs e)
