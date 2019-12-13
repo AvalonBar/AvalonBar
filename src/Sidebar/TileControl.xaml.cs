@@ -28,7 +28,6 @@ namespace Sidebar
         public TileLib.TileInfo Info;
         private Type TileType;
         private TileLib.BaseTile tileObject;
-        private Applications.Sidebar.Tile tileKObject;
         private Assembly tileAssembly;
         private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
         private FlyoutWindow flyout;
@@ -47,7 +46,7 @@ namespace Sidebar
             KarlsSidebar
         };
 
-        public TileControl(string file)
+        public TileControl(Tile tile)
         {
             InitializeComponent();
             if (System.IO.File.Exists(file))
@@ -55,133 +54,6 @@ namespace Sidebar
                 this.File = file;
                 this.Info = new TileLib.TileInfo("", false, false);
                 this.Info.Name = file.Substring(file.LastIndexOf(@"\") + 1, file.Length - file.LastIndexOf(@"\") - 5);
-            }
-        }
-
-        private ModelType GetTileModelType(Assembly assembly)
-        {
-            try
-            {
-                if (!System.IO.Directory.Exists(App.Settings.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(App.Settings.path + @"\Logs");
-                for (int i = 0; i < assembly.GetExportedTypes().Length; i++)
-                    if (assembly.GetExportedTypes()[i].BaseType != null)
-                    {
-                        if (assembly.GetExportedTypes()[i].BaseType == typeof(TileLib.BaseTile))
-                            return ModelType.LongBar;
-                        if (assembly.GetExportedTypes()[i].BaseType.ToString() == "Applications.Sidebar.BaseTile")
-                            return ModelType.KarlsSidebar;
-                    }
-            }
-            catch (Exception ex)
-            {
-                if (App.Settings.showErrors)
-                    MessageBox.Show(string.Format("The tile {0} is incompatible to current version of application. Please contact the tile's developers" +
-                "\nSee log for detailed information.", System.IO.Path.GetFileName(this.File)), null, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (!System.IO.Directory.Exists(App.Settings.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(App.Settings.path + @"\Logs");
-                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", App.Settings.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
-                try
-                {
-                    System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
-                      DateTime.UtcNow.ToString(), ex));
-                }
-                catch (Exception ex1)
-                {
-                    MessageBox.Show("Can't write to log. Reason: " + ex1.Message, null, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                hasErrors = true;
-            }
-            return ModelType.LongBar;
-        }
-
-        FrameworkElement control = null;
-        public void Load(AppBarSide side, double height)
-        {
-            this.side = side;
-
-            ////////////////////////////////////
-            if (!System.IO.File.Exists(this.File))
-                return;
-            tileAssembly = Assembly.LoadFrom(this.File);
-            tileModelType = GetTileModelType(tileAssembly);
-            switch (tileModelType)
-            {
-                case ModelType.LongBar:
-                    foreach (Type type in tileAssembly.GetTypes())
-                        if (type.BaseType == typeof(TileLib.BaseTile))
-                            TileType = type;
-                    foreach (Attribute attr in tileAssembly.GetCustomAttributes(false))
-                        if (attr.GetType() == typeof(TileLib.TileInfo))
-                        {
-                            Info = (TileLib.TileInfo)attr;
-                            this.TitleTextBlock.Text = Info.Name;
-                        }
-                    break;
-
-                case ModelType.KarlsSidebar:
-                    foreach (Type type in tileAssembly.GetTypes())
-                        if (type.BaseType != null && type.BaseType.ToString() == "Applications.Sidebar.BaseTile")
-                            TileType = type;
-                    foreach (Attribute attr in tileAssembly.GetCustomAttributes(false))
-                        if (attr.GetType().ToString() == "Applications.Sidebar.SidebarTileInfo")
-                        {
-                            Info = new TileLib.TileInfo(((SidebarTileInfo)attr).Title, false, false);
-                            this.TitleTextBlock.Text = Info.Name;
-                            if (System.IO.File.Exists(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"))
-                                this.TitleIcon.Source = new BitmapImage(new Uri(System.IO.Path.GetDirectoryName(this.File) + @"\Icon.png"));
-                        }
-                    break;
-            }
-            this.Unloaded += new RoutedEventHandler(Tile_Unloaded);
-            this.SizeChanged += new SizeChangedEventHandler(Tile_SizeChanged);
-            if (Info == null)
-                hasErrors = true;
-            ////////////////////////////
-
-            try
-            {
-                switch (tileModelType)
-                {
-                    case ModelType.LongBar:
-                        tileObject = (TileLib.BaseTile)TileType.InvokeMember(null, flags | BindingFlags.CreateInstance, null, null, null);
-                        tileObject.CaptionChanged += new TileLib.BaseTile.CaptionChangedEventHandler(TileObject_CaptionChanged);
-                        tileObject.IconChanged += new TileLib.BaseTile.IconChangedEventHandler(TileObject_IconChanged);
-                        tileObject.ShowOptionsEvent += new TileLib.BaseTile.ShowOptionsEventHandler(TileObject_ShowOptionsEvent);
-                        tileObject.ShowFlyoutEvent += new TileLib.BaseTile.ShowFlyoutEventHandler(TileObject_ShowFlyoutEvent);
-                        tileObject.HeightChangedEvent += new TileLib.BaseTile.HeightChangedEventHandler(tileObject_HeightChangedEvent);
-                        tileObject._path = App.Settings.path;
-
-                        control = tileObject.Load();
-
-                        control.MouseLeftButtonDown += new MouseButtonEventHandler(TileContentGrid_MouseLeftButtonDown);
-                        break;
-
-                    case ModelType.KarlsSidebar:
-                        tileKObject = (Applications.Sidebar.Tile)TileType.InvokeMember(null, flags | BindingFlags.CreateInstance, null, null, null);
-                        control = tileKObject.SidebarContent;
-                        Info = new TileLib.TileInfo(Info.Name, tileKObject.hasFlyout, tileKObject.hasConfigWindow);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (App.Settings.showErrors)
-                    TaskDialogs.ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, Info.Name), ex);
-                if (!System.IO.Directory.Exists(App.Settings.path + @"\Logs"))
-                    System.IO.Directory.CreateDirectory(App.Settings.path + @"\Logs");
-                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", App.Settings.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
-                try
-                {
-                    System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
-                      DateTime.UtcNow.ToString(), ex));
-                }
-                catch (Exception ex1)
-                {
-                    MessageBox.Show("Can't write to log. Reason: " + ex1.Message, null, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                hasErrors = true;
-                return;
             }
 
             DoubleAnimation LoadHeightAnim = (DoubleAnimation)FindResource("LoadHeightAnim");
@@ -221,6 +93,9 @@ namespace Sidebar
             this.BeginAnimation(HeightProperty, LoadHeightAnim);
             TileContentGrid.BeginAnimation(OpacityProperty, LoadOpacityAnim);
         }
+
+
+        FrameworkElement control = null;
 
         void tileObject_HeightChangedEvent(double height)
         {
@@ -400,33 +275,6 @@ namespace Sidebar
             }
         }
 
-        private void TileKObject_ShowFlyout()
-        {
-            if (this.Info.hasflyout && tileKObject.FlyoutContent != null)
-            {
-                if (flyout != null && flyout.IsVisible)
-                {
-                    flyout.Activate();
-                    return;
-                }
-                flyout = new FlyoutWindow(Info.Name);
-                flyout.Width = tileKObject.FlyoutContent.Width;
-                flyout.Height = tileKObject.FlyoutContent.Height;
-                switch (side)
-                {
-                    case AppBarSide.Left:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X + this.ActualWidth;
-                        break;
-                    case AppBarSide.Right:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X - flyout.Width - 3;
-                        break;
-                }
-                flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
-                flyout.ContentGrid.Children.Add(tileKObject.FlyoutContent);
-                flyout.Show();
-            }
-        }
-
         private void CustomizeItem_Click(object sender, RoutedEventArgs e)
         {
             switch (tileModelType)
@@ -472,16 +320,6 @@ namespace Sidebar
                 configWindow.Loaded += new RoutedEventHandler(KTile_ConfigLoaded);
                 configWindow.ShowDialog();
             }
-        }
-
-        private void KTile_ConfigLoaded(object sender, RoutedEventArgs e)
-        {
-            tileKObject.OnConfigurationWindowOpened((Window)sender);
-        }
-
-        private void KTile_ConfigClosing(object sender, CancelEventArgs e)
-        {
-            tileKObject.OnConfigurationWindowClosing((Window)sender);
         }
 
         private void LoadHeightAnim_Completed(object sender, EventArgs e)
@@ -711,6 +549,47 @@ namespace Sidebar
                     dragWindow.Show();
                 }
             }
+        }
+
+        /*
+         * Retrophase Sidebar (Tile Compatibility Shim)
+         */
+        private Applications.Sidebar.Tile tileKObject;
+        private void TileKObject_ShowFlyout()
+        {
+            if (this.Info.hasflyout && tileKObject.FlyoutContent != null)
+            {
+                if (flyout != null && flyout.IsVisible)
+                {
+                    flyout.Activate();
+                    return;
+                }
+                flyout = new FlyoutWindow(Info.Name);
+                flyout.Width = tileKObject.FlyoutContent.Width;
+                flyout.Height = tileKObject.FlyoutContent.Height;
+                switch (side)
+                {
+                    case AppBarSide.Left:
+                        flyout.Left = this.PointToScreen(new Point(0, 0)).X + this.ActualWidth;
+                        break;
+                    case AppBarSide.Right:
+                        flyout.Left = this.PointToScreen(new Point(0, 0)).X - flyout.Width - 3;
+                        break;
+                }
+                flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
+                flyout.ContentGrid.Children.Add(tileKObject.FlyoutContent);
+                flyout.Show();
+            }
+        }
+
+        private void KTile_ConfigLoaded(object sender, RoutedEventArgs e)
+        {
+            tileKObject.OnConfigurationWindowOpened((Window)sender);
+        }
+
+        private void KTile_ConfigClosing(object sender, CancelEventArgs e)
+        {
+            tileKObject.OnConfigurationWindowClosing((Window)sender);
         }
     }
 }

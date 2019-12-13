@@ -267,6 +267,7 @@
     <Compile Include="TaskDialogs\TileInstallDialog.cs" />
     <Compile Include="TaskDialogs\UpdateDialog.cs" />
     <Compile Include="TaskDialogs\UpdateDownloadDialog.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="TileControl.xaml.cs">
       <DependentUpon>TileControl.xaml</DependentUpon>
     </Compile>
@@ -276,6 +277,7 @@
     <Compile Include="TileDragWindow.xaml.cs">
       <DependentUpon>TileDragWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TileManager.cs" />
     <Compile Include="TileOptionsWindow.xaml.cs">
       <DependentUpon>TileOptionsWindow.xaml</DependentUpon>
     </Compile>
