@@ -31,7 +31,6 @@ namespace Sidebar
         private Assembly tileAssembly;
         private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
         private FlyoutWindow flyout;
-        private AppBarSide side;
         private TileOptionsWindow options;
         private ModelType tileModelType;
         public bool hasErrors;
@@ -179,7 +178,6 @@ namespace Sidebar
             }
             if (tileObject != null)
                 tileObject.ChangeSide((int)side);
-            this.side = side;
         }
 
         public void ChangeLocale(string locale)
@@ -255,15 +253,7 @@ namespace Sidebar
                     return;
                 }
                 flyout = new FlyoutWindow(Info.Name);
-                switch (side)
-                {
-                    case AppBarSide.Left:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X;
-                        break;
-                    case AppBarSide.Right:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X;
-                        break;
-                }
+                flyout.Left = this.PointToScreen(new Point(0, 0)).X;
                 flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
                 System.Windows.Forms.Screen screen = Utils.GetScreenFromName(App.Settings.screen);
                 flyout.ContentGrid.Children.Add(tileObject.FlyoutContent);
@@ -567,15 +557,7 @@ namespace Sidebar
                 flyout = new FlyoutWindow(Info.Name);
                 flyout.Width = tileKObject.FlyoutContent.Width;
                 flyout.Height = tileKObject.FlyoutContent.Height;
-                switch (side)
-                {
-                    case AppBarSide.Left:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X + this.ActualWidth;
-                        break;
-                    case AppBarSide.Right:
-                        flyout.Left = this.PointToScreen(new Point(0, 0)).X - flyout.Width - 3;
-                        break;
-                }
+                flyout.Left = this.PointToScreen(new Point(0, 0)).X;
                 flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
                 flyout.ContentGrid.Children.Add(tileKObject.FlyoutContent);
                 flyout.Show();

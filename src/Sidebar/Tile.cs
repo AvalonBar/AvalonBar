@@ -74,10 +74,8 @@ namespace Sidebar
             return false;
         }
 
-        public void Load(AppBarSide side, double height)
+        public void Load(double height)
         {
-            this.side = side;
-
             ////////////////////////////////////
             tileModelType = GetTileModelType(tileAssembly);
             switch (tileModelType)
