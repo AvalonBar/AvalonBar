@@ -21,7 +21,6 @@ Clone the repository using `git`, checkout the `master` branch, and hit compile.
 - .NET Framework 4.6 SDK
 ### Dependencies
 - Microsoft.Windows.APICodePack-Core
-- ICSharpCode.SharpZipLib
 - WPF Toolkit (optional, some tiles may not work without this)
 
 ## Contributing
