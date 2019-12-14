@@ -20,8 +20,9 @@ namespace Sidebar
         {
             TileState tileState = new TileState();
 
-            tileState.Name = Path.GetFileName(tile.ParentTile.Info.Name);
+            tileState.Name = Path.GetFileName(tile.ParentTile.Path);
             tileState.IsMinimized = tile.minimized;
+            tileState.IsPinned = tile.pinned;
             tileState.Height = tile.Height;
             if (tileState.IsMinimized)
             {
