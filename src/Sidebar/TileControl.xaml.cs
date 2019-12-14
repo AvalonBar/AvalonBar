@@ -146,7 +146,6 @@ namespace Sidebar
             }
         }
 
-
         FrameworkElement control = null;
 
         void tileObject_HeightChangedEvent(double height)
@@ -469,8 +468,7 @@ namespace Sidebar
         {
             if (!pinned)
             {
-                TileControl t = this;
-                PinTile(ref t);
+                TileManager.PinTile(this);
             }
 
         }
@@ -479,53 +477,7 @@ namespace Sidebar
         {
             if (pinned)
             {
-                TileControl t = this;
-                UnpinTile(ref t, true);
-            }
-        }
-
-        public static void PinTile(ref TileControl tile)
-        {
-            tile.pinned = true;
-
-            StackPanel pinGrid = (StackPanel)((DockPanel)((StackPanel)tile.Parent).Parent).Children[0];
-
-            StackPanel p = ((StackPanel)tile.Parent);
-            p.Children.Remove(tile);
-
-            tile.Header.Visibility = System.Windows.Visibility.Collapsed;
-            DockPanel.SetDock(tile.Splitter, Dock.Top);
-
-            pinGrid.Children.Add(tile);
-        }
-
-        public static void UnpinTile(ref TileControl tile, bool MoveToMain)
-        {
-            tile.pinned = false;
-
-            StackPanel p = (StackPanel)((DockPanel)((StackPanel)tile.Parent).Parent).Children[1];
-
-            StackPanel pinGrid = ((StackPanel)tile.Parent);
-
-            pinGrid.Children.Remove(tile);
-
-            Style style = (Style)tile.TryFindResource("TileHeader");
-            foreach (Setter setter in style.Setters)
-            {
-                if (setter.Property == VisibilityProperty)
-                    tile.Header.SetValue(VisibilityProperty, setter.Value);
-            }
-
-            style = (Style)tile.TryFindResource("TileSplitterPanel");
-            foreach (Setter setter in style.Setters)
-            {
-                if (setter.Property == DockPanel.DockProperty)
-                    tile.Splitter.SetValue(DockPanel.DockProperty, setter.Value);
-            }
-
-            if (MoveToMain)
-            {
-                p.Children.Insert(0, tile);
+                TileManager.UnpinTile(this);
             }
         }
 

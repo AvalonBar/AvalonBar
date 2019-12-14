@@ -135,5 +135,40 @@ namespace Sidebar
         {
             LoadTileList(tiles, true);
         }
+
+        public static void PinTile(TileControl tile)
+        {
+            tile.pinned = true;
+
+            TileContainer.Children.Remove(tile);
+
+            tile.Header.Visibility = Visibility.Collapsed;
+            DockPanel.SetDock(tile.Splitter, Dock.Top);
+
+            PinnedTileContainer.Children.Add(tile);
+        }
+
+        public static void UnpinTile(TileControl tile)
+        {
+            tile.pinned = false;
+
+            PinnedTileContainer.Children.Remove(tile);
+
+            Style style = (Style)tile.TryFindResource("TileHeader");
+            foreach (Setter setter in style.Setters)
+            {
+                if (setter.Property == UIElement.VisibilityProperty)
+                    tile.Header.SetValue(UIElement.VisibilityProperty, setter.Value);
+            }
+
+            style = (Style)tile.TryFindResource("TileSplitterPanel");
+            foreach (Setter setter in style.Setters)
+            {
+                if (setter.Property == DockPanel.DockProperty)
+                    tile.Splitter.SetValue(DockPanel.DockProperty, setter.Value);
+            }
+
+            TileContainer.Children.Insert(0, tile);
+        }
     }
 }
