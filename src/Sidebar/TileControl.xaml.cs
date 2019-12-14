@@ -118,8 +118,6 @@ namespace Sidebar
                 LoadHeightAnim.To = control.Height + this.Header.Height + 5;
             else
                 LoadHeightAnim.To = control.Height + 5;
-            RemoveItem.Header = string.Format((string)TryFindResource("Remove"), Info.Name);
-            CustomizeItem.Header = string.Format((string)TryFindResource("Properties"), Info.Name);
 
             MinimizedItem.IsChecked = false;
 
