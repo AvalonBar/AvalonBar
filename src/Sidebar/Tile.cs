@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using Sidebar.Core;
 
 namespace Sidebar
 {
@@ -30,6 +31,7 @@ namespace Sidebar
                     throw new FileNotFoundException();
                 }
                 path = value;
+                Load();
             }
         }
 
@@ -114,6 +116,11 @@ namespace Sidebar
             }
 
             IsLoaded = true;
+        }
+
+        public TileControl CreateControl(TileState state)
+        {
+            return new TileControl(this, state);
         }
     }
 }

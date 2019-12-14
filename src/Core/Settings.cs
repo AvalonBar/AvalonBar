@@ -37,7 +37,6 @@ namespace Sidebar.Core
         public bool enableShadow;
         public bool locked;
         public TileState[] tiles;
-        public TileState[] pinnedTiles;
         public bool showErrors;
         public bool overlapTaskbar;
         public string screen;

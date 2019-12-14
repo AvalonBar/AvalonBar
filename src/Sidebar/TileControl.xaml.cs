@@ -53,7 +53,6 @@ namespace Sidebar
                     new Uri(System.IO.Path.GetDirectoryName(ParentTile.Path) + @"\Icon.png"));
             }
 
-
             // Load tile content into this control
             try
             {
@@ -119,16 +118,24 @@ namespace Sidebar
             else
                 LoadHeightAnim.To = control.Height + 5;
 
-            MinimizedItem.IsChecked = false;
-
             TileContentGrid.Children.Clear();
             TileContentGrid.Children.Add(control);
 
+            // tile state stuff
+            minimized = state.IsMinimized;
+            pinned = state.IsPinned;
+
+            if (pinned)
+            {
+                Header.Visibility = Visibility.Collapsed;
+                DockPanel.SetDock(Splitter, Dock.Top);
+                PinItem.IsChecked = true;
+            }
 
             if (minimized)
             {
                 normalHeight = state.Height;
-                this.MinimizedItem.IsChecked = true;
+                MinimizedItem.IsChecked = true;
             }
 
 

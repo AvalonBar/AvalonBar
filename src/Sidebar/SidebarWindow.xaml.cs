@@ -31,7 +31,6 @@ namespace Sidebar
         private IntPtr Handle;
         private OptionsWindow options;
         private SystemTray Tray;
-        public static List<TileControl> Tiles = new List<TileControl>();
 
         public ShadowWindow shadow = new ShadowWindow();
         private LibraryWindow library;
@@ -40,49 +39,8 @@ namespace Sidebar
         {
             InitializeComponent();
             options = new OptionsWindow(this);
-        }
-
-        public TileState GetTileState(TileControl tile)
-        {
-            TileState tileState = new TileState();
-
-            tileState.Name = System.IO.Path.GetFileName(tile.File);
-            tileState.IsMinimized = tile.minimized;
-            tileState.Height = tile.Height;
-            if (tileState.IsMinimized)
-            {
-                tileState.Height = tile.normalHeight;
-            }
-
-            return tileState;
-        }
-        public TileState[] GetAllTileStates(bool isPinned)
-        {
-            TileState[] tileStates = { };
-
-            if (isPinned && PinGrid.Children.Count > 0)
-            {
-                Array.Resize(ref tileStates, PinGrid.Children.Count);
-                for (int i = 0; i < PinGrid.Children.Count; i++)
-                {
-                    TileControl currentTile = Tiles[Tiles.IndexOf(((TileControl)PinGrid.Children[i]))];
-                    tileStates[i] = GetTileState(currentTile);
-                }
-                return tileStates;
-            }
-
-            if (TilesGrid.Children.Count > 0)
-            {
-                Array.Resize(ref tileStates, TilesGrid.Children.Count);
-                for (int i = 0; i < TilesGrid.Children.Count; i++)
-                {
-                    TileControl currentTile = Tiles[Tiles.IndexOf(((TileControl)TilesGrid.Children[i]))];
-                    tileStates[i] = GetTileState(currentTile);
-                }
-                return tileStates;
-            }
-
-            return tileStates;
+            TileManager.PinnedTileContainer = PinGrid;
+            TileManager.TileContainer = TilesGrid;
         }
 
         private void LongBar_Closed(object sender, EventArgs e)
@@ -128,7 +86,7 @@ namespace Sidebar
             CompositionManager.ExcludeFromFlip3D(Handle);
             CompositionManager.ExcludeFromPeek(Handle);
 
-            GetTiles();
+            TileManager.LoadTiles();
         }
 
         void SideBar_DwmColorChanged(object sender, EventArgs e)
@@ -195,93 +153,15 @@ namespace Sidebar
                     break;
             }
 
-            LoadTilesAtStartup();
-        }
-
-        private void LoadTilesAtStartup()
-        {
-            if (App.Settings.tiles != null && Tiles != null && App.Settings.tiles.Length > 0 && Tiles.Count > 0)
-            {
-                for (int i = 0; i < App.Settings.tiles.Length; i++)
-                {
-                    TileState currentMetadata = App.Settings.tiles[i];
-                    foreach (TileControl tile in Tiles)
-                    {
-                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
-                        {
-                            tile.minimized = currentMetadata.IsMinimized;
-                            tile.Load(App.Settings.side, currentMetadata.Height);
-
-                            if (!tile.hasErrors)
-                            {
-                                TilesGrid.Children.Add(tile);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (App.Settings.pinnedTiles != null && Tiles != null && App.Settings.pinnedTiles.Length > 0 && Tiles.Count > 0)
-            {
-                for (int i = 0; i < App.Settings.pinnedTiles.Length; i++)
-                {
-                    foreach (TileControl tile in Tiles)
-                    {
-                        TileState currentMetadata = App.Settings.pinnedTiles[i];
-                        if (tile.File.Substring(tile.File.LastIndexOf(@"\") + 1) == currentMetadata.Name)
-                        {
-                            tile.minimized = currentMetadata.IsMinimized;
-                            tile.pinned = true;
-                            tile.Load(App.Settings.side, currentMetadata.Height);
-
-                            tile.Header.Visibility = Visibility.Collapsed;
-                            DockPanel.SetDock(tile.Splitter, Dock.Top);
-                            ((MenuItem)tile.ContextMenu.Items[0]).IsChecked = true;
-
-                            if (!tile.hasErrors)
-                            {
-                                PinGrid.Children.Add(tile);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void GetTiles()
-        {
-            if (System.IO.Directory.Exists(App.Settings.path + @"\Library"))
-                foreach (string dir in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
-                {
-                    string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
-                    if (System.IO.File.Exists(file))
-                    {
-                        Tiles.Add(new TileControl(file));
-                        if (Tiles[Tiles.Count - 1].hasErrors)
-                            Tiles.RemoveAt(Tiles.Count - 1);
-                        else
-                        {
-                            MenuItem item = new MenuItem();
-                            if (Tiles[Tiles.Count - 1].Info != null)
-                                item.Header = Tiles[Tiles.Count - 1].Info.Name;
-                            item.Click += new RoutedEventHandler(AddTileSubItem_Click);
-                            Image icon = new Image();
-                            icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
-                            icon.Width = 25;
-                            icon.Height = 25;
-                            item.Icon = icon;
-                            AddTileItem.Items.Add(item);
-                        }
-                    }
-                }
+            TileManager.LoadTileList(App.Settings.tiles, true);
         }
 
         public void AddTileSubItem_Click(object sender, RoutedEventArgs e)
         {
+            /*
             int index = AddTileItem.Items.IndexOf(sender);
             if (!((MenuItem)AddTileItem.Items[index]).IsChecked)
             {
-
                 Tiles[index].Load(App.Settings.side, double.NaN);
 
                 if (!Tiles[index].hasErrors)
@@ -295,6 +175,7 @@ namespace Sidebar
                 Tiles[index].Unload();
                 ((MenuItem)AddTileItem.Items[index]).IsChecked = false;
             }
+            */
         }
 
         private void LongBar_MouseMove(object sender, MouseEventArgs e)
@@ -518,6 +399,7 @@ namespace Sidebar
             else
                 RemoveTilesItem.IsEnabled = true;
 
+            /*
             if (System.IO.Directory.Exists(App.Settings.path + @"\Library") && Tiles.Count != System.IO.Directory.GetDirectories(App.Settings.path + @"\Library").Length)
                 foreach (string d in System.IO.Directory.GetDirectories(App.Settings.path + @"\Library"))
                 {
@@ -547,8 +429,9 @@ namespace Sidebar
                 AddTileItem.IsEnabled = true;
             else
                 AddTileItem.IsEnabled = false;
+                */
         }
-
+        /*
         private bool CheckTileAdded(string file)
         {
             foreach (TileControl tile in Tiles)
@@ -556,7 +439,7 @@ namespace Sidebar
                     return true;
             return false;
         }
-
+        */
         private void MinimizeItem_Click(object sender, RoutedEventArgs e)
         {
             Hide();
@@ -619,12 +502,13 @@ namespace Sidebar
 
         private void RemoveTilesItem_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < TilesGrid.Children.Count; i++)
-            {
-                int index = Tiles.IndexOf((TileControl)TilesGrid.Children[i]);
-                Tiles[index].Unload();
-                ((MenuItem)AddTileItem.Items[index]).IsChecked = false;
-            }
+            //for (int i = 0; i < TilesGrid.Children.Count; i++)
+            //{
+            //int index = Tiles.IndexOf((TileControl)TilesGrid.Children[i]);
+            //Tiles[index].Unload();
+            //((MenuItem)AddTileItem.Items[index]).IsChecked = false;
+            //}
+            TilesGrid.Children.Clear();
         }
 
         public static int GetElementIndexByYCoord(StackPanel panel, double y)

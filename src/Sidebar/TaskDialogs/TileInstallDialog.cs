@@ -51,7 +51,7 @@ namespace Sidebar.TaskDialogs
             try
             {
                 PackageManager.Unpack(App.Settings.path, tilePath);
-
+                /*
                 if (longBar != null)
                 {
                     string name = Path.GetFileNameWithoutExtension(tilePath);
@@ -67,7 +67,7 @@ namespace Sidebar.TaskDialogs
                         ((MenuItem)longBar.AddTileItem.Items[((MenuItem)longBar.AddTileItem).Items.Count - 1]).IsChecked = true;
                     }
                 }
-
+                */
                 tdResult = new TaskDialog();
                 tdResult.Icon = TaskDialogStandardIcon.Information;
                 tdResult.Caption = (string)Application.Current.TryFindResource("InstallingTile");

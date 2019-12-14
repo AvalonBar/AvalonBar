@@ -15,6 +15,12 @@ namespace Sidebar.Core
         [XmlAttribute]
         public double Height { get; set; }
         [XmlAttribute]
+        public Guid InstanceGuid { get; set; }
+        [XmlAttribute]
+        public int Order { get; set; }
+        [XmlAttribute]
+        public bool IsPinned { get; set; }
+        [XmlAttribute]
         public bool IsMinimized { get; set; }
     }
 }
