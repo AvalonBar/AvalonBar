@@ -33,7 +33,7 @@ namespace Sidebar
         internal static void SaveSettings(SidebarWindow sidebar)
         {
             Settings.width = (int)sidebar.Width;
-            Settings.tiles = TileManager.GetAllTileStates().ToArray();
+            Settings.tiles = TileManager.GetAllTileStates();
 
             XmlSerializer xmlSerializer = new XmlSerializer(Settings.GetType());
             using (TextWriter textWriter = new StreamWriter("Settings.xml"))

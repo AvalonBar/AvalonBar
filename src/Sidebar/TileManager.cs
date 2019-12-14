@@ -24,6 +24,11 @@ namespace Sidebar
             tileState.IsMinimized = tile.minimized;
             tileState.IsPinned = tile.pinned;
             tileState.Height = tile.Height;
+            tileState.Order = TileContainer.Children.IndexOf(tile);
+            if (tile.pinned)
+            {
+                tileState.Order = PinnedTileContainer.Children.IndexOf(tile);
+            }
             if (tileState.IsMinimized)
             {
                 tileState.Height = tile.normalHeight;
@@ -89,7 +94,7 @@ namespace Sidebar
             }
         }
 
-        public static void LoadTileList(TileState[] tileList, bool clearList)
+        public static void LoadTileList(List<TileState> tileList, bool clearList)
         {
             if (clearList)
             {
@@ -97,7 +102,9 @@ namespace Sidebar
                 PinnedTileContainer.Children.Clear();
             }
 
-            for (int i = 0; i < tileList.Length; i++)
+            tileList.Sort((x, y) => x.Order.CompareTo(y.Order));
+
+            for (int i = 0; i < tileList.Count; i++)
             {
                 TileState state = tileList[i];
                 foreach (Tile tile in Tiles)
@@ -105,6 +112,7 @@ namespace Sidebar
                     if (Path.GetFileName(tile.Path) == state.Name && !tile.HasErrors)
                     {
                         TileControl control = tile.CreateControl(state);
+
                         if (control.hasErrors)
                         {
                             return;
@@ -112,17 +120,18 @@ namespace Sidebar
 
                         if (state.IsPinned)
                         {
-                            PinnedTileContainer.Children.Insert(state.Order, control);
-                            return;
+                            PinnedTileContainer.Children.Add(control);
                         }
-
-                        TileContainer.Children.Insert(state.Order, control);
+                        else
+                        {
+                            TileContainer.Children.Add(control);
+                        }
                     }
                 }
             }
         }
 
-        public static void LoadTileList(TileState[] tiles)
+        public static void LoadTileList(List<TileState> tiles)
         {
             LoadTileList(tiles, true);
         }

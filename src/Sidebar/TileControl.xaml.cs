@@ -125,13 +125,6 @@ namespace Sidebar
             minimized = state.IsMinimized;
             pinned = state.IsPinned;
 
-            if (pinned)
-            {
-                Header.Visibility = Visibility.Collapsed;
-                DockPanel.SetDock(Splitter, Dock.Top);
-                PinItem.IsChecked = true;
-            }
-
             if (minimized)
             {
                 normalHeight = state.Height;
@@ -145,6 +138,12 @@ namespace Sidebar
             isLoaded = true;
             this.BeginAnimation(HeightProperty, LoadHeightAnim);
             TileContentGrid.BeginAnimation(OpacityProperty, LoadOpacityAnim);
+
+            if (pinned)
+            {
+                DockPanel.SetDock(Splitter, Dock.Top);
+                PinItem.IsChecked = true;
+            }
         }
 
 
