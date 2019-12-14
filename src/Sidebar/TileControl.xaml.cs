@@ -24,15 +24,11 @@ namespace Sidebar
     /// </summary>
     public partial class TileControl : UserControl
     {
-        public string File;
-        public TileLib.TileInfo Info;
-        private Type TileType;
+        public Tile ParentTile { get; protected set; }
         private TileLib.BaseTile tileObject;
-        private Assembly tileAssembly;
         private BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
         private FlyoutWindow flyout;
         private TileOptionsWindow options;
-        private ModelType tileModelType;
         public bool hasErrors;
         internal bool minimized;
         internal double normalHeight; //Unminimized height
@@ -45,24 +41,77 @@ namespace Sidebar
             KarlsSidebar
         };
 
-        public TileControl(Tile tile)
+        public TileControl(Tile tile, TileState state)
         {
             InitializeComponent();
-            if (System.IO.File.Exists(file))
+            ParentTile = tile;
+
+            TitleTextBlock.Text = ParentTile.Info.Name;
+            if (File.Exists(System.IO.Path.GetDirectoryName(ParentTile.Path) + @"\Icon.png"))
             {
-                this.File = file;
-                this.Info = new TileLib.TileInfo("", false, false);
-                this.Info.Name = file.Substring(file.LastIndexOf(@"\") + 1, file.Length - file.LastIndexOf(@"\") - 5);
+                TitleIcon.Source = new BitmapImage(
+                    new Uri(System.IO.Path.GetDirectoryName(ParentTile.Path) + @"\Icon.png"));
             }
 
+
+            // Load tile content into this control
+            try
+            {
+                if (ParentTile.IsRetrophaseTile)
+                {
+                    tileKObject = (Applications.Sidebar.Tile)ParentTile.TileType.InvokeMember(null, flags | BindingFlags.CreateInstance, null, null, null);
+                    control = tileKObject.SidebarContent;
+                    // FIXME: Parent tile info should NOT be modified
+                    ParentTile.Info = new TileLib.TileInfo(ParentTile.Info.Name, tileKObject.hasFlyout, tileKObject.hasConfigWindow);
+                }
+                else
+                {
+                    tileObject = (TileLib.BaseTile)ParentTile.TileType.InvokeMember(null, flags | BindingFlags.CreateInstance, null, null, null);
+                    tileObject.CaptionChanged += new TileLib.BaseTile.CaptionChangedEventHandler(TileObject_CaptionChanged);
+                    tileObject.IconChanged += new TileLib.BaseTile.IconChangedEventHandler(TileObject_IconChanged);
+                    tileObject.ShowOptionsEvent += new TileLib.BaseTile.ShowOptionsEventHandler(TileObject_ShowOptionsEvent);
+                    tileObject.ShowFlyoutEvent += new TileLib.BaseTile.ShowFlyoutEventHandler(TileObject_ShowFlyoutEvent);
+                    tileObject.HeightChangedEvent += new TileLib.BaseTile.HeightChangedEventHandler(tileObject_HeightChangedEvent);
+                    tileObject._path = App.Settings.path;
+
+                    control = tileObject.Load();
+
+                    control.MouseLeftButtonDown += new MouseButtonEventHandler(TileContentGrid_MouseLeftButtonDown);
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Logging shouldn't be handled individually
+                if (App.Settings.showErrors)
+                    TaskDialogs.ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, ParentTile.Info.Name), ex);
+                if (!System.IO.Directory.Exists(App.Settings.path + @"\Logs"))
+                    System.IO.Directory.CreateDirectory(App.Settings.path + @"\Logs");
+                string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", App.Settings.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
+                try
+                {
+                    System.IO.File.AppendAllText(logFile, String.Format("{0}\r\n{1}\r\n--------------------------------------------------------------------------------------\r\n",
+                      DateTime.UtcNow.ToString(), ex));
+                }
+                catch (Exception ex1)
+                {
+                    MessageBox.Show("Can't write to log. Reason: " + ex1.Message, null, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                hasErrors = true;
+                return;
+            }
+
+            this.Unloaded += new RoutedEventHandler(Tile_Unloaded);
+            this.SizeChanged += new SizeChangedEventHandler(Tile_SizeChanged);
+
+            // TODO: Remove fade-in animation
             DoubleAnimation LoadHeightAnim = (DoubleAnimation)FindResource("LoadHeightAnim");
             DoubleAnimation LoadOpacityAnim = (DoubleAnimation)FindResource("LoadOpacityAnim");
 
             LoadHeightAnim.Completed += new EventHandler(LoadHeightAnim_Completed);
             LoadOpacityAnim.Completed += new EventHandler(LoadOpacityAnim_Completed);
 
-            if (!double.IsNaN(height))
-                LoadHeightAnim.To = height;
+            if (!double.IsNaN(state.Height))
+                LoadHeightAnim.To = state.Height;
             else if (double.IsNaN(control.Height))
                 LoadHeightAnim.To = 125;
             else if (!double.IsNaN(Header.Height) && (DockPanel.GetDock(Header) == Dock.Top || DockPanel.GetDock(Header) == Dock.Bottom))
@@ -80,7 +129,7 @@ namespace Sidebar
 
             if (minimized)
             {
-                normalHeight = height;
+                normalHeight = state.Height;
                 this.MinimizedItem.IsChecked = true;
             }
 
@@ -212,30 +261,22 @@ namespace Sidebar
 
         private void DockPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            switch (tileModelType)
+            if (ParentTile.IsRetrophaseTile)
             {
-                case ModelType.LongBar:
-                    tileObject.ShowFlyout();
-                    break;
-                case ModelType.KarlsSidebar:
-                    TileKObject_ShowFlyout();
-                    break;
+                TileKObject_ShowFlyout();
+                return;
             }
+
+            tileObject.ShowFlyout();
         }
 
         private void TileContentGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             buttonDownPos = e.GetPosition(TileContentGrid);
             if (!Header.IsVisible && e.ClickCount > 1)
-                switch (tileModelType)
-                {
-                    case ModelType.LongBar:
-                        tileObject.ShowFlyout();
-                        break;
-                    case ModelType.KarlsSidebar:
-                        TileKObject_ShowFlyout();
-                        break;
-                }
+            {
+                DockPanel_MouseLeftButtonDown(sender, e);
+            }
         }
 
         private void TileObject_IconChanged(BitmapImage value)
@@ -245,14 +286,14 @@ namespace Sidebar
 
         private void TileObject_ShowFlyoutEvent()
         {
-            if (this.Info.hasflyout && tileObject.FlyoutContent != null)
+            if (ParentTile.Info.hasflyout && tileObject.FlyoutContent != null)
             {
                 if (flyout != null && flyout.IsVisible)
                 {
                     flyout.Activate();
                     return;
                 }
-                flyout = new FlyoutWindow(Info.Name);
+                flyout = new FlyoutWindow(ParentTile.Info.Name);
                 flyout.Left = this.PointToScreen(new Point(0, 0)).X;
                 flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
                 System.Windows.Forms.Screen screen = Utils.GetScreenFromName(App.Settings.screen);
@@ -267,20 +308,18 @@ namespace Sidebar
 
         private void CustomizeItem_Click(object sender, RoutedEventArgs e)
         {
-            switch (tileModelType)
+            if (ParentTile.IsRetrophaseTile)
             {
-                case ModelType.LongBar:
-                    tileObject.ShowOptions();
-                    break;
-                case ModelType.KarlsSidebar:
-                    TileKObject_ShowOptions();
-                    break;
+                TileKObject_ShowOptions();
+                return;
             }
+
+            tileObject.ShowOptions();
         }
 
         private void TileObject_ShowOptionsEvent()
         {
-            if (this.Info.hasOptions && tileObject.OptionsContent != null)
+            if (ParentTile.Info.hasOptions && tileObject.OptionsContent != null)
             {
                 if (options != null && options.IsVisible)
                 {
@@ -292,23 +331,6 @@ namespace Sidebar
                 options.Height = tileObject.OptionsContent.Height + 5;
                 options.ContentGrid.Children.Add(tileObject.OptionsContent);
                 options.Show();
-            }
-        }
-
-        private void TileKObject_ShowOptions()
-        {
-            if (this.Info.hasOptions && tileKObject.ConfigurationWindow != null)
-            {
-                Window configWindow = tileKObject.ConfigurationWindow;
-                if (configWindow != null && configWindow.IsVisible)
-                {
-                    configWindow.Activate();
-                    return;
-                }
-
-                configWindow.Closing += new CancelEventHandler(KTile_ConfigClosing);
-                configWindow.Loaded += new RoutedEventHandler(KTile_ConfigLoaded);
-                configWindow.ShowDialog();
             }
         }
 
@@ -417,7 +439,7 @@ namespace Sidebar
                 MoveDownItem.IsEnabled = true;
             else
                 MoveDownItem.IsEnabled = false;
-            if (Info.hasOptions)
+            if (ParentTile.Info.hasOptions)
                 CustomizeItem.IsEnabled = true;
             else
                 CustomizeItem.IsEnabled = false;
@@ -545,22 +567,40 @@ namespace Sidebar
          * Retrophase Sidebar (Tile Compatibility Shim)
          */
         private Applications.Sidebar.Tile tileKObject;
+
         private void TileKObject_ShowFlyout()
         {
-            if (this.Info.hasflyout && tileKObject.FlyoutContent != null)
+            if (ParentTile.Info.hasflyout && tileKObject.FlyoutContent != null)
             {
                 if (flyout != null && flyout.IsVisible)
                 {
                     flyout.Activate();
                     return;
                 }
-                flyout = new FlyoutWindow(Info.Name);
+                flyout = new FlyoutWindow(ParentTile.Info.Name);
                 flyout.Width = tileKObject.FlyoutContent.Width;
                 flyout.Height = tileKObject.FlyoutContent.Height;
                 flyout.Left = this.PointToScreen(new Point(0, 0)).X;
                 flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
                 flyout.ContentGrid.Children.Add(tileKObject.FlyoutContent);
                 flyout.Show();
+            }
+        }
+
+        private void TileKObject_ShowOptions()
+        {
+            if (ParentTile.Info.hasOptions && tileKObject.ConfigurationWindow != null)
+            {
+                Window configWindow = tileKObject.ConfigurationWindow;
+                if (configWindow != null && configWindow.IsVisible)
+                {
+                    configWindow.Activate();
+                    return;
+                }
+
+                configWindow.Closing += new CancelEventHandler(KTile_ConfigClosing);
+                configWindow.Loaded += new RoutedEventHandler(KTile_ConfigLoaded);
+                configWindow.ShowDialog();
             }
         }
 
