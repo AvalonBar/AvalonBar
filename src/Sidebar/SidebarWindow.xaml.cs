@@ -71,7 +71,7 @@ namespace Sidebar
                 return tileStates;
             }
 
-            if (TilesGrid.Children.Count > 0)
+            if (!isPinned && TilesGrid.Children.Count > 0)
             {
                 Array.Resize(ref tileStates, TilesGrid.Children.Count);
                 for (int i = 0; i < TilesGrid.Children.Count; i++)
