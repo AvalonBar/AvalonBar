@@ -58,8 +58,8 @@
     <s:String x:Key="Minimized">Minimize</s:String>
     <s:String x:Key="MoveUp">Move Up</s:String>
     <s:String x:Key="MoveDown">Move Down</s:String>
-    <s:String x:Key="Remove">Remove {0}</s:String>
-    <s:String x:Key="Properties">{0} Properties</s:String>
+    <s:String x:Key="Remove">Remove tile</s:String>
+    <s:String x:Key="Properties">Configure tile</s:String>
     <!-- Options strings -->
     <s:String x:Key="LongBarSettings">Settings</s:String>
     <s:String x:Key="General">General</s:String>
