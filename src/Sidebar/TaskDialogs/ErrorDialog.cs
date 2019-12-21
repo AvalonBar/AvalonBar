@@ -70,7 +70,7 @@ namespace Sidebar.TaskDialogs
                 "\nException:\n" + ex.ToString();
 
             Clipboard.SetData(DataFormats.Text, report);
-            Process.Start(Services.Issues);
+            Process.Start(Services.IssuesUrl);
 
             ((TaskDialog)((TaskDialogControl)sender).HostingDialog).Close(TaskDialogResult.Close);
         }

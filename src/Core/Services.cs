@@ -14,26 +14,24 @@ namespace Sidebar.Core
     public static class Services
     {
 #if DEBUG
-        public static readonly string LandingPage = "http://avalonbar.github.io/";
+        public static readonly string LandingPageUrl = "http://avalonbar.github.io/";
 #else
         public static readonly string LandingPage = "https://avalonbar.github.io/";
 #endif
-        public static readonly string UpdateInfo = LandingPage + "services/UpdateInfo.xml";
-        public static readonly string TileInfo = LandingPage + "services/TileList.xml";
-        public static readonly string UpdatePackage = LandingPage + "services/UpdatePackage.zip";
-        public static readonly string Languages = LandingPage + "languages";
-        public static readonly string Themes = LandingPage + "themes";
-        public static readonly string Issues = LandingPage + "issue-help";
+        public static readonly string UpdateUrl = LandingPageUrl + "services/UpdateInfo.xml";
+        public static readonly string TileInfoUrl = LandingPageUrl + "services/TileList.xml";
+        public static readonly string LanguagesUrl = LandingPageUrl + "languages";
+        public static readonly string ThemesUrl = LandingPageUrl + "themes";
+        public static readonly string IssuesUrl = LandingPageUrl + "issue-help";
 
         public static UpdateInfo CheckForUpdates()
         {
             UpdateInfo result = new UpdateInfo();
-
             using (WebClient client = new WebClient())
             {
                 try
                 {
-                    string updateInfoFile = client.DownloadString(Services.UpdateInfo);
+                    string updateInfoFile = client.DownloadString(UpdateUrl);
                     XmlSerializer serializer = new XmlSerializer(typeof(UpdateInfo));
                     UpdateInfo updateInfo = (UpdateInfo)serializer.Deserialize(new StringReader(updateInfoFile));
 

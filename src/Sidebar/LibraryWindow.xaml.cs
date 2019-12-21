@@ -130,7 +130,7 @@ namespace Sidebar
                     }
                 };
                 client.DownloadFileAsync(
-                    new Uri(Services.TileInfo), App.Settings.path + @"\Cache\Tiles.list");
+                    new Uri(Services.TileInfoUrl), App.Settings.path + @"\Cache\Tiles.list");
             }
         }
 
