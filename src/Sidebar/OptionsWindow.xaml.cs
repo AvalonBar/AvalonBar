@@ -252,17 +252,17 @@ namespace Sidebar
 
         private void FindLocalesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start(ServiceUrls.Languages);
+            Process.Start(Services.Languages);
         }
 
         private void FindThemesTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start(ServiceUrls.Themes);
+            Process.Start(Services.Themes);
         }
 
         private void ContactString_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Process.Start(ServiceUrls.LandingPage);
+            Process.Start(Services.LandingPage);
         }
 
         private void TopMostCheckBox_Checked(object sender, RoutedEventArgs e)

@@ -70,7 +70,7 @@
     <Compile Include="CompositionManager.cs" />
     <Compile Include="AppBar\AppBar.cs" />
     <Compile Include="NativeMethods.cs" />
-    <Compile Include="ServiceUrls.cs" />
+    <Compile Include="Services.cs" />
     <Compile Include="TileListManifest.cs" />
     <Compile Include="TileListProvider.cs" />
     <Compile Include="TileMetadata.cs" />
@@ -82,7 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThemesManager.cs" />
     <Compile Include="UpdateInfo.cs" />
-    <Compile Include="UpdateManager.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

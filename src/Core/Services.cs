@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
 using System.IO;
-using System.Windows;
 using System.IO.Compression;
+using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Sidebar.Core
 {
-    public class UpdateManager
+    public static class Services
     {
+#if DEBUG
+        public static readonly string LandingPage = "http://avalonbar.github.io/";
+#else
+        public static readonly string LandingPage = "https://avalonbar.github.io/";
+#endif
+        public static readonly string UpdateInfo = LandingPage + "services/UpdateInfo.xml";
+        public static readonly string TileInfo = LandingPage + "services/TileList.xml";
+        public static readonly string UpdatePackage = LandingPage + "services/UpdatePackage.zip";
+        public static readonly string Languages = LandingPage + "languages";
+        public static readonly string Themes = LandingPage + "themes";
+        public static readonly string Issues = LandingPage + "issue-help";
+
         public static UpdateInfo CheckForUpdates()
         {
             UpdateInfo result = new UpdateInfo();
@@ -20,7 +33,7 @@ namespace Sidebar.Core
             {
                 try
                 {
-                    string updateInfoFile = client.DownloadString(ServiceUrls.UpdateInfo);
+                    string updateInfoFile = client.DownloadString(Services.UpdateInfo);
                     XmlSerializer serializer = new XmlSerializer(typeof(UpdateInfo));
                     UpdateInfo updateInfo = (UpdateInfo)serializer.Deserialize(new StringReader(updateInfoFile));
 

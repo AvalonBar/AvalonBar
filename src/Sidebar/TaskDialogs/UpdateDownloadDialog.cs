@@ -34,7 +34,7 @@ namespace Sidebar.TaskDialogs
 
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            client.DownloadFileAsync(new Uri(ServiceUrls.UpdatePackage), App.Settings.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri(Services.UpdatePackage), App.Settings.path + "\\Updates\\Update");
 
             td.Show();
         }
@@ -51,7 +51,7 @@ namespace Sidebar.TaskDialogs
         {
             if (e.Error == null && !e.Cancelled)
             {
-                UpdateManager.UpdateFiles(App.Settings.path);
+                Services.UpdateFiles(App.Settings.path);
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     Application.Current.Shutdown();
