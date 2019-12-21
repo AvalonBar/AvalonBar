@@ -26,7 +26,6 @@ namespace Sidebar.Core
 
         public static UpdateInfo CheckForUpdates()
         {
-            UpdateInfo result = new UpdateInfo();
             using (WebClient client = new WebClient())
             {
                 try
@@ -37,7 +36,7 @@ namespace Sidebar.Core
 
                     if (updateInfo.Version != VersionInfo.Core)
                     {
-                        result = updateInfo;
+                        return updateInfo;
                     }
                 }
                 catch
@@ -46,7 +45,7 @@ namespace Sidebar.Core
                 }
             }
 
-            return result;
+            return UpdateInfo.Empty;
         }
 
         public static void UpdateFiles(string path)
