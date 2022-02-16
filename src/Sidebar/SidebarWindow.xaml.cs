@@ -174,7 +174,7 @@ namespace Sidebar
                     UpdateInfo updateInfo = Services.CheckForUpdates();
                     if (updateInfo.Version != null && updateInfo.Description != null)
                     {
-                        TaskDialogs.UpdateDialog.ShowDialog(updateInfo.Version, updateInfo.Description);
+                        TaskDialogs.UpdateDialog.ShowDialog(updateInfo);
                     }
                 };
                 Thread thread = new Thread(threadStarter);

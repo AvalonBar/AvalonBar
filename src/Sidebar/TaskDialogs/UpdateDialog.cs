@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Sidebar.Core;
 
 namespace Sidebar.TaskDialogs
 {
     public class UpdateDialog
     {
         private static TaskDialog td;
+        private static UpdateInfo info;
 
-        public static void ShowDialog(string version, string description)
+        public static void ShowDialog(UpdateInfo updateInfo)
         {
+            info = updateInfo;
             td = new TaskDialog();
             td.Cancelable = true;
             td.Icon = TaskDialogStandardIcon.None;
 
             td.Caption = (string)Application.Current.TryFindResource("UpdateDialogTitle");
             td.Text = string.Format(
-                (string)Application.Current.TryFindResource("UpdateDialogText"), version, VersionInfo.Core);
+                (string)Application.Current.TryFindResource("UpdateDialogText"), info.Version, VersionInfo.Core);
             td.InstructionText = (string)Application.Current.TryFindResource("UpdateDialogHeader");
             td.StandardButtons = TaskDialogStandardButtons.None;
 
             td.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
             td.DetailsExpandedLabel = (string)Application.Current.TryFindResource("HideDetails");
-            td.DetailsExpandedText = description;
+            td.DetailsExpandedText = info.Description;
             td.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("ShowDetails");
 
             TaskDialogCommandLink updateButton = new TaskDialogCommandLink("updateButton", "Update");
@@ -45,7 +48,7 @@ namespace Sidebar.TaskDialogs
         private static void updateButton_Click(object sender, EventArgs e)
         {
             td.Close();
-            UpdateDownloadDialog.ShowDialog();
+            UpdateDownloadDialog.ShowDialog(info.PackageUrl);
         }
     }
 }

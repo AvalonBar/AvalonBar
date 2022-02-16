@@ -14,7 +14,7 @@ namespace Sidebar.TaskDialogs
     {
         private static TaskDialog td;
 
-        public static void ShowDialog()
+        public static void ShowDialog(string packageUrl)
         {
             td = new TaskDialog();
             td.Caption = (string)Application.Current.TryFindResource("UpdateDownloadDialogTitle");
@@ -34,7 +34,7 @@ namespace Sidebar.TaskDialogs
 
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            client.DownloadFileAsync(new Uri(Services.UpdatePackage), App.Settings.path + "\\Updates\\Update");
+            client.DownloadFileAsync(new Uri(packageUrl), App.Settings.path + "\\Updates\\Update");
 
             td.Show();
         }
