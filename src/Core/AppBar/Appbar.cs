@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace Sidebar.Core
 {
@@ -118,28 +119,28 @@ namespace Sidebar.Core
                     break;
             }
             AppbarSetPos(ref rt);
-            MainWindow.Left = rt.Left;
-            MainWindow.Top = rt.Top;
-            MainWindow.Width = rt.Right - rt.Left;
+            MainWindow.Left = rt.Left / dpiX;
+            MainWindow.Top = rt.Top / dpiY;
+            //MainWindow.Width = (rt.Right - rt.Left) / dpiX;
             if (IsOverlapping)
-                MainWindow.Height = Screen.Bounds.Size.Height;
+                MainWindow.Height = Screen.Bounds.Size.Height / dpiY;
             else
-                MainWindow.Height = rt.Bottom - rt.Top;
+                MainWindow.Height = (rt.Bottom - rt.Top) / dpiY;
         }
 
         public static void SetPos()
         {
             if (Side == AppBarSide.Right)
             {
-                MainWindow.Left = Screen.WorkingArea.Right - MainWindow.Width;
-                MainWindow.Top = Screen.WorkingArea.Top;
-                MainWindow.Height = Screen.WorkingArea.Height;
+                MainWindow.Left = (Screen.WorkingArea.Right - MainWindow.Width) / dpiX;
+                MainWindow.Top = Screen.WorkingArea.Top / dpiY;
+                MainWindow.Height = Screen.WorkingArea.Height / dpiY;
             }
             else
             {
-                MainWindow.Left = Screen.WorkingArea.Left;
-                MainWindow.Top = Screen.WorkingArea.Top;
-                MainWindow.Height = Screen.WorkingArea.Height;
+                MainWindow.Left = Screen.WorkingArea.Left / dpiX;
+                MainWindow.Top = Screen.WorkingArea.Top / dpiY;
+                MainWindow.Height = Screen.WorkingArea.Height / dpiY;
             }
         }
 
@@ -148,9 +149,17 @@ namespace Sidebar.Core
         private static int trayWndLeft;
         private static bool WindowHooksAdded;
 
+        private static double dpiX;
+        private static double dpiY;
+
         public static void SetSidebar(Window wnd, AppBarSide side, bool topMost, bool overlapTaskBar, string scrnName)
         {
             MainWindow = wnd;
+            PresentationSource source = PresentationSource.FromVisual(MainWindow);
+
+            dpiX = source.CompositionTarget.TransformToDevice.M11;
+            dpiY = source.CompositionTarget.TransformToDevice.M22;
+
             Handle = new WindowInteropHelper(wnd).Handle;
             Side = side;
             ScreenName = scrnName;
