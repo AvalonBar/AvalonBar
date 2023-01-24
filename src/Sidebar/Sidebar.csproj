@@ -71,6 +71,7 @@
     <Compile Include="AppBar\AppBarSide.cs" />
     <Compile Include="Core\CompositionManager.cs" />
     <Compile Include="AppBar\AppBar.cs" />
+    <Compile Include="FileAssociation.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Core\Services.cs" />
     <Compile Include="Core\TileListManifest.cs" />

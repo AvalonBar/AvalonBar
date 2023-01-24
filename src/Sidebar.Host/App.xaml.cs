@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Threading;
 using System.IO;
-using System.Diagnostics;
-using System.Xml.Serialization;
 
 namespace Sidebar.Host
 {
@@ -44,7 +41,7 @@ namespace Sidebar.Host
 #if !DEBUG
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
-            Microsoft.Win32.SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
+            SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
             LocaleManager.LoadLocale(Settings.Current.path, Settings.Current.locale);
 
             if (Utils.PriorProcess() != null && e.Args.Length == 0)
@@ -62,41 +59,17 @@ namespace Sidebar.Host
                     case @"/regext":
                         try
                         {
-                            RegistryKey key;
-                            key = Registry.ClassesRoot;
-                            key = key.CreateSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, "LongBar.Tile", RegistryValueKind.String);
-                            key = Registry.ClassesRoot;
-                            key = key.CreateSubKey("LongBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, "LongBar Tile", RegistryValueKind.String);
-                            key = key.CreateSubKey("DefaultIcon", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, Settings.Current.path + @"\Slate.dll,0", RegistryValueKind.ExpandString);
-                            key = Registry.ClassesRoot;
-                            key = key.OpenSubKey("LongBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key = key.CreateSubKey("shell", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key = key.CreateSubKey("Install", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key = key.CreateSubKey("command", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            key.SetValue(null, Settings.Current.path + @"\" + Assembly.GetExecutingAssembly().GetName().Name + @".exe %1", RegistryValueKind.String);
-                            key.Close();
+                            FileAssociation.Register();
                         }
                         catch { }
                         break;
-
                     case @"/unregext":
                         try
                         {
-                            RegistryKey key;
-                            key = Registry.ClassesRoot.OpenSubKey(".tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            if (key != null)
-                                Registry.ClassesRoot.DeleteSubKeyTree(".tile");
-                            key = Registry.ClassesRoot.OpenSubKey("LongBar.Tile", RegistryKeyPermissionCheck.ReadWriteSubTree);
-                            if (key != null)
-                                Registry.ClassesRoot.DeleteSubKeyTree("LongBar.Tile");
-                            key.Close();
+                            FileAssociation.Unregister();
                         }
                         catch { }
                         break;
-
                     case "/debug":
                         if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
                         {
@@ -104,8 +77,6 @@ namespace Sidebar.Host
                             Settings.Current.tileToDebug = e.Args[1];
                         }
                         break;
-
-
                     default:
                         foreach (string file in e.Args)
                         {
@@ -135,7 +106,7 @@ namespace Sidebar.Host
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= new EventHandler(SystemEvents_DisplaySettingsChanged);
+            SystemEvents.DisplaySettingsChanged -= new EventHandler(SystemEvents_DisplaySettingsChanged);
         }
     }
 }
