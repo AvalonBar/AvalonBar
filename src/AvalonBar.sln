@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidebar", "Sidebar\Sidebar.csproj", "{26F66528-1B38-4EDF-99A2-E241ED3E3AAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidebar.Host", "Sidebar.Host\Sidebar.Host.csproj", "{26F66528-1B38-4EDF-99A2-E241ED3E3AAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidebar.Core", "Core\Sidebar.Core.csproj", "{6FED4AA1-9C65-436F-AA64-18645333FFAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidebar", "Sidebar\Sidebar.csproj", "{6FED4AA1-9C65-436F-AA64-18645333FFAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileLib", "TileLib\TileLib.csproj", "{E9D551B9-C80A-41D6-915A-5C6C005547A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileLib", "Sidebar.TileLib\TileLib.csproj", "{E9D551B9-C80A-41D6-915A-5C6C005547A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileSDK", "KSideBarTileLib\TileSDK.csproj", "{5C7CD956-F85C-47E6-9053-785EB66EB487}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileSDK", "Sidebar.TileLib.Retrophase\TileSDK.csproj", "{5C7CD956-F85C-47E6-9053-785EB66EB487}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +36,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4CFC9A7-2B09-4E07-931C-2FF5E2E7E96F}
 	EndGlobalSection
 EndGlobal
