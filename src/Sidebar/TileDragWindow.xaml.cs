@@ -30,47 +30,74 @@ namespace Sidebar
             InitializeComponent();
 
             this.panel = panel;
-            splitter = new TileDragSplitter(this.Height);
             this.content = content;
+            splitter = new TileDragSplitter(Height);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             handle = new WindowInteropHelper(this).Handle;
-            this.SourceGrid.Children.Add(content);
+            SourceGrid.Children.Add(content);
         }
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                NativeMethods.SendMessage(handle, 274, new IntPtr(61449), IntPtr.Zero);
+            {
+                // hWnd, WM_SYSCOMMAND, SC_SIZE | 0x9 (Drag from anywhere), lParam
+                NativeMethods.SendMessage(
+                    handle,
+                    0x112,
+                    new IntPtr(0xF000 | 0x9),
+                    IntPtr.Zero);
+            }
+
             if (e.LeftButton == MouseButtonState.Released)
-                Window_MouseLeftButtonUp(this, new MouseButtonEventArgs((MouseDevice)e.Device, e.Timestamp, MouseButton.Left));
+            {
+                Window_MouseLeftButtonUp(
+                    this,
+                    new MouseButtonEventArgs(
+                        (MouseDevice)e.Device, e.Timestamp, MouseButton.Left));
+            }
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
-            int index = SidebarWindow.GetElementIndexByYCoord(panel, this.Top); //берем индекс элемента по координате
+            // Take the element index by coordinate.
+            int index = SidebarWindow.GetElementIndexByYCoord(panel, Top);
             //Txt.Text = currentIndex.ToString() + "|" + index.ToString();
-            if (index != currentIndex) //и не равен текущему, то суем сплиттер перед элементом с этим индексом
+            // Move the current tile if it's placed somewhere else.
+            if (index != currentIndex)
             {
-                if (((index == -1 && currentIndex == 0) || (index == 100500 && currentIndex == panel.Children.Count - 1) &&
-                    panel.Children.Contains(splitter)))
+                if ((index == -1 && currentIndex == 0) ||
+                    (index == 100500 && currentIndex == panel.Children.Count - 1) &&
+                    panel.Children.Contains(splitter))
+                {
                     return;
+                }
                 if (index > 0 && index < 100500 && panel.Children.IndexOf(splitter) == index - 1)
+                {
                     return;
-                if (panel.Children.Contains(splitter)) //если сплиттер уже на панели,
-                    panel.Children.Remove(splitter); //убираем его нафиг
+                }
+                // Remove splitter if it's already on the panel.
+                if (panel.Children.Contains(splitter))
+                {
+                    panel.Children.Remove(splitter);
+                }
+
                 switch (index)
                 {
-                    case -1: //если индекс равен -1
-                        panel.Children.Insert(0, splitter); //втыкаем сплиттер в начало
+                    // Insert the splitter at the beginning
+                    case -1:
+                        panel.Children.Insert(0, splitter); 
                         break;
-                    case 100500: //если индекс равен стопицот
-                        panel.Children.Add(splitter); //втыкаем сплиттер в конец
+                    // Insert the splitter at the end if the index is "stopitsot".
+                    case 100500:
+                        panel.Children.Add(splitter); 
                         break;
-                    default: //а иначе
-                        panel.Children.Insert(index, splitter); //втыкаем сплиттер перед индексом
+                    // Insert the splitter before the index.
+                    default:
+                        panel.Children.Insert(index, splitter);
                         break;
                 }
                 splitter.Reload();
@@ -81,15 +108,16 @@ namespace Sidebar
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (panel.Children.Contains(splitter))
+            {
                 panel.Children.Remove(splitter);
+            }
             SourceGrid.Children.Clear();
             try
             {
                 panel.Children.Insert(currentIndex, content);
             }
             catch { }
-            this.Close();
-
+            Close();
         }
 
         private void DoubleAnimation_Completed(object sender, EventArgs e)
