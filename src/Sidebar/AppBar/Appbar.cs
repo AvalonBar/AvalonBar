@@ -119,28 +119,28 @@ namespace Sidebar
                     break;
             }
             AppbarSetPos(ref rt);
-            MainWindow.Left = rt.Left / dpiX;
-            MainWindow.Top = rt.Top / dpiY;
-            //MainWindow.Width = (rt.Right - rt.Left) / dpiX;
+            MainWindow.Left = rt.Left / dpiScale.DpiScaleX;
+            MainWindow.Top = rt.Top / dpiScale.DpiScaleY;
+            //MainWindow.Width = (rt.Right - rt.Left) / dpiScale.DpiScaleX;
             if (IsOverlapping)
-                MainWindow.Height = Screen.Bounds.Size.Height / dpiY;
+                MainWindow.Height = Screen.Bounds.Size.Height / dpiScale.DpiScaleY;
             else
-                MainWindow.Height = (rt.Bottom - rt.Top) / dpiY;
+                MainWindow.Height = (rt.Bottom - rt.Top) / dpiScale.DpiScaleY;
         }
 
         public static void SetPos()
         {
             if (Side == AppBarSide.Right)
             {
-                MainWindow.Left = (Screen.WorkingArea.Right / dpiX) - MainWindow.Width;
-                MainWindow.Top = Screen.WorkingArea.Top / dpiY;
-                MainWindow.Height = Screen.WorkingArea.Height / dpiY;
+                MainWindow.Left = (Screen.WorkingArea.Right / dpiScale.DpiScaleX) - MainWindow.Width;
+                MainWindow.Top = Screen.WorkingArea.Top / dpiScale.DpiScaleY;
+                MainWindow.Height = Screen.WorkingArea.Height / dpiScale.DpiScaleY;
             }
             else
             {
-                MainWindow.Left = Screen.WorkingArea.Left / dpiX;
-                MainWindow.Top = Screen.WorkingArea.Top / dpiY;
-                MainWindow.Height = Screen.WorkingArea.Height / dpiY;
+                MainWindow.Left = Screen.WorkingArea.Left / dpiScale.DpiScaleX;
+                MainWindow.Top = Screen.WorkingArea.Top / dpiScale.DpiScaleY;
+                MainWindow.Height = Screen.WorkingArea.Height / dpiScale.DpiScaleY;
             }
         }
 
@@ -149,16 +149,12 @@ namespace Sidebar
         private static int trayWndLeft;
         private static bool WindowHooksAdded;
 
-        private static double dpiX;
-        private static double dpiY;
+        private static DpiScale dpiScale;
 
         public static void SetSidebar(Window wnd, AppBarSide side, bool topMost, bool overlapTaskBar, string scrnName)
         {
             MainWindow = wnd;
-            PresentationSource source = PresentationSource.FromVisual(MainWindow);
-
-            dpiX = source.CompositionTarget.TransformToDevice.M11;
-            dpiY = source.CompositionTarget.TransformToDevice.M22;
+            dpiScale = VisualTreeHelper.GetDpi(wnd);
 
             Handle = new WindowInteropHelper(wnd).Handle;
             Side = side;
