@@ -132,7 +132,7 @@ namespace Sidebar.Core
         {
             if (Side == AppBarSide.Right)
             {
-                MainWindow.Left = (Screen.WorkingArea.Right - MainWindow.Width) / dpiX;
+                MainWindow.Left = (Screen.WorkingArea.Right / dpiX) - MainWindow.Width;
                 MainWindow.Top = Screen.WorkingArea.Top / dpiY;
                 MainWindow.Height = Screen.WorkingArea.Height / dpiY;
             }
