@@ -32,7 +32,7 @@ namespace Sidebar
             trayMenu.Items.Add(showHideMenuItem);
             trayMenu.Items.Add(closeMenuItem);
 
-            Uri iconUri = new Uri("pack://application:,,,/Sidebar.Host;component/Resources/SidebarIcon.ico");
+            Uri iconUri = new Uri("pack://application:,,,/Sidebar;component/Resources/SidebarIcon.ico");
             Stream iconStream = System.Windows.Application.GetResourceStream(iconUri).Stream;
 
             trayIcon = new NotifyIcon();

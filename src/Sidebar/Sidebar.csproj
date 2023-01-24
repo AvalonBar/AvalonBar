@@ -122,6 +122,10 @@
     <Resource Include="Core\TileIcon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\FlyoutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -173,6 +177,21 @@
       <Project>{e9d551b9-c80a-41d6-915a-5c6c005547a8}</Project>
       <Name>TileLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Library_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SearchIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Sidebar_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SidebarIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tile_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

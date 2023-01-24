@@ -227,7 +227,7 @@ namespace Sidebar
             Dispatcher.Invoke((Action)delegate
             {
                 ((Image)sender).Source = new BitmapImage(
-                    new Uri("/Sidebar.Host;component/Resources/Tile_Icon.png", UriKind.Relative));
+                    new Uri("/Sidebar;component/Resources/Tile_Icon.png", UriKind.Relative));
             }, null);
         }
 
@@ -245,7 +245,7 @@ namespace Sidebar
             MiscDetailPanel.Visibility = Visibility.Collapsed;
 
             CurrentItemIcon.Source = new BitmapImage(
-                new Uri("/Sidebar.Host;component/Resources/Library_icon.png", UriKind.Relative));
+                new Uri("/Sidebar;component/Resources/Library_icon.png", UriKind.Relative));
             DownloadButton.Visibility = Visibility.Collapsed;
         }
 

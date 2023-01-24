@@ -47,7 +47,7 @@
             <TabItem Header="{DynamicResource AboutLongBar}">
                 <StackPanel x:Name="AboutDockPanel" Background="White" Opacity="1">
                     <StackPanel x:Name="BrandingGrid" Height="70" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image x:Name="BrandingLogo" Stretch="Fill" Margin="0" HorizontalAlignment="Left" Width="55" Height="55" Source="/Sidebar.Host;component/Resources/Sidebar_icon.png" VerticalAlignment="Center"/>
+                        <Image x:Name="BrandingLogo" Stretch="Fill" Margin="0" HorizontalAlignment="Left" Width="55" Height="55" Source="/Sidebar;component/Resources/Sidebar_icon.png" VerticalAlignment="Center"/>
                         <TextBlock x:Name="BrandingName" FontSize="40" Foreground="Black" Opacity="1" Margin="10,-5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="Avalon"/><Run FontWeight="Bold" Text="Bar"/></TextBlock>
                     </StackPanel>
                     <Border BorderBrush="#FFD1D1D1" BorderThickness="0,1,0,0"/>

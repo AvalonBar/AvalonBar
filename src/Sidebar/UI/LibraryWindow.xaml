@@ -52,7 +52,7 @@
                         <Grid Height="25" Width="240" DockPanel.Dock="Right" VerticalAlignment="Top" Margin="0,6,10,0">
                             <TextBox x:Name="SearchField" VerticalContentAlignment="Center" TextChanged="SearchField_TextChanged" IsKeyboardFocusedChanged="SearchField_IsKeyboardFocusedChanged" Padding="4,0,20,0"/>
                             <TextBlock x:Name="SearchFieldPlaceholder" IsHitTestVisible="False" Text="{DynamicResource SearchTile}" Opacity="0.7" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="DarkGray" VerticalAlignment="Center"/>
-                            <Image x:Name="SearchIcon" Source="/Sidebar.Host;component/Resources/SearchIcon.png" Margin="0,0,5,0" HorizontalAlignment="Right" Width="15" Height="16"/>
+                            <Image x:Name="SearchIcon" Source="/Sidebar;component/Resources/SearchIcon.png" Margin="0,0,5,0" HorizontalAlignment="Right" Width="15" Height="16"/>
                         </Grid>
                         <StackPanel x:Name="ToolBar" Orientation="Horizontal" Margin="5,0,0,0">
                             <TextBlock x:Name="DownloadButton" MouseLeftButtonUp="DownloadButton_MouseLeftButtonUp" Text="{DynamicResource DownloadTileButton}" Cursor="Hand" Style="{StaticResource LinkTemplate}" VerticalAlignment="Center" Visibility="Collapsed"/>
@@ -87,7 +87,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image x:Name="CurrentItemIcon" Source="/Sidebar.Host;component/Resources/Library_icon.png" Margin="15,0" ImageFailed="ItemIconImage_ImageFailed" />
+                        <Image x:Name="CurrentItemIcon" Source="/Sidebar;component/Resources/Library_icon.png" Margin="15,0" ImageFailed="ItemIconImage_ImageFailed" />
                         <TextBlock x:Name="ItemsCount" Text="0 items" FontSize="16" Grid.Column="1" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                         <StackPanel x:Name="HeaderDetailPanel" Grid.Column="1" Visibility="Collapsed">
                             <TextBlock x:Name="CurrentItemTitle" Text="Tile Name" FontSize="16" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
