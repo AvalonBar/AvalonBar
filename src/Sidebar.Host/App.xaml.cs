@@ -97,6 +97,10 @@ namespace Sidebar.Host
 
             var mainWindow = new SidebarWindow();
             mainWindow.Show();
+            mainWindow.Closed += delegate
+            {
+                Shutdown();
+            };
         }
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
