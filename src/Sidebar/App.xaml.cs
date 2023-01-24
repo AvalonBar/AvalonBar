@@ -61,18 +61,18 @@ namespace Sidebar
                 MessageBox.Show("Failed to write exception log.\n\nDetails: " + ex.Message,
                     null, MessageBoxButton.OK, MessageBoxImage.Asterisk);
             }
-#if DEBUG
-            throw e.Exception;
-#else
+
             if (Settings.showErrors)
                 TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
             e.Handled = true;
-#endif
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
+#if !DEBUG
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+#endif
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
             ReadSettings();
             LocaleManager.LoadLocale(Settings.path, Settings.locale);
