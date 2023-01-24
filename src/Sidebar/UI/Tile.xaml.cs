@@ -673,20 +673,22 @@ namespace Sidebar
                 mousePressed = false;
             }
 
-            if (e.LeftButton == MouseButtonState.Pressed && (dragWindow == null || !dragWindow.IsLoaded)
-                && buttonDownPos.X > 0 && buttonDownPos.Y > 0)
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                (dragWindow == null || !dragWindow.IsLoaded) &&
+                buttonDownPos.X > 0 && buttonDownPos.Y > 0)
             {
-                double a = e.GetPosition(TileContentGrid).X;
-                double b = e.GetPosition(TileContentGrid).Y;
-                if ((e.GetPosition(TileContentGrid).X > buttonDownPos.X + 20 || e.GetPosition(TileContentGrid).X < buttonDownPos.X - 20) ||
-                (e.GetPosition(TileContentGrid).Y > buttonDownPos.Y + 20 || e.GetPosition(TileContentGrid).Y < buttonDownPos.Y - 20))
+                double tileX = e.GetPosition(TileContentGrid).X;
+                double tileY = e.GetPosition(TileContentGrid).Y;
+                if ((tileX > buttonDownPos.X + 20 || tileX < buttonDownPos.X - 20) ||
+                    (tileY > buttonDownPos.Y + 20 || tileY < buttonDownPos.Y - 20))
                 {
-                    dragWindow = new TileDragWindow((StackPanel)this.Parent, this);
-                    dragWindow.Left = this.PointToScreen(new Point(0, 0)).X;
-                    dragWindow.Top = this.PointToScreen(new Point(0, 0)).Y;
-                    dragWindow.Width = this.ActualWidth + 20;
-                    dragWindow.Height = this.ActualHeight + 25;
-                    ((StackPanel)this.Parent).Children.Remove(this);
+                    dragWindow = new TileDragWindow((StackPanel)Parent, this);
+                    var dpiScale = VisualTreeHelper.GetDpi(dragWindow);
+                    dragWindow.Left = PointToScreen(new Point(0, 0)).X / dpiScale.DpiScaleX;
+                    dragWindow.Top = PointToScreen(new Point(0, 0)).Y / dpiScale.DpiScaleY;
+                    dragWindow.Width = ActualWidth + 20;
+                    dragWindow.Height = ActualHeight + 25;
+                    ((StackPanel)Parent).Children.Remove(this);
                     dragWindow.Show();
                 }
             }
