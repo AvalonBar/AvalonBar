@@ -164,11 +164,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KSideBarTileLib\TileSDK.csproj">
+    <ProjectReference Include="..\Sidebar.TileLib.Retrophase\TileSDK.csproj">
       <Project>{5c7cd956-f85c-47e6-9053-785eb66eb487}</Project>
       <Name>TileSDK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TileLib\TileLib.csproj">
+    <ProjectReference Include="..\Sidebar.TileLib\TileLib.csproj">
       <Project>{e9d551b9-c80a-41d6-915a-5c6c005547a8}</Project>
       <Name>TileLib</Name>
     </ProjectReference>
