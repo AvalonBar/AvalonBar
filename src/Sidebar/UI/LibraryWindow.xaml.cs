@@ -40,7 +40,7 @@ namespace Sidebar
 
             ParentWindow = window;
 
-            ItemsCount.Text = (string)Application.Current.TryFindResource("GettingTilesList");
+            ItemsCount.Text = Utils.FindString("GettingTilesList");
             GetTileList();
         }
 
@@ -54,20 +54,20 @@ namespace Sidebar
             Directory.CreateDirectory(Settings.Current.path + @"\Cache");
 
             // Reset progress status
-            DownloadStatusTextBlock.Text = (string)Application.Current.TryFindResource("Connecting");
+            DownloadStatusTextBlock.Text = Utils.FindString("Connecting");
             DownloadProgressTextBlock.Text = "";
             DownloadProgressBar.Value = 0;
 
             LoadingGrid.Visibility = Visibility.Visible;
 
-            DownloadStatusTextBlock.Text = (string)Application.Current.TryFindResource("DownloadingTile");
+            DownloadStatusTextBlock.Text = Utils.FindString("DownloadingTile");
 
             TileMetadata metadata = (TileMetadata)TileListView.SelectedItem;
             string url = metadata.ResolvedDownloadUrl;
 
             if (string.IsNullOrEmpty(url))
             {
-                MessageBox.Show((string)Application.Current.TryFindResource("ConnectionFailed"));
+                MessageBox.Show(Utils.FindString("ConnectionFailed"));
                 LoadingGrid.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -82,7 +82,7 @@ namespace Sidebar
         {
             DownloadProgressBar.Value = e.ProgressPercentage;
             DownloadProgressTextBlock.Text = string.Format(
-                (string)Application.Current.TryFindResource("DownloadProgress"),
+                Utils.FindString("DownloadProgress"),
                 Math.Round((double)(e.BytesReceived / 1024)), Math.Round((double)(e.TotalBytesToReceive / 1024)));
         }
 
@@ -98,7 +98,7 @@ namespace Sidebar
             else if (!e.Cancelled)
             {
                 MessageBox.Show(e.Error.ToString(),
-                    (string)Application.Current.TryFindResource("DownloadingFailed"),
+                    Utils.FindString("DownloadingFailed"),
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             LoadingGrid.Visibility = Visibility.Collapsed;
@@ -187,7 +187,7 @@ namespace Sidebar
 
         private void RefreshElementCount()
         {
-            string itemCount = (string)Application.Current.TryFindResource("ElementsCount");
+            string itemCount = Utils.FindString("ElementsCount");
             ItemsCount.Text = string.Format(itemCount, TileListView.Items.Count);
         }
 

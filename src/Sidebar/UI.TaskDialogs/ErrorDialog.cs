@@ -26,23 +26,23 @@ namespace Sidebar
             tdError.Cancelable = true;
             tdError.Icon = TaskDialogStandardIcon.Error;
 
-            tdError.Caption = (string)Application.Current.TryFindResource("LongBarError");
+            tdError.Caption = Utils.FindString("LongBarError");
             tdError.InstructionText = caption;
             tdError.Text = errorText;
-            tdError.DetailsExpandedLabel = (string)Application.Current.TryFindResource("HideDetails");
-            tdError.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("ShowDetails");
+            tdError.DetailsExpandedLabel = Utils.FindString("HideDetails");
+            tdError.DetailsCollapsedLabel = Utils.FindString("ShowDetails");
             tdError.DetailsExpandedText = ex.ToString();
 
             tdError.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
 
             TaskDialogCommandLink sendButton = new TaskDialogCommandLink("sendButton",
-                (string)Application.Current.TryFindResource("SendFeedback1"),
-                (string)Application.Current.TryFindResource("SendFeedback2"));
+                Utils.FindString("SendFeedback1"),
+                Utils.FindString("SendFeedback2"));
             sendButton.Click += new EventHandler(sendButton_Click);
 
             TaskDialogCommandLink dontSendButton = new TaskDialogCommandLink("dontSendButton",
-                (string)Application.Current.TryFindResource("DontSendFeedback1"),
-                (string)Application.Current.TryFindResource("DontSendFeedback2"));
+                Utils.FindString("DontSendFeedback1"),
+                Utils.FindString("DontSendFeedback2"));
             dontSendButton.Click += new EventHandler(dontSendButton_Click);
 
             tdError.Controls.Add(sendButton);

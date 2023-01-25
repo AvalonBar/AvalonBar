@@ -310,14 +310,14 @@ namespace Sidebar
 
         public void ChangeTheme(string theme)
         {
-            Style style = (Style)this.TryFindResource("TileHeader");
+            Style style = (Style)TryFindResource("TileHeader");
             foreach (Setter setter in style.Setters)
             {
                 if (setter.Property == VisibilityProperty)
                     this.Header.SetValue(VisibilityProperty, setter.Value);
             }
 
-            style = (Style)this.TryFindResource("TileSplitterPanel");
+            style = (Style)TryFindResource("TileSplitterPanel");
             foreach (Setter setter in style.Setters)
             {
                 if (setter.Property == DockPanel.DockProperty)

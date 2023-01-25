@@ -65,8 +65,8 @@ namespace Sidebar
 
         public void SetLocale()
         {
-            closeMenuItem.Header = System.Windows.Application.Current.TryFindResource("Close");
-            showHideMenuItem.Header = System.Windows.Application.Current.TryFindResource("ShowHide");
+            closeMenuItem.Header = Utils.FindString("Close");
+            showHideMenuItem.Header = Utils.FindString("ShowHide");
         }
 
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)

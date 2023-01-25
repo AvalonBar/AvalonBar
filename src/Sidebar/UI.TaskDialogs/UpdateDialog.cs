@@ -16,16 +16,16 @@ namespace Sidebar
             td.Cancelable = true;
             td.Icon = TaskDialogStandardIcon.None;
 
-            td.Caption = (string)Application.Current.TryFindResource("UpdateDialogTitle");
+            td.Caption = Utils.FindString("UpdateDialogTitle");
             td.Text = string.Format(
-                (string)Application.Current.TryFindResource("UpdateDialogText"), info.Version, VersionInfo.Core);
-            td.InstructionText = (string)Application.Current.TryFindResource("UpdateDialogHeader");
+                Utils.FindString("UpdateDialogText"), info.Version, VersionInfo.Core);
+            td.InstructionText = Utils.FindString("UpdateDialogHeader");
             td.StandardButtons = TaskDialogStandardButtons.None;
 
             td.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
-            td.DetailsExpandedLabel = (string)Application.Current.TryFindResource("HideDetails");
+            td.DetailsExpandedLabel = Utils.FindString("HideDetails");
             td.DetailsExpandedText = info.Description;
-            td.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("ShowDetails");
+            td.DetailsCollapsedLabel = Utils.FindString("ShowDetails");
 
             TaskDialogCommandLink updateButton = new TaskDialogCommandLink("updateButton", "Update");
             updateButton.Click += new EventHandler(updateButton_Click);

@@ -31,7 +31,15 @@ namespace Sidebar.Host
             }
 
             if (Settings.Current.showErrors)
-                ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
+            {
+                ErrorDialog.ShowDialog(
+                    Utils.FindString("ErrorOccured1"),
+                    string.Format(
+                        "Error: {0}\nSource: {1}\nSee log for detailed info.",
+                        e.Exception.Message,
+                        e.Exception.Source),
+                    e.Exception);
+            }
 
             e.Handled = true;
         }
@@ -47,7 +55,7 @@ namespace Sidebar.Host
             if (Utils.PriorProcess() != null && e.Args.Length == 0)
             {
                 MessageBox.Show(
-                    (string)Current.TryFindResource("AlreadyRunning"),
+                    Utils.FindString("AlreadyRunning"),
                     "AvalonBar", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Shutdown();
             }

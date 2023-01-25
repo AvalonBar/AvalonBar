@@ -16,8 +16,8 @@ namespace Sidebar
         public static void ShowDialog(string packageUrl)
         {
             td = new TaskDialog();
-            td.Caption = (string)Application.Current.TryFindResource("UpdateDownloadDialogTitle");
-            td.InstructionText = (string)Application.Current.TryFindResource("UpdateDownloadDialogHeader");
+            td.Caption = Utils.FindString("UpdateDownloadDialogTitle");
+            td.InstructionText = Utils.FindString("UpdateDownloadDialogHeader");
             td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
             TaskDialogProgressBar progressBar = new TaskDialogProgressBar("progressBar");

@@ -31,12 +31,12 @@ namespace Sidebar
             td.Cancelable = true;
             td.Icon = TaskDialogStandardIcon.None;
 
-            td.Caption = (string)Application.Current.TryFindResource("InstallingTile");
+            td.Caption = Utils.FindString("InstallingTile");
             td.Text = path;
-            td.InstructionText = string.Format((string)Application.Current.TryFindResource("Dontdoit"), tileName);
+            td.InstructionText = string.Format(Utils.FindString("Dontdoit"), tileName);
             td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
-            TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease1"), (string)Application.Current.TryFindResource("InstallThisIncredibleTileForMePlease2"));
+            TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", Utils.FindString("InstallThisIncredibleTileForMePlease1"), Utils.FindString("InstallThisIncredibleTileForMePlease2"));
             installButton.Click += new EventHandler(installButton_Click);
 
             td.Controls.Add(installButton);
@@ -69,10 +69,10 @@ namespace Sidebar
 
                 tdResult = new TaskDialog();
                 tdResult.Icon = TaskDialogStandardIcon.Information;
-                tdResult.Caption = (string)Application.Current.TryFindResource("InstallingTile");
+                tdResult.Caption = Utils.FindString("InstallingTile");
 
-                tdResult.InstructionText = (string)Application.Current.TryFindResource("TileInstalled");
-                tdResult.Text = tileName + " " + (string)Application.Current.TryFindResource("SuccesfullyInstalled");
+                tdResult.InstructionText = Utils.FindString("TileInstalled");
+                tdResult.Text = tileName + " " + Utils.FindString("SuccesfullyInstalled");
 
                 tdResult.StandardButtons = TaskDialogStandardButtons.Ok;
 
@@ -83,13 +83,13 @@ namespace Sidebar
             {
                 tdResult = new TaskDialog();
                 tdResult.Icon = TaskDialogStandardIcon.Error;
-                tdResult.Caption = (string)Application.Current.TryFindResource("InstallingTile");
+                tdResult.Caption = Utils.FindString("InstallingTile");
 
-                tdResult.InstructionText = (string)Application.Current.TryFindResource("CantInstallTile");
-                tdResult.Text = (string)Application.Current.TryFindResource("InstallingFailed") + "\n" + (string)Application.Current.TryFindResource("ErrorText") + " " + ex.Message;
+                tdResult.InstructionText = Utils.FindString("CantInstallTile");
+                tdResult.Text = Utils.FindString("InstallingFailed") + "\n" + Utils.FindString("ErrorText") + " " + ex.Message;
 
-                tdResult.DetailsExpandedLabel = (string)Application.Current.TryFindResource("HideDetails");
-                tdResult.DetailsCollapsedLabel = (string)Application.Current.TryFindResource("ShowDetails");
+                tdResult.DetailsExpandedLabel = Utils.FindString("HideDetails");
+                tdResult.DetailsCollapsedLabel = Utils.FindString("ShowDetails");
                 tdResult.DetailsExpandedText = ex.ToString();
 
                 tdResult.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;

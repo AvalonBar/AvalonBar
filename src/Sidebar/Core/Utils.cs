@@ -103,5 +103,17 @@ namespace Sidebar
             }
             return pos;
         }
+
+        internal static string FindString(object resourceKey)
+        {
+            string resource = System.Windows.Application.Current.TryFindResource(resourceKey) as string;
+#if DEBUG
+            if (resource == null)
+            {
+                throw new KeyNotFoundException();
+            }
+#endif
+            return resource;
+        }
     }
 }

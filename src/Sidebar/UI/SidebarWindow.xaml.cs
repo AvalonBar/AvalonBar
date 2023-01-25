@@ -516,12 +516,12 @@ namespace Sidebar
         {
             if (Settings.Current.locked)
             {
-                LockItem.Header = TryFindResource("Lock");
+                LockItem.Header = Utils.FindString("Lock");
                 Settings.Current.locked = false;
             }
             else
             {
-                LockItem.Header = TryFindResource("Unlock");
+                LockItem.Header = Utils.FindString("Unlock");
                 Settings.Current.locked = true;
             }
         }
@@ -540,9 +540,9 @@ namespace Sidebar
         private void Menu_Opened(object sender, RoutedEventArgs e)
         {
             if (Settings.Current.locked)
-                LockItem.Header = TryFindResource("Unlock");
+                LockItem.Header = Utils.FindString("Unlock");
             else
-                LockItem.Header = TryFindResource("Lock");
+                LockItem.Header = Utils.FindString("Lock");
 
             if (TilesGrid.Children.Count == 0)
                 RemoveTilesItem.IsEnabled = false;

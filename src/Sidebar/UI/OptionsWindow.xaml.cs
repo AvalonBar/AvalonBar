@@ -42,13 +42,13 @@ namespace Sidebar
         {
             //AboutWindow.xaml
             VersionString.Text = string.Format("{0} {1} ({2})",
-                TryFindResource("Version"), VersionInfo.Core, VersionInfo.Configuration);
+                Utils.FindString("Version"), VersionInfo.Core, VersionInfo.Configuration);
             CopyrightProject.Text = string.Format("© 2016-{0} The AvalonBar Project.",
                 DateTime.Now.Year);
 
             Paragraph block = new Paragraph();
             string licensePath = System.IO.Path.Combine(Settings.Current.path, "LICENSE");
-            Run licenseMissing = new Run((string)TryFindResource("LicenseFileMissing"));
+            Run licenseMissing = new Run(Utils.FindString("LicenseFileMissing"));
 
             block.Inlines.Add(licenseMissing);
             if (File.Exists(licensePath))
