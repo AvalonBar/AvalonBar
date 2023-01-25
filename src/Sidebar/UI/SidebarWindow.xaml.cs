@@ -142,6 +142,7 @@ namespace Sidebar
             this.BeginAnimation(UIElement.OpacityProperty, ((DoubleAnimation)this.Resources["DummyAnim"]));
         }
 
+        private bool _initialAnimationDone = false;
         private void LoadAnimation_Completed(object sender, EventArgs e)
         {
             if (CompositionManager.AvailableCompositionMethod != CompositionMethod.None && Settings.Current.enableGlass)
@@ -180,6 +181,8 @@ namespace Sidebar
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
             }
+
+            _initialAnimationDone = true;
         }
 
         private void DummyAnimation_Completed(object sender, EventArgs e)
@@ -702,7 +705,10 @@ namespace Sidebar
                         AppBar.OverlapTaskbar();
                     AppBar.SizeAppbar();
                 }
-                shadow.Show();
+                if (Settings.Current.enableShadow && _initialAnimationDone)
+                {
+                    shadow.Show();
+                }
             }
             else
             {
