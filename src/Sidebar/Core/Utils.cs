@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace Sidebar
 {
-    public class Utils
+    internal static class Utils
     {
-        public static Process PriorProcess()
+        internal static Process PriorProcess()
         // Returns a System.Diagnostics.Process pointing to
         // a pre-existing process with the same name as the
         // current one, if any; or null if the current process
@@ -26,7 +26,7 @@ namespace Sidebar
             return null;
         }
 
-        public static string[] GetScreenFriendlyNames()
+        internal static string[] GetScreenFriendlyNames()
         {
             List<string> screenNames = new List<string>();
             foreach (Screen screen in Screen.AllScreens)
@@ -48,7 +48,7 @@ namespace Sidebar
             return screenNames.ToArray();
         }
 
-        public static Screen GetScreenFromFriendlyName(string monitorname)
+        internal static Screen GetScreenFromFriendlyName(string monitorname)
         {
             if (monitorname == "Primary")
                 return Screen.PrimaryScreen;
@@ -66,7 +66,7 @@ namespace Sidebar
             return Screen.PrimaryScreen;
         }
 
-        public static Screen GetScreenFromName(string monitorname)
+        internal static Screen GetScreenFromName(string monitorname)
         {
             if (monitorname == "Primary")
                 return Screen.PrimaryScreen;
