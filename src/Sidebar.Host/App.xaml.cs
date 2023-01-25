@@ -122,12 +122,8 @@ namespace Sidebar.Host
                 }
             }
 
-            var mainWindow = new SidebarWindow();
-            mainWindow.Show();
-            mainWindow.Closed += delegate
-            {
-                Shutdown();
-            };
+            MainWindow = new SidebarWindow();
+            MainWindow.Show();
         }
 
         private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)

@@ -3,5 +3,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Startup="App_Startup"
     Exit="Application_Exit"
-    ShutdownMode="OnExplicitShutdown">
+    ShutdownMode="OnMainWindowClose">
 </Application>
