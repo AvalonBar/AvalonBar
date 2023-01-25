@@ -375,14 +375,16 @@ namespace Sidebar
                     return;
                 }
                 flyout = new FlyoutWindow(Info.Name);
-                flyout.Left = this.PointToScreen(new Point(0, 0)).X;
-                flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
+                var dpiScale = VisualTreeHelper.GetDpi(flyout);
+                flyout.Left = this.PointToScreen(new Point(0, 0)).X / dpiScale.DpiScaleX;
+                flyout.Top = this.PointToScreen(new Point(0, 0)).Y / dpiScale.DpiScaleY;
                 System.Windows.Forms.Screen screen = Utils.GetScreenFromName(Settings.Current.screen);
                 flyout.ContentGrid.Children.Add(tileObject.FlyoutContent);
                 flyout.Show();
-                if ((flyout.Top + flyout.Height) > screen.WorkingArea.Height)
+                var screenHeightDpiAdjusted = screen.WorkingArea.Height / dpiScale.DpiScaleY;
+                if ((flyout.Top + flyout.Height) > screenHeightDpiAdjusted)
                 {
-                    flyout.Top = screen.WorkingArea.Height - flyout.Height;
+                    flyout.Top = (screen.WorkingArea.Height / screenHeightDpiAdjusted) - flyout.Height;
                 }
             }
         }
@@ -397,10 +399,11 @@ namespace Sidebar
                     return;
                 }
                 flyout = new FlyoutWindow(Info.Name);
+                var dpiScale = VisualTreeHelper.GetDpi(flyout);
                 flyout.Width = tileKObject.FlyoutContent.Width;
                 flyout.Height = tileKObject.FlyoutContent.Height;
-                flyout.Left = this.PointToScreen(new Point(0, 0)).X;
-                flyout.Top = this.PointToScreen(new Point(0, 0)).Y;
+                flyout.Left = this.PointToScreen(new Point(0, 0)).X / dpiScale.DpiScaleX;
+                flyout.Top = this.PointToScreen(new Point(0, 0)).Y / dpiScale.DpiScaleY;
                 flyout.ContentGrid.Children.Add(tileKObject.FlyoutContent);
                 flyout.Show();
             }
