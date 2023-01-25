@@ -31,7 +31,7 @@ namespace Sidebar.Host
             }
 
             if (Settings.Current.showErrors)
-                TaskDialogs.ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
+                ErrorDialog.ShowDialog((string)Application.Current.TryFindResource("ErrorOccured1"), String.Format("Error: {0}\nSource: {1}\nSee log for detailed info.", e.Exception.Message, e.Exception.Source), e.Exception);
 
             e.Handled = true;
         }
@@ -86,7 +86,7 @@ namespace Sidebar.Host
                                 if (File.Exists(longFile) && Path.GetExtension(longFile) == ".tile")
                                 {
                                     FileInfo info = new FileInfo(longFile);
-                                    TaskDialogs.TileInstallDialog.ShowDialog(null, info.Name, longFile);
+                                    TileInstallDialog.ShowDialog(null, info.Name, longFile);
                                 }
                             }
                             catch (Exception ex) { MessageBox.Show(ex.Message); }

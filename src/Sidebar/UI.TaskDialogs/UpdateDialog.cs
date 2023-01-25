@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace Sidebar.TaskDialogs
+namespace Sidebar
 {
     public class UpdateDialog
     {

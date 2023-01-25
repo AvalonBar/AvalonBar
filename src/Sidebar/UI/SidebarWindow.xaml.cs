@@ -173,7 +173,7 @@ namespace Sidebar
                     UpdateInfo updateInfo = Services.CheckForUpdates();
                     if (updateInfo.Version != null && updateInfo.Description != null)
                     {
-                        TaskDialogs.UpdateDialog.ShowDialog(updateInfo);
+                        UpdateDialog.ShowDialog(updateInfo);
                     }
                 };
                 Thread thread = new Thread(threadStarter);
@@ -608,7 +608,7 @@ namespace Sidebar
                     if (files[i].EndsWith(".tile"))
                     {
                         FileInfo info = new FileInfo(files[i]);
-                        TaskDialogs.TileInstallDialog.ShowDialog(this, info.Name, files[i]);
+                        TileInstallDialog.ShowDialog(this, info.Name, files[i]);
                     }
                     if (files[i].EndsWith(".locale.xaml"))
                     {

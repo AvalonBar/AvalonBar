@@ -7,7 +7,7 @@ using System.Windows;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace Sidebar.TaskDialogs
+namespace Sidebar
 {
     public class UpdateDownloadDialog
     {

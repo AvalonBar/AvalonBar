@@ -93,7 +93,7 @@ namespace Sidebar
                 // TODO: Move to tile/package manager
                 string tileName = ((TileMetadata)TileListView.SelectedItem).Name;
                 string tilePath = System.IO.Path.Combine(Settings.Current.path, "Cache", tileName + ".tile");
-                TaskDialogs.TileInstallDialog.ShowDialog(ParentWindow, tileName, tilePath);
+                TileInstallDialog.ShowDialog(ParentWindow, tileName, tilePath);
             }
             else if (!e.Cancelled)
             {

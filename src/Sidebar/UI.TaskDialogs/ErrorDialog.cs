@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Diagnostics;
 
-namespace Sidebar.TaskDialogs
+namespace Sidebar
 {
     public class ErrorDialog
     {

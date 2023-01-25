@@ -165,7 +165,7 @@ namespace Sidebar
             catch (Exception ex)
             {
                 if (Settings.Current.showErrors)
-                    TaskDialogs.ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, Info.Name), ex);
+                    ErrorDialog.ShowDialog("An error occured while loading tile. Please send feedback.", String.Format("Error: {0}\nTile: {1}\nSee log for detailed info.", ex.Message, Info.Name), ex);
                 if (!System.IO.Directory.Exists(Settings.Current.path + @"\Logs"))
                     System.IO.Directory.CreateDirectory(Settings.Current.path + @"\Logs");
                 string logFile = string.Format(@"{0}\Logs\{1}.{2}.{3}.log", Settings.Current.path, DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);

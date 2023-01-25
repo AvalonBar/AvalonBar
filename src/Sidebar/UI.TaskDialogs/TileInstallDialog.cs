@@ -8,7 +8,7 @@ using System.Windows;
 using System.IO;
 using System.Windows.Controls;
 
-namespace Sidebar.TaskDialogs
+namespace Sidebar
 {
     public class TileInstallDialog
     {
