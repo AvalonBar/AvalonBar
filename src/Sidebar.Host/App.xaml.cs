@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Threading;
 using System.IO;
+using System.Diagnostics;
 
 namespace Sidebar.Host
 {
@@ -44,6 +45,24 @@ namespace Sidebar.Host
             e.Handled = true;
         }
 
+        public static bool IsAlreadyRunning
+        {
+            get
+            {
+                Process currentProcess = Process.GetCurrentProcess();
+                Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
+                foreach (Process process in processes)
+                {
+                    if ((process.Id != currentProcess.Id) &&
+                        (process.MainModule.FileName == currentProcess.MainModule.FileName))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
         private void App_Startup(object sender, StartupEventArgs e)
         {
 #if !DEBUG
@@ -52,7 +71,7 @@ namespace Sidebar.Host
             SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
             LocaleManager.LoadLocale(Settings.Current.path, Settings.Current.locale);
 
-            if (Utils.PriorProcess() != null && e.Args.Length == 0)
+            if (IsAlreadyRunning && e.Args.Length == 0)
             {
                 MessageBox.Show(
                     Utils.FindString("AlreadyRunning"),
