@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion(VersionInfo.Core)]
 [assembly: AssemblyFileVersion(VersionInfo.Core)]
+[assembly: InternalsVisibleTo("Sidebar.Host")]
