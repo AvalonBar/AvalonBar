@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace Sidebar
 {
@@ -15,7 +15,7 @@ namespace Sidebar
         Acrylic,
     }
 
-    public class CompositionManager
+    public class CompositionHelper
     {
         public static event EventHandler ColorizationColorChanged;
 
@@ -103,23 +103,26 @@ namespace Sidebar
                 handle, DwmWindowAttribute.ExcludedFromPeek, ref attributeValue, sizeof(uint));
         }
 
-        public static void ExcludeFromFlip3D(IntPtr handle)
+        public static void ExcludeFromTaskView(IntPtr handle)
         {
             int attributeValue = (int)Flip3DPolicy.ExcludeBelow;
             NativeMethods.DwmSetWindowAttribute(
                 handle, DwmWindowAttribute.Flip3DPolicy, ref attributeValue, sizeof(uint));
         }
 
-        public static System.Windows.Media.Color ColorizationColor
+        public static Color ColorizationColor
         {
             get
             {
                 int color;
                 bool opaque;
                 NativeMethods.DwmGetColorizationColor(out color, out opaque);
-                Color DrawingColor = Color.FromArgb(color);
-                return System.Windows.Media.Color.FromArgb(
-                    DrawingColor.A, DrawingColor.R, DrawingColor.G, DrawingColor.B);
+                System.Drawing.Color DrawingColor = System.Drawing.Color.FromArgb(color);
+                return Color.FromArgb(
+                    DrawingColor.A,
+                    DrawingColor.R,
+                    DrawingColor.G,
+                    DrawingColor.B);
             }
         }
 
@@ -128,23 +131,14 @@ namespace Sidebar
             // WM_DWMCOMPOSITIONCHANGED
             if (msg == 0x0000031E)
             {
-                if (AvailableCompositionMethod != CompositionMethod.None)
-                {
-                    SetBlurBehindWindow(ref hWnd, true);
-                }
-                else
-                {
-                    SetBlurBehindWindow(ref hWnd, false);
-                }
+                bool blurEnabled = AvailableCompositionMethod != CompositionMethod.None;
+                SetBlurBehindWindow(ref hWnd, blurEnabled);
             }
 
             // WM_DWMCOLORIZATIONCOLORCHANGED
             if (msg == 0x0320)
             {
-                if (ColorizationColorChanged != null)
-                {
-                    ColorizationColorChanged(null, EventArgs.Empty);
-                }
+                ColorizationColorChanged?.Invoke(null, EventArgs.Empty);
             }
 
             return IntPtr.Zero;

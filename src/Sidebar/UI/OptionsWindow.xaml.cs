@@ -78,7 +78,7 @@ namespace Sidebar
             }
             LangComboBox.Text = Settings.Current.locale;
 
-            if (CompositionManager.AvailableCompositionMethod != CompositionMethod.None)
+            if (CompositionHelper.AvailableCompositionMethod != CompositionMethod.None)
             {
                 AeroGlassCheckBox.IsEnabled = true;
                 AeroGlassCheckBox.IsChecked = Settings.Current.enableGlass;
@@ -225,10 +225,10 @@ namespace Sidebar
             else
                 Settings.Current.side = AppBarSide.Right;
 
-            if (CompositionManager.AvailableCompositionMethod != CompositionMethod.None && Settings.Current.enableGlass)
-                CompositionManager.SetBlurBehindWindow(ref SidebarHandle, true);
+            if (CompositionHelper.AvailableCompositionMethod != CompositionMethod.None && Settings.Current.enableGlass)
+                CompositionHelper.SetBlurBehindWindow(ref SidebarHandle, true);
             else
-                CompositionManager.SetBlurBehindWindow(ref SidebarHandle, false);
+                CompositionHelper.SetBlurBehindWindow(ref SidebarHandle, false);
 
             if (ShadowCheckBox.IsChecked == true)
                 SidebarWindow.shadow.Show();

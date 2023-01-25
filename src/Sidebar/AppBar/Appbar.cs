@@ -185,7 +185,7 @@ namespace Sidebar
             if (!WindowHooksAdded)
             {
                 HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(WndProc));
-                HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(CompositionManager.WndProc));
+                HwndSource.FromHwnd(Handle).AddHook(new HwndSourceHook(CompositionHelper.WndProc));
                 WindowHooksAdded = true;
             }
         }

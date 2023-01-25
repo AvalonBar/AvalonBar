@@ -69,7 +69,7 @@
     <Compile Include="AppBar\AppBarMessages.cs" />
     <Compile Include="AppBar\AppBarNotifications.cs" />
     <Compile Include="AppBar\AppBarSide.cs" />
-    <Compile Include="Core\CompositionManager.cs" />
+    <Compile Include="Core\CompositionHelper.cs" />
     <Compile Include="AppBar\AppBar.cs" />
     <Compile Include="FileAssociation.cs" />
     <Compile Include="NativeMethods.cs" />

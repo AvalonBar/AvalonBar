@@ -110,8 +110,8 @@ namespace Sidebar
             object useSystemColor = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
-                Bg.Fill = new SolidColorBrush(CompositionManager.ColorizationColor);
-                CompositionManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
+                Bg.Fill = new SolidColorBrush(CompositionHelper.ColorizationColor);
+                CompositionHelper.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
 
             AssetManager.LoadLocale(Sidebar.Settings.Current.path, Settings.Current.locale);
@@ -124,15 +124,15 @@ namespace Sidebar
             this.MaxWidth = SystemParameters.PrimaryScreenWidth / 2;
             this.MinWidth = 31;
 
-            CompositionManager.ExcludeFromFlip3D(Handle);
-            CompositionManager.ExcludeFromPeek(Handle);
+            CompositionHelper.ExcludeFromTaskView(Handle);
+            CompositionHelper.ExcludeFromPeek(Handle);
 
             GetTiles();
         }
 
         void SideBar_DwmColorChanged(object sender, EventArgs e)
         {
-            Bg.Fill = new SolidColorBrush(CompositionManager.ColorizationColor);
+            Bg.Fill = new SolidColorBrush(CompositionHelper.ColorizationColor);
         }
 
         private void LongBar_ContentRendered(object sender, EventArgs e)
@@ -145,8 +145,8 @@ namespace Sidebar
         private bool _initialAnimationDone = false;
         private void LoadAnimation_Completed(object sender, EventArgs e)
         {
-            if (CompositionManager.AvailableCompositionMethod != CompositionMethod.None && Settings.Current.enableGlass)
-                CompositionManager.SetBlurBehindWindow(ref Handle, true);
+            if (CompositionHelper.AvailableCompositionMethod != CompositionMethod.None && Settings.Current.enableGlass)
+                CompositionHelper.SetBlurBehindWindow(ref Handle, true);
 
             shadow.Height = this.Height;
             shadow.Top = this.Top;
@@ -500,13 +500,13 @@ namespace Sidebar
             object useSystemColor = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
-                Bg.Fill = new SolidColorBrush(CompositionManager.ColorizationColor);
-                CompositionManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
+                Bg.Fill = new SolidColorBrush(CompositionHelper.ColorizationColor);
+                CompositionHelper.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
             else
             {
                 Bg.SetResourceReference(Rectangle.StyleProperty, "Background");
-                CompositionManager.ColorizationColorChanged -= new EventHandler(SideBar_DwmColorChanged);
+                CompositionHelper.ColorizationColorChanged -= new EventHandler(SideBar_DwmColorChanged);
             }
 
             string file = string.Format(@"{0}\{1}.theme.xaml", Settings.Current.path, theme);

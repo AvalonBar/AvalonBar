@@ -95,7 +95,7 @@ namespace Sidebar
         {
             loaded = true;
             if (Settings.Current.enableGlass)
-                CompositionManager.SetBlurBehindWindow(ref handle, true);
+                CompositionHelper.SetBlurBehindWindow(ref handle, true);
         }
     }
 }
