@@ -43,7 +43,7 @@ namespace Sidebar
         [DllImport("dwmapi.dll")]
         internal static extern int DwmEnableBlurBehindWindow(IntPtr hWnd, ref BlurBehind BlurBehind);
         [DllImport("dwmapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern void DwmGetColorizationColor(out int color, out bool opaque);
+        internal static extern void DwmGetColorizationColor(out uint color, out bool isOpaqueBlend);
         [DllImport("dwmapi.dll", PreserveSig = true)]
         internal static extern int DwmSetWindowAttribute(IntPtr hwnd, DwmWindowAttribute attr, ref int attrValue, uint attrSize);
     }

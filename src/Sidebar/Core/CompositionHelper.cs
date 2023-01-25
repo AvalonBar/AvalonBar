@@ -4,6 +4,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Media;
+using System.Reflection;
 
 namespace Sidebar
 {
@@ -114,15 +115,13 @@ namespace Sidebar
         {
             get
             {
-                int color;
-                bool opaque;
-                NativeMethods.DwmGetColorizationColor(out color, out opaque);
-                System.Drawing.Color DrawingColor = System.Drawing.Color.FromArgb(color);
-                return Color.FromArgb(
-                    DrawingColor.A,
-                    DrawingColor.R,
-                    DrawingColor.G,
-                    DrawingColor.B);
+                NativeMethods.DwmGetColorizationColor(out uint color, out _);
+                // WPF's Color structure has an internal method that creates a
+                // new instance from an unsigned 32-bit value.
+                MethodInfo ColorFromUInt32 = typeof(Color).GetMethod(
+                    "FromUInt32",
+                    BindingFlags.NonPublic | BindingFlags.Static);
+                return (Color)ColorFromUInt32.Invoke(null, new object[] { color });
             }
         }
 
