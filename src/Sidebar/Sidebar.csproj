@@ -80,10 +80,8 @@
     <Compile Include="Core\TileState.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\SystemTray.cs" />
-    <Compile Include="Core\LocaleManager.cs" />
-    <Compile Include="Core\PackageManager.cs" />
+    <Compile Include="Core\AssetManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\ThemesManager.cs" />
     <Compile Include="Core\UpdateInfo.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="UI.TaskDialogs\ErrorDialog.cs" />

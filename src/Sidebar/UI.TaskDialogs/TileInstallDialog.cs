@@ -49,7 +49,7 @@ namespace Sidebar
 
             try
             {
-                PackageManager.Unpack(Settings.Current.path, tilePath);
+                AssetManager.Unpack(Settings.Current.path, tilePath);
 
                 if (longBar != null)
                 {

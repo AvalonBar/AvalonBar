@@ -69,7 +69,7 @@ namespace Sidebar.Host
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 #endif
             SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
-            LocaleManager.LoadLocale(Settings.Current.path, Settings.Current.locale);
+            AssetManager.LoadLocale(Settings.Current.path, Settings.Current.locale);
 
             if (IsAlreadyRunning && e.Args.Length == 0)
             {

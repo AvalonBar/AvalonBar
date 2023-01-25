@@ -69,7 +69,7 @@ namespace Sidebar
             else
                 LocationComboBox.SelectedIndex = 1;
 
-            string[] locales = LocaleManager.GetLocales(Sidebar.Settings.Current.path);
+            string[] locales = AssetManager.GetLocales(Sidebar.Settings.Current.path);
             for (int i = 0; i <= locales.Length - 1; i++)
             {
                 ComboBoxItem item2 = new ComboBoxItem();
@@ -107,7 +107,7 @@ namespace Sidebar
 
             UpdatesCheckBox.IsChecked = Settings.Current.enableUpdates;
 
-            string[] themes = ThemesManager.GetThemes(Sidebar.Settings.Current.path);
+            string[] themes = AssetManager.GetThemes(Sidebar.Settings.Current.path);
             for (int i = 0; i <= themes.Length - 1; i++)
             {
                 ComboBoxItem newItem = new ComboBoxItem();
@@ -150,7 +150,7 @@ namespace Sidebar
             ApplyButton.IsEnabled = true;
             if (ThemesComboBox != null && ThemesComboBox.SelectionBoxItem != null)
             {
-                object enableGlass = ThemesManager.GetThemeParameter(Sidebar.Settings.Current.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
+                object enableGlass = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
                 if (enableGlass != null)
                 {
                     AeroGlassCheckBox.IsChecked = Convert.ToBoolean(enableGlass);

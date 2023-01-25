@@ -103,18 +103,18 @@ namespace Sidebar
         private void LongBar_SourceInitialized(object sender, EventArgs e)
         {
             Handle = new WindowInteropHelper(this).Handle;
-            ThemesManager.LoadTheme(Sidebar.Settings.Current.path, Settings.Current.theme);
-            object enableGlass = ThemesManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "EnableGlass");
+            AssetManager.LoadTheme(Sidebar.Settings.Current.path, Settings.Current.theme);
+            object enableGlass = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "EnableGlass");
             if (enableGlass != null && !Convert.ToBoolean(enableGlass))
                 Settings.Current.enableGlass = false;
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
+            object useSystemColor = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(CompositionManager.ColorizationColor);
                 CompositionManager.ColorizationColorChanged += new EventHandler(SideBar_DwmColorChanged);
             }
 
-            LocaleManager.LoadLocale(Sidebar.Settings.Current.path, Settings.Current.locale);
+            AssetManager.LoadLocale(Sidebar.Settings.Current.path, Settings.Current.locale);
 
             this.Width = Settings.Current.width;
             Tray = new SystemTray(this);
@@ -487,7 +487,7 @@ namespace Sidebar
 
         public void SetLocale(string locale)
         {
-            LocaleManager.LoadLocale(Settings.Current.path, locale);
+            AssetManager.LoadLocale(Settings.Current.path, locale);
             Tray.SetLocale();
             foreach (Tile tile in TilesGrid.Children)
                 tile.ChangeLocale(locale);
@@ -495,9 +495,9 @@ namespace Sidebar
 
         public void SetTheme(string theme)
         {
-            ThemesManager.LoadTheme(Sidebar.Settings.Current.path, theme);
+            AssetManager.LoadTheme(Sidebar.Settings.Current.path, theme);
 
-            object useSystemColor = ThemesManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
+            object useSystemColor = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, Settings.Current.theme, "boolean", "UseSystemGlassColor");
             if (useSystemColor != null && Convert.ToBoolean(useSystemColor))
             {
                 Bg.Fill = new SolidColorBrush(CompositionManager.ColorizationColor);
@@ -615,7 +615,7 @@ namespace Sidebar
                     }
                     if (files[i].EndsWith(".locale.xaml"))
                     {
-                        if (LocaleManager.InstallLocale(Sidebar.Settings.Current.path, files[i]))
+                        if (AssetManager.InstallLocale(Sidebar.Settings.Current.path, files[i]))
                         {
                             MessageBox.Show("Localization was succesfully installed!", "Installing localization", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);
@@ -627,7 +627,7 @@ namespace Sidebar
                     }
                     if (files[i].EndsWith(".theme.xaml"))
                     {
-                        if (ThemesManager.InstallTheme(Sidebar.Settings.Current.path, files[i]))
+                        if (AssetManager.InstallTheme(Sidebar.Settings.Current.path, files[i]))
                         {
                             MessageBox.Show("Theme was succesfully installed!", "Installing theme", MessageBoxButton.OK, MessageBoxImage.Information);
                             string name = System.IO.Path.GetFileName(files[i]);
