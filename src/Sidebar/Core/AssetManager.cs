@@ -5,11 +5,42 @@ using System.IO;
 using System.IO.Compression;
 using System.Windows;
 using System.Xml;
+using System.Collections.ObjectModel;
 
 namespace Sidebar
 {
+    public enum AssetKind
+    {
+        Tile,
+        Theme,
+        Locale
+    }
+
     public class AssetManager
     {
+        private static ResourceDictionary _currentLocale;
+        private static ResourceDictionary _currentTheme;
+
+        public static ResourceDictionary CurrentLocale
+        {
+            get { return _currentLocale; }
+            private set
+            {
+                Application.Current.Resources.MergedDictionaries.Remove(_currentLocale);
+                _currentLocale = value;
+            }
+        }
+
+        public static ResourceDictionary CurrentTheme
+        {
+            get { return _currentTheme; }
+            private set
+            {
+                Application.Current.Resources.MergedDictionaries.Remove(_currentTheme);
+                _currentTheme = value;
+            }
+        }
+
         public static void Unpack(string path, string file)
         {
             FileInfo info = new FileInfo(file);
@@ -20,169 +51,171 @@ namespace Sidebar
             ZipFile.ExtractToDirectory(file, destinationPath);
         }
 
-        public static string[] GetLocales(string path)
+        private static string GetAssetName(AssetKind kind)
         {
-            List<string> locales = new List<string>();
-            if (Directory.Exists(path + @"\Localization"))
+            switch (kind)
             {
-                foreach (string file in Directory.GetFiles(path + @"\Localization"))
-                {
-                    if (file.EndsWith(@".locale.xaml"))
-                    {
-                        string name = Path.GetFileName(file);
-                        locales.Add(name.Substring(0, name.IndexOf(@".locale.xaml")));
-                    }
-                }
-            }
-            return locales.ToArray();
-        }
-
-        public static void LoadLocale(string path, string name)
-        {
-            ResourceDictionary locale = new ResourceDictionary();
-            if (File.Exists(string.Format(@"{0}\Localization\{1}.locale.xaml", path, name)))
-            {
-                locale.Source = new Uri(string.Format(@"{0}\Localization\{1}.locale.xaml", path, name));
-            }
-            else
-            {
-                MessageBox.Show(name + " localization file not found!", null, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (name == "English")
-                {
-                    return;
-                }
-                else
-                {
-                    LoadLocale(path, "English");
-                }
-                return;
-            }
-            if (Application.Current.Resources.MergedDictionaries.Count > 1)
-            {
-                Application.Current.Resources.MergedDictionaries.RemoveAt(1);
-                Application.Current.Resources.MergedDictionaries.Insert(1, locale);
-            }
-            else if (Application.Current.Resources.MergedDictionaries.Count == 1)
-            {
-                Application.Current.Resources.MergedDictionaries.Add(locale);
-            }
-            else if (Application.Current.Resources.MergedDictionaries.Count == 0)
-            {
-                Application.Current.Resources.MergedDictionaries.Add(locale);
+                case AssetKind.Tile:
+                    throw new NotImplementedException();
+                case AssetKind.Theme:
+                    return "Themes";
+                case AssetKind.Locale:
+                    return "Localization";
+                default:
+                    throw new ArgumentException();
             }
         }
 
-        public static bool InstallLocale(string path, string file)
+        private static string GetAssetExtension(AssetKind kind)
         {
+            switch (kind)
+            {
+                case AssetKind.Tile:
+                    throw new NotImplementedException();
+                case AssetKind.Theme:
+                    return ".theme.xaml";
+                case AssetKind.Locale:
+                    return ".locale.xaml";
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        private static string GetAssetDefault(AssetKind kind)
+        {
+            switch (kind)
+            {
+                case AssetKind.Tile:
+                    throw new NotImplementedException();
+                case AssetKind.Theme:
+                    return "Aero";
+                case AssetKind.Locale:
+                    return "English";
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        public static bool Install(AssetKind kind, string file)
+        {
+            string assetName = GetAssetName(kind);
+
             try
             {
-                if (!Directory.Exists(path + @"\Localization"))
+                string parentPath = Path.Combine(
+                    Settings.Current.path, assetName);
+                if (!Directory.Exists(assetName))
                 {
-                    Directory.CreateDirectory(path + @"\Localization");
+                    Directory.CreateDirectory(assetName);
                 }
+
                 FileInfo info = new FileInfo(file);
-                File.Copy(file, path + @"\Localization\" + info.Name, true);
+                string assetPath = Path.Combine(parentPath, info.Name);
+                File.Copy(file, assetPath, true);
             }
             catch
             {
                 return false;
             }
+
             return true;
         }
 
-        public static string[] GetThemes(string path)
+        public static Collection<string> FindAll(AssetKind kind)
         {
-            List<string> themes = new List<string>();
-            if (Directory.Exists(path + @"\Themes"))
+            string assetName = GetAssetName(kind);
+            string assetExtension = GetAssetExtension(kind);
+
+            var assets = new Collection<string>();
+            string parentPath = Path.Combine(
+                Settings.Current.path, assetName);
+            if (!Directory.Exists(parentPath))
             {
-                foreach (string file in Directory.GetFiles(path + @"\Themes"))
+                return assets;
+            }
+
+            foreach (string file in Directory.GetFiles(parentPath))
+            {
+                if (file.EndsWith(assetExtension))
                 {
-                    if (file.EndsWith(@"theme.xaml"))
-                    {
-                        string name = Path.GetFileName(file);
-                        themes.Add(name.Substring(0, name.IndexOf(@"theme.xaml") - 1));
-                    }
+                    string name = Path.GetFileName(file);
+                    assets.Add(name.Substring(0, name.IndexOf(assetExtension)));
                 }
             }
-            return themes.ToArray();
+
+            return assets;
         }
 
-        public static void LoadTheme(string path, string name)
+        public static void Load(AssetKind kind, string name)
         {
-            ResourceDictionary theme = new ResourceDictionary();
-            if (File.Exists(string.Format(path + @"\Themes\{0}.theme.xaml", name)))
+            ResourceDictionary assetTarget = new ResourceDictionary();
+            string assetPath = Path.Combine(
+                Settings.Current.path,
+                GetAssetName(kind),
+                name + GetAssetExtension(kind));
+            if (File.Exists(assetPath))
             {
-                theme.Source = new Uri(string.Format(path + @"\Themes\{0}.theme.xaml", name));
+                assetTarget.Source = new Uri(assetPath);
             }
             else
             {
-                MessageBox.Show("Theme " + name + " not found!", null, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (name == "Aero")
+                MessageBox.Show(
+                    $"{name} {kind} asset not found!",
+                    null,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+
+                string assetDefault = GetAssetDefault(kind);
+                if (name != assetDefault)
                 {
+                    Load(kind, assetDefault);
                     return;
                 }
-                else
-                {
-                    LoadTheme(path, "Aero");
-                }
+            }
 
-                return;
-            }
-            if (Application.Current.Resources.MergedDictionaries.Count > 0)
+            switch (kind)
             {
-                Application.Current.Resources.MergedDictionaries.RemoveAt(0);
-                Application.Current.Resources.MergedDictionaries.Insert(0, theme);
+                case AssetKind.Theme:
+                    CurrentTheme = assetTarget;
+                    break;
+                case AssetKind.Locale:
+                    CurrentLocale = assetTarget;
+                    break;
+                case AssetKind.Tile:
+                default:
+                    break;
             }
-            else
-            {
-                Application.Current.Resources.MergedDictionaries.Add(theme);
-            }
+            Application.Current.Resources.MergedDictionaries.Add(assetTarget);
         }
 
-        public static object GetThemeParameter(string path, string themeName, string paramType, string paramName)
+        public static object GetThemeParameter(string themeName, string paramType, string paramName)
         {
-            if (File.Exists(string.Format(path + @"\Themes\{0}.theme.xaml", themeName)))
+            string assetPath = Path.Combine(
+                Settings.Current.path,
+                GetAssetName(AssetKind.Theme),
+                themeName + GetAssetExtension(AssetKind.Theme));
+            if (File.Exists(assetPath))
             {
-                XmlTextReader reader = new XmlTextReader(string.Format(path + @"\Themes\{0}.theme.xaml", themeName));
+                XmlTextReader reader = new XmlTextReader(assetPath);
                 while (reader.Read())
                 {
-                    if (reader.NodeType == XmlNodeType.Element && reader.Name.ToLower() == "s:" + paramType.ToLower())
+                    if (reader.NodeType != XmlNodeType.Element ||
+                        reader.Name.ToLower() != "s:" + paramType.ToLower())
                     {
-                        reader.MoveToAttribute("x:Key");
-                        if (reader.Value == paramName)
-                        {
-                            reader.MoveToContent();
-                            object obj = reader.ReadElementContentAsObject();
-                            reader.Close();
-                            return obj;
-                        }
+                        continue;
                     }
+                    reader.MoveToAttribute("x:Key");
+                    if (reader.Value != paramName)
+                    {
+                        continue;
+                    }
+                    reader.MoveToContent();
+                    object obj = reader.ReadElementContentAsObject();
+                    reader.Close();
+                    return obj;
                 }
-                return null;
             }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static bool InstallTheme(string path, string file)
-        {
-            try
-            {
-                if (!Directory.Exists(path + @"\Themes"))
-                {
-                    Directory.CreateDirectory(path + @"\Themes");
-                }
-
-                FileInfo info = new FileInfo(file);
-                File.Copy(file, path + @"\Themes\" + info.Name, true);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
+            return null;
         }
     }
 }

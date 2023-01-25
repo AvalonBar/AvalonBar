@@ -69,12 +69,12 @@ namespace Sidebar
             else
                 LocationComboBox.SelectedIndex = 1;
 
-            string[] locales = AssetManager.GetLocales(Sidebar.Settings.Current.path);
-            for (int i = 0; i <= locales.Length - 1; i++)
+            var locales = AssetManager.FindAll(AssetKind.Locale);
+            foreach (var asset in locales)
             {
-                ComboBoxItem item2 = new ComboBoxItem();
-                item2.Content = locales[i];
-                LangComboBox.Items.Add(item2);
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = asset;
+                LangComboBox.Items.Add(item);
             }
             LangComboBox.Text = Settings.Current.locale;
 
@@ -107,12 +107,12 @@ namespace Sidebar
 
             UpdatesCheckBox.IsChecked = Settings.Current.enableUpdates;
 
-            string[] themes = AssetManager.GetThemes(Sidebar.Settings.Current.path);
-            for (int i = 0; i <= themes.Length - 1; i++)
+            var themes = AssetManager.FindAll(AssetKind.Theme);
+            foreach (var asset in themes)
             {
-                ComboBoxItem newItem = new ComboBoxItem();
-                newItem.Content = themes[i];
-                ThemesComboBox.Items.Add(newItem);
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = asset;
+                ThemesComboBox.Items.Add(item);
             }
             ThemesComboBox.Text = Settings.Current.theme;
             ApplyButton.IsEnabled = false;
@@ -150,7 +150,7 @@ namespace Sidebar
             ApplyButton.IsEnabled = true;
             if (ThemesComboBox != null && ThemesComboBox.SelectionBoxItem != null)
             {
-                object enableGlass = AssetManager.GetThemeParameter(Sidebar.Settings.Current.path, ((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
+                object enableGlass = AssetManager.GetThemeParameter(((ComboBoxItem)e.AddedItems[0]).Content.ToString(), "boolean", "EnableGlass");
                 if (enableGlass != null)
                 {
                     AeroGlassCheckBox.IsChecked = Convert.ToBoolean(enableGlass);
