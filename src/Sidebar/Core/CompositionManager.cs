@@ -11,8 +11,8 @@ namespace Sidebar
     {
         None,
         Aero,
-        AcrylicOld,
-        AcrylicRS4,
+        AcrylicLegacy,
+        Acrylic,
     }
 
     public class CompositionManager
@@ -32,12 +32,12 @@ namespace Sidebar
                 // Windows 10 (build 10074 and above)
                 if (OSVersion.Major == 10 && OSVersion.Build >= 10074 && OSVersion.Build < 17134)
                 {
-                    return CompositionMethod.AcrylicOld;
+                    return CompositionMethod.AcrylicLegacy;
                 }
                 // Windows 10 (build 17134 and above)
                 if (OSVersion.Major == 10 && OSVersion.Build >= 17134)
                 {
-                    return CompositionMethod.AcrylicRS4;
+                    return CompositionMethod.Acrylic;
                 }
                 return CompositionMethod.None;
             }
@@ -60,15 +60,15 @@ namespace Sidebar
                         return false;
                     }
                     break;
-                case CompositionMethod.AcrylicOld:
-                case CompositionMethod.AcrylicRS4:
+                case CompositionMethod.AcrylicLegacy:
+                case CompositionMethod.Acrylic:
                     AccentPolicy accent = new AccentPolicy();
                     accent.AccentState = AccentState.ACCENT_DISABLED;
 
                     if (enabled)
                     {
                         accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
-                        if (AvailableCompositionMethod == CompositionMethod.AcrylicRS4)
+                        if (AvailableCompositionMethod == CompositionMethod.Acrylic)
                         {
                             accent.AccentState = AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND;
                             accent.GradientColor = (0 << 24) | (0xFFFFFF);
