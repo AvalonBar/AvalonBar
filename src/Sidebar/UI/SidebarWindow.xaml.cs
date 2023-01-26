@@ -202,16 +202,6 @@ namespace Sidebar
 
         private void LoadTilesAtStartup()
         {
-            if (Settings.Current.debug)
-            {
-                if (Tiles.Count > 0)
-                {
-                    Tiles[0].Load(Settings.Current.side, double.NaN);
-                    TilesGrid.Children.Add(Tiles[0]);
-                }
-                return;
-            }
-
             if (Settings.Current.tiles != null && Tiles != null && Settings.Current.tiles.Length > 0 && Tiles.Count > 0)
             {
                 for (int i = 0; i < Settings.Current.tiles.Length; i++)
@@ -262,48 +252,33 @@ namespace Sidebar
 
         private void GetTiles()
         {
-            if (!Settings.Current.debug)
+            if (Directory.Exists(Settings.Current.path + @"\Library"))
             {
-                if (System.IO.Directory.Exists(Settings.Current.path + @"\Library"))
-                    foreach (string dir in System.IO.Directory.GetDirectories(Settings.Current.path + @"\Library"))
-                    {
-                        string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
-                        if (System.IO.File.Exists(file))
-                        {
-                            Tiles.Add(new Tile(file));
-                            if (Tiles[Tiles.Count - 1].hasErrors)
-                                Tiles.RemoveAt(Tiles.Count - 1);
-                            else
-                            {
-                                MenuItem item = new MenuItem();
-                                if (Tiles[Tiles.Count - 1].Info != null)
-                                    item.Header = Tiles[Tiles.Count - 1].Info.Name;
-                                item.Click += new RoutedEventHandler(AddTileSubItem_Click);
-                                Image icon = new Image();
-                                icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
-                                icon.Width = 25;
-                                icon.Height = 25;
-                                item.Icon = icon;
-                                AddTileItem.Items.Add(item);
-                            }
-                        }
-                    }
-            }
-            else
-            {
-                Tiles.Add(new Tile(Settings.Current.tileToDebug));
-                if (Tiles[Tiles.Count - 1].hasErrors)
-                    Tiles.RemoveAt(Tiles.Count - 1);
-                else
+                foreach (string dir in Directory.GetDirectories(Settings.Current.path + @"\Library"))
                 {
+                    string file = string.Format(@"{0}\{1}.dll", dir, System.IO.Path.GetFileName(dir));
+                    if (!File.Exists(file))
+                    {
+                        continue;
+                    }
+                    Tiles.Add(new Tile(file));
+                    if (Tiles[Tiles.Count - 1].hasErrors)
+                    {
+                        Tiles.RemoveAt(Tiles.Count - 1);
+                        continue;
+                    }
                     MenuItem item = new MenuItem();
                     if (Tiles[Tiles.Count - 1].Info != null)
+                    {
                         item.Header = Tiles[Tiles.Count - 1].Info.Name;
+                    }
                     item.Click += new RoutedEventHandler(AddTileSubItem_Click);
-                    Image icon = new Image();
-                    icon.Source = Tiles[Tiles.Count - 1].TitleIcon.Source;
-                    icon.Width = 25;
-                    icon.Height = 25;
+                    Image icon = new Image
+                    {
+                        Source = Tiles[Tiles.Count - 1].TitleIcon.Source,
+                        Width = 25,
+                        Height = 25
+                    };
                     item.Icon = icon;
                     AddTileItem.Items.Add(item);
                 }

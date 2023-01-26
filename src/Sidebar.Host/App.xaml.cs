@@ -97,13 +97,6 @@ namespace Sidebar.Host
                         }
                         catch { }
                         break;
-                    case "/debug":
-                        if (e.Args.Length > 1 && e.Args[1].EndsWith(".dll") && File.Exists(e.Args[1]))
-                        {
-                            Settings.Current.debug = true;
-                            Settings.Current.tileToDebug = e.Args[1];
-                        }
-                        break;
                     default:
                         foreach (string file in e.Args)
                         {

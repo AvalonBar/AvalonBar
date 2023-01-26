@@ -52,8 +52,6 @@ namespace Sidebar
             }
         }
         public bool enableUpdates;
-        public bool debug;
-        public string tileToDebug;
 
         private static Settings _current = null;
         public static Settings Current
