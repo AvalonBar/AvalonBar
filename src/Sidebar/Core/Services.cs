@@ -13,10 +13,11 @@ namespace Sidebar
 {
     public static class Services
     {
+        public static readonly string LandingPageUrl =
 #if DEBUG
-        public static readonly string LandingPageUrl = "http://avalonbar.github.io/";
+            "http://avalonbar.github.io/";
 #else
-        public static readonly string LandingPage = "https://avalonbar.github.io/";
+            "https://avalonbar.github.io/";
 #endif
         public static readonly string UpdateUrl = LandingPageUrl + "services/UpdateInfo.xml";
         public static readonly string TileInfoUrl = LandingPageUrl + "services/TileList.xml";
