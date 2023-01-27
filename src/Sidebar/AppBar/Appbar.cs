@@ -87,6 +87,9 @@ namespace Sidebar
 
         public static void SizeAppbar()
         {
+            // The native API expects position coordinates that are
+            // adjusted to the current resolution/DPI.
+            int mainWindowWidth = (int)(MainWindow.Width * dpiScale.DpiScaleX);
             Screen = Utils.GetScreenFromName(ScreenName);
             RECT rt = new RECT();
             if (Side == AppBarSide.Left || Side == AppBarSide.Right)
@@ -96,36 +99,45 @@ namespace Sidebar
                 if (Side == AppBarSide.Left)
                 {
                     if (Screen != Screen.PrimaryScreen)
+                    {
                         rt.Left = Utils.CalculatePos(Side);
-                    rt.Right = (int)MainWindow.Width;
+                    }
+                    rt.Right = mainWindowWidth;
                 }
                 else
                 {
                     if (Screen != Screen.PrimaryScreen)
+                    {
                         rt.Right = Utils.CalculatePos(Side);
+                    }
                     else
+                    {
                         rt.Right = SystemInformation.PrimaryMonitorSize.Width;
-                    rt.Left = rt.Right - (int)MainWindow.Width;
+                    }
+                    rt.Left = rt.Right - mainWindowWidth;
                 }
             }
             AppbarQueryPos(ref rt);
             switch (Side)
             {
                 case AppBarSide.Left:
-                    rt.Right = rt.Left + (int)MainWindow.Width;
+                    rt.Right = rt.Left + mainWindowWidth;
                     break;
                 case AppBarSide.Right:
-                    rt.Left = rt.Right - (int)MainWindow.Width;
+                    rt.Left = rt.Right - mainWindowWidth;
                     break;
             }
             AppbarSetPos(ref rt);
             MainWindow.Left = rt.Left / dpiScale.DpiScaleX;
             MainWindow.Top = rt.Top / dpiScale.DpiScaleY;
-            //MainWindow.Width = (rt.Right - rt.Left) / dpiScale.DpiScaleX;
             if (IsOverlapping)
+            {
                 MainWindow.Height = Screen.Bounds.Size.Height / dpiScale.DpiScaleY;
+            }
             else
+            {
                 MainWindow.Height = (rt.Bottom - rt.Top) / dpiScale.DpiScaleY;
+            }
         }
 
         public static void SetPos()
@@ -227,6 +239,9 @@ namespace Sidebar
             if (WindowPlacement.rcNormalPosition.Top != 0 &&
                 WindowPlacement.rcNormalPosition.Width == SystemInformation.PrimaryMonitorSize.Width)
             {
+                // The native API expects position coordinates that are
+                // adjusted to the current resolution/DPI.
+                int mainWindowWidth = (int)(MainWindow.Width * dpiScale.DpiScaleX);
                 // Hide system tray by zeroing its width
                 NativeMethods.GetWindowPlacement(TrayHandle, ref WindowPlacement);
                 trayWndWidth = WindowPlacement.rcNormalPosition.Width;
@@ -237,12 +252,12 @@ namespace Sidebar
                 NativeMethods.GetWindowPlacement(RebarHandle, ref WindowPlacement);
                 NativeMethods.MoveWindow(RebarHandle, WindowPlacement.rcNormalPosition.X,
                     WindowPlacement.rcNormalPosition.Y,
-                    SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width -
+                    SystemInformation.PrimaryMonitorSize.Width - mainWindowWidth -
                     WindowPlacement.rcNormalPosition.X, WindowPlacement.rcNormalPosition.Height, true);
                 // Cut the taskbar window
                 NativeMethods.GetWindowPlacement(TaskbarHandle, ref WindowPlacement);
                 IntPtr rgn = NativeMethods.CreateRectRgn(0, 0,
-                    SystemInformation.PrimaryMonitorSize.Width - (int)MainWindow.Width,
+                    SystemInformation.PrimaryMonitorSize.Width - mainWindowWidth,
                     WindowPlacement.rcNormalPosition.Height);
                 NativeMethods.SetWindowRgn(TaskbarHandle, rgn, true);
                 IsOverlapping = true;
