@@ -36,7 +36,9 @@ namespace Sidebar
             td.InstructionText = string.Format(Utils.FindString("Dontdoit"), tileName);
             td.StandardButtons = TaskDialogStandardButtons.Cancel;
 
-            TaskDialogCommandLink installButton = new TaskDialogCommandLink("installButton", Utils.FindString("InstallThisIncredibleTileForMePlease1"), Utils.FindString("InstallThisIncredibleTileForMePlease2"));
+            TaskDialogCommandLink installButton = new TaskDialogCommandLink(
+                "installButton",
+                Utils.FindString("InstallThisIncredibleTileForMePlease1"));
             installButton.Click += new EventHandler(installButton_Click);
 
             td.Controls.Add(installButton);
